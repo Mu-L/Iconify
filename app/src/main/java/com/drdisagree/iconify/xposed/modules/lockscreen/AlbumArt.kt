@@ -26,6 +26,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Com
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
@@ -81,10 +82,13 @@ class AlbumArt(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController"
         )
         val mediaDataManagerClass = findClass(
-            "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDataManager"
+            "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDataManager",
+            "$SYSTEMUI_PACKAGE.media.controls.pipeline.MediaDataManager",
+            suppressError = true
         )
         val mediaDeviceManagerClass = findClass(
-            "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDeviceManager"
+            "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDeviceManager",
+            "$SYSTEMUI_PACKAGE.media.controls.pipeline.MediaDeviceManager"
         )
         val keyguardSliceProviderClass = findClass(
             "$SYSTEMUI_PACKAGE.keyguard.KeyguardSliceProvider"
@@ -129,7 +133,7 @@ class AlbumArt(context: Context) : ModPack(context) {
         fun hookMediaData(param: MethodHookParam) {
             val mediaData = param.args[2]
             val artWork = mediaData.callMethodSilently("getArtwork") as? Icon
-                ?: mediaData.getField("artwork") as? Icon
+                ?: mediaData.getFieldSilently("artwork") as? Icon
             val drawable = artWork?.loadDrawable(mContext)
 
             if (drawable != mArtworkDrawable) {
@@ -141,6 +145,8 @@ class AlbumArt(context: Context) : ModPack(context) {
         }
 
         try {
+            if (mediaDataManagerClass == null) throw Throwable()
+
             mediaDataManagerClass
                 .hookMethod("onMediaDataLoaded")
                 .throwError()

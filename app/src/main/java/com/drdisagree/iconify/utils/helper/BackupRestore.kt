@@ -18,6 +18,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONException
 import org.json.JSONObject
 
 object BackupRestore {
@@ -132,26 +133,27 @@ object BackupRestore {
             val resourceEntries = ArrayList<DynamicResourceEntity>()
 
             for (i in resourceList.indices) {
-                val keys = resourceList[i].keys()
-
-                while (keys.hasNext()) {
-                    val packageName = keys.next()
-                    val value = resourceList[i].getString(packageName) ?: continue
-                    val valueJson = JSONObject(value)
+                for (packageName in resourceList[i].keys()) {
+                    val valueJson = try {
+                        resourceList[i].getJSONObject(packageName)
+                    } catch (_: JSONException) {
+                        null
+                    } ?: continue
 
                     if (DYNAMIC_OVERLAYABLE_PACKAGES.contains(packageName)) {
-                        val innerKeys = valueJson.keys()
+                        for (startEndTag in valueJson.keys()) {
+                            val innerValueJson = try {
+                                valueJson.getJSONObject(startEndTag)
+                            } catch (_: JSONException) {
+                                null
+                            } ?: continue
 
-                        while (innerKeys.hasNext()) {
-                            val resourceName = innerKeys.next()
-                            val innerValue = valueJson.getString(resourceName) ?: continue
-                            val innerValueJson = JSONObject(innerValue)
-                            val innerValueKeys = innerValueJson.keys()
-
-                            while (innerValueKeys.hasNext()) {
-                                val startEndTag = innerValueKeys.next()
-                                val resourceValue = innerValueJson.getString(startEndTag)
-                                    ?: continue
+                            for (resourceName in innerValueJson.keys()) {
+                                val resourceValue = try {
+                                    innerValueJson.getString(resourceName)
+                                } catch (_: JSONException) {
+                                    null
+                                } ?: continue
 
                                 resourceEntries.add(
                                     DynamicResourceEntity(
@@ -170,16 +172,33 @@ object BackupRestore {
                 }
             }
 
+            val repository = DynamicResourceRepository(
+                DynamicResourceDatabase.getInstance().dynamicResourceDao()
+            )
+
             if (resourceEntries.isNotEmpty()) {
-                DynamicResourceRepository(
-                    DynamicResourceDatabase.getInstance().dynamicResourceDao()
-                ).insertResources(resourceEntries)
+                repository.insertResources(resourceEntries)
 
                 RPrefs.clearPrefs(
                     DYNAMIC_OVERLAY_RESOURCES,
                     DYNAMIC_OVERLAY_RESOURCES_LAND,
                     DYNAMIC_OVERLAY_RESOURCES_NIGHT
                 )
+            }
+
+            // Fix inverted startEndTag & resourceName
+            repository.getAllResources().forEach { entry ->
+                if (entry.startEndTag.contains("dummy") || entry.startEndTag.contains("_")) {
+                    repository.deleteResources(listOf(entry))
+                    repository.insertResources(
+                        listOf(
+                            entry.copy(
+                                startEndTag = entry.resourceName,
+                                resourceName = entry.startEndTag
+                            )
+                        )
+                    )
+                }
             }
         }
     }

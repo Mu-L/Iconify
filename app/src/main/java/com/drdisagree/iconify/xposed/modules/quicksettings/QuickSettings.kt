@@ -45,7 +45,6 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isNightMode
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.isPixelVariant
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -118,6 +117,7 @@ class QuickSettings(context: Context) : ModPack(context) {
             hideFooterButtons = getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
             showHeaderClock = getBoolean(HEADER_CLOCK_SWITCH, false)
             compactMediaPlayerEnabled = getBoolean(COMPACT_MEDIA_PLAYER, false)
+            isPixelVariant = getIsPixelVariant()
         }
 
         triggerQsElementVisibility()
@@ -342,12 +342,10 @@ class QuickSettings(context: Context) : ModPack(context) {
 
         qsTileViewImplClass
             .hookConstructor()
-            .runAfter { initQsAccentColor() }
-
-        qsTileViewImplClass
-            .hookConstructor()
             .runAfter { param ->
                 if (!customQsTextColor) return@runAfter
+
+                initQsAccentColor()
 
                 @ColorInt val color: Int = qsIconLabelColor
                 @ColorInt val colorAlpha =
@@ -738,7 +736,10 @@ class QuickSettings(context: Context) : ModPack(context) {
 
     private fun compactMediaPlayer() {
         val mediaViewControllerClass =
-            findClass("$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaViewController")
+            findClass(
+                "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaViewController",
+                "$SYSTEMUI_PACKAGE.media.controls.ui.MediaViewController"
+            )
 
         mediaViewControllerClass
             .hookMethod("obtainViewState")
@@ -747,7 +748,7 @@ class QuickSettings(context: Context) : ModPack(context) {
 
                 val mediaHostState = param.args[0] ?: return@runBefore
 
-                // for a14 and above
+                // For a14 and above
                 mediaHostState.javaClass
                     .hookMethod("getExpansion")
                     .suppressError()
@@ -757,7 +758,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                         param2.result = 0f
                     }
 
-                // for a13 and below
+                // For some a13 and below ROMs
                 mediaHostState.javaClass
                     .hookConstructor()
                     .runAfter { param2 ->
@@ -907,5 +908,15 @@ class QuickSettings(context: Context) : ModPack(context) {
          * Source: frameworks/base/core/java/android/app/StatusBarManager.java
          */
         private const val DISABLE2_QUICK_SETTINGS = 1
+        var isPixelVariant = getIsPixelVariant()
+
+        private fun getIsPixelVariant(): Boolean {
+            for (i in 0..25) {
+                if (Xprefs.getBoolean("IconifyComponentQSSP$i.overlay")) {
+                    return true
+                }
+            }
+            return false
+        }
     }
 }

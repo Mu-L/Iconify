@@ -58,6 +58,7 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_QS_HEADER_CONTAINE
 import com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_BLUR_LEVEL
 import com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_EXPANSION_Y
 import com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_GAP_EXPANDED
+import com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_SHOW_ARTWORK
 import com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_TOP_MARGIN
 import com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_VIBRATE
@@ -76,7 +77,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.findChildIndexContainsTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.isQsTileOverlayEnabled
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -119,6 +119,7 @@ class OpQsHeader(context: Context) : ModPack(context) {
     // Preferences
     private var showOpQsHeaderView = false
     private var vibrateOnClick = false
+    private var showArtwork = true
     private var mediaBlurLevel = 10f
     private var topMarginValue = 0
     private var expansionAmount = 0
@@ -190,17 +191,20 @@ class OpQsHeader(context: Context) : ModPack(context) {
         Xprefs.apply {
             showOpQsHeaderView = getBoolean(OP_QS_HEADER_SWITCH, false)
             vibrateOnClick = getBoolean(OP_QS_HEADER_VIBRATE, false)
+            showArtwork = getBoolean(OP_QS_HEADER_SHOW_ARTWORK, true)
             mediaBlurLevel = getSliderInt(OP_QS_HEADER_BLUR_LEVEL, 40) / 100f * 25f
             topMarginValue = getSliderInt(OP_QS_HEADER_TOP_MARGIN, 0)
             expansionAmount = getSliderInt(OP_QS_HEADER_EXPANSION_Y, 0)
             expandedQsGap = getSliderInt(OP_QS_HEADER_GAP_EXPANDED, 0)
             customQsTextColor = getBoolean(CUSTOM_QS_TEXT_COLOR, false)
             selectedQsTextColor = getString(SELECTED_QS_TEXT_COLOR, "0")!!.toInt()
+            isQsTileOverlayEnabled = getIsQsTileOverlayEnabled()
         }
 
         when (key.firstOrNull()) {
             in setOf(
                 OP_QS_HEADER_VIBRATE,
+                OP_QS_HEADER_SHOW_ARTWORK,
                 OP_QS_HEADER_BLUR_LEVEL
             ) -> updateMediaPlayers(force = true)
         }
@@ -293,11 +297,19 @@ class OpQsHeader(context: Context) : ModPack(context) {
             .hookConstructor()
             .run(getMediaOutputDialog)
 
+        var lastInitTime = 0L
+        val cooldownTime = 500L
+
         qsTileViewImplClass
             .hookConstructor()
             .runAfter { param ->
                 qsTileViewImplParam = param
-                initResources()
+
+                val currentTime = System.currentTimeMillis()
+                if (currentTime - lastInitTime >= cooldownTime) {
+                    initResources()
+                    lastInitTime = currentTime
+                }
             }
 
         tileLayoutClass
@@ -1208,12 +1220,15 @@ class OpQsHeader(context: Context) : ModPack(context) {
                 it.applyBlur(mContext, mediaBlurLevel)
             }
             val newArtworkDrawable = when {
-                filteredArtwork != null -> BitmapDrawable(mContext.resources, filteredArtwork)
+                filteredArtwork != null -> BitmapDrawable(
+                    mContext.resources,
+                    filteredArtwork
+                )
                 else -> mInactiveBackground
             }
 
             val finalArtworkDrawable: Drawable? = when {
-                mPrevMediaArtworkMap[packageName] == null && filteredArtwork != null -> {
+                showArtwork && mPrevMediaArtworkMap[packageName] == null && filteredArtwork != null -> {
                     TransitionDrawable(
                         arrayOf(
                             mInactiveBackground,
@@ -1222,7 +1237,7 @@ class OpQsHeader(context: Context) : ModPack(context) {
                     )
                 }
 
-                mPrevMediaArtworkMap[packageName] != null && filteredArtwork != null -> {
+                showArtwork && mPrevMediaArtworkMap[packageName] != null && filteredArtwork != null -> {
                     TransitionDrawable(
                         arrayOf(
                             BitmapDrawable(
@@ -1234,7 +1249,7 @@ class OpQsHeader(context: Context) : ModPack(context) {
                     )
                 }
 
-                mPrevMediaArtworkMap[packageName] != null && filteredArtwork == null -> {
+                showArtwork && mPrevMediaArtworkMap[packageName] != null && filteredArtwork == null -> {
                     TransitionDrawable(
                         arrayOf(
                             BitmapDrawable(
@@ -1317,7 +1332,7 @@ class OpQsHeader(context: Context) : ModPack(context) {
                     )
                 }
 
-                if (processedArtwork == null || onDominantColor == null) {
+                if (!showArtwork || processedArtwork == null || onDominantColor == null) {
                     mMediaPlayer.setMediaPlayerItemsColor(colorLabelInactive)
                 } else {
                     mMediaPlayer.setMediaPlayerItemsColor(onDominantColor)
@@ -1442,7 +1457,7 @@ class OpQsHeader(context: Context) : ModPack(context) {
         mMediaAlbumArtBg: ImageView
     ): Bitmap? {
         return withContext(Dispatchers.IO) {
-            if (bitmap == null) return@withContext null
+            if (bitmap == null || !showArtwork) return@withContext null
 
             val width = mMediaAlbumArtBg.width
             val height = mMediaAlbumArtBg.height
@@ -1908,5 +1923,17 @@ class OpQsHeader(context: Context) : ModPack(context) {
     companion object {
         var launchableImageView: Class<*>? = null
         var launchableLinearLayout: Class<*>? = null
+        var isQsTileOverlayEnabled = getIsQsTileOverlayEnabled()
+
+        private fun getIsQsTileOverlayEnabled(): Boolean {
+            for (i in 0..25) {
+                if (Xprefs.getBoolean("IconifyComponentQSSN$i.overlay") ||
+                    Xprefs.getBoolean("IconifyComponentQSSP$i.overlay")
+                ) {
+                    return true
+                }
+            }
+            return false
+        }
     }
 }
