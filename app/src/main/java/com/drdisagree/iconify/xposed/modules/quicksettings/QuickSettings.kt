@@ -22,7 +22,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.BLUR_MEDIA_PLAYER_ARTWORK
 import com.drdisagree.iconify.data.common.Preferences.BLUR_MEDIA_PLAYER_ARTWORK_RADIUS
@@ -244,15 +243,8 @@ class QuickSettings(context: Context) : ModPack(context) {
             .hookDimen()
             .whenCondition { customQsMarginsEnabled && !showOpQsHeaderView }
             .forPackageName(SYSTEMUI_PACKAGE)
-            .addResource("qs_header_system_icons_area_height") { getQqsMargin() }
-            .addResource("qqs_layout_margin_top") { getQqsMargin() }
-            .addResource("qs_header_row_min_height") { getQqsMargin() }
-            .addResource("qs_panel_padding_top") { getQsMargin() }
-            .addResource("qs_panel_padding_top_combined_headers") { getQsMargin() }
-            .addResource("qs_header_height") { getQsMargin() }
-            .forPackageName(FRAMEWORK_PACKAGE)
-            .addResource("quick_qs_offset_height") { getQqsMargin() }
-            .addResource("quick_qs_total_height") { getQsMargin() }
+            .addResource("large_screen_shade_header_height") { getQqsMargin() }
+            .addResource("qs_panel_padding_top") { getQsMargin().toFloat() }
             .apply()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
