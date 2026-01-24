@@ -22,7 +22,6 @@ import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.database.DynamicResourceDatabase
 import com.drdisagree.iconify.data.repository.DynamicResourceRepository
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.preferences.PreferenceMenu
 import com.drdisagree.iconify.utils.AppUtils.openUrl
 import com.drdisagree.iconify.utils.AppUtils.restartApplication
@@ -44,8 +43,6 @@ import kotlinx.coroutines.withContext
 
 class Settings : ControlledPreferenceFragmentCompat() {
 
-    private var loadingDialog: LoadingDialog? = null
-
     override val title: String
         get() = getString(R.string.settings_title)
 
@@ -60,13 +57,6 @@ class Settings : ControlledPreferenceFragmentCompat() {
 
     override val menuResource: Int
         get() = R.menu.settings_menu
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // Initialize loading dialog
-        loadingDialog = LoadingDialog(requireActivity())
-    }
 
     override fun updateScreen(key: String?) {
         super.updateScreen(key)
@@ -120,7 +110,7 @@ class Settings : ControlledPreferenceFragmentCompat() {
                     CoroutineScope(Dispatchers.IO).launch {
                         // Show loading dialog
                         withContext(Dispatchers.Main) {
-                            loadingDialog?.show(resources.getString(R.string.loading_dialog_wait))
+                            loadingDialog.show(resources.getString(R.string.loading_dialog_wait))
                         }
 
                         disableEverything()
@@ -128,7 +118,7 @@ class Settings : ControlledPreferenceFragmentCompat() {
                         // Hide loading dialog
                         withContext(Dispatchers.Main) {
                             delay(3000)
-                            loadingDialog?.hide()
+                            loadingDialog.hide()
                         }
 
                         // Restart SystemUI
@@ -188,12 +178,6 @@ class Settings : ControlledPreferenceFragmentCompat() {
         }
     }
 
-    override fun onDestroy() {
-        loadingDialog?.hide()
-
-        super.onDestroy()
-    }
-
     private suspend fun disableEverything() {
         WeatherConfig.clear(appContext)
 
@@ -215,7 +199,7 @@ class Settings : ControlledPreferenceFragmentCompat() {
         RPrefs.putBoolean(FIRST_INSTALL, false)
 
         Shell.cmd(
-            "> $MODULE_DIR/system.prop; > $MODULE_DIR/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable \$ol; done; killall com.android.systemui"
+            $$"> $$MODULE_DIR/system.prop; > $$MODULE_DIR/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done; killall com.android.systemui"
         ).submit()
     }
 }

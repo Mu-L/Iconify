@@ -4,23 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.databinding.FragmentNotificationBinding
-import com.drdisagree.iconify.ui.adapters.MenuAdapter
-import com.drdisagree.iconify.ui.adapters.NotificationAdapter
-import com.drdisagree.iconify.ui.adapters.SectionTitleAdapter
-import com.drdisagree.iconify.ui.base.BaseFragment
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
-import com.drdisagree.iconify.data.models.MenuModel
 import com.drdisagree.iconify.data.models.NotificationModel
+import com.drdisagree.iconify.databinding.FragmentNotificationBinding
+import com.drdisagree.iconify.ui.adapters.NotificationAdapter
+import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 
 class Notification : BaseFragment() {
 
     private lateinit var binding: FragmentNotificationBinding
-    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,45 +32,12 @@ class Notification : BaseFragment() {
             R.string.activity_title_notification
         )
 
-        // Loading dialog while enabling or disabling pack
-        loadingDialog = LoadingDialog(requireContext())
-
         // RecyclerView
         binding.notificationsContainer.setLayoutManager(LinearLayoutManager(requireContext()))
-
-        val adapter = ConcatAdapter(
-            initActivityItems(),
-            SectionTitleAdapter(
-                requireContext(),
-                R.layout.view_section_title_notif,
-                R.string.notification_styles
-            ),
-            initNotificationItems()
-        )
-
-        binding.notificationsContainer.setAdapter(adapter)
+        binding.notificationsContainer.setAdapter(initNotificationItems())
         binding.notificationsContainer.setHasFixedSize(true)
 
         return view
-    }
-
-    private fun initActivityItems(): MenuAdapter {
-        val notificationActivityList = ArrayList<MenuModel>().apply {
-            add(
-                MenuModel(
-                    NotificationPixel(),
-                    resources.getString(R.string.activity_title_pixel_variant),
-                    resources.getString(R.string.activity_desc_pixel_variant),
-                    R.drawable.ic_pixel_device
-                )
-            )
-        }
-
-        return MenuAdapter(
-            parentFragmentManager,
-            requireContext(),
-            notificationActivityList
-        )
     }
 
     private fun initNotificationItems(): NotificationAdapter {
@@ -206,14 +167,7 @@ class Notification : BaseFragment() {
         return NotificationAdapter(
             requireContext(),
             notificationList,
-            loadingDialog!!,
-            "NFN"
+            loadingDialog!!
         )
-    }
-
-    override fun onDestroy() {
-        loadingDialog?.dismiss()
-
-        super.onDestroy()
     }
 }

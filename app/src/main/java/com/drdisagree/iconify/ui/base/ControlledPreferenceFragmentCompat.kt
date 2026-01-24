@@ -52,7 +52,8 @@ import com.drdisagree.iconify.utils.helper.LocaleHelper
 
 abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
 
-    private var loadingDialog: LoadingDialog? = null
+    private lateinit var _loadingDialog: LoadingDialog
+    val loadingDialog: LoadingDialog get() = _loadingDialog
 
     private val changeListener =
         OnSharedPreferenceChangeListener { _: SharedPreferences, key: String? ->
@@ -108,6 +109,7 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
 
     override fun onAttach(context: Context) {
         super.onAttach(LocaleHelper.setLocale(context))
+        _loadingDialog = LoadingDialog(requireActivity())
 
         if (activity != null) {
             val window = requireActivity().window
@@ -121,9 +123,6 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
         savedInstanceState: Bundle?
     ): View {
         inflater.context.setTheme(themeResource)
-
-        // Initialize loading dialog
-        loadingDialog = LoadingDialog(requireActivity())
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -250,7 +249,9 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
     }
 
     override fun onDestroy() {
-        loadingDialog?.hide()
+        if (::_loadingDialog.isInitialized) {
+            _loadingDialog.dismiss()
+        }
 
         RPrefs.unregisterOnSharedPreferenceChangeListener(changeListener)
 

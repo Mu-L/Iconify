@@ -20,7 +20,6 @@ import com.drdisagree.iconify.data.models.ToastModel
 import com.drdisagree.iconify.databinding.FragmentToastFrameBinding
 import com.drdisagree.iconify.ui.adapters.ToastAdapter
 import com.drdisagree.iconify.ui.base.BaseFragment
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
 import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
@@ -32,7 +31,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 class ToastFrame : BaseFragment() {
 
     private lateinit var binding: FragmentToastFrameBinding
-    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,9 +47,6 @@ class ToastFrame : BaseFragment() {
             binding.header.toolbar,
             R.string.activity_title_toast_frame
         )
-
-        // Loading dialog while enabling or disabling pack
-        loadingDialog = LoadingDialog(requireContext())
 
         // Toast Frame style
         val gridLayout = GridLayoutManager(requireContext(), 2)
@@ -182,7 +177,7 @@ class ToastFrame : BaseFragment() {
             }
 
             // Show loading dialog
-            loadingDialog!!.show(appContextLocale.resources.getString(R.string.loading_dialog_wait))
+            loadingDialog.show(appContextLocale.resources.getString(R.string.loading_dialog_wait))
 
             Thread {
                 val hasErroredOut = AtomicBoolean(false)
@@ -209,7 +204,7 @@ class ToastFrame : BaseFragment() {
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     // Hide loading dialog
-                    loadingDialog!!.hide()
+                    loadingDialog.hide()
 
                     if (!hasErroredOut.get()) {
                         Toast.makeText(
@@ -227,11 +222,5 @@ class ToastFrame : BaseFragment() {
                 }, 3000)
             }.start()
         }
-    }
-
-    override fun onDestroy() {
-        loadingDialog?.dismiss()
-
-        super.onDestroy()
     }
 }

@@ -45,13 +45,6 @@
         app:fragment="com.drdisagree.iconify.ui.fragments.home.WiFiIcons" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
-        android:icon="@drawable/ic_media_player_icon"
-        android:key="mediaIcon"
-        android:summary="@string/activity_desc_media_icons"
-        android:title="@string/activity_title_media_icons"
-        app:fragment="com.drdisagree.iconify.ui.fragments.home.MediaIcons" />
-
-    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_settings_icon_pack"
         android:key="settingsIcon"
         android:summary="@string/activity_desc_settings_icons"
@@ -59,39 +52,11 @@
         app:fragment="com.drdisagree.iconify.ui.fragments.home.SettingsIcons" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
-        android:icon="@drawable/ic_styles_brightness"
-        android:key="brightnessBar"
-        android:summary="@string/activity_desc_brightness_bar"
-        android:title="@string/activity_title_brightness_bar"
-        app:fragment="com.drdisagree.iconify.ui.fragments.home.BrightnessBar" />
-
-    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
-        android:icon="@drawable/ic_styles_qs_shape"
-        android:key="qsPanelTiles"
-        android:summary="@string/activity_desc_qs_shape"
-        android:title="@string/activity_title_qs_shape"
-        app:fragment="com.drdisagree.iconify.ui.fragments.home.QsPanelTile" />
-
-    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_notification"
         android:key="notificationStyle"
         android:summary="@string/activity_desc_notification"
         android:title="@string/activity_title_notification"
         app:fragment="com.drdisagree.iconify.ui.fragments.home.Notification" />
-
-    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
-        android:icon="@drawable/ic_styles_progress"
-        android:key="progressBar"
-        android:summary="@string/activity_desc_progress_bar"
-        android:title="@string/activity_title_progress_bar"
-        app:fragment="com.drdisagree.iconify.ui.fragments.home.ProgressBar" />
-
-    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
-        android:icon="@drawable/ic_styles_switch"
-        android:key="switchStyle"
-        android:summary="@string/activity_desc_switch"
-        android:title="@string/activity_title_switch"
-        app:fragment="com.drdisagree.iconify.ui.fragments.home.Switch" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_toast_frame"

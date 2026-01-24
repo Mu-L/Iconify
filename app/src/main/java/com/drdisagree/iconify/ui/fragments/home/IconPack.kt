@@ -6,18 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.data.models.IconPackModel
 import com.drdisagree.iconify.databinding.FragmentIconPackBinding
 import com.drdisagree.iconify.ui.adapters.IconPackAdapter
 import com.drdisagree.iconify.ui.base.BaseFragment
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
-import com.drdisagree.iconify.data.models.IconPackModel
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.overlay.manager.IconPackManager
 
 class IconPack : BaseFragment() {
 
     private lateinit var binding: FragmentIconPackBinding
-    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,9 +32,6 @@ class IconPack : BaseFragment() {
             binding.header.toolbar,
             R.string.activity_title_icon_pack
         )
-
-        // Loading dialog while enabling or disabling pack
-        loadingDialog = LoadingDialog(requireContext())
 
         // RecyclerView
         binding.iconPackContainer.setLayoutManager(LinearLayoutManager(requireContext()))
@@ -194,7 +189,7 @@ class IconPack : BaseFragment() {
         return IconPackAdapter(
             requireContext(),
             iconPackList,
-            loadingDialog!!,
+            loadingDialog,
             "IPSUI",
             onButtonClick
         )
@@ -209,11 +204,5 @@ class IconPack : BaseFragment() {
         override fun onDisableClick(position: Int, item: IconPackModel) {
             IconPackManager.disableOverlay(index = position + 1, "IPAS", "IPSUI")
         }
-    }
-
-    override fun onDestroy() {
-        loadingDialog?.dismiss()
-
-        super.onDestroy()
     }
 }

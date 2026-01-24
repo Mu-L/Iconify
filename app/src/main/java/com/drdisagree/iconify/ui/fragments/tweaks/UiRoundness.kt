@@ -30,7 +30,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 class UiRoundness : BaseFragment() {
 
     private lateinit var binding: FragmentUiRoundnessBinding
-    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,9 +46,6 @@ class UiRoundness : BaseFragment() {
             binding.header.toolbar,
             R.string.activity_title_ui_roundness
         )
-
-        // Show loading dialog
-        loadingDialog = LoadingDialog(requireContext())
 
         // Header
         setHeader(
@@ -131,7 +127,7 @@ class UiRoundness : BaseFragment() {
                 requestStoragePermission(requireContext())
             } else {
                 // Show loading dialog
-                loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
+                loadingDialog.show(resources.getString(R.string.loading_dialog_wait))
 
                 val hasErroredOut = AtomicBoolean(false)
 
@@ -151,7 +147,7 @@ class UiRoundness : BaseFragment() {
 
                         Handler(Looper.getMainLooper()).postDelayed({
                             // Hide loading dialog
-                            loadingDialog!!.hide()
+                            loadingDialog.hide()
 
                             if (hasErroredOut.get()) Toast.makeText(
                                 appContext,
@@ -189,11 +185,5 @@ class UiRoundness : BaseFragment() {
         } else {
             binding.qsTileOrientation.orientation = LinearLayout.VERTICAL
         }
-    }
-
-    override fun onDestroy() {
-        loadingDialog?.dismiss()
-
-        super.onDestroy()
     }
 }

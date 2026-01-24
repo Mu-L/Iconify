@@ -18,17 +18,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.config.RPrefs.getBoolean
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.data.models.NotificationModel
+import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setDrawable
 import com.drdisagree.iconify.utils.overlay.manager.NotificationManager
-import com.drdisagree.iconify.utils.overlay.manager.NotificationPixelManager
 
 class NotificationAdapter(
     var context: Context,
     private var itemList: ArrayList<NotificationModel>,
-    var loadingDialog: LoadingDialog,
-    var variant: String
+    var loadingDialog: LoadingDialog
 ) : RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
 
     private var notificationKeys = ArrayList<String>()
@@ -37,7 +35,7 @@ class NotificationAdapter(
 
     init {
         // Preference key
-        for (i in 1..itemList.size) notificationKeys.add("IconifyComponent$variant$i.overlay")
+        for (i in 1..itemList.size) notificationKeys.add("IconifyComponentNF$i.overlay")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -177,13 +175,7 @@ class NotificationAdapter(
             loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
             Thread {
-                if (variant == "NFN") {
-                    NotificationManager.enableOverlay(holder.getBindingAdapterPosition() + 1)
-                } else if (variant == "NFP") {
-                    NotificationPixelManager.enableOverlay(
-                        holder.getBindingAdapterPosition() + 1
-                    )
-                }
+                NotificationManager.enableOverlay(holder.getBindingAdapterPosition() + 1)
 
                 (context as Activity).runOnUiThread {
                     Handler(Looper.getMainLooper()).postDelayed({
@@ -221,13 +213,7 @@ class NotificationAdapter(
             loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
             Thread {
-                if (variant == "NFN") {
-                    NotificationManager.disableOverlay(holder.getBindingAdapterPosition() + 1)
-                } else if (variant == "NFP") {
-                    NotificationPixelManager.disableOverlay(
-                        holder.getBindingAdapterPosition() + 1
-                    )
-                }
+                NotificationManager.disableOverlay(holder.getBindingAdapterPosition() + 1)
 
                 (context as Activity).runOnUiThread {
                     Handler(Looper.getMainLooper()).postDelayed({

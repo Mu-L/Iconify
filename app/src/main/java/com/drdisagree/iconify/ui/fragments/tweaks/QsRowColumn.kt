@@ -22,7 +22,6 @@ import com.drdisagree.iconify.data.common.References.FABRICATED_QS_TILE
 import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.databinding.FragmentQsRowColumnBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.overlay.FabricatedUtils.buildAndEnableOverlays
 import com.drdisagree.iconify.utils.overlay.FabricatedUtils.disableOverlays
@@ -32,7 +31,6 @@ import com.google.android.material.slider.Slider
 class QsRowColumn : BaseFragment() {
 
     private lateinit var binding: FragmentQsRowColumnBinding
-    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,9 +47,6 @@ class QsRowColumn : BaseFragment() {
             binding.header.toolbar,
             R.string.activity_title_qs_row_column
         )
-
-        // Loading dialog while enabling or disabling pack
-        loadingDialog = LoadingDialog(requireContext())
 
         // Quick QsPanel Row
         val finalQqsRow = intArrayOf(RPrefs.getInt(FABRICATED_QQS_ROW, 2))
@@ -89,7 +84,7 @@ class QsRowColumn : BaseFragment() {
         // Apply button
         binding.qsRowColumnApply.setOnClickListener {
             // Show loading dialog
-            loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
+            loadingDialog.show(resources.getString(R.string.loading_dialog_wait))
             Thread {
                 RPrefs.putBoolean(QS_ROW_COLUMN_SWITCH, true)
                 RPrefs.putInt(FABRICATED_QQS_ROW, finalQqsRow[0])
@@ -104,7 +99,7 @@ class QsRowColumn : BaseFragment() {
                     Handler(Looper.getMainLooper()).postDelayed(
                         {
                             // Hide loading dialog
-                            loadingDialog!!.hide()
+                            loadingDialog.hide()
 
                             // Reset button visibility
                             binding.qsRowColumnReset.visibility = View.VISIBLE
@@ -129,7 +124,7 @@ class QsRowColumn : BaseFragment() {
             }
         binding.qsRowColumnReset.setOnClickListener {
             // Show loading dialog
-            loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
+            loadingDialog.show(resources.getString(R.string.loading_dialog_wait))
 
             Thread {
                 resetRowColumn()
@@ -138,7 +133,7 @@ class QsRowColumn : BaseFragment() {
                     RPrefs.putBoolean(QS_ROW_COLUMN_SWITCH, false)
                     Handler(Looper.getMainLooper()).postDelayed({
                         // Hide loading dialog
-                        loadingDialog!!.hide()
+                        loadingDialog.hide()
 
                         // Reset button visibility
                         binding.qsRowColumnReset.visibility = View.GONE
@@ -169,12 +164,6 @@ class QsRowColumn : BaseFragment() {
         }
 
         return view
-    }
-
-    override fun onDestroy() {
-        loadingDialog?.dismiss()
-
-        super.onDestroy()
     }
 
     companion object {

@@ -8,18 +8,9 @@ import java.io.File
 object Dynamic {
 
     // Grab number of overlays dynamically for each variant
-    val TOTAL_BRIGHTNESSBARS =
-        Shell.cmd("cmd overlay list | grep '....IconifyComponentBBN'").exec().out.size
-    val TOTAL_BRIGHTNESSBARSPIXEL =
-        Shell.cmd("cmd overlay list | grep '....IconifyComponentBBP'").exec().out.size
-    val TOTAL_NOTIFICATIONS =
-        Shell.cmd("cmd overlay list | grep '....IconifyComponentNFN'").exec().out.size
-    val TOTAL_NOTIFICATIONSPIXEL =
-        Shell.cmd("cmd overlay list | grep '....IconifyComponentNFP'").exec().out.size
-    val TOTAL_QSSHAPES =
-        Shell.cmd("cmd overlay list | grep '....IconifyComponentQSSN'").exec().out.size
-    val TOTAL_QSSHAPESPIXEL =
-        Shell.cmd("cmd overlay list | grep '....IconifyComponentQSSP'").exec().out.size
+    val TOTAL_NOTIFICATIONS = Shell.cmd(
+        "cmd overlay list | grep '....IconifyComponentNF'"
+    ).exec().out.size
 
     // Overlay compiler tools
     val NATIVE_LIBRARY_DIR: String = appContext.applicationInfo.nativeLibraryDir

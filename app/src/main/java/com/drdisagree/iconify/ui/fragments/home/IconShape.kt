@@ -15,11 +15,10 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.SELECTED_ICON_SHAPE
 import com.drdisagree.iconify.data.config.RPrefs
+import com.drdisagree.iconify.data.models.IconShapeModel
 import com.drdisagree.iconify.databinding.FragmentIconShapeBinding
 import com.drdisagree.iconify.ui.adapters.IconShapeAdapter
 import com.drdisagree.iconify.ui.base.BaseFragment
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
-import com.drdisagree.iconify.data.models.IconShapeModel
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
 import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
@@ -31,7 +30,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 class IconShape : BaseFragment() {
 
     private lateinit var binding: FragmentIconShapeBinding
-    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,9 +46,6 @@ class IconShape : BaseFragment() {
             binding.header.toolbar,
             R.string.activity_title_icon_shape
         )
-
-        // Loading dialog while enabling or disabling pack
-        loadingDialog = LoadingDialog(requireContext())
 
         // Icon masking shape list
         val gridLayoutManager = GridLayoutManager(appContext, 3) // 3 columns
@@ -217,7 +212,7 @@ class IconShape : BaseFragment() {
                     resources.getString(R.string.toast_disabled),
                     Toast.LENGTH_SHORT
                 ).show()
-                loadingDialog!!.hide()
+                loadingDialog.hide()
                 return
             }
 
@@ -227,7 +222,7 @@ class IconShape : BaseFragment() {
                 )
             } else {
                 // Show loading dialog
-                loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
+                loadingDialog.show(resources.getString(R.string.loading_dialog_wait))
 
                 Thread {
                     val hasErroredOut = AtomicBoolean(false)
@@ -253,7 +248,7 @@ class IconShape : BaseFragment() {
 
                     Handler(Looper.getMainLooper()).postDelayed({
                         // Hide loading dialog
-                        loadingDialog!!.hide()
+                        loadingDialog.hide()
                         if (!hasErroredOut.get()) {
                             Toast.makeText(
                                 appContext,
@@ -278,11 +273,5 @@ class IconShape : BaseFragment() {
     private fun refreshAdapter() {
         val ad = binding.iconShapeContainer.adapter as IconShapeAdapter
         ad.notifyChange()
-    }
-
-    override fun onDestroy() {
-        loadingDialog?.dismiss()
-
-        super.onDestroy()
     }
 }

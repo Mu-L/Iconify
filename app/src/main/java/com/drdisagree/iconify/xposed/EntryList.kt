@@ -89,7 +89,6 @@ object EntryList {
         SwapSignalNetworkType::class.java,
         DualStatusbar::class.java,
         StatusbarMisc::class.java,
-        BatteryStyleManager::class.java,
         VolumePanel::class.java,
         VolumePanelStyle::class.java,
         ColorizeNotificationView::class.java,
@@ -104,7 +103,8 @@ object EntryList {
         QSFluidThemeA13::class.java,
         QSBlackThemeA13::class.java,
         QSLightThemeA12::class.java,
-        HeaderClock::class.java
+        HeaderClock::class.java,
+        BatteryStyleManager::class.java
     )
 
     private val systemUiAndroid13ModPacks: List<Class<out ModPack>> = listOf(
@@ -112,7 +112,8 @@ object EntryList {
         QSFluidThemeA13::class.java,
         QSBlackThemeA13::class.java,
         QSLightThemeA13::class.java,
-        HeaderClock::class.java
+        HeaderClock::class.java,
+        BatteryStyleManager::class.java
     )
 
     private val systemUiAndroid14ModPacks: List<Class<out ModPack>> = listOf(
@@ -121,7 +122,8 @@ object EntryList {
         QSBlackThemeA14::class.java,
         QSLightThemeA14::class.java,
         HeaderClockA14::class.java,
-        OpQsHeader::class.java
+        OpQsHeader::class.java,
+        BatteryStyleManager::class.java
     )
 
     private val systemUiAndroid15ModPacks: List<Class<out ModPack>> = listOf(
@@ -133,8 +135,19 @@ object EntryList {
         LockscreenClockA15::class.java,
         LockscreenWeatherA15::class.java,
         LockscreenWidgetsA15::class.java,
-        OpQsHeader::class.java
+        OpQsHeader::class.java,
+        BatteryStyleManager::class.java
     )
+
+    private val systemUiAndroid16ModPacks: List<Class<out ModPack>> =
+        systemUiAndroid15ModPacks.filterNot {
+            it in listOf(
+                QSFluidThemeA15::class.java,
+                QSBlackThemeA15::class.java,
+                QSLightThemeA15::class.java,
+                BatteryStyleManager::class.java
+            )
+        }
 
     private val settingsCommonModPacks: List<Class<out ModPack>> = listOf(
         GoogleIcon::class.java
@@ -155,7 +168,11 @@ object EntryList {
                     modPacks.addAll(systemUICommonModPacks)
 
                     when {
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM -> { // android 15+
+                        Build.VERSION.SDK_INT >= 36 -> { // android 16+
+                            modPacks.addAll(systemUiAndroid16ModPacks)
+                        }
+
+                        Build.VERSION.SDK_INT == Build.VERSION_CODES.VANILLA_ICE_CREAM -> { // android 15
                             modPacks.addAll(systemUiAndroid15ModPacks)
                         }
 

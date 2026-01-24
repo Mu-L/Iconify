@@ -25,7 +25,7 @@ fun <T : Any> log(clazz: T, message: Any?) {
     XposedBridge.log(
         "Iconify - ${
             clazz.javaClass.simpleName.replace(
-                "\$Companion",
+                $$"$Companion",
                 ""
             )
         }: $message"
@@ -36,7 +36,7 @@ fun <T : Any> log(clazz: T, throwable: Throwable?) {
     XposedBridge.log(
         "Iconify - ${
             clazz.javaClass.simpleName.replace(
-                "\$Companion",
+                $$"$Companion",
                 ""
             )
         }: $throwable"
@@ -47,7 +47,7 @@ fun <T : Any> log(clazz: T, exception: Exception?) {
     XposedBridge.log(
         "Iconify - ${
             clazz.javaClass.simpleName.replace(
-                "\$Companion",
+                $$"$Companion",
                 ""
             )
         }: $exception"
@@ -130,10 +130,10 @@ fun Class<*>?.dumpClass() {
 
 fun View.dumpChildViews() {
     if (this is ViewGroup) {
-        logViewInfo(this, 0)
+        logViewInfo(this, 0, true)
         dumpChildViewsRecursive(this, 0)
     } else {
-        logViewInfo(this, 0)
+        logViewInfo(this, 0, true)
     }
 }
 
@@ -150,7 +150,7 @@ private fun dumpChildViewsRecursive(
     }
 }
 
-private fun logViewInfo(view: View, indentationLevel: Int) {
+private fun logViewInfo(view: View, indentationLevel: Int, isSingle: Boolean = false) {
     val indentation = repeatString("\t", indentationLevel)
     val viewName = view.javaClass.simpleName
     val superclassName = view.javaClass.superclass?.simpleName ?: "None"
@@ -160,9 +160,9 @@ private fun logViewInfo(view: View, indentationLevel: Int) {
     try {
         val viewId = view.id
         resourceIdName = view.context.resources.getResourceName(viewId)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
     }
-    var logMessage = "$indentation$viewName (Extends: $superclassName) - ID: $resourceIdName"
+    var logMessage = "$indentation${if (isSingle) "" else "↳ "}$viewName (Extends: $superclassName) - ID: $resourceIdName"
     if (childCount > 0) {
         logMessage += " - ChildCount: $childCount"
     }

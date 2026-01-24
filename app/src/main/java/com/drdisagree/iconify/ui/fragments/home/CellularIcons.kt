@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.data.models.IconPackModel
 import com.drdisagree.iconify.databinding.FragmentIconPackBinding
 import com.drdisagree.iconify.ui.adapters.IconPackAdapter
 import com.drdisagree.iconify.ui.base.BaseFragment
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
-import com.drdisagree.iconify.data.models.IconPackModel
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.overlay.manager.SignalIconManager
 import java.util.Locale
@@ -19,7 +18,6 @@ import java.util.Locale
 class CellularIcons : BaseFragment() {
 
     private lateinit var binding: FragmentIconPackBinding
-    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,9 +34,6 @@ class CellularIcons : BaseFragment() {
             binding.header.toolbar,
             R.string.activity_title_cellular_icons
         )
-
-        // Loading dialog while enabling or disabling pack
-        loadingDialog = LoadingDialog(requireContext())
 
         // RecyclerView
         binding.iconPackContainer.setLayoutManager(LinearLayoutManager(requireContext()))
@@ -98,7 +93,7 @@ class CellularIcons : BaseFragment() {
         return IconPackAdapter(
             requireContext(),
             iconPackList,
-            loadingDialog!!,
+            loadingDialog,
             "SGIC",
             onButtonClick
         )
@@ -113,11 +108,5 @@ class CellularIcons : BaseFragment() {
         override fun onDisableClick(position: Int, item: IconPackModel) {
             SignalIconManager.disableOverlay(n = position + 1, "SGIC")
         }
-    }
-
-    override fun onDestroy() {
-        loadingDialog?.dismiss()
-
-        super.onDestroy()
     }
 }

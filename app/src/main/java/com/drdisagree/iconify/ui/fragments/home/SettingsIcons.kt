@@ -12,7 +12,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Preferences.SELECTED_SETTINGS_ICONS_BG
@@ -23,7 +22,7 @@ import com.drdisagree.iconify.data.common.Preferences.SELECTED_SETTINGS_ICONS_SI
 import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.config.RPrefs.clearPrefs
 import com.drdisagree.iconify.databinding.FragmentSettingsIconsBinding
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
+import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
 import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
@@ -33,10 +32,9 @@ import com.drdisagree.iconify.utils.overlay.manager.SettingsIconResourceManager.
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
 
-class SettingsIcons : Fragment() {
+class SettingsIcons : BaseFragment() {
 
     private lateinit var binding: FragmentSettingsIconsBinding
-    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,9 +51,6 @@ class SettingsIcons : Fragment() {
             binding.header.toolbar,
             R.string.activity_title_settings_icons
         )
-
-        // Loading dialog while enabling or disabling pack
-        loadingDialog = LoadingDialog(requireContext())
 
         // Retrieve previously saved preferences
         selectedIcon = RPrefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1)
@@ -123,7 +118,7 @@ class SettingsIcons : Fragment() {
                 requestStoragePermission(requireContext())
             } else {
                 // Show loading dialog
-                loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
+                loadingDialog.show(resources.getString(R.string.loading_dialog_wait))
 
                 val hasErroredOut = AtomicBoolean(false)
 
@@ -164,7 +159,7 @@ class SettingsIcons : Fragment() {
 
                         Handler(Looper.getMainLooper()).postDelayed({
                             // Hide loading dialog
-                            loadingDialog!!.hide()
+                            loadingDialog.hide()
 
                             if (hasErroredOut.get()) Toast.makeText(
                                 appContext,
@@ -369,12 +364,6 @@ class SettingsIcons : Fragment() {
             parent.findViewById<View>(R.id.icon_selected).visibility = View.INVISIBLE
             parent.findViewById<View>(R.id.iconpack_desc).setAlpha(1f)
         }
-    }
-
-    override fun onDestroy() {
-        loadingDialog?.dismiss()
-
-        super.onDestroy()
     }
 
     companion object {

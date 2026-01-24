@@ -14,7 +14,6 @@ import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.config.RPrefs.clearPrefs
 import com.drdisagree.iconify.databinding.FragmentQsTileSizeBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
 import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
@@ -31,7 +30,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 class QsTileSize : BaseFragment() {
 
     private lateinit var binding: FragmentQsTileSizeBinding
-    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,9 +46,6 @@ class QsTileSize : BaseFragment() {
             binding.header.toolbar,
             R.string.activity_title_qs_tile_size
         )
-
-        // Show loading dialog
-        loadingDialog = LoadingDialog(requireContext())
 
         // Portrait non expanded height
         val portNonExpandedHeight = intArrayOf(RPrefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60))
@@ -133,7 +128,7 @@ class QsTileSize : BaseFragment() {
                 requestStoragePermission(requireContext())
             } else {
                 // Show loading dialog
-                loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
+                loadingDialog.show(resources.getString(R.string.loading_dialog_wait))
 
                 val qsTileNonExpandedPort = ResourceEntry(
                     SYSTEMUI_PACKAGE,
@@ -189,7 +184,7 @@ class QsTileSize : BaseFragment() {
                     CoroutineScope(Dispatchers.Main).launch {
                         delay(2000)
                         // Hide loading dialog
-                        loadingDialog!!.hide()
+                        loadingDialog.hide()
 
                         if (!hasErroredOut.get()) {
                             binding.qsTileHeightReset.visibility = View.VISIBLE
@@ -203,7 +198,7 @@ class QsTileSize : BaseFragment() {
                 requestStoragePermission(requireContext())
             } else {
                 // Show loading dialog
-                loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
+                loadingDialog.show(resources.getString(R.string.loading_dialog_wait))
 
                 val qsTileNonExpandedPort = ResourceEntry(
                     SYSTEMUI_PACKAGE,
@@ -267,7 +262,7 @@ class QsTileSize : BaseFragment() {
                     CoroutineScope(Dispatchers.Main).launch {
                         delay(2000)
                         // Hide loading dialog
-                        loadingDialog!!.hide()
+                        loadingDialog.hide()
 
                         if (!hasErroredOut.get()) {
                             binding.qsTileHeightReset.visibility = View.GONE
@@ -285,10 +280,4 @@ class QsTileSize : BaseFragment() {
                 RPrefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80) != 80 ||
                 RPrefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60) != 60 ||
                 RPrefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80) != 80
-
-    override fun onDestroy() {
-        loadingDialog?.dismiss()
-
-        super.onDestroy()
-    }
 }

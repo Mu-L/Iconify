@@ -4,12 +4,10 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuHost
@@ -36,7 +34,8 @@ import com.drdisagree.iconify.utils.helper.LocaleHelper
 
 abstract class BaseFragment : Fragment() {
 
-    private var loadingDialog: LoadingDialog? = null
+    private lateinit var _loadingDialog: LoadingDialog
+    val loadingDialog: LoadingDialog get() = _loadingDialog
 
     private var startExportActivityIntent = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -59,22 +58,12 @@ abstract class BaseFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(LocaleHelper.setLocale(context))
+        _loadingDialog = LoadingDialog(requireActivity())
 
         if (activity != null) {
             val window = requireActivity().window
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Initialize loading dialog
-        loadingDialog = LoadingDialog(requireActivity())
-
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -140,6 +129,7 @@ abstract class BaseFragment : Fragment() {
         for (searchableFragment in searchableFragments) {
             if (searchableFragment.xml == result.resourceFile) {
                 replaceFragment(parentFragmentManager, searchableFragment.fragment)
+                @Suppress("CAST_NEVER_SUCCEEDS")
                 SearchPreferenceResult.highlight(parentFragmentManager as ControlledPreferenceFragmentCompat, result.key);
                 break
             }
@@ -147,7 +137,9 @@ abstract class BaseFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        loadingDialog?.dismiss()
+        if (::_loadingDialog.isInitialized) {
+            _loadingDialog.dismiss()
+        }
 
         super.onDestroy()
     }

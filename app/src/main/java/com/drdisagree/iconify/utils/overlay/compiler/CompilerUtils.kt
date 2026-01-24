@@ -114,28 +114,20 @@ object CompilerUtils {
         var mPackageName = pkgName
         var category = References.OVERLAY_CATEGORY_PREFIX
 
-        mPackageName = mPackageName!!.replace("IconifyComponent", "").replace(".overlay", "")
+        mPackageName = mPackageName!!
+            .replace("IconifyComponent", "")
+            .replace(".overlay", "")
 
-        if (mPackageName.contains("MPIP")) {
-            mPackageName = keepFirstDigit(mPackageName)
+        mPackageName = removeAllDigits(mPackageName)
 
-            category += "media_player_icon_pack_" + mPackageName.lowercase(Locale.getDefault())
-        } else {
-            mPackageName = removeAllDigits(mPackageName)
-
-            category += when (mPackageName) {
-                "AMAC", "AMGC" -> "stock_monet_colors"
-                "BBN", "BBP" -> "brightness_bar_style"
-                "MPA", "MPB", "MPS" -> "media_player_style"
-                "NFN", "NFP" -> "notification_style"
-                "QSNT", "QSPT", "QSNPT" -> "qs_tile_text_style"
-                "QSSN", "QSSP" -> "qs_shape_style"
-                "IPAS" -> "icon_pack_android_style"
-                "IPSUI" -> "icon_pack_sysui_style"
-                "WIFI" -> "icon_pack_wifi_icons"
-                "SGIC" -> "icon_pack_signal_icons"
-                else -> "iconify_component_" + mPackageName.lowercase(Locale.getDefault())
-            }
+        category += when (mPackageName) {
+            "AMAC", "AMGC" -> "stock_monet_colors"
+            "NF" -> "notification_style"
+            "IPAS" -> "icon_pack_android_style"
+            "IPSUI" -> "icon_pack_sysui_style"
+            "WIFI" -> "icon_pack_wifi_icons"
+            "SGIC" -> "icon_pack_signal_icons"
+            else -> "iconify_component_" + mPackageName.lowercase(Locale.getDefault())
         }
 
         return category
