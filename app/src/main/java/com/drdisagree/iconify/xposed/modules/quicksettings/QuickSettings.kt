@@ -693,11 +693,9 @@ class QuickSettings(context: Context) : ModPack(context) {
                 )
 
                 if (resId1 != 0) {
-                    mFooterButtonsContainer =
-                        view.findViewById<View>(resId1).parent as ViewGroup
+                    mFooterButtonsContainer = view.findViewById<View?>(resId1)?.parent as? ViewGroup
                 } else if (resId2 != 0) {
-                    mFooterButtonsContainer =
-                        view.findViewById<View>(resId2).parent as ViewGroup
+                    mFooterButtonsContainer = view.findViewById<View?>(resId2)?.parent as? ViewGroup
                 }
 
                 triggerQsElementVisibility()
