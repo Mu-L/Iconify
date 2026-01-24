@@ -286,6 +286,27 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
                         applyLayoutConstraints(mLsItemsContainer!!)
 
                         // Hide stock clock
+                        fun hideViewsWithoutId(viewGroup: ViewGroup) {
+                            for (i in 0 until viewGroup.childCount) {
+                                val childView = viewGroup.getChildAt(i)
+                                val viewName = childView.javaClass.simpleName
+
+                                if (viewName.contains("clock", ignoreCase = true)
+                                    && viewName.contains("view", ignoreCase = true)
+                                ) {
+                                    childView.hideView()
+                                }
+
+                                if (childView is ViewGroup) {
+                                    hideViewsWithoutId(childView)
+                                }
+                            }
+                        }
+
+                        // A16 compose clocks
+                        hideViewsWithoutId(rootView)
+
+                        // A15+
                         listOf(
                             "bc_smartspace_view",
                             "date_smartspace_view",
@@ -731,7 +752,7 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
     private fun modifyClockView(clockView: View?) {
         if (!XprefsIsInitialized || mLsItemsContainer == null || clockView == null) return
 
-        var customTypeface = if (customFontEnabled && LSCLOCK_FONT_FILE.exists()) {
+        val customTypeface = if (customFontEnabled && LSCLOCK_FONT_FILE.exists()) {
             Typeface.createFromFile(LSCLOCK_FONT_FILE)
         } else {
             null
@@ -749,7 +770,7 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
             findViewWithTagAndChangeColor(clockView, "text2", mTextColor2)
         }
 
-        customTypeface?.also {
+        customTypeface?.let {
             applyFontRecursively(clockView, it)
         }
 
