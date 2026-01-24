@@ -41,19 +41,19 @@ class AppIconInNotification(context: Context) : ModPack(context) {
                 val row = param.args[0]
                 val notifyEntries = try {
                     row.callMethod("getEntry")
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                     row.getField("mEntry")
                 }
                 val notifySbn = try {
                     notifyEntries.callMethod("getSbn")
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                     notifyEntries.getField("mSbn")
                 }
                 val notification = notifySbn.callMethod("getNotification") as Notification
                 val pkgName = notifySbn.callMethod("getPackageName") as? String ?: return@runAfter
                 val appIcon: Drawable = try {
                     mContext.packageManager.getApplicationIcon(pkgName)
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                     return@runAfter
                 }
                 val mIcon = param.thisObject.getFieldSilently("mIcon") as ImageView
@@ -88,8 +88,10 @@ class AppIconInNotification(context: Context) : ModPack(context) {
 
                 val iconView = param.thisObject as ImageView
 
-                iconView.setPadding(0, 0, 0, 0)
-                iconView.background = Color.TRANSPARENT.toDrawable()
+                iconView.post {
+                    iconView.setPadding(0, 0, 0, 0)
+                    iconView.background = Color.TRANSPARENT.toDrawable()
+                }
             }
     }
 }
