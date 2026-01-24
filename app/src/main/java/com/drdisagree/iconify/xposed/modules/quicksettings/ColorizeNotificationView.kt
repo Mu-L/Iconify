@@ -247,7 +247,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                 mColors.setFieldSilently(fieldName, value)
 
                 if (fieldName == "mBackgroundColor") {
-                    setExtraField("mNotifyBackgroundColor", value)
+                    setExtraField("mNotifyBackgroundColor", value.withSemiTransparency())
                 } else {
                     setExtraField(fieldName, value)
                 }
@@ -332,7 +332,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                         if (fieldName == "mBackgroundColor") {
                             mColors.setFieldSilently(
                                 fieldName,
-                                notification.getExtraField("mNotifyBackgroundColor")
+                                (notification.getExtraField("mNotifyBackgroundColor") as? Int)?.withSemiTransparency()
                             )
                         } else {
                             mColors.setFieldSilently(
@@ -369,7 +369,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                         Color.red(bgColor),
                         Color.green(bgColor),
                         Color.blue(bgColor)
-                    )
+                    ).withSemiTransparency()
                     param.thisObject.callMethod("setBackgroundTintColor", bgColor)
 
                     param.thisObject.setFieldSilently("mCurrentBackgroundTint", bgColor)
@@ -457,7 +457,8 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             .runBefore { param ->
                 if (!coloredNotificationView) return@runBefore
 
-                param.result = param.thisObject.getField("mBackgroundColor")
+                param.result =
+                    (param.thisObject.getField("mBackgroundColor") as Int).withSemiTransparency()
             }
 
         notificationContentViewClass
@@ -544,5 +545,9 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             draw(canvas)
             bitmap
         }
+    }
+
+    fun Int.withSemiTransparency(): Int {
+        return this and 0x00FFFFFF or ((255 * 0.3f).toInt() shl 24)
     }
 }
