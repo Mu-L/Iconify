@@ -47,6 +47,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
@@ -169,6 +170,49 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     }
 
     private fun applyClockSize() {
+        val textChangeListener = object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                setClockSize()
+            }
+        }
+
+        fun addClockTextListener() {
+            mClockView?.addTextChangedListener(textChangeListener)
+            mCenterClockView?.addTextChangedListener(textChangeListener)
+            mRightClockView?.addTextChangedListener(textChangeListener)
+        }
+
+        fun removeClockTextListener() {
+            mClockView?.removeTextChangedListener(textChangeListener)
+            mCenterClockView?.removeTextChangedListener(textChangeListener)
+            mRightClockView?.removeTextChangedListener(textChangeListener)
+        }
+
+        fun updateClockTextSize() {
+            mLeftClockSize = mClockView?.textSize?.toInt() ?: 14
+            mCenterClockSize = mCenterClockView?.textSize?.toInt() ?: 14
+            mRightClockSize = mRightClockView?.textSize?.toInt() ?: 14
+
+            setClockSize()
+            addClockTextListener()
+        }
+
         val collapsedStatusBarFragment = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
             "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
@@ -185,38 +229,55 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 mCenterClockView = getCenterClockView(mContext, param) as? TextView
                 mRightClockView = getRightClockView(mContext, param) as? TextView
 
-                mLeftClockSize = mClockView?.textSize?.toInt() ?: 14
-                mCenterClockSize = mCenterClockView?.textSize?.toInt() ?: 14
-                mRightClockSize = mRightClockView?.textSize?.toInt() ?: 14
-
-                setClockSize()
-
-                val textChangeListener = object : TextWatcher {
-                    override fun beforeTextChanged(
-                        s: CharSequence,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                    }
-
-                    override fun onTextChanged(
-                        s: CharSequence,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                    }
-
-                    override fun afterTextChanged(s: Editable) {
-                        setClockSize()
-                    }
-                }
-
-                mClockView?.addTextChangedListener(textChangeListener)
-                mCenterClockView?.addTextChangedListener(textChangeListener)
-                mRightClockView?.addTextChangedListener(textChangeListener)
+                updateClockTextSize()
             }
+
+        val phoneStatusBarViewControllerClass = findClass(
+            "com.android.systemui.statusbar.phone.PhoneStatusBarViewController",
+            suppressError = true
+        )
+
+        phoneStatusBarViewControllerClass
+            .hookMethod("onViewAttached")
+            .runAfter { param ->
+                mClockView = param.thisObject.getField("clock") as TextView
+                mCenterClockView = null
+                mRightClockView = null
+
+                (param.thisObject.getField("mView") as View).hideComposeBattery()
+
+                updateClockTextSize()
+            }
+
+        phoneStatusBarViewControllerClass
+            .hookMethod("onViewDetached")
+            .runBefore { param ->
+                removeClockTextListener()
+            }
+    }
+
+    // For testing purpose
+    private fun View.hideComposeBattery() {
+        //        val batteryMeterView = findViewById<View>(
+        //            mContext.resources.getIdentifier(
+        //                "battery",
+        //                "id",
+        //                mContext.packageName
+        //            )
+        //        )
+        //        val parentViewGroup = batteryMeterView.parent as? ViewGroup ?: return
+        //
+        //        val index = parentViewGroup.indexOfChild(batteryMeterView)
+        //
+        //        // iterate over siblings after BatteryMeterView
+        //        for (i in index + 1 until parentViewGroup.childCount) {
+        //            val child = parentViewGroup.getChildAt(i)
+        //            if (child.javaClass.simpleName == "ComposeView") {
+        //                // found the ComposeView
+        //                child.hideView()
+        //                break
+        //            }
+        //        }
     }
 
     @SuppressLint("RtlHardcoded")

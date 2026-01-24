@@ -19,15 +19,15 @@ object StatusBarClock {
 
     fun getLeftClockView(mContext: Context, param: XC_MethodHook.MethodHookParam) = try {
         param.thisObject.getField("mClockView") as View
-    } catch (throwable1: Throwable) {
+    } catch (_: Throwable) {
         try {
             param.thisObject.getField("mLeftClock") as View
-        } catch (throwable2: Throwable) {
+        } catch (_: Throwable) {
             try {
                 param.thisObject
                     .getField("mClockController")
                     .callMethod("getClock") as View
-            } catch (throwable3: Throwable) {
+            } catch (_: Throwable) {
                 try {
                     val mActiveClock = param.thisObject
                         .getField("mClockController")
@@ -43,8 +43,20 @@ object StatusBarClock {
                     } else {
                         null
                     }
-                } catch (throwable4: Throwable) {
-                    null
+                } catch (_: Throwable) {
+                    try {
+                        (param.thisObject.getField(
+                            "mStatusBar"
+                        ) as ViewGroup).findViewById(
+                            mContext.resources.getIdentifier(
+                                "clock",
+                                "id",
+                                mContext.packageName
+                            )
+                        )
+                    } catch (_: Throwable) {
+                        null
+                    }
                 }
             }
         }
@@ -52,15 +64,15 @@ object StatusBarClock {
 
     fun getCenterClockView(mContext: Context, param: XC_MethodHook.MethodHookParam) = try {
         param.thisObject.getField("mCenterClockView") as View
-    } catch (throwable1: Throwable) {
+    } catch (_: Throwable) {
         try {
             param.thisObject.getField("mCenterClock") as View
-        } catch (throwable2: Throwable) {
+        } catch (_: Throwable) {
             try {
                 param.thisObject
                     .getField("mClockController")
                     .callMethod("mCenterClockView") as View
-            } catch (throwable3: Throwable) {
+            } catch (_: Throwable) {
                 try {
                     val mActiveClock = param.thisObject
                         .getField("mClockController")
@@ -76,12 +88,12 @@ object StatusBarClock {
                     } else {
                         null
                     }
-                } catch (throwable4: Throwable) {
+                } catch (_: Throwable) {
                     try {
                         (param.thisObject.getField(
                             "mCenterClockLayout"
                         ) as LinearLayout).getChildAt(0)
-                    } catch (throwable5: Throwable) {
+                    } catch (_: Throwable) {
                         null
                     }
                 }
@@ -91,15 +103,15 @@ object StatusBarClock {
 
     fun getRightClockView(mContext: Context, param: XC_MethodHook.MethodHookParam) = try {
         param.thisObject.getField("mRightClockView") as View
-    } catch (throwable1: Throwable) {
+    } catch (_: Throwable) {
         try {
             param.thisObject.getField("mRightClock") as View
-        } catch (throwable2: Throwable) {
+        } catch (_: Throwable) {
             try {
                 param.thisObject
                     .getField("mClockController")
                     .callMethod("mRightClockView") as View
-            } catch (throwable3: Throwable) {
+            } catch (_: Throwable) {
                 try {
                     val mActiveClock = param.thisObject
                         .getField("mClockController")
@@ -115,7 +127,7 @@ object StatusBarClock {
                     } else {
                         null
                     }
-                } catch (throwable4: Throwable) {
+                } catch (_: Throwable) {
                     null
                 }
             }
@@ -171,9 +183,9 @@ object StatusBarClock {
         clockView.layoutParams = layoutParams
 
         (clockView as TextView).includeFontPadding = false
-        clockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT
+        clockView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         clockView.setGravity(Gravity.CENTER)
-        clockView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER)
+        clockView.textAlignment = View.TEXT_ALIGNMENT_CENTER
         clockView.requestLayout()
     }
 }
