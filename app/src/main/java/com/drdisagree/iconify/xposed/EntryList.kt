@@ -118,11 +118,11 @@ object EntryList {
             }
 
             SETTINGS_PACKAGE -> {
-                modPacks.addAll(settingsCommonModPacks)
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-                    modPacks.addAll(settingsAndroid15ModPacks)
-                }
+                //                modPacks.addAll(settingsCommonModPacks)
+                //
+                //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                //                    modPacks.addAll(settingsAndroid15ModPacks)
+                //                }
             }
         }
 
