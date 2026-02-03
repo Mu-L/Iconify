@@ -76,7 +76,7 @@ abstract class BaseSplashActivity : AppCompatActivity() {
 
     companion object {
         // For testing purposes
-        private const val SKIP_INSTALLATION = true
+        private const val SKIP_INSTALLATION = false
         const val FORCE_OVERLAY_INSTALLATION = false
         val SKIP_TO_HOMEPAGE_FOR_TESTING = SKIP_INSTALLATION &&
                 !FORCE_OVERLAY_INSTALLATION &&
