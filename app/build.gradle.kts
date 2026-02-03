@@ -15,16 +15,16 @@ ksp {
 
 android {
     namespace = "com.drdisagree.iconify"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.drdisagree.iconify"
-        minSdk = 31
-        targetSdk = 35
+        minSdk = 36
+        targetSdk = 36
         versionCode = 24
         versionName = "7.2.0"
         multiDexEnabled = true
-        setProperty("archivesBaseName", "Iconify v${defaultConfig.versionName}")
+        setProperty("archivesBaseName", "Iconify A16 v${defaultConfig.versionName}")
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
     }
 
@@ -48,8 +48,8 @@ android {
 
     buildTypes {
         debug {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             isCrunchPngs = false
             proguardFiles("proguard-android-optimize.txt", "proguard.pro", "proguard-rules.pro")
             applicationIdSuffix = ".debug"

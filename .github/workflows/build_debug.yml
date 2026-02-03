@@ -138,7 +138,7 @@ jobs:
         if: env.SKIP_BUILD != 'true'
         run: |
           cd app/build/outputs/apk/standard/debug/
-          zip "../../../../../../releases/Iconify v${{ env.VERSION_NAME }} Dev (#${{github.run_number}}).zip" *.apk -r
+          zip "../../../../../../releases/Iconify A16 v${{ env.VERSION_NAME }} Dev (#${{github.run_number}}).zip" *.apk -r
 
       - name: Telegram File Attachment
         if: github.repository == 'Mahmud0808/Iconify' && env.SKIP_BUILD != 'true'
@@ -148,7 +148,7 @@ jobs:
             -F chat_id=${{ secrets.TG_CHAT_ID }} \
             -F message_thread_id=${{ secrets.TG_CHAT_THREAD_ID }} \
             -F media='[
-              {"type":"document", "media":"attach://Standard", "caption":"#Iconify: ${{ env.COMMIT_MESSAGE_HEADER }}"}
+              {"type":"document", "media":"attach://file", "caption":"#Iconify: ${{ env.COMMIT_MESSAGE_HEADER }}"}
             ]' \
-            -F Standard="@releases/Iconify v${{ env.VERSION_NAME }} Dev (#${{github.run_number}}).zip" \
+            -F file="@releases/Iconify A16 v${{ env.VERSION_NAME }} Dev (#${{github.run_number}}).zip" \
             -F disable_notification=true || exit 1
