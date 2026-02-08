@@ -167,17 +167,17 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/lkt27">
-                    <img src="https://avatars.githubusercontent.com/u/95425619?v=4" width="100;" alt="lkt27"/>
+                <a href="https://github.com/lixkote">
+                    <img src="https://avatars.githubusercontent.com/u/95425619?v=4" width="100;" alt="lixkote"/>
                     <br />
-                    <sub><b>lkt27</b></sub>
+                    <sub><b>lixkote</b></sub>
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/Flumpyflarb38">
-                    <img src="https://avatars.githubusercontent.com/u/36867039?v=4" width="100;" alt="Flumpyflarb38"/>
+                <a href="https://github.com/flumpyflarb">
+                    <img src="https://avatars.githubusercontent.com/u/36867039?v=4" width="100;" alt="flumpyflarb"/>
                     <br />
-                    <sub><b>Flumpyflarb38</b></sub>
+                    <sub><b>flumpyflarb</b></sub>
                 </a>
             </td>
 		</tr>
