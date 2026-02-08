@@ -33,20 +33,20 @@
     <string name="logs">Nhật ký</string>
     <!-- Search Preference -->
     <string name="search_title"></string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear">Clear</string>
-    <string name="searchpreference_history_entry">History entry</string>
-    <string name="searchpreference_more">More</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_result">No result</string>
+    <string name="searchpreference_search">… Tìm kiếm…</string>
+    <string name="searchpreference_clear">Dọn dẹp</string>
+    <string name="searchpreference_history_entry">Lịch sử tìm kiếm</string>
+    <string name="searchpreference_more">Nhiều hơn</string>
+    <string name="searchpreference_clear_history">Xóa lịch sử</string>
+    <string name="searchpreference_no_result">Không có kết quả</string>
     <!-- Home -->
     <string name="activity_title_home_page">Biểu tượng hóa</string>
     <string name="activity_title_icon_pack">Gói biểu tượng</string>
     <string name="activity_desc_icon_pack">Thay đổi gói biểu tượng hệ thống</string>
-    <string name="activity_title_cellular_icons">Cellular Icons</string>
-    <string name="activity_desc_cellular_icons">Change system cellular icons</string>
-    <string name="activity_title_wifi_icons">WiFi Icons</string>
-    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
+    <string name="activity_title_cellular_icons">Biểu tượng di động</string>
+    <string name="activity_desc_cellular_icons">Thay đổi biểu tượng di động của hệ thống</string>
+    <string name="activity_title_wifi_icons">Biểu tượng WiFi</string>
+    <string name="activity_desc_wifi_icons">Thay đổi biểu tượng WiFi của hệ thống</string>
     <string name="activity_title_brightness_bar">Thanh độ sáng</string>
     <string name="activity_desc_brightness_bar">Tùy chỉnh thanh trượt tiến độ</string>
     <string name="activity_title_qs_shape">Bảng điều khiển QS</string>
@@ -78,8 +78,8 @@
     <string name="activity_desc_qs_icon_label">Thay đổi tùy chọn biểu tượng và nhãn</string>
     <string name="activity_title_qs_tile_size">Kích thước bảng QS</string>
     <string name="activity_desc_qs_tile_size">Thay đổi chiều cao của ô bảng điều khiển QS</string>
-    <string name="activity_title_qs_panel_margin">QS Panel Margin</string>
-    <string name="activity_desc_qs_panel_margin">Modify quick settings margins</string>
+    <string name="activity_title_qs_panel_margin">Lề bảng QS</string>
+    <string name="activity_desc_qs_panel_margin">Sửa đổi lề cài đặt nhanh</string>
     <string name="activity_title_statusbar">Thanh trạng thái</string>
     <string name="activity_desc_statusbar">Sửa đổi giao diện statusbar</string>
     <string name="activity_title_navigation_bar">Thanh điều hướng</string>
@@ -94,7 +94,7 @@
     <string name="activity_desc_xposed_menu">LSPosed cần thiết cho các tùy chọn này</string>
     <string name="activity_title_extras">Tiện ích bổ sung</string>
     <string name="activity_desc_extras">Các chỉnh sửa và tùy chọn bổ sung</string>
-    <string name="activity_title_dual_statusbar">Dual Statusbar</string>
+    <string name="activity_title_dual_statusbar">Hai thanh trạng thái</string>
     <!-- Settings -->
     <string name="settings_section_title_general">Chung</string>
     <string name="settings_app_language">Ngôn ngữ</string>
@@ -124,10 +124,10 @@
     <string name="settings_section_title_miscellaneous">Khác</string>
     <string name="settings_restart_systemui_after_boot_title">Khởi động lại SystemUI sau khi khởi động</string>
     <string name="settings_restart_systemui_after_boot_desc">Một số tùy chọn như cường độ mờ không có hiệu lực cho đến khi khởi động lại systemui</string>
-    <string name="settings_show_home_page_card_title">Show Home Page Card</string>
-    <string name="settings_show_home_page_card_desc">Show a beautiful card on the home page.</string>
-    <string name="settings_vibrate_ui_card_title">Haptic Feedback</string>
-    <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
+    <string name="settings_show_home_page_card_title">Hiện thẻ trang chủ</string>
+    <string name="settings_show_home_page_card_desc">Hiện thẻ đẹp trên trang chủ.</string>
+    <string name="settings_vibrate_ui_card_title">Phản hồi Xúc giác</string>
+    <string name="settings_vibrate_ui_page_card_desc">Tăng cường phản hồi xúc giác với công nghệ phản hồi xúc giác tương tác.</string>
     <string name="settings_slider_controller_title">Slider Controller</string>
     <string name="settings_slider_controller_desc">Enable to display plus and minus buttons with sliders.</string>
     <string name="settings_clear_app_cache_title">Xoá bộ nhớ đệm ứng dụng</string>
