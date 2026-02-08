@@ -1328,8 +1328,8 @@
     <string name="section_title_recents">Recentes</string>
     <string name="force_themed_icons_title">Forçar ícones temáticos</string>
     <string name="force_themed_icons_desc">Gere ícones monocromáticos se não forem fornecidos pelo app</string>
-    <string name="launcher_icon_size_title">Tamanho do Ícone l</string>
-    <string name="launcher_text_size_title">Tamanho do Texto</string>
+    <string name="launcher_icon_size_title">Tamanho do ícone</string>
+    <string name="launcher_text_size_title">Tamanho do texto</string>
     <string name="app_drawer_themed_icons_title">Ícones temáticos da gaveta de apps</string>
     <string name="app_drawer_themed_icons_desc">Ative ícones temáticos na gaveta de apps</string>
     <string name="double_tap_to_sleep_title">Toque duas vezes para desligar a tela</string>
