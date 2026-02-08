@@ -43,10 +43,10 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Paquete de iconos</string>
     <string name="activity_desc_icon_pack">Cambia el paquete de iconos del sistema</string>
-    <string name="activity_title_cellular_icons">Iconos móviles</string>
-    <string name="activity_desc_cellular_icons">Cambiar iconos móviles del sistema</string>
+    <string name="activity_title_cellular_icons">Iconos señal móvil</string>
+    <string name="activity_desc_cellular_icons">Cambiar los iconos de señal móvil del sistema</string>
     <string name="activity_title_wifi_icons">Iconos de WiFi</string>
-    <string name="activity_desc_wifi_icons">Cambiar los iconos WiFi del sistema</string>
+    <string name="activity_desc_wifi_icons">Cambiar los iconos de WiFi del sistema</string>
     <string name="activity_title_brightness_bar">Barra de brillo</string>
     <string name="activity_desc_brightness_bar">Personalizar barra de progreso</string>
     <string name="activity_title_qs_shape">Panel de Ajustes Rápidos</string>
@@ -147,7 +147,7 @@
     <string name="activity_title_colored_battery">Batería coloreada</string>
     <string name="activity_desc_colored_battery">Cambia el color del icono de batería</string>
     <string name="activity_title_media_icons">Iconos reproductor</string>
-    <string name="activity_desc_media_icons">Cambia los iconos del reproductor de medios</string>
+    <string name="activity_desc_media_icons">Cambia los iconos de los reproductores de medios</string>
     <string name="activity_title_settings_icons">Iconos de Ajustes</string>
     <string name="activity_desc_settings_icons">Cambia el paquete de iconos para Ajustes</string>
     <string name="icon_pack_styles">Estilos de paquete de iconos</string>
@@ -155,7 +155,7 @@
     <string name="iconpack_gradicon_desc">Paquete de iconos rellenos con sombreado degradado</string>
     <string name="iconpack_lorn_desc">Paquete de iconos lineales gruesos</string>
     <string name="iconpack_plumpy_desc">Paquete de iconos rellenos de dos tonos</string>
-    <string name="iconpack_acherus_desc">Paquete de iconos secundarios de Acherus</string>
+    <string name="iconpack_acherus_desc">Paquete de iconos para Substratum de Acherus</string>
     <string name="iconpack_circular_desc">Paquete de iconos con líneas delgadas</string>
     <string name="iconpack_filled_desc">Paquete de iconos rellenos de dos tonos</string>
     <string name="iconpack_kai_desc">Paquete de iconos con líneas delgadas</string>
@@ -198,7 +198,7 @@
     <string name="settings_icons_follow_system">Seguir el Sistema</string>
     <string name="settings_icons_system_inverse">Inverso del Sistema</string>
     <string name="settings_icons_monet_accent">Monet / Acento</string>
-    <string name="settings_iconpack_bubble_v1">Paquete de iconos en línea multicolor</string>
+    <string name="settings_iconpack_bubble_v1">Paquete de iconos con relleno multicolor</string>
     <string name="settings_iconpack_bubble_v2">Paquete de iconos con contorno multicolor</string>
     <!-- Pixel Variant -->
     <string name="activity_title_pixel_variant">Variante Pixel</string>
@@ -408,9 +408,9 @@
     <string name="notch_bar_killer_desc">Eliminar el espacio vacío de la barra de notch</string>
     <string name="tablet_header_title">Encabezado de Tablet</string>
     <string name="tablet_header_desc">Habilitar encabezado de sombra de gran pantalla</string>
-    <string name="section_title_privacy_chip">Chip de privacidad</string>
-    <string name="accent_privacy_chip_title">Chip de Privacidad de Acento</string>
-    <string name="accent_privacy_chip_desc">Hace que el chip de privacidad tenga el color de acento</string>
+    <string name="section_title_privacy_chip">Ficha de privacidad</string>
+    <string name="accent_privacy_chip_title">Acentuar ficha de privacidad</string>
+    <string name="accent_privacy_chip_desc">Hacer la ficha de privacidad del color de acento</string>
     <string name="disable_progress_wave_title">Deshabilitar onda de progreso</string>
     <string name="disable_progress_wave_desc">Deshabilitar animación de onda de barra de progreso</string>
     <string name="section_title_settings_theme">Ajustes del tema</string>
@@ -448,9 +448,9 @@
     <string name="activity_desc_lockscreen_widget">Añadir widgets a la pantalla de bloqueo</string>
     <string name="activity_title_depth_wallpaper">Fondo de pantalla con profundidad</string>
     <string name="activity_desc_depth_wallpaper">Mostrar fondo de pantalla con profundidad parecido a iOS</string>
-    <string name="activity_title_background_chip">Reloj con fondo</string>
-    <string name="activity_desc_background_chip">Añade un fondo de color detrás del reloj</string>
-    <string name="activity_title_clock_chip">Chip de reloj</string>
+    <string name="activity_title_background_chip">Ficha de fondo</string>
+    <string name="activity_desc_background_chip">Añade una ficha coloreada detrás del reloj</string>
+    <string name="activity_title_clock_chip">Ficha de reloj</string>
     <string name="activity_title_xposed_others">Otros</string>
     <string name="activity_desc_xposed_others">Retoques variados de Xposed</string>
     <string name="activity_title_xposed_weather_settings">Configuración del clima</string>
@@ -791,7 +791,7 @@
     <string name="section_title_status_bar">Barra de estado</string>
     <string name="sb_clock_background_chip_title">Ficha de reloj de la barra de estado</string>
     <string name="sb_clock_background_chip_desc">Mostrar ficha detrás del reloj de la barra de estado</string>
-    <string name="sb_clock_customize_chip_title">Personalizar chip de reloj</string>
+    <string name="sb_clock_customize_chip_title">Personalizar la ficha de reloj</string>
     <string name="sb_clock_customize_chip_desc">Colores, redondez, trazos, etc. personalizados</string>
     <string name="statusbar_clock_clickable_title">Reloj Cliqueable</string>
     <string name="statusbar_clock_clickable_desc">Clic para abrir la aplicación del reloj</string>
@@ -806,9 +806,9 @@
     <string name="chip_style_title">Estilo de la ficha</string>
     <string name="status_icons_chip_title">Ficha de los iconos de estado</string>
     <string name="status_icons_chip_desc">Mostrar ficha detrás de los iconos de estado</string>
-    <string name="status_icons_customize_chip_title">Personalizar el chip de los iconos de estado</string>
+    <string name="status_icons_customize_chip_title">Personalizar la ficha de los iconos de estado</string>
     <string name="status_icons_customize_chip_desc">Colores, redondez, trazos, etc. personalizados</string>
-    <string name="status_icons_chip_style_title">Estilo de Chip de Iconos de Estado</string>
+    <string name="status_icons_chip_style_title">Estilo de ficha de Iconos de Estado</string>
     <string name="fixed_status_icons_top_margin">Margen Superior</string>
     <string name="fixed_status_icons_side_margin">Margen Lateral</string>
     <string name="section_title_background">Fondo</string>
@@ -845,9 +845,9 @@
     <string name="hide_ls_statusbar_title">Ocultar Barra de Estado en Pantalla de Bloqueo</string>
     <string name="hide_ls_statusbar_desc">Ocultar la barra de estado en la pantalla de bloqueo</string>
     <string name="sb_swap_wifi_cellular_title">Intercambiar Wifi y móvil</string>
-    <string name="sb_swap_wifi_cellular_desc">Intercambiar iconos Wifi y móvil</string>
+    <string name="sb_swap_wifi_cellular_desc">Intercambiar iconos de WiFi y señal móvil</string>
     <string name="sb_swap_cellular_network_type_title">Intercambiar red móvil y tipo de red</string>
-    <string name="sb_swap_cellular_network_type_desc">Intercambiar los iconos de red móvil y de tipo de red (3G 4G LTE etc.)</string>
+    <string name="sb_swap_cellular_network_type_desc">Intercambiar los iconos de señal móvil y del tipo de red (3G 4G LTE etc.)</string>
     <string name="sb_clock_position_title">Posición del reloj</string>
     <string name="section_title_clock">Reloj</string>
     <string name="sb_clock_position_left">Izquierda (Predeterminado)</string>
@@ -912,7 +912,7 @@
     <string name="dsb_single_line_end_side_title">Fila simple al final</string>
     <string name="dsb_single_line_end_side_desc">Mostrar sólo una fila al final de la barra de estado</string>
     <string name="dsb_swap_start_side_title">Intercambiar lado inicial</string>
-    <string name="dsb_swap_start_side_desc">Intercambiar la posición de los iconos de reloj y notificación</string>
+    <string name="dsb_swap_start_side_desc">Intercambiar la posición del reloj y los iconos de notificación</string>
     <string name="dsb_swap_end_side_title">Intercambiar lado final</string>
     <string name="dsb_swap_end_side_desc">Intercambiar la posición de los iconos de batería y estado</string>
     <string name="dsb_statusbar_height_title">Altura de la Barra de Estado</string>
