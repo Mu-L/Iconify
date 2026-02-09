@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.os.Build
-import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -75,7 +74,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Compan
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.clone
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.connect
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.constraintSetInstance
-import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.setClockGravity
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -264,37 +262,33 @@ class BackgroundChip(context: Context) : ModPack(context) {
     }
 
     private fun statusBarClockChip() {
-        val collapsedStatusBarFragment = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
-            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
-        )
+        val phoneStatusBarViewControllerClass =
+            findClass("com.android.systemui.statusbar.phone.PhoneStatusBarViewController")
         val shadeHeaderControllerClass =
             findClass("$SYSTEMUI_PACKAGE.shade.ShadeHeaderController")
         dependencyClass = findClass("$SYSTEMUI_PACKAGE.Dependency")
         darkIconDispatcherClass = findClass("$SYSTEMUI_PACKAGE.plugins.DarkIconDispatcher")
 
-        collapsedStatusBarFragment
-            .hookMethod("onViewCreated")
-            .parameters(View::class.java, Bundle::class.java)
-            .runAfter { param ->
-                mClockView = StatusBarClock.getLeftClockView(mContext, param)
-                mCenterClockView = StatusBarClock.getCenterClockView(mContext, param)
-                mRightClockView = StatusBarClock.getRightClockView(mContext, param)
+        val layoutChangeListener = View.OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            updateStatusBarClock(false)
+        }
 
-                (param.thisObject.getField(
-                    "mStatusBar"
-                ) as ViewGroup).addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-                    updateStatusBarClock(false)
-                }
+        phoneStatusBarViewControllerClass
+            .hookMethod("onViewAttached")
+            .runAfter { param ->
+                val mView = param.thisObject.getField("mView") as View
+                mClockView = param.thisObject.getField("clock") as TextView
+                mCenterClockView = null
+                mRightClockView = null
+
+                mView.addOnLayoutChangeListener(layoutChangeListener)
 
                 updateStatusBarClock(true)
 
                 if (mShowSBClockBg) {
                     try {
-                        val mStatusBar = param.thisObject.getField("mStatusBar") as FrameLayout
-
                         val statusBarStartSideContent =
-                            mStatusBar.findViewById<FrameLayout>(
+                            mView.findViewById<FrameLayout>(
                                 mContext.resources.getIdentifier(
                                     "status_bar_start_side_content",
                                     "id",
@@ -309,7 +303,7 @@ class BackgroundChip(context: Context) : ModPack(context) {
                         }
 
                         val statusBarStartSideExceptHeadsUp =
-                            mStatusBar.findViewById<LinearLayout>(
+                            mView.findViewById<LinearLayout>(
                                 mContext.resources.getIdentifier(
                                     "status_bar_start_side_except_heads_up",
                                     "id",
@@ -329,6 +323,14 @@ class BackgroundChip(context: Context) : ModPack(context) {
                         log(this@BackgroundChip, throwable)
                     }
                 }
+            }
+
+        phoneStatusBarViewControllerClass
+            .hookMethod("onViewAttached")
+            .runAfter { param ->
+                val mView = param.thisObject.getField("mView") as View
+
+                mView.removeOnLayoutChangeListener(layoutChangeListener)
             }
 
         shadeHeaderControllerClass
