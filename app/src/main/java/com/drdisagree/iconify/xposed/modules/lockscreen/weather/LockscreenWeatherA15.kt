@@ -56,14 +56,12 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.CurrentWeatherView
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen.Companion.isComposeLockscreen
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
-import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -191,100 +189,77 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
             )
         }
 
-        val aodBurnInLayerClass =
-            findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInLayer")
-        var aodBurnInLayerHooked = false
+        val aodBurnInSectionClass =
+            findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInSection")
 
-        // Apparently ROMs like CrDroid doesn't even use AodBurnInLayer class
-        // So we hook which ever is available
-        val keyguardStatusViewClass = findClass(
-            "com.android.keyguard.KeyguardStatusView",
-            suppressError = Build.VERSION.SDK_INT >= 36
-        )
-        var keyguardStatusViewHooked = false
+        fun viewAttached(entryV: View) {
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (!mWeatherEnabled) return@postDelayed
 
-        fun initializeLockscreenLayout(param: XC_MethodHook.MethodHookParam) {
-            val entryV = param.thisObject as View
-
-            // If both are already hooked, return. We only want to hook one
-            if (aodBurnInLayerHooked && keyguardStatusViewHooked) return
-
-            entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
-                override fun onViewAttachedToWindow(v: View) {
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        if (!mWeatherEnabled) return@postDelayed
-
-                        val rootView = v.parent as? ViewGroup ?: return@postDelayed
-
-                        // If rootView is not R.id.keyguard_root_view, detach and return
-                        if (rootView.id != mContext.resources.getIdentifier(
-                                "keyguard_root_view",
-                                "id",
-                                mContext.packageName
-                            )
-                        ) {
-                            entryV.removeOnAttachStateChangeListener(this)
-                            return@postDelayed
-                        }
-
-                        dateSmartSpaceViewAvailable = rootView.findViewById<View?>(
-                            mContext.resources.getIdentifier(
-                                "date_smartspace_view",
-                                "id",
-                                mContext.packageName
-                            )
-                        ) != null
-
-                        mLockscreenRootView = rootView
-
-                        mWeatherContainer.removeViewFromParent()
-
-                        if (mLockscreenClockEnabled || mWidgetsEnabled) {
-                            mLsItemsContainer = rootView.getLsItemsContainer()
-
-                            // Add weather view after clock view if exists
-                            mLsItemsContainer!!.addView(
-                                mWeatherContainer,
-                                if (mLsItemsContainer!!.findViewWithTag<View?>(
-                                        ICONIFY_LOCKSCREEN_CLOCK_TAG
-                                    ) != null
-                                ) 1 else 0
-                            )
-                        } else {
-                            mLockscreenRootView!!.addView(mWeatherContainer)
-                        }
-
-                        applyLayoutConstraints(mLsItemsContainer ?: mWeatherContainer)
-                        aodBurnInProtection = AodBurnInProtection.registerForView(
-                            mLsItemsContainer ?: mWeatherContainer
+                val rootView = (entryV.parent as? ViewGroup)
+                    ?.rootView
+                    ?.findViewById<ViewGroup>(
+                        mContext.resources.getIdentifier(
+                            "keyguard_root_view",
+                            "id",
+                            mContext.packageName
                         )
+                    ) ?: return@postDelayed
 
-                        placeWeatherView()
-                    }, 1000)
+                dateSmartSpaceViewAvailable = rootView.findViewById<View?>(
+                    mContext.resources.getIdentifier(
+                        "date_smartspace_view",
+                        "id",
+                        mContext.packageName
+                    )
+                ) != null
+
+                mLockscreenRootView = rootView
+
+                mWeatherContainer.removeViewFromParent()
+
+                if (mLockscreenClockEnabled || mWidgetsEnabled) {
+                    mLsItemsContainer = rootView.getLsItemsContainer()
+
+                    // Add weather view after clock view if exists
+                    mLsItemsContainer!!.addView(
+                        mWeatherContainer,
+                        if (mLsItemsContainer!!.findViewWithTag<View?>(
+                                ICONIFY_LOCKSCREEN_CLOCK_TAG
+                            ) != null
+                        ) 1 else 0
+                    )
+                } else {
+                    mLockscreenRootView!!.addView(mWeatherContainer)
                 }
 
-                override fun onViewDetachedFromWindow(v: View) {}
-            })
+                applyLayoutConstraints(mLsItemsContainer ?: mWeatherContainer)
+                aodBurnInProtection = AodBurnInProtection.registerForView(
+                    mLsItemsContainer ?: mWeatherContainer
+                )
+
+                placeWeatherView()
+            }, 1000)
         }
 
-        aodBurnInLayerClass
-            .hookConstructor()
+        aodBurnInSectionClass
+            .hookMethod("addViews")
             .runAfter { param ->
                 if (!mWeatherEnabled) return@runAfter
 
-                aodBurnInLayerHooked = true
+                val entryV = param.args[0] as View
 
-                initializeLockscreenLayout(param)
-            }
+                entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(v: View) {
+                        viewAttached(entryV)
+                    }
 
-        keyguardStatusViewClass
-            .hookConstructor()
-            .runAfter { param ->
-                if (!mWeatherEnabled) return@runAfter
+                    override fun onViewDetachedFromWindow(v: View) {}
+                })
 
-                keyguardStatusViewHooked = true
-
-                initializeLockscreenLayout(param)
+                if (entryV.isAttachedToWindow) {
+                    viewAttached(entryV)
+                }
             }
 
         val defaultNotificationStackScrollLayoutSectionClass =
@@ -441,7 +416,7 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
 
             // Weather placed, now inflate widgets
             val broadcast = Intent(ACTION_WEATHER_INFLATED)
-            broadcast.setFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+            broadcast.flags = Intent.FLAG_RECEIVER_FOREGROUND
             Thread { mContext.sendBroadcast(broadcast) }.start()
         }
     }
