@@ -68,7 +68,6 @@ import com.drdisagree.iconify.xposed.modules.lockscreen.widgets.LockscreenWidget
 import com.drdisagree.iconify.xposed.modules.lockscreen.widgets.LockscreenWidgets.Companion.launchableLinearLayoutClass
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
-import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -272,97 +271,74 @@ class LockscreenWidgetsA15(context: Context) : ModPack(context) {
                 setActivityStarter()
             }
 
-        val aodBurnInLayerClass =
-            findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInLayer")
-        var aodBurnInLayerHooked = false
+        val aodBurnInSectionClass =
+            findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInSection")
 
-        // Apparently ROMs like CrDroid doesn't even use AodBurnInLayer class
-        // So we hook which ever is available
-        val keyguardStatusViewClass = findClass(
-            "com.android.keyguard.KeyguardStatusView",
-            suppressError = Build.VERSION.SDK_INT >= 36
-        )
-        var keyguardStatusViewHooked = false
+        fun viewAttached(entryV: View) {
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (!mWidgetsEnabled) return@postDelayed
 
-        fun initializeLockscreenLayout(param: XC_MethodHook.MethodHookParam) {
-            val entryV = param.thisObject as View
-
-            // If both are already hooked, return. We only want to hook one
-            if (aodBurnInLayerHooked && keyguardStatusViewHooked) return
-
-            entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
-                override fun onViewAttachedToWindow(v: View) {
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        if (!mWidgetsEnabled) return@postDelayed
-
-                        val rootView = v.parent as? ViewGroup ?: return@postDelayed
-
-                        // If rootView is not R.id.keyguard_root_view, detach and return
-                        if (rootView.id != mContext.resources.getIdentifier(
-                                "keyguard_root_view",
-                                "id",
-                                mContext.packageName
-                            )
-                        ) {
-                            entryV.removeOnAttachStateChangeListener(this)
-                            return@postDelayed
-                        }
-
-                        dateSmartSpaceViewAvailable = rootView.findViewById<View?>(
-                            mContext.resources.getIdentifier(
-                                "date_smartspace_view",
-                                "id",
-                                mContext.packageName
-                            )
-                        ) != null
-
-                        mLockscreenRootView = rootView
-
-                        (mWidgetsContainer.parent as? ViewGroup)?.removeView(mWidgetsContainer)
-
-                        if (mLockscreenClockEnabled || mWeatherEnabled) {
-                            mLsItemsContainer = rootView.getLsItemsContainer()
-
-                            // Add widgets view at the end
-                            mLsItemsContainer!!.addView(
-                                mWidgetsContainer,
-                                mLsItemsContainer!!.childCount - 1
-                            )
-                        } else {
-                            mLockscreenRootView!!.addView(mWidgetsContainer)
-                        }
-
-                        applyLayoutConstraints(mLsItemsContainer ?: mWidgetsContainer)
-                        aodBurnInProtection = AodBurnInProtection.registerForView(
-                            mLsItemsContainer ?: mWidgetsContainer
+                val rootView = (entryV.parent as? ViewGroup)
+                    ?.rootView
+                    ?.findViewById<ViewGroup>(
+                        mContext.resources.getIdentifier(
+                            "keyguard_root_view",
+                            "id",
+                            mContext.packageName
                         )
+                    ) ?: return@postDelayed
 
-                        placeWidgetsView()
-                    }, 1000)
+                dateSmartSpaceViewAvailable = rootView.findViewById<View?>(
+                    mContext.resources.getIdentifier(
+                        "date_smartspace_view",
+                        "id",
+                        mContext.packageName
+                    )
+                ) != null
+
+                mLockscreenRootView = rootView
+
+                (mWidgetsContainer.parent as? ViewGroup)?.removeView(mWidgetsContainer)
+
+                if (mLockscreenClockEnabled || mWeatherEnabled) {
+                    mLsItemsContainer = rootView.getLsItemsContainer()
+
+                    // Add widgets view at the end
+                    mLsItemsContainer!!.addView(
+                        mWidgetsContainer,
+                        mLsItemsContainer!!.childCount - 1
+                    )
+                } else {
+                    mLockscreenRootView!!.addView(mWidgetsContainer)
                 }
 
-                override fun onViewDetachedFromWindow(v: View) {}
-            })
+                applyLayoutConstraints(mLsItemsContainer ?: mWidgetsContainer)
+                aodBurnInProtection = AodBurnInProtection.registerForView(
+                    mLsItemsContainer ?: mWidgetsContainer
+                )
+
+                placeWidgetsView()
+            }, 1000)
         }
 
-        aodBurnInLayerClass
-            .hookConstructor()
+        aodBurnInSectionClass
+            .hookMethod("addViews")
             .runAfter { param ->
                 if (!mWidgetsEnabled) return@runAfter
 
-                aodBurnInLayerHooked = true
+                val entryV = param.args[0] as View
 
-                initializeLockscreenLayout(param)
-            }
+                entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(v: View) {
+                        viewAttached(entryV)
+                    }
 
-        keyguardStatusViewClass
-            .hookConstructor()
-            .runAfter { param ->
-                if (!mWidgetsEnabled) return@runAfter
+                    override fun onViewDetachedFromWindow(v: View) {}
+                })
 
-                keyguardStatusViewHooked = true
-
-                initializeLockscreenLayout(param)
+                if (entryV.isAttachedToWindow) {
+                    viewAttached(entryV)
+                }
             }
 
         val defaultNotificationStackScrollLayoutSectionClass =
