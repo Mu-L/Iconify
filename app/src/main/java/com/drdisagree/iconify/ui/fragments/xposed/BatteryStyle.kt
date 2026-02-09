@@ -6,6 +6,7 @@ import com.drdisagree.iconify.data.common.Preferences.CUSTOM_BATTERY_CHARGING_IC
 import com.drdisagree.iconify.data.common.Preferences.CUSTOM_BATTERY_HEIGHT
 import com.drdisagree.iconify.data.common.Preferences.CUSTOM_BATTERY_STYLE
 import com.drdisagree.iconify.data.common.Preferences.CUSTOM_BATTERY_WIDTH
+import com.drdisagree.iconify.data.common.Preferences.HIDE_BATTERY_VIEW
 import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.adapters.ListPreferenceAdapter
@@ -32,7 +33,8 @@ class BatteryStyle : ControlledPreferenceFragmentCompat() {
         super.updateScreen(key)
 
         when (key) {
-            CUSTOM_BATTERY_STYLE -> {
+            CUSTOM_BATTERY_STYLE,
+            HIDE_BATTERY_VIEW -> {
                 MainActivity.showOrHidePendingActionButton(
                     activityBinding = (requireActivity() as MainActivity).binding,
                     requiresSystemUiRestart = true

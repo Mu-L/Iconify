@@ -11,6 +11,11 @@
         app:iconSpaceReserved="false"
         app:useSimpleSummaryProvider="true" />
 
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_hidebatteryview"
+        android:title="@string/hide_battery_title"
+        app:iconSpaceReserved="false" />
+
     <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:key="xposed_custombatterywidth"
         android:title="@string/battery_width_title"

@@ -95,6 +95,7 @@ import com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_EXPANSION_Y
 import com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_FONT_PICKER
 import com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_FONT_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_LANDSCAPE_SWITCH
+import com.drdisagree.iconify.data.common.Preferences.HIDE_BATTERY_VIEW
 import com.drdisagree.iconify.data.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.LIGHT_QSPANEL
 import com.drdisagree.iconify.data.common.Preferences.LOCKSCREEN_SHADE_SWITCH
@@ -278,6 +279,7 @@ object PrefsHelper {
             "xposed_lockscreenwidget_weather_settings" -> WeatherConfig.isEnabled(appContext)
 
             CUSTOM_BATTERY_STYLE,
+            HIDE_BATTERY_VIEW,
             CUSTOM_BATTERY_WIDTH,
             CUSTOM_BATTERY_HEIGHT,
             CUSTOM_BATTERY_HIDE_PERCENTAGE,
@@ -387,6 +389,8 @@ object PrefsHelper {
     private fun isBatteryPrefsVisible(key: String): Boolean {
         val batteryStyle: Int = getString(CUSTOM_BATTERY_STYLE, 0.toString())!!.toInt()
 
+        val defaultBatteryStyle = batteryStyle == BATTERY_STYLE_DEFAULT
+
         val showAdvancedCustomizations =
             batteryStyle in BATTERY_STYLE_LANDSCAPE_BATTERYA..BATTERY_STYLE_LANDSCAPE_BATTERYO
 
@@ -423,6 +427,8 @@ object PrefsHelper {
                 batteryStyle == BATTERY_STYLE_FILLED_CIRCLE
 
         return when (key) {
+            HIDE_BATTERY_VIEW -> defaultBatteryStyle
+
             CUSTOM_BATTERY_PERIMETER_ALPHA,
             CUSTOM_BATTERY_FILL_ALPHA -> showAdvancedCustomizations
 
@@ -483,7 +489,10 @@ object PrefsHelper {
                     WeatherConfig.isEnabled(appContext)
 
             CUSTOM_BATTERY_WIDTH,
-            CUSTOM_BATTERY_HEIGHT -> getString(CUSTOM_BATTERY_STYLE, 0.toString())!!.toInt() != 0
+            CUSTOM_BATTERY_HEIGHT -> getString(
+                CUSTOM_BATTERY_STYLE,
+                0.toString()
+            )!!.toInt() != BATTERY_STYLE_DEFAULT
 
             LSCLOCK_FONT_SWITCH,
             LSCLOCK_FONT_PICKER,

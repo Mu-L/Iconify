@@ -26,8 +26,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_DEFAULT
 import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH
+import com.drdisagree.iconify.data.common.Preferences.CUSTOM_BATTERY_STYLE
 import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR
+import com.drdisagree.iconify.data.common.Preferences.HIDE_BATTERY_VIEW
 import com.drdisagree.iconify.data.common.Preferences.HIDE_LOCKSCREEN_CARRIER
 import com.drdisagree.iconify.data.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
@@ -43,6 +46,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getCent
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getLeftClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getRightClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.setClockGravity
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
@@ -73,6 +77,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     private var show4GInsteadOfLTE = false
     private var notifIconsLimit = -1
     private var dualStatusbarEnabled = false
+    private var hideDefaultBattery = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -85,6 +90,9 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             notifIconsLimit = getSliderInt(NOTIFICATION_ICONS_LIMIT, -1)
             dualStatusbarEnabled = getBoolean(DUAL_STATUSBAR, false)
             mClockClickable = getBoolean(CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH, false)
+            hideDefaultBattery =
+                getString(CUSTOM_BATTERY_STYLE, "0")!!.toInt() == BATTERY_STYLE_DEFAULT
+                        && getBoolean(HIDE_BATTERY_VIEW, false)
         }
 
         when (key.firstOrNull()) {
@@ -251,33 +259,32 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
         phoneStatusBarViewControllerClass
             .hookMethod("onViewDetached")
-            .runBefore { param ->
-                removeClockTextListener()
-            }
+            .runBefore { removeClockTextListener() }
     }
 
-    // For testing purpose
     private fun View.hideComposeBattery() {
-        //        val batteryMeterView = findViewById<View>(
-        //            mContext.resources.getIdentifier(
-        //                "battery",
-        //                "id",
-        //                mContext.packageName
-        //            )
-        //        )
-        //        val parentViewGroup = batteryMeterView.parent as? ViewGroup ?: return
-        //
-        //        val index = parentViewGroup.indexOfChild(batteryMeterView)
-        //
-        //        // iterate over siblings after BatteryMeterView
-        //        for (i in index + 1 until parentViewGroup.childCount) {
-        //            val child = parentViewGroup.getChildAt(i)
-        //            if (child.javaClass.simpleName == "ComposeView") {
-        //                // found the ComposeView
-        //                child.hideView()
-        //                break
-        //            }
-        //        }
+        if (!hideDefaultBattery) return
+
+        val batteryMeterView = findViewById<View>(
+            mContext.resources.getIdentifier(
+                "battery",
+                "id",
+                mContext.packageName
+            )
+        )
+        val parentViewGroup = batteryMeterView.parent as? ViewGroup ?: return
+
+        val index = parentViewGroup.indexOfChild(batteryMeterView)
+
+        // iterate over siblings after BatteryMeterView
+        for (i in index + 1 until parentViewGroup.childCount) {
+            val child = parentViewGroup.getChildAt(i)
+            if (child.javaClass.simpleName == "ComposeView") {
+                // found the ComposeView
+                child.hideView()
+                break
+            }
+        }
     }
 
     @SuppressLint("RtlHardcoded")

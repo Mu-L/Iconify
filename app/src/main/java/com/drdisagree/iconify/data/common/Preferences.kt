@@ -192,6 +192,7 @@ object Preferences {
     const val FLUID_NOTIF_TRANSPARENCY = "xposed_fluidnotiftransparency"
     const val FLUID_POWERMENU_TRANSPARENCY = "xposed_fluidpowermenutransparency"
     const val CUSTOM_BATTERY_STYLE = "xposed_custombatterystyle"
+    const val HIDE_BATTERY_VIEW = "xposed_hidebatteryview"
     const val CUSTOM_BATTERY_WIDTH = "xposed_custombatterywidth"
     const val CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight"
     const val HIDE_DATA_DISABLED_ICON = "xposed_hideDataDisabledIcon"
