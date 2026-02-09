@@ -93,7 +93,6 @@ import com.drdisagree.iconify.xposed.modules.extras.views.ArcProgressImageView
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen.Companion.isComposeLockscreen
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
-import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -241,121 +240,98 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
 
         initResources(mContext)
 
-        val aodBurnInLayerClass =
-            findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInLayer")
-        var aodBurnInLayerHooked = false
+        val aodBurnInSectionClass =
+            findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInSection")
 
-        // Apparently ROMs like CrDroid doesn't even use AodBurnInLayer class
-        // So we hook which ever is available
-        val keyguardStatusViewClass = findClass(
-            "com.android.keyguard.KeyguardStatusView",
-            suppressError = Build.VERSION.SDK_INT >= 36
-        )
-        var keyguardStatusViewHooked = false
+        fun viewAttached(entryV: View) {
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (!showLockscreenClock) return@postDelayed
 
-        fun initializeLockscreenLayout(param: XC_MethodHook.MethodHookParam) {
-            val entryV = param.thisObject as View
+                val rootView = (entryV.parent as? ViewGroup)
+                    ?.rootView
+                    ?.findViewById<ViewGroup>(
+                        mContext.resources.getIdentifier(
+                            "keyguard_root_view",
+                            "id",
+                            mContext.packageName
+                        )
+                    ) ?: return@postDelayed
 
-            // If both are already hooked, return. We only want to hook one
-            if (aodBurnInLayerHooked && keyguardStatusViewHooked) return
+                mLockscreenRootView = rootView
 
-            entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
-                override fun onViewAttachedToWindow(v: View) {
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        if (!showLockscreenClock) return@postDelayed
+                mLsItemsContainer = rootView.getLsItemsContainer()
+                aodBurnInProtection =
+                    AodBurnInProtection.registerForView(mLsItemsContainer!!)
+                aodBurnInProtection!!.setMovementEnabled(true)
+                applyLayoutConstraints(mLsItemsContainer!!)
 
-                        val rootView = v.parent as? ViewGroup ?: return@postDelayed
+                // Hide stock clock
+                fun hideViewsWithoutId(viewGroup: ViewGroup) {
+                    for (i in 0 until viewGroup.childCount) {
+                        val childView = viewGroup.getChildAt(i)
+                        val viewName = childView.javaClass.simpleName
 
-                        // If rootView is not R.id.keyguard_root_view, detach and return
-                        if (rootView.id != mContext.resources.getIdentifier(
-                                "keyguard_root_view",
-                                "id",
-                                mContext.packageName
-                            )
+                        if (viewName.contains("clock", ignoreCase = true)
+                            && viewName.contains("view", ignoreCase = true)
                         ) {
-                            entryV.removeOnAttachStateChangeListener(this)
-                            return@postDelayed
+                            childView.hideView()
                         }
 
-                        mLockscreenRootView = rootView
-
-                        mLsItemsContainer = rootView.getLsItemsContainer()
-                        aodBurnInProtection =
-                            AodBurnInProtection.registerForView(mLsItemsContainer!!)
-                        aodBurnInProtection!!.setMovementEnabled(true)
-                        applyLayoutConstraints(mLsItemsContainer!!)
-
-                        // Hide stock clock
-                        fun hideViewsWithoutId(viewGroup: ViewGroup) {
-                            for (i in 0 until viewGroup.childCount) {
-                                val childView = viewGroup.getChildAt(i)
-                                val viewName = childView.javaClass.simpleName
-
-                                if (viewName.contains("clock", ignoreCase = true)
-                                    && viewName.contains("view", ignoreCase = true)
-                                ) {
-                                    childView.hideView()
-                                }
-
-                                if (childView is ViewGroup) {
-                                    hideViewsWithoutId(childView)
-                                }
-                            }
+                        if (childView is ViewGroup) {
+                            hideViewsWithoutId(childView)
                         }
-
-                        // A16 compose clocks
-                        hideViewsWithoutId(rootView)
-
-                        // A15+
-                        listOf(
-                            "bc_smartspace_view",
-                            "date_smartspace_view",
-                            "lockscreen_clock_view",
-                            "lockscreen_clock_view_large",
-                            "keyguard_slice_view"
-                        ).map { resourceName ->
-                            val resourceId = mContext.resources.getIdentifier(
-                                resourceName,
-                                "id",
-                                mContext.packageName
-                            )
-                            if (resourceId != -1) {
-                                rootView.findViewById<View?>(resourceId)
-                            } else {
-                                null
-                            }
-                        }.forEach { view ->
-                            view.hideView()
-                        }
-
-                        registerClockUpdater()
-                    }, 1000)
+                    }
                 }
 
-                override fun onViewDetachedFromWindow(v: View) {
-                    unregisterClockUpdater()
+                // A16 compose clocks
+                hideViewsWithoutId(rootView)
+
+                // A15+
+                listOf(
+                    "bc_smartspace_view",
+                    "date_smartspace_view",
+                    "lockscreen_clock_view",
+                    "lockscreen_clock_view_large",
+                    "keyguard_slice_view"
+                ).map { resourceName ->
+                    val resourceId = mContext.resources.getIdentifier(
+                        resourceName,
+                        "id",
+                        mContext.packageName
+                    )
+                    if (resourceId != -1) {
+                        rootView.findViewById<View?>(resourceId)
+                    } else {
+                        null
+                    }
+                }.forEach { view ->
+                    view.hideView()
                 }
-            })
+
+                registerClockUpdater()
+            }, 1000)
         }
 
-        aodBurnInLayerClass
-            .hookConstructor()
+        aodBurnInSectionClass
+            .hookMethod("addViews")
             .runAfter { param ->
                 if (!showLockscreenClock) return@runAfter
 
-                aodBurnInLayerHooked = true
+                val entryV = param.args[0] as View
 
-                initializeLockscreenLayout(param)
-            }
+                entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(v: View) {
+                        viewAttached(entryV)
+                    }
 
-        keyguardStatusViewClass
-            .hookConstructor()
-            .runAfter { param ->
-                if (!showLockscreenClock) return@runAfter
+                    override fun onViewDetachedFromWindow(v: View) {
+                        unregisterClockUpdater()
+                    }
+                })
 
-                keyguardStatusViewHooked = true
-
-                initializeLockscreenLayout(param)
+                if (entryV.isAttachedToWindow) {
+                    viewAttached(entryV)
+                }
             }
 
         // Hide stock clock for ROMs with MigrateClocksToBlueprint disabled
