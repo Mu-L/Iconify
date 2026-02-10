@@ -35,6 +35,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
@@ -123,10 +124,31 @@ class DualStatusbar(context: Context) : ModPack(context) {
         val phoneStatusBarViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.PhoneStatusBarView")
         val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
+        val notificationPanelViewControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
 
         scrimControllerClass
             .hookConstructor()
             .runAfter { param -> mScrimControllerObj = param.thisObject }
+
+        notificationPanelViewControllerClass
+            .hookConstructor()
+            .runAfter { param ->
+                if (mScrimControllerObj == null) {
+                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                }
+            }
+
+        notificationPanelViewControllerClass
+            .hookMethod(
+                "onFinishInflate",
+                "reInflateViews"
+            )
+            .runAfter { param ->
+                if (mScrimControllerObj == null) {
+                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                }
+            }
 
         phoneStatusBarViewClass
             .hookConstructor()

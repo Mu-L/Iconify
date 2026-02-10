@@ -81,6 +81,8 @@ class AlbumArt(context: Context) : ModPack(context) {
         val scrimControllerClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController"
         )
+        val notificationPanelViewControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
         val mediaDataManagerClass = findClass(
             "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDataManager",
             "$SYSTEMUI_PACKAGE.media.controls.pipeline.MediaDataManager",
@@ -98,6 +100,25 @@ class AlbumArt(context: Context) : ModPack(context) {
         scrimControllerClass
             .hookConstructor()
             .runAfter { param -> mScrimControllerObj = param.thisObject }
+
+        notificationPanelViewControllerClass
+            .hookConstructor()
+            .runAfter { param ->
+                if (mScrimControllerObj == null) {
+                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                }
+            }
+
+        notificationPanelViewControllerClass
+            .hookMethod(
+                "onFinishInflate",
+                "reInflateViews"
+            )
+            .runAfter { param ->
+                if (mScrimControllerObj == null) {
+                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                }
+            }
 
         centralSurfacesImplClass
             .hookMethod("start")

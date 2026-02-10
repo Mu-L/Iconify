@@ -26,6 +26,8 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
         instance = this
 
         val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
+        val notificationPanelViewControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
         val qsImplClass = findClass(
             "$SYSTEMUI_PACKAGE.qs.QSImpl",
             "$SYSTEMUI_PACKAGE.qs.QSFragment"
@@ -35,6 +37,25 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
             .hookConstructor()
             .runAfter { param ->
                 mScrimControllerObj = param.thisObject
+            }
+
+        notificationPanelViewControllerClass
+            .hookConstructor()
+            .runAfter { param ->
+                if (mScrimControllerObj == null) {
+                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                }
+            }
+
+        notificationPanelViewControllerClass
+            .hookMethod(
+                "onFinishInflate",
+                "reInflateViews"
+            )
+            .runAfter { param ->
+                if (mScrimControllerObj == null) {
+                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                }
             }
 
         qsImplClass

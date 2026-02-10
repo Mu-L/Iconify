@@ -453,6 +453,14 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
             .runAfter { param -> mScrimController = param.thisObject }
 
         notificationPanelViewControllerClass
+            .hookConstructor()
+            .runAfter { param ->
+                if (mScrimController == null) {
+                    mScrimController = param.thisObject.getField("mScrimController")
+                }
+            }
+
+        notificationPanelViewControllerClass
             .hookMethod(
                 "onFinishInflate",
                 "reInflateViews"
