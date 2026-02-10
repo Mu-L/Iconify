@@ -15,7 +15,7 @@ object SignalIconManager {
     fun enableOverlay(n: Int, category: String) {
         disableOthers(n, category)
 
-        val iconPackPkgName = checkEnabledOverlay("IPAS")
+        val iconPackPkgName = checkEnabledOverlay("IPSUI")
         if (iconPackPkgName.isNotEmpty()) {
             OverlayUtils.disableOverlay(iconPackPkgName)
         }
