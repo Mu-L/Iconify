@@ -504,6 +504,7 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
          */
         keyguardBottomAreaViewClass
             .hookMethod("onConfigurationChanged")
+            .suppressError()
             .runAfter { setCustomDepthWallpaper() }
 
         setCustomDepthWallpaper()
