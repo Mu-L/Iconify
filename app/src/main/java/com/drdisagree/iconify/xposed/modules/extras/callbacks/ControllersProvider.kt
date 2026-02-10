@@ -64,7 +64,7 @@ class ControllersProvider(context: Context) : ModPack(context) {
             .runAfter { param -> onWifiChanged(param.args[0]) }
 
         // Internet Tile - for opening Internet Dialog
-        findClass("$SYSTEMUI_PACKAGE.qs.tiles.InternetTile")
+        findClass("$SYSTEMUI_PACKAGE.qs.tiles.InternetTile", suppressError = true)
             .hookConstructor()
             .runAfter { param ->
                 if (mCellularTile == null) {
