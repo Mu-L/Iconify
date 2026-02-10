@@ -12,6 +12,7 @@ import com.drdisagree.iconify.data.common.Preferences.COLORED_NOTIFICATION_ICON_
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
@@ -42,7 +43,7 @@ class AppIconInNotification(context: Context) : ModPack(context) {
                 val notifyEntries = try {
                     row.callMethod("getEntry")
                 } catch (_: Throwable) {
-                    row.getField("mEntry")
+                    row.getAnyField("mEntry", "mEntryAdapter")
                 }
                 val notifySbn = try {
                     notifyEntries.callMethod("getSbn")
