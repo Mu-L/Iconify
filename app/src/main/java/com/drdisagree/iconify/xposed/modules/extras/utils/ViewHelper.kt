@@ -353,31 +353,6 @@ object ViewHelper {
         return null
     }
 
-    fun View.findViewIdContainsTag(tag: String): Int {
-        if (this is ViewGroup) {
-            for (i in 0 until childCount) {
-                val child = getChildAt(i)
-
-                if (child.tag?.toString()?.let { isTagMatch(tag, it) } == true) {
-                    return i
-                }
-
-                if (child is ViewGroup) {
-                    val result = child.findViewContainsTag(tag)
-                    if (result != null) {
-                        return i
-                    }
-                }
-            }
-        } else {
-            if (getTag()?.toString()?.let { isTagMatch(tag, it) } == true) {
-                return 0
-            }
-        }
-
-        return -1
-    }
-
     fun View.findChildIndexContainsTag(tag: String): Int {
         if (this is ViewGroup) {
             for (i in 0 until childCount) {

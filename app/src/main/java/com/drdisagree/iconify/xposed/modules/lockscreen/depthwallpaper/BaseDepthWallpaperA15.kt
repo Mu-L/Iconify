@@ -52,18 +52,17 @@ import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.findViewIdContainsTag
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.findChildIndexContainsTag
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.findViewContainsTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt.Companion.shouldShowAlbumArt
-import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen.Companion.isComposeLockscreen
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.io.ByteArrayOutputStream
@@ -126,22 +125,17 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
             mAiMode = getString(DEPTH_WALLPAPER_AI_MODE, "0")!!.toInt()
         }
 
-        if (key.isNotEmpty()) {
-            key[0].let {
-                if (it == DEPTH_WALLPAPER_SWITCH ||
-                    it == DEPTH_WALLPAPER_CHANGED ||
-                    it == CUSTOM_DEPTH_WALLPAPER_SWITCH
-                ) {
-                    if (it == DEPTH_WALLPAPER_CHANGED) {
-                        mWallpaperForegroundCacheValid = false
-                    }
+        when (key.firstOrNull()) {
+            DEPTH_WALLPAPER_SWITCH -> setCustomDepthWallpaper()
 
-                    if (it == CUSTOM_DEPTH_WALLPAPER_SWITCH && !showCustomImages) {
-                        invalidateCache()
-                    }
+            DEPTH_WALLPAPER_CHANGED -> {
+                mWallpaperForegroundCacheValid = false
+                setCustomDepthWallpaper()
+            }
 
-                    setCustomDepthWallpaper()
-                }
+            CUSTOM_DEPTH_WALLPAPER_SWITCH -> {
+                if (!showCustomImages) invalidateCache()
+                setCustomDepthWallpaper()
             }
         }
     }
@@ -228,19 +222,11 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.qs.QSFragment"
         )
         val canvasEngineClass =
-            findClass("$SYSTEMUI_PACKAGE.wallpapers.ImageWallpaper\$CanvasEngine")
-        val centralSurfacesImplClass = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.phone.CentralSurfacesImpl",
-            suppressError = true
-        )
+            findClass($$"$$SYSTEMUI_PACKAGE.wallpapers.ImageWallpaper$CanvasEngine")
         val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
         val notificationPanelViewControllerClass =
             findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
         val scrimViewClass = findClass("$SYSTEMUI_PACKAGE.scrim.ScrimView")
-        val keyguardBottomAreaViewClass = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.phone.KeyguardBottomAreaView",
-            suppressError = Build.VERSION.SDK_INT >= 36
-        )
         val statusBarKeyguardViewManagerClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.StatusBarKeyguardViewManager")
         val aodBurnInSectionClass =
@@ -269,7 +255,9 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
         scrimViewClass
             .hookMethod("setViewAlpha")
             .runBefore { param ->
-                if (!mLayersCreated || mScrimController == null) return@runBefore
+                if (!mLayersCreated) return@runBefore
+
+                setDepthWallpaper()
 
                 if (showOnAOD && mScrimController.getField("mState").toString() != "KEYGUARD") {
                     mWallpaperForeground.post { mWallpaperForeground.alpha = foregroundAlpha }
@@ -293,52 +281,6 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
                     mWallpaperForeground.post { mWallpaperForeground.alpha = foregroundAlpha }
                 }
             }
-
-        centralSurfacesImplClass
-            .hookMethod("start")
-            .runAfter {
-                if (mScrimController == null) return@runAfter
-
-                val scrimBehind = mScrimController.getField("mScrimBehind") as View
-                val rootView = scrimBehind.parent as ViewGroup
-
-                val targetView = rootView.findViewById<ViewGroup>(
-                    mContext.resources.getIdentifier(
-                        "notification_container_parent",
-                        "id",
-                        mContext.packageName
-                    )
-                )
-
-                if (!mLayersCreated) {
-                    createLayers()
-                }
-
-                val idx = if (isComposeLockscreen) {
-                    lsItemTags.map { targetView.findViewIdContainsTag(it) }
-                        .firstOrNull { it != -1 }?.plus(1) ?: 1
-                } else {
-                    1
-                }
-
-                rootView.reAddView(mWallpaperBackground, 0)
-                targetView.reAddView(mWallpaperForeground, idx)
-            }
-
-        centralSurfacesImplClass
-            .hookConstructor()
-            .runAfter { param ->
-                val mWakefulnessObserver = param.thisObject.getFieldSilently("mWakefulnessObserver")
-
-                mWakefulnessObserver?.javaClass
-                    .hookMethod("onStartedWakingUp")
-                    .runAfter { setDepthWallpaper() }
-            }
-
-        centralSurfacesImplClass
-            .hookMethod("onStartedWakingUp")
-            .suppressError()
-            .runAfter { setDepthWallpaper() }
 
         statusBarKeyguardViewManagerClass
             .hookMethod("onStartedWakingUp")
@@ -387,14 +329,10 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
                         val ratioW = 1f * displayBounds.width() / wallpaperBitmap.width
                         val ratioH = 1f * displayBounds.height() / wallpaperBitmap.height
 
-                        val desiredHeight = (max(
-                            ratioH.toDouble(),
-                            ratioW.toDouble()
-                        ) * wallpaperBitmap.height).roundToInt().toInt()
-                        val desiredWidth = (max(
-                            ratioH.toDouble(),
-                            ratioW.toDouble()
-                        ) * wallpaperBitmap.width).roundToInt().toInt()
+                        val desiredHeight =
+                            (max(ratioH, ratioW) * wallpaperBitmap.height).roundToInt()
+                        val desiredWidth =
+                            (max(ratioH, ratioW) * wallpaperBitmap.width).roundToInt()
 
                         val xPixelShift = (desiredWidth - displayBounds.width()) / 2
                         val yPixelShift = (desiredHeight - displayBounds.height()) / 2
@@ -439,6 +377,11 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
 
                         if (!cacheIsValid) {
                             handleSubjectExtraction(scaledWallpaperBitmap)
+
+                            Thread.sleep(500)
+                            if (DEPTH_WALL_FG_FILE.exists()) {
+                                setDepthWallpaper()
+                            }
                         }
 
                         wallpaperProcessorThread = null
@@ -455,9 +398,7 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
         notificationPanelViewControllerClass
             .hookConstructor()
             .runAfter { param ->
-                if (mScrimController == null) {
-                    mScrimController = param.thisObject.getField("mScrimController")
-                }
+                mScrimController = param.thisObject.getField("mScrimController")
             }
 
         notificationPanelViewControllerClass
@@ -466,9 +407,7 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
                 "reInflateViews"
             )
             .runAfter { param ->
-                if (mScrimController == null) {
-                    mScrimController = param.thisObject.getField("mScrimController")
-                }
+                mScrimController = param.thisObject.getField("mScrimController")
             }
 
         scrimControllerClass
@@ -499,14 +438,6 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
             }
         )
 
-        /*
-         * Custom depth wallpaper images
-         */
-        keyguardBottomAreaViewClass
-            .hookMethod("onConfigurationChanged")
-            .suppressError()
-            .runAfter { setCustomDepthWallpaper() }
-
         setCustomDepthWallpaper()
     }
 
@@ -529,11 +460,7 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
                     hookClocks(rootView)
                 }
 
-                override fun onChildViewRemoved(
-                    p0: View?,
-                    p1: View?
-                ) {
-                }
+                override fun onChildViewRemoved(p0: View?, p1: View?) {}
             })
             hookClocks(rootView.rootView);
 
@@ -541,36 +468,14 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
                 createLayers()
             }
 
-            val largeClockView = rootView.findViewById<View>(
-                mContext.resources.getIdentifier(
-                    "lockscreen_clock_view_large",
-                    "id",
-                    mContext.packageName
-                )
-            )
-            val smallClockView = rootView.findViewById<View>(
-                mContext.resources.getIdentifier(
-                    "lockscreen_clock_view",
-                    "id",
-                    mContext.packageName
-                )
-            )
+            val idx = lsItemTags
+                .map { rootView.findChildIndexContainsTag(it) }
+                .firstOrNull { it != -1 }
+                ?.plus(1)
+                ?: 0
 
-            rootView.apply {
-                val idx = if (isComposeLockscreen) {
-                    lsItemTags.map { findViewIdContainsTag(it) }
-                        .firstOrNull { it != -1 }?.plus(1) ?: 0
-                } else {
-                    0
-                }
-
-                reAddView(mWallpaperForeground, idx)
-
-                if (!showLockscreenClock) {
-                    reAddView(largeClockView, 0)
-                    reAddView(smallClockView, 0)
-                }
-            }
+            (rootView.rootView as ViewGroup).reAddView(mWallpaperBackground, 0)
+            rootView.reAddView(mWallpaperForeground, idx)
         }, 1000)
     }
 
@@ -730,7 +635,7 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
     }
 
     private fun setDepthWallpaper() {
-        if (mScrimController == null) return
+        if (!mLayersCreated) return
 
         val state = mScrimController.getField("mState").toString()
         val showForeground = (showDepthWallpaper &&
@@ -796,6 +701,15 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
             if (state == "UNLOCKED" || !shouldShowBackground) {
                 mWallpaperBackground.visibility = View.GONE
             }
+        }
+
+        mWallpaperBackground.z = -2f
+        mWallpaperForeground.z = -.5f
+
+        if (mWallpaperForeground.parent != null) {
+            lsItemTags
+                .map { (mWallpaperForeground.parent as ViewGroup).findViewContainsTag(it) }
+                .forEach { view -> view?.z = -1f }
         }
 
         mPreviousState = state
