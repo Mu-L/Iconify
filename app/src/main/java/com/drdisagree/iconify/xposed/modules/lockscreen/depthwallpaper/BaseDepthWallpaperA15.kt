@@ -635,7 +635,7 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
     }
 
     private fun setDepthWallpaper() {
-        if (!mLayersCreated) return
+        if (!mLayersCreated || mScrimController == null) return
 
         val state = mScrimController.getField("mState").toString()
         val showForeground = (showDepthWallpaper &&
