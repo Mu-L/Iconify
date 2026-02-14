@@ -66,8 +66,11 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         val colorSchemeClass = findClass("$SYSTEMUI_PACKAGE.monet.ColorScheme")
-        val monetStyleClass = findClass("$SYSTEMUI_PACKAGE.monet.Style")!!
-        val notificationBuilderClass = findClass("android.app.Notification\$Builder")
+        val monetStyleClass = findClass(
+            "$SYSTEMUI_PACKAGE.monet.Style",
+            suppressError = true
+        )
+        val notificationBuilderClass = findClass($$"android.app.Notification$Builder")
         val expandableNotificationRowClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.ExpandableNotificationRow")
         val notificationBackgroundViewClass =
@@ -76,11 +79,13 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.wrapper.NotificationViewWrapper")
         val notificationContentViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationContentView")
-        val notificationContentInflaterClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationContentInflater")
+        val notificationContentInflaterClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationContentInflater",
+            suppressError = true
+        )
 
         try {
-            val styles: Array<out Any> = monetStyleClass.getEnumConstants()!!
+            val styles: Array<out Any> = monetStyleClass?.getEnumConstants()!!
             for (style in styles) {
                 if (style.toString().contains("CONTENT")) {
                     schemeStyle = style
@@ -417,7 +422,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             val rowContentBindStageClass =
                 findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.RowContentBindStage")
             val inflationCallbackInterfaceClass =
-                findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationRowContentBinder\$InflationCallback")
+                findClass($$"$$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationRowContentBinder$InflationCallback")
             val notificationEntryClass =
                 findClass("$SYSTEMUI_PACKAGE.statusbar.notification.collection.NotificationEntry")
 
@@ -462,7 +467,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             }
 
         notificationContentViewClass
-            .hookMethod("updateAllSingleLineViews")
+            .hookMethod("setSingleLineView")
             .runAfter { param ->
                 if (!coloredNotificationView) return@runAfter
 
@@ -487,48 +492,62 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                 }
             }
 
-        if (notificationContentInflaterClass.isMethodAvailable("createRemoteViews")) {
+        fun updateBeforeNotificationContent(param: XC_MethodHook.MethodHookParam) {
+            if (!coloredNotificationView) return
+
+            var builder: Notification.Builder? = null
+            var mContext: Context? = null
+
+            param.args.forEach { arg ->
+                when (arg) {
+                    is Notification.Builder -> builder = arg
+                    is Context -> mContext = arg
+                }
+            }
+
+            if (builder == null || mContext == null) return
+
+            val notification = builder.getField("mN") as Notification
+
+            notification.initializeColors(builder, mContext)
+        }
+
+        fun updateAfterNotificationContent(param: XC_MethodHook.MethodHookParam) {
+            if (!coloredNotificationView) return
+
+            var builder: Notification.Builder? = null
+            var mContext: Context? = null
+
+            param.args.forEach { arg ->
+                when (arg) {
+                    is Notification.Builder -> builder = arg
+                    is Context -> mContext = arg
+                }
+            }
+
+            if (builder == null || mContext == null) return
+
+            val notification: Notification = builder.notification
+            val inflationProgress: Any = param.result
+
+            notification.setTextColor(inflationProgress, mContext)
+        }
+
+        if (notificationContentInflaterClass != null &&
+            notificationContentInflaterClass.isMethodAvailable("createRemoteViews")
+        ) {
             notificationContentInflaterClass
                 .hookMethodMatchPattern(".*createRemoteViews.*")
-                .runBefore { param ->
-                    if (!coloredNotificationView) return@runBefore
+                .runBefore { param -> updateBeforeNotificationContent(param) }
+                .runAfter { param -> updateAfterNotificationContent(param) }
+        } else {
+            val notificationRowContentBinderImplCompanionClass =
+                findClass($$"$$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationRowContentBinderImpl$Companion")
 
-                    var builder: Notification.Builder? = null
-                    var mContext: Context? = null
-
-                    param.args.forEach { arg ->
-                        when (arg) {
-                            is Notification.Builder -> builder = arg
-                            is Context -> mContext = arg
-                        }
-                    }
-
-                    if (builder == null || mContext == null) return@runBefore
-
-                    val notification = builder.getField("mN") as Notification
-
-                    notification.initializeColors(builder, mContext)
-                }
-                .runAfter { param ->
-                    if (!coloredNotificationView) return@runAfter
-
-                    var builder: Notification.Builder? = null
-                    var mContext: Context? = null
-
-                    param.args.forEach { arg ->
-                        when (arg) {
-                            is Notification.Builder -> builder = arg
-                            is Context -> mContext = arg
-                        }
-                    }
-
-                    if (builder == null || mContext == null) return@runAfter
-
-                    val notification: Notification = builder.notification
-                    val inflationProgress: Any = param.result
-
-                    notification.setTextColor(inflationProgress, mContext)
-                }
+            notificationRowContentBinderImplCompanionClass
+                .hookMethodMatchPattern(".*beginInflationAsync.*")
+                .runBefore { param -> updateBeforeNotificationContent(param) }
+                .runAfter { param -> updateAfterNotificationContent(param) }
         }
     }
 
