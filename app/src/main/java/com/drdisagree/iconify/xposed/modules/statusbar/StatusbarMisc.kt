@@ -426,7 +426,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
     private fun show4GInsteadOfLTE() {
         val mobileMappingsConfigClass =
-            findClass("com.android.settingslib.mobile.MobileMappings\$Config")
+            findClass($$"com.android.settingslib.mobile.MobileMappings$Config")
 
         mobileMappingsConfigClass
             .hookMethod("readConfig")
@@ -446,21 +446,17 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     }
 
     private fun clickableClockView() {
-        val collapsedStatusBarFragment = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
-            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
+        val phoneStatusBarViewControllerClass = findClass(
+            "com.android.systemui.statusbar.phone.PhoneStatusBarViewController",
+            suppressError = true
         )
 
-        collapsedStatusBarFragment
-            .hookMethod("onViewCreated")
-            .parameters(
-                View::class.java,
-                Bundle::class.java
-            )
+        phoneStatusBarViewControllerClass
+            .hookMethod("onViewAttached")
             .runAfter { param ->
-                mClockView = getLeftClockView(mContext, param) as? TextView
-                mCenterClockView = getCenterClockView(mContext, param) as? TextView
-                mRightClockView = getRightClockView(mContext, param) as? TextView
+                mClockView = param.thisObject.getField("clock") as TextView
+                mCenterClockView = null
+                mRightClockView = null
 
                 listOf(
                     mClockView,
