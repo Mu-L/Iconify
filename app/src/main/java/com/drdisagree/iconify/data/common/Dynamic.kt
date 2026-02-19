@@ -9,7 +9,7 @@ object Dynamic {
 
     // Grab number of overlays dynamically for each variant
     val TOTAL_NOTIFICATIONS = Shell.cmd(
-        "cmd overlay list | grep '....IconifyComponentNF'"
+        "cmd overlay list | grep '....IconifyComponentNFN'"
     ).exec().out.size
 
     // Overlay compiler tools

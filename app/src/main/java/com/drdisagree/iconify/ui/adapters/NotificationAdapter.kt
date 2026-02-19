@@ -35,7 +35,7 @@ class NotificationAdapter(
 
     init {
         // Preference key
-        for (i in 1..itemList.size) notificationKeys.add("IconifyComponentNF$i.overlay")
+        for (i in 1..itemList.size) notificationKeys.add("IconifyComponentNFN$i.overlay")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

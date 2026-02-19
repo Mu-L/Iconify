@@ -17,7 +17,7 @@ object NotificationManager {
 
     fun enableOverlay(n: Int) {
         disableOthers(n)
-        enableOverlayExclusiveInCategory("IconifyComponentNF$n.overlay")
+        enableOverlayExclusiveInCategory("IconifyComponentNFN$n.overlay")
 
         if (!isOverlayEnabled("IconifyComponentCR1.overlay") || !isOverlayEnabled("IconifyComponentCR2.overlay")) {
             enableOverlays("IconifyComponentCR1.overlay", "IconifyComponentCR2.overlay")
@@ -45,7 +45,7 @@ object NotificationManager {
     }
 
     fun disableOverlay(n: Int) {
-        disableOverlay("IconifyComponentNF$n.overlay")
+        disableOverlay("IconifyComponentNFN$n.overlay")
 
         if (isAtleastA14) {
             var requireReload = false
@@ -70,7 +70,7 @@ object NotificationManager {
 
     private fun disableOthers(n: Int) {
         for (i in 1..TOTAL_NOTIFICATIONS) {
-            RPrefs.putBoolean("IconifyComponentNF$i.overlay", i == n)
+            RPrefs.putBoolean("IconifyComponentNFN$i.overlay", i == n)
         }
     }
 }
