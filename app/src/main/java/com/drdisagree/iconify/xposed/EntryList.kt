@@ -27,12 +27,9 @@ import com.drdisagree.iconify.xposed.modules.quicksettings.AppIconInNotification
 import com.drdisagree.iconify.xposed.modules.quicksettings.ColorizeNotificationView
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeadsUpBlur
-import com.drdisagree.iconify.xposed.modules.quicksettings.OpQsHeader
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSTransparency
 import com.drdisagree.iconify.xposed.modules.quicksettings.QuickSettings
 import com.drdisagree.iconify.xposed.modules.quicksettings.headerclock.HeaderClockA14
-import com.drdisagree.iconify.xposed.modules.settings.GoogleIcon
-import com.drdisagree.iconify.xposed.modules.settings.ZenPriorityModeIcon
 import com.drdisagree.iconify.xposed.modules.statusbar.AppIconsInStatusbar
 import com.drdisagree.iconify.xposed.modules.statusbar.DualStatusbar
 import com.drdisagree.iconify.xposed.modules.statusbar.OnGoingActionChip
@@ -87,16 +84,7 @@ object EntryList {
         HeaderClockA14::class.java,
         LockscreenClockA15::class.java,
         LockscreenWeatherA15::class.java,
-        LockscreenWidgetsA15::class.java,
-        OpQsHeader::class.java
-    )
-
-    private val settingsCommonModPacks: List<Class<out ModPack>> = listOf(
-        GoogleIcon::class.java
-    )
-
-    private val settingsAndroid15ModPacks: List<Class<out ModPack>> = listOf(
-        ZenPriorityModeIcon::class.java
+        LockscreenWidgetsA15::class.java
     )
 
     fun getEntries(packageName: String): ArrayList<Class<out ModPack>> {
