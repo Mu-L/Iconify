@@ -44,8 +44,11 @@ class VolumePanel(context: Context) : ModPack(context) {
 
     private fun showVolumePercentage() {
         val volumeDialogImplClass = findClass("$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl")
-        val audioStreamStateClass = findClass(
-            "$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel\$State",
+        val audioStreamStateClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel$State")
+        val audioStreamToStateClass = findClass(
+            $$"$$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel$toState$1",
+            $$"$$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel$toState$2",
             suppressError = true
         )
 
@@ -127,21 +130,34 @@ class VolumePanel(context: Context) : ModPack(context) {
             }
 
         // Compose implementation of extended volume panel
+        fun updateVolumeLabel(thisObject: Any) {
+            val currentValue = thisObject.getField("value") as Float
+            val maxValue = thisObject
+                .getField("valueRange")
+                .getField("_endInclusive") as Float
+            val percentage = 100 * currentValue / maxValue
+            var label = thisObject.getField("label") as String
+            label = String.format("$label - ${percentage.roundToInt()}%%")
+
+            thisObject.setField("label", label)
+        }
+
         audioStreamStateClass
             .hookConstructor()
-            .suppressError()
             .runAfter { param ->
                 if (!showPercentage) return@runAfter
 
-                val currentValue = param.thisObject.getField("value") as Float
-                val maxValue = param.thisObject
-                    .getField("valueRange")
-                    .getField("_endInclusive") as Float
-                val percentage = 100 * currentValue / maxValue
-                var label = param.thisObject.getField("label") as String
-                label = String.format("$label - ${percentage.roundToInt()}%%")
+                updateVolumeLabel(param.thisObject)
+            }
 
-                param.thisObject.setField("label", label)
+        audioStreamToStateClass
+            .hookMethod("invokeSuspend")
+            .runAfter { param ->
+                if (!showPercentage) return@runAfter
+
+                val state = param.result
+                updateVolumeLabel(state)
+                param.result = state
             }
     }
 
