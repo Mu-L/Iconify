@@ -12,6 +12,7 @@ import com.drdisagree.iconify.data.common.Preferences.VOLUME_PANEL_PERCENTAGE
 import com.drdisagree.iconify.data.common.Preferences.VOLUME_PANEL_SAFETY_WARNING
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
@@ -43,7 +44,10 @@ class VolumePanel(context: Context) : ModPack(context) {
     }
 
     private fun showVolumePercentage() {
-        val volumeDialogImplClass = findClass("$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl")
+        val volumeDialogImplClass = findClass(
+            "$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl",
+            suppressError = true
+        )
         val audioStreamStateClass =
             findClass($$"$$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel$State")
         val audioStreamToStateClass = findClass(
@@ -162,36 +166,48 @@ class VolumePanel(context: Context) : ModPack(context) {
     }
 
     private fun showSafetyWarning() {
-        val volumeDialogImplClass = findClass("$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl")
+        val volumeDialogImplClass = findClass(
+            "$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl",
+            suppressError = true
+        )
 
-        try {
-            volumeDialogImplClass
-                .hookMethod(
-                    "onShowSafetyWarning",
-                    "showSafetyWarningH"
-                )
-                .throwError()
-                .runBefore { param ->
-                    if (!showWarning) {
-                        param.result = null
-                    }
-                }
-        } catch (_: Throwable) {
-            volumeDialogImplClass
-                .hookConstructor()
-                .runAfter { param ->
-                    if (showWarning) return@runAfter
-
-                    val mControllerCallbackH = param.thisObject.getField("mControllerCallbackH")
-
-                    mControllerCallbackH.javaClass
-                        .hookMethod("onShowSafetyWarning")
-                        .runBefore { param ->
-                            if (!showWarning) {
-                                param.result = null
-                            }
+        if (volumeDialogImplClass == null) {
+            ResourceHookManager
+                .hookBoolean()
+                .whenCondition { !showWarning }
+                .forPackageName(SYSTEMUI_PACKAGE)
+                .addResource("enable_safety_warning") { false }
+                .apply()
+        } else {
+            try {
+                volumeDialogImplClass
+                    .hookMethod(
+                        "onShowSafetyWarning",
+                        "showSafetyWarningH"
+                    )
+                    .throwError()
+                    .runBefore { param ->
+                        if (!showWarning) {
+                            param.result = null
                         }
-                }
+                    }
+            } catch (_: Throwable) {
+                volumeDialogImplClass
+                    .hookConstructor()
+                    .runAfter { param ->
+                        if (showWarning) return@runAfter
+
+                        val mControllerCallbackH = param.thisObject.getField("mControllerCallbackH")
+
+                        mControllerCallbackH.javaClass
+                            .hookMethod("onShowSafetyWarning")
+                            .runBefore { param ->
+                                if (!showWarning) {
+                                    param.result = null
+                                }
+                            }
+                    }
+            }
         }
     }
 
