@@ -31,13 +31,13 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_QS_HEADER_CONTAINE
 import com.drdisagree.iconify.data.common.XposedConst.HEADER_IMAGE_FILE
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
@@ -124,7 +124,7 @@ class HeaderImage(context: Context) : ModPack(context) {
             findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
 
         notificationPanelViewControllerClass
-            .hookConstructor()
+            .hookMethod("onFinishInflate", "reInflateViews")
             .runAfter { param ->
                 notificationPanelViewControllerInstance = param.thisObject
 
@@ -160,8 +160,8 @@ class HeaderImage(context: Context) : ModPack(context) {
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
 
-                mQsHeaderLayout!!.addView(mQsHeaderImageView)
-                notificationPanelView.addView(mQsHeaderLayout, 0)
+                mQsHeaderLayout!!.reAddView(mQsHeaderImageView)
+                notificationPanelView.reAddView(mQsHeaderLayout, 0)
 
                 updateQSHeaderImage()
             }
