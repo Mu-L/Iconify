@@ -560,56 +560,40 @@ class QuickSettings(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.statusbar.notification.row.FooterView"
         )
 
-        val removeNotificationTint: XC_MethodHook = object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                if (!fixNotificationColor) return
+        activatableNotificationViewClass
+            .hookMethod("setBackgroundTintColor", "updateBackgroundTint")
+            .runBefore { param ->
+                if (!fixNotificationColor) return@runBefore
 
-                val notificationBackgroundView = param.thisObject.getField(
+                val notificationBackgroundView = param.thisObject.getFieldSilently(
                     "mBackgroundNormal"
-                ) as View
+                ) as? View
 
-                try {
-                    param.thisObject.setField(
-                        "mCurrentBackgroundTint",
-                        param.args[0] as Int
-                    )
-                } catch (_: Throwable) {
+                if (param.args.size > 0 && param.args[0] is Int) {
+                    param.thisObject.setFieldSilently("mCurrentBackgroundTint", param.args[0])
                 }
 
-                try {
-                    notificationBackgroundView.setField("mTintColor", 0)
-                } catch (_: Throwable) {
-                }
+                notificationBackgroundView?.setFieldSilently("mTintColor", 0)
             }
+            .runAfter { param ->
+                if (!fixNotificationColor) return@runAfter
 
-            override fun afterHookedMethod(param: MethodHookParam) {
-                if (!fixNotificationColor) return
-
-                val notificationBackgroundView = param.thisObject.getField(
+                val notificationBackgroundView = param.thisObject.getFieldSilently(
                     "mBackgroundNormal"
-                ) as View
+                ) as? View
 
-                notificationBackgroundView.callMethodSilently("setColorFilter", 0)
+                notificationBackgroundView?.callMethodSilently("setColorFilter", 0)
 
-                (notificationBackgroundView.getFieldSilently(
-                        "mBackground"
+                (notificationBackgroundView?.getFieldSilently(
+                    "mBackground"
                 ) as? Drawable)?.colorFilter = null
 
-                notificationBackgroundView.setFieldSilently("mTintColor", 0)
+                notificationBackgroundView?.setFieldSilently("mTintColor", 0)
 
                 Handler(Looper.getMainLooper()).post {
-                    notificationBackgroundView.invalidate()
+                    notificationBackgroundView?.invalidate()
                 }
             }
-        }
-
-        activatableNotificationViewClass
-            .hookMethod("setBackgroundTintColor")
-            .run(removeNotificationTint)
-
-        activatableNotificationViewClass
-            .hookMethod("updateBackgroundTint")
-            .run(removeNotificationTint)
 
         activatableNotificationViewClass
             .hookMethod("calculateBgColor")
