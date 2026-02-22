@@ -78,18 +78,22 @@ abstract class BaseSplashActivity : AppCompatActivity() {
         // For testing purposes
         private const val SKIP_INSTALLATION = false
         const val FORCE_OVERLAY_INSTALLATION = false
-        val SKIP_TO_HOMEPAGE_FOR_TESTING = SKIP_INSTALLATION &&
-                !FORCE_OVERLAY_INSTALLATION &&
-                BuildConfig.DEBUG
+
+        @Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
+        val SKIP_TO_HOMEPAGE_FOR_TESTING: Boolean
+            get() = SKIP_INSTALLATION &&
+                    !FORCE_OVERLAY_INSTALLATION &&
+                    BuildConfig.DEBUG
 
         init {
             Shell.enableVerboseLogging = BuildConfig.DEBUG
+
             @Suppress("DEPRECATION")
             if (Shell.getCachedShell() == null) {
                 Shell.setDefaultBuilder(
-                    Shell.Builder.create()
+                    Shell.Builder
+                        .create()
                         .setFlags(Shell.FLAG_MOUNT_MASTER)
-                        .setFlags(Shell.FLAG_REDIRECT_STDERR)
                         .setTimeout(20)
                 )
             }
