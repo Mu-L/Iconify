@@ -1,10 +1,8 @@
 package com.drdisagree.iconify.utils.helper
 
 import android.util.Log
-import com.drdisagree.iconify.data.common.Dynamic.AAPT
 import com.drdisagree.iconify.data.common.Dynamic.AAPT2
 import com.drdisagree.iconify.data.common.Dynamic.AAPT2LIB
-import com.drdisagree.iconify.data.common.Dynamic.AAPTLIB
 import com.drdisagree.iconify.data.common.Dynamic.BIN_DIR
 import com.drdisagree.iconify.data.common.Dynamic.DATA_DIR
 import com.drdisagree.iconify.data.common.Dynamic.NATIVE_LIBRARY_DIR
@@ -15,18 +13,16 @@ import com.topjohnwu.superuser.Shell
 
 object BinaryInstaller {
 
-    private val TAG = BinaryInstaller::class.java.getSimpleName()
+    private val TAG = BinaryInstaller::class.java.simpleName
 
     fun symLinkBinaries() {
         Shell.cmd("mkdir -p $BIN_DIR").exec()
 
         extractTools()
 
-        if (AAPT.exists()) AAPT.delete()
         if (AAPT2.exists()) AAPT2.delete()
         if (ZIPALIGN.exists()) ZIPALIGN.delete()
 
-        Shell.cmd("ln -sf " + AAPTLIB.absolutePath + ' ' + AAPT.absolutePath).exec()
         Shell.cmd("ln -sf " + AAPT2LIB.absolutePath + ' ' + AAPT2.absolutePath).exec()
         Shell.cmd("ln -sf " + ZIPALIGNLIB.absolutePath + ' ' + ZIPALIGN.absolutePath)
             .exec()

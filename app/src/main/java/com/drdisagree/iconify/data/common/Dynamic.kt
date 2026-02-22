@@ -16,9 +16,7 @@ object Dynamic {
     val NATIVE_LIBRARY_DIR: String = appContext.applicationInfo.nativeLibraryDir
     val DATA_DIR: String = appContext.filesDir.absolutePath
     val BIN_DIR = appContext.dataDir.toString() + "/bin"
-    val AAPTLIB = File(NATIVE_LIBRARY_DIR, "libaapt.so")
     val AAPT2LIB = File(NATIVE_LIBRARY_DIR, "libaapt2.so")
-    val AAPT = File(BIN_DIR, "aapt")
     val AAPT2 = File(BIN_DIR, "aapt2")
     val ZIPALIGNLIB = File(NATIVE_LIBRARY_DIR, "libzipalign.so")
     val ZIPALIGN = File(BIN_DIR, "zipalign")
@@ -28,7 +26,6 @@ object Dynamic {
 
     // Device information
     val isAtleastA14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
-    val isAndroid14 = Build.VERSION.SDK_INT == Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
     // Floating action buttons
     var requiresSystemUiRestart = false
