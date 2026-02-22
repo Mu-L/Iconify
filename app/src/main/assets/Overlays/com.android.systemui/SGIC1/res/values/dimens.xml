@@ -2,5 +2,4 @@
 <resources>
     <dimen name="status_bar_mobile_signal_size_updated">15sp</dimen>
     <dimen name="status_bar_wifi_signal_height_updated">15sp</dimen>
-    <dimen name="status_bar_mobile_type_size_updated">15sp</dimen>
 </resources>
