@@ -68,7 +68,7 @@ class Lockscreen(context: Context) : ModPack(context) {
 
     private fun blurredWallpaper() {
         val canvasEngineClass =
-            findClass("$SYSTEMUI_PACKAGE.wallpapers.ImageWallpaper\$CanvasEngine")
+            findClass($$"$$SYSTEMUI_PACKAGE.wallpapers.ImageWallpaper$CanvasEngine")
 
         canvasEngineClass
             .hookMethod("drawFrameOnCanvas")
@@ -123,7 +123,7 @@ class Lockscreen(context: Context) : ModPack(context) {
             var aodBurnInLayerHooked = false
 
             // Apparently ROMs like CrDroid doesn't even use AodBurnInLayer class
-            // So we hook which ever is available
+            // So we hook whichever is available
             val keyguardStatusViewClass = findClass(
                 "com.android.keyguard.KeyguardStatusView",
                 suppressError = Build.VERSION.SDK_INT >= 36 // Android 16
@@ -233,7 +233,7 @@ class Lockscreen(context: Context) : ModPack(context) {
                         }
                     }
                 )
-            } catch (ignored: Resources.NotFoundException) {
+            } catch (_: Resources.NotFoundException) {
             }
         }
     }
@@ -245,6 +245,8 @@ class Lockscreen(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.ambient.touch.scrim.ScrimManager",
             "$SYSTEMUI_PACKAGE.dreams.touch.scrim.ScrimManager"
         )
+        val notificationPanelViewControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
         val getKeyguardStateController = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 param.thisObject.getFieldSilently("mKeyguardStateController")?.let {
@@ -261,6 +263,14 @@ class Lockscreen(context: Context) : ModPack(context) {
             .hookConstructor()
             .run(getKeyguardStateController)
 
+        notificationPanelViewControllerClass
+            .hookConstructor()
+            .run(getKeyguardStateController)
+
+        notificationPanelViewControllerClass
+            .hookMethod("onFinishInflate", "reInflateViews")
+            .run(getKeyguardStateController)
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             val remoteInputQuickSettingsDisablerClass =
                 findClass("$SYSTEMUI_PACKAGE.statusbar.policy.RemoteInputQuickSettingsDisabler")
@@ -273,7 +283,7 @@ class Lockscreen(context: Context) : ModPack(context) {
                     val isUnlocked = try {
                         !(mKeyguardStateController.getField("mShowing") as Boolean) ||
                                 mKeyguardStateController.getField("mCanDismissLockScreen") as Boolean
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                         mKeyguardStateController.callMethod("isUnlocked") as Boolean
                     }
 
@@ -338,7 +348,7 @@ class Lockscreen(context: Context) : ModPack(context) {
                 val isUnlocked = try {
                     !(mKeyguardStateController.getField("mShowing") as Boolean) ||
                             mKeyguardStateController.getField("mCanDismissLockScreen") as Boolean
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                     mKeyguardStateController.callMethod("isUnlocked") as Boolean
                 }
 
