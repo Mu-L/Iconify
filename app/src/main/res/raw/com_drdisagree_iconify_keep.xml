@@ -16,4 +16,5 @@
     @drawable/weather_weezle_*,
     @drawable/outline_*,
     @drawable/weatherclient_*,
-    @drawable/nothing_*" />
+    @drawable/nothing_*,
+    @drawable/img_home_card_bg" />
