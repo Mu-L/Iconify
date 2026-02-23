@@ -1,5 +1,5 @@
 [versions]
-agp = "8.13.2"
+agp = "9.0.1"
 appcompat = "1.7.1"
 #noinspection NewerVersionAvailable,GradleDependency
 bcpkixJdk18on = "1.78.1"
@@ -22,7 +22,6 @@ googlePlayServicesMlkitSubjectSegmentationVersion = "16.0.0-beta1"
 guava = "33.5.0-jre"
 http = "5.3.2"
 jsoup = "1.22.1"
-kotlin = "2.3.10"
 kotlinxCoroutinesAndroid = "1.10.2"
 ksp = "2.3.5"
 library = "9.0.1"
@@ -95,6 +94,5 @@ zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 
 [plugins]
 agp-app = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "parcelize" }

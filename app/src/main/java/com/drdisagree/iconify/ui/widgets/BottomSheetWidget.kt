@@ -223,7 +223,7 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
         if (enabled) {
             val typedValue = TypedValue()
             val a = context.obtainStyledAttributes(
-                typedValue.data, intArrayOf(com.google.android.material.R.attr.colorPrimary)
+                typedValue.data, intArrayOf(com.google.android.material.R.attr.colorPrimaryVariant)
             )
             val color = a.getColor(0, 0)
             a.recycle()

@@ -1,19 +1,17 @@
+import com.android.build.api.dsl.ApplicationExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
     alias(libs.plugins.agp.app)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.kotlin.parcelize)
 }
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-}
-
-android {
+configure<ApplicationExtension> {
     namespace = "com.drdisagree.iconify"
     compileSdk = 36
 
@@ -24,7 +22,6 @@ android {
         versionCode = 24
         versionName = "7.2.0"
         multiDexEnabled = true
-        setProperty("archivesBaseName", "Iconify A16 v${defaultConfig.versionName}")
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
     }
 
@@ -85,11 +82,13 @@ android {
 
     sourceSets {
         getByName("standard") {
-            java.srcDirs("src/standard/java")
+            java.directories.clear()
+            java.directories.add("src/standard/java")
         }
 
         getByName("foss") {
-            java.srcDirs("src/foss/java")
+            java.directories.clear()
+            java.directories.add("src/foss/java")
         }
     }
 
@@ -112,6 +111,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        resValues = true
         aidl = true
     }
 
@@ -119,12 +119,6 @@ android {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
     }
 
     packaging {
@@ -154,6 +148,47 @@ android {
     lint {
         abortOnError = false
         checkReleaseBuilds = false
+    }
+}
+
+base {
+    archivesName = "Iconify A16 v${android.defaultConfig.versionName}"
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
+
+    compilerOptions {
+        languageVersion = KotlinVersion.KOTLIN_2_3
+        jvmTarget = JvmTarget.JVM_17
+    }
+}
+
+tasks.register("renameApks") {
+    dependsOn("assembleDebug", "assembleRelease")
+
+    doLast {
+        val variants = listOf("debug", "release")
+
+        variants.forEach { variant ->
+            val apkDir = layout.buildDirectory
+                .dir("outputs/apk/$variant")
+                .get()
+                .asFile
+
+            val apk = apkDir.listFiles()
+                ?.firstOrNull { it.extension == "apk" }
+                ?: return@forEach
+
+            val versionName = android.defaultConfig.versionName
+            val newName = "Iconify A16 v${versionName}.apk"
+
+            val renamed = File(apkDir, newName)
+
+            apk.renameTo(renamed)
+        }
     }
 }
 
