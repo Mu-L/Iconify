@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.drdisagree.iconify.data.annotations.TestOnlyFlag
 import com.drdisagree.iconify.data.common.Preferences.XPOSED_ONLY_MODE
 import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.ui.activities.MainActivity
@@ -75,10 +76,14 @@ abstract class BaseSplashActivity : AppCompatActivity() {
     }
 
     companion object {
-        // For testing purposes
+
+        @TestOnlyFlag("Skips installation flow for debug testing")
         private const val SKIP_INSTALLATION = false
+
+        @TestOnlyFlag("Force overlay install screen")
         const val FORCE_OVERLAY_INSTALLATION = false
 
+        @get:TestOnlyFlag("Skip to homepage for testing")
         @Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
         val SKIP_TO_HOMEPAGE_FOR_TESTING: Boolean
             get() = SKIP_INSTALLATION &&
