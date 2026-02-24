@@ -750,41 +750,37 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
             createLayers()
         }
 
-        BootCallback.registerBootListener(
-            object : BootCallback.BootListener {
-                override fun onDeviceBooted() {
-                    Handler(Looper.getMainLooper()).post {
-                        try {
-                            if (DEPTH_WALL_BG_FILE.exists()) {
-                                FileInputStream(DEPTH_WALL_BG_FILE).use { inputStream ->
-                                    val bitmapDrawable = BitmapDrawable.createFromStream(
-                                        inputStream,
-                                        ""
-                                    )!!.apply {
-                                        alpha = 255
-                                    }
+        BootCallback.registerBootListener {
+            Handler(Looper.getMainLooper()).post {
+                try {
+                    if (DEPTH_WALL_BG_FILE.exists()) {
+                        FileInputStream(DEPTH_WALL_BG_FILE).use { inputStream ->
+                            val bitmapDrawable = BitmapDrawable.createFromStream(
+                                inputStream,
+                                ""
+                            )!!.apply {
+                                alpha = 255
+                            }
 
-                                    mWallpaperBackground.post {
-                                        mWallpaperBitmapContainer.background = bitmapDrawable
+                            mWallpaperBackground.post {
+                                mWallpaperBitmapContainer.background = bitmapDrawable
 
-                                        if (mScrimController != null) {
-                                            mWallpaperDimmingOverlay.setBackgroundColor(Color.BLACK)
-                                            mWallpaperDimmingOverlay.alpha =
-                                                mScrimController.getField(
-                                                    "mScrimBehindAlphaKeyguard"
-                                                ) as Float
-                                        }
-                                    }
+                                if (mScrimController != null) {
+                                    mWallpaperDimmingOverlay.setBackgroundColor(Color.BLACK)
+                                    mWallpaperDimmingOverlay.alpha =
+                                        mScrimController.getField(
+                                            "mScrimBehindAlphaKeyguard"
+                                        ) as Float
                                 }
                             }
-                        } catch (_: Throwable) {
                         }
-
-                        // this sets the dimmed foreground wallpaper
-                        setDepthWallpaper()
                     }
+                } catch (_: Throwable) {
                 }
+
+                // this sets the dimmed foreground wallpaper
+                setDepthWallpaper()
             }
-        )
+        }
     }
 }

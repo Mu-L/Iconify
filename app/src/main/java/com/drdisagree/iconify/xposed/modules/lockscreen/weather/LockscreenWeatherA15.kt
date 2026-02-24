@@ -388,13 +388,7 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
             }
         )
 
-        BootCallback.registerBootListener(
-            object : BootCallback.BootListener {
-                override fun onDeviceBooted() {
-                    updateWeatherView()
-                }
-            }
-        )
+        BootCallback.registerBootListener { updateWeatherView() }
     }
 
     @SuppressLint("DiscouragedApi")

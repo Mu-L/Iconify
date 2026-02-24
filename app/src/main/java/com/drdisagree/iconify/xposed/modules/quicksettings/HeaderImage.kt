@@ -360,32 +360,28 @@ class HeaderImage(context: Context) : ModPack(context) {
     }
 
     private fun ImageView.loadImageOrGif() {
-        BootCallback.registerBootListener(
-            object : BootCallback.BootListener {
-                override fun onDeviceBooted() {
-                    if (HEADER_IMAGE_FILE.exists()) {
-                        val source = ImageDecoder.createSource(HEADER_IMAGE_FILE)
-                        val drawable = ImageDecoder.decodeDrawable(source)
+        BootCallback.registerBootListener {
+            if (HEADER_IMAGE_FILE.exists()) {
+                val source = ImageDecoder.createSource(HEADER_IMAGE_FILE)
+                val drawable = ImageDecoder.decodeDrawable(source)
 
-                        setImageDrawable(drawable)
-                        clipToOutline = true
+                setImageDrawable(drawable)
+                clipToOutline = true
 
-                        if (!zoomToFit) {
-                            scaleType = ImageView.ScaleType.FIT_XY
-                        } else {
-                            scaleType = ImageView.ScaleType.CENTER_CROP
-                            adjustViewBounds = false
-                            cropToPadding = false
-                            minimumWidth = ViewGroup.LayoutParams.MATCH_PARENT
-                            addCenterProperty()
-                        }
+                if (!zoomToFit) {
+                    scaleType = ImageView.ScaleType.FIT_XY
+                } else {
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+                    adjustViewBounds = false
+                    cropToPadding = false
+                    minimumWidth = ViewGroup.LayoutParams.MATCH_PARENT
+                    addCenterProperty()
+                }
 
-                        if (drawable is AnimatedImageDrawable) {
-                            drawable.start()
-                        }
-                    }
+                if (drawable is AnimatedImageDrawable) {
+                    drawable.start()
                 }
             }
-        )
+        }
     }
 }

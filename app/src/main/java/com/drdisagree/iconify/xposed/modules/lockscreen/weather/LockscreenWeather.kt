@@ -150,13 +150,7 @@ class LockscreenWeather(context: Context) : ModPack(context) {
                 placeWeatherView()
             }
 
-        BootCallback.registerBootListener(
-            object : BootCallback.BootListener {
-                override fun onDeviceBooted() {
-                    updateWeatherView()
-                }
-            }
-        )
+        BootCallback.registerBootListener { updateWeatherView() }
     }
 
     private fun placeWeatherView() {

@@ -435,38 +435,34 @@ class DepthWallpaperA13(context: Context) : ModPack(context) {
             return
         }
 
-        BootCallback.registerBootListener(
-            object : BootCallback.BootListener {
-                override fun onDeviceBooted() {
-                    if (DEPTH_WALL_BG_FILE.exists() && DEPTH_WALL_FG_FILE.exists()) {
-                        val backgroundImg = ImageDecoder.createSource(DEPTH_WALL_BG_FILE)
-                        val foregroundImg = ImageDecoder.createSource(DEPTH_WALL_FG_FILE)
+        BootCallback.registerBootListener {
+            if (DEPTH_WALL_BG_FILE.exists() && DEPTH_WALL_FG_FILE.exists()) {
+                val backgroundImg = ImageDecoder.createSource(DEPTH_WALL_BG_FILE)
+                val foregroundImg = ImageDecoder.createSource(DEPTH_WALL_FG_FILE)
 
-                        val backgroundDrawable = ImageDecoder.decodeDrawable(backgroundImg)
-                        val foregroundDrawable = ImageDecoder.decodeDrawable(foregroundImg)
+                val backgroundDrawable = ImageDecoder.decodeDrawable(backgroundImg)
+                val foregroundDrawable = ImageDecoder.decodeDrawable(foregroundImg)
 
-                        Handler(Looper.getMainLooper()).post {
-                            mDepthWallpaperBackground!!.loadImageOrGif(backgroundDrawable)
-                            mDepthWallpaperBackground!!.setMovementMultiplier(backgroundMovement)
+                Handler(Looper.getMainLooper()).post {
+                    mDepthWallpaperBackground!!.loadImageOrGif(backgroundDrawable)
+                    mDepthWallpaperBackground!!.setMovementMultiplier(backgroundMovement)
 
-                            mDepthWallpaperForeground!!.loadImageOrGif(foregroundDrawable)
-                            mDepthWallpaperForeground!!.setMovementMultiplier(foregroundMovement)
-                            mDepthWallpaperForeground!!.setAlpha(foregroundAlpha)
+                    mDepthWallpaperForeground!!.loadImageOrGif(foregroundDrawable)
+                    mDepthWallpaperForeground!!.setMovementMultiplier(foregroundMovement)
+                    mDepthWallpaperForeground!!.setAlpha(foregroundAlpha)
 
-                            mDepthWallpaperLayout!!.visibility = View.VISIBLE
+                    mDepthWallpaperLayout!!.visibility = View.VISIBLE
 
-                            if (enableParallaxEffect) {
-                                mDepthWallpaperBackground!!.registerSensorListener()
-                                mDepthWallpaperForeground!!.registerSensorListener()
-                            } else {
-                                mDepthWallpaperBackground!!.unregisterSensorListener()
-                                mDepthWallpaperForeground!!.unregisterSensorListener()
-                            }
-                        }
+                    if (enableParallaxEffect) {
+                        mDepthWallpaperBackground!!.registerSensorListener()
+                        mDepthWallpaperForeground!!.registerSensorListener()
+                    } else {
+                        mDepthWallpaperBackground!!.unregisterSensorListener()
+                        mDepthWallpaperForeground!!.unregisterSensorListener()
                     }
                 }
             }
-        )
+        }
     }
 
     private fun updateFadeAnimation(isDozing: Boolean) {

@@ -243,14 +243,10 @@ class StatusbarLogo(context: Context) : ModPack(context) {
                 updateLogoColor(param, logoImageView!!, logoImageViewRight!!)
             }
 
-        BootCallback.registerBootListener(
-            object : BootCallback.BootListener {
-                override fun onDeviceBooted() {
-                    logoImageView?.loadCustomLogo()
-                    logoImageViewRight?.loadCustomLogo()
-                }
-            }
-        )
+        BootCallback.registerBootListener {
+            logoImageView?.loadCustomLogo()
+            logoImageViewRight?.loadCustomLogo()
+        }
     }
 
     private fun LogoImage.updateLeftLogo() {

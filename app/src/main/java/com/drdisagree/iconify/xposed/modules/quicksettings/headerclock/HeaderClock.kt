@@ -271,13 +271,7 @@ class HeaderClock(context: Context) : ModPack(context) {
 
         hideStockClockDate()
 
-        BootCallback.registerBootListener(
-            object : BootCallback.BootListener {
-                override fun onDeviceBooted() {
-                    updateClockView()
-                }
-            }
-        )
+        BootCallback.registerBootListener { updateClockView() }
     }
 
     private fun initResources(context: Context) {

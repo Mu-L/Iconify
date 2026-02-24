@@ -73,6 +73,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookMa
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethodSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
@@ -134,28 +135,23 @@ class HeaderClockA14(context: Context) : ModPack(context) {
             showOpQsHeaderView = getBoolean(OP_QS_HEADER_SWITCH, false)
         }
 
-        if (key.isNotEmpty()) {
-            if (key[0] == HEADER_CLOCK_EXPANSION_Y) {
-                buildHeaderViewExpansion()
-            }
+        when (key.firstOrNull()) {
+            HEADER_CLOCK_EXPANSION_Y -> buildHeaderViewExpansion()
 
-            if (key[0] == HEADER_CLOCK_SWITCH ||
-                key[0] == HEADER_CLOCK_COLOR_SWITCH ||
-                key[0] == HEADER_CLOCK_COLOR_CODE_ACCENT1 ||
-                key[0] == HEADER_CLOCK_COLOR_CODE_ACCENT2 ||
-                key[0] == HEADER_CLOCK_COLOR_CODE_ACCENT3 ||
-                key[0] == HEADER_CLOCK_COLOR_CODE_TEXT1 ||
-                key[0] == HEADER_CLOCK_COLOR_CODE_TEXT2 ||
-                key[0] == HEADER_CLOCK_FONT_SWITCH ||
-                key[0] == HEADER_CLOCK_SIDEMARGIN ||
-                key[0] == HEADER_CLOCK_TOPMARGIN ||
-                key[0] == HEADER_CLOCK_STYLE ||
-                key[0] == HEADER_CLOCK_CENTERED ||
-                key[0] == HEADER_CLOCK_FONT_TEXT_SCALING ||
-                key[0] == HEADER_CLOCK_LANDSCAPE_SWITCH
-            ) {
-                updateClockView()
-            }
+            HEADER_CLOCK_SWITCH,
+            HEADER_CLOCK_COLOR_SWITCH,
+            HEADER_CLOCK_COLOR_CODE_ACCENT1,
+            HEADER_CLOCK_COLOR_CODE_ACCENT2,
+            HEADER_CLOCK_COLOR_CODE_ACCENT3,
+            HEADER_CLOCK_COLOR_CODE_TEXT1,
+            HEADER_CLOCK_COLOR_CODE_TEXT2,
+            HEADER_CLOCK_FONT_SWITCH,
+            HEADER_CLOCK_SIDEMARGIN,
+            HEADER_CLOCK_TOPMARGIN,
+            HEADER_CLOCK_STYLE,
+            HEADER_CLOCK_CENTERED,
+            HEADER_CLOCK_FONT_TEXT_SCALING,
+            HEADER_CLOCK_LANDSCAPE_SWITCH -> updateClockView()
         }
     }
 
@@ -413,26 +409,20 @@ class HeaderClockA14(context: Context) : ModPack(context) {
 
                 mQsIconsContainer.removeAllViews()
 
-                try {
-                    val qsCarrierGroup = param.thisObject.getField("qsCarrierGroup") as LinearLayout
-                    (qsCarrierGroup.parent as? ViewGroup)?.removeView(qsCarrierGroup)
-                    if (hideQsCarrierGroup) qsCarrierGroup.visibility = View.GONE
-                    mQsIconsContainer.addView(qsCarrierGroup)
-                } catch (_: Throwable) {
-                    val mShadeCarrierGroup =
-                        param.thisObject.getField("mShadeCarrierGroup") as LinearLayout
-                    (mShadeCarrierGroup.parent as? ViewGroup)?.removeView(mShadeCarrierGroup)
-                    if (hideQsCarrierGroup) mShadeCarrierGroup.visibility = View.GONE
-                    mQsIconsContainer.addView(mShadeCarrierGroup)
-                }
+                val carrierGroup = param.thisObject.getAnyField(
+                    "qsCarrierGroup",
+                    "mShadeCarrierGroup"
+                ) as LinearLayout
+                (carrierGroup.parent as? ViewGroup)?.removeView(carrierGroup)
+                if (hideQsCarrierGroup) carrierGroup.visibility = View.GONE
+                mQsIconsContainer.addView(carrierGroup)
 
                 try {
                     val systemIconsHoverContainer = param.thisObject.getField(
                             "systemIconsHoverContainer"
                         ) as LinearLayout
-                    (systemIconsHoverContainer.parent as? ViewGroup)?.removeView(
-                        systemIconsHoverContainer
-                    )
+                    (systemIconsHoverContainer.parent as? ViewGroup)
+                        ?.removeView(systemIconsHoverContainer)
                     if (hideStatusIcons) systemIconsHoverContainer.visibility = View.GONE
                     mQsIconsContainer.addView(systemIconsHoverContainer)
                 } catch (_: Throwable) {
@@ -462,13 +452,7 @@ class HeaderClockA14(context: Context) : ModPack(context) {
 
         handleLegacyHeaderView()
 
-        BootCallback.registerBootListener(
-            object : BootCallback.BootListener {
-                override fun onDeviceBooted() {
-                    updateClockView()
-                }
-            }
-        )
+        BootCallback.registerBootListener { updateClockView() }
     }
 
     private fun buildHeaderViewExpansion() {

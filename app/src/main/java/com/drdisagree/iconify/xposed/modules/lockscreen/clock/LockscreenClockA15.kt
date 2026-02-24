@@ -603,13 +603,7 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
                 }
             }
 
-        BootCallback.registerBootListener(
-            object : BootCallback.BootListener {
-                override fun onDeviceBooted() {
-                    updateClockView(true)
-                }
-            }
-        )
+        BootCallback.registerBootListener { updateClockView(true) }
     }
 
     private fun initResources(context: Context) {

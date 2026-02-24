@@ -384,13 +384,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
                 param.result = null
             }
 
-        BootCallback.registerBootListener(
-            object : BootCallback.BootListener {
-                override fun onDeviceBooted() {
-                    updateClockView()
-                }
-            }
-        )
+        BootCallback.registerBootListener { updateClockView() }
     }
 
     private fun initResources(context: Context) {
