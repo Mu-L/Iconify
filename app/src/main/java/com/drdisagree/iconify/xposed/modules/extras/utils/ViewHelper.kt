@@ -554,7 +554,7 @@ object ViewHelper {
             }
 
             view.removeViewFromParent()
-            addView(view, index.coerceAtMost(childCount))
+            addView(view, index.coerceIn(0, childCount))
         }
     }
 
@@ -574,10 +574,10 @@ object ViewHelper {
 
         val expandableClass = findClass("$SYSTEMUI_PACKAGE.animation.Expandable")
         val expandableCompanionFromViewClass = findClass(
-            "$SYSTEMUI_PACKAGE.animation.Expandable\$Companion\$fromView",
-            "$SYSTEMUI_PACKAGE.animation.Expandable\$Companion\$fromView\$1",
-            "$SYSTEMUI_PACKAGE.animation.Expandable\$Companion\$fromView\$2",
-            "$SYSTEMUI_PACKAGE.animation.Expandable\$Companion\$fromView\$3",
+            $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView",
+            $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView$1",
+            $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView$2",
+            $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView$3",
             suppressError = true
         )
 
@@ -589,7 +589,7 @@ object ViewHelper {
                     .getConstructor(View::class.java)
                     .newInstance(this)
             } catch (_: Throwable) {
-                val refObjectRefClass = findClass("kotlin.jvm.internal.Ref\$ObjectRef")
+                val refObjectRefClass = findClass($$"kotlin.jvm.internal.Ref$ObjectRef")
 
                 val refObject = refObjectRefClass!!
                     .getConstructor()
