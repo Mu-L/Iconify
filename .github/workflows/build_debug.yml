@@ -134,11 +134,25 @@ jobs:
       - name: Clean Previous Release Folder
         run: rm -rf releases && mkdir -p releases
 
-      - name: Zip Artifact for Sending to Telegram
+      - name: Zip APK + ModuleBase contents
         if: env.SKIP_BUILD != 'true'
         run: |
-          cd app/build/outputs/apk/standard/debug/
-          zip "../../../../../../releases/Iconify A16 v${{ env.VERSION_NAME }} Dev (#${{github.run_number}}).zip" *.apk -r
+          set -e
+
+          ZIP_NAME="Iconify A16 v${{ env.VERSION_NAME }} Dev (#${{github.run_number}}).zip"
+          RELEASE_DIR="releases"
+          APK_DIR="app/build/outputs/apk/standard/debug"
+
+          mkdir -p "$RELEASE_DIR/temp"
+
+          cp "$APK_DIR"/*.apk "$RELEASE_DIR/temp/Iconify.apk"
+          cp -r ModuleBase/* "$RELEASE_DIR/temp/"
+
+          cd "$RELEASE_DIR/temp"
+          zip -r "../$ZIP_NAME" .
+
+          cd ../..
+          rm -rf "$RELEASE_DIR/temp"
 
       - name: Telegram File Attachment
         if: github.repository == 'Mahmud0808/Iconify' && env.SKIP_BUILD != 'true'
