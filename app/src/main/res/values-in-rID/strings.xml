@@ -308,7 +308,7 @@
     <string name="label_always_white_v2_desc">Title putih, subtitle accent</string>
     <string name="label_follow_system_title">Ikut Sistem</string>
     <string name="label_follow_system_desc">Title sistem, subtitle sistem</string>
-    <string name="label_follow_system_inverse_title">Follow System Inverse</string>
+    <string name="label_follow_system_inverse_title"></string>
     <!--<string name="label_follow_system_inverse_desc">Title system, subtitle system</string>-->
     <string name="label_follow_system_v2_title">Ikut Sistem v2</string>
     <string name="label_follow_system_v2_desc">Title sistem, subtitle accent</string>
