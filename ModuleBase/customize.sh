@@ -1,4 +1,4 @@
-PKGNAME="com.drdisagree.pixellauncherenhanced"
+PKGNAME="com.drdisagree.iconify.debug"
 LSPDDBPATH="/data/adb/lspd/config/modules_config.db"
 MAGISKDBPATH="/data/adb/magisk.db"
 
