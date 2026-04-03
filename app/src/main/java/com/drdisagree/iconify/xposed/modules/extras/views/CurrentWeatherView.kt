@@ -16,9 +16,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.ui.utils.ViewHelper.applyTextSizeRecursively
-import com.drdisagree.iconify.ui.utils.ViewHelper.setTextRecursively
-import com.drdisagree.iconify.utils.OmniJawsClient
+import com.drdisagree.iconify.core.utils.ViewHelper.applyTextSizeRecursively
+import com.drdisagree.iconify.core.utils.ViewHelper.setTextRecursively
+import com.drdisagree.iconify.core.utils.OmniJawsClient
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.findViewContainsTag
@@ -127,7 +127,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             }
             .orElse("")
 
-        return if (instance.isEmpty()) throw IllegalStateException("No instance name found") else instance
+        return instance.ifEmpty { throw IllegalStateException("No instance name found") }
     }
 
     fun updateSizes(weatherTextSize: Int, weatherImageSize: Int, name: String) {
@@ -496,7 +496,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     companion object {
         private val TAG: String = CurrentWeatherView::class.java.name
 
-        val Int.dp: Int
+        private val Int.toDp: Int
             get() = (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
 
         @Volatile
@@ -511,8 +511,8 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 .forEach { obj: Array<Any> ->
                     val instance = obj[0] as CurrentWeatherView
                     val params = instance.mCurrentImage!!.layoutParams as LayoutParams
-                    params.width = size.dp
-                    params.height = size.dp
+                    params.width = size.toDp
+                    params.height = size.toDp
                     params.gravity = Gravity.CENTER_VERTICAL
                     instance.mCurrentImage!!.layoutParams = params
                     instance.mHumImage!!.layoutParams = params

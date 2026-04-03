@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Sıkıcı Android Arayüzünü Özelleştirin</string>
+    <string name="app_motto">Sıkıcı Android Arayüzünü Özelleştirin</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Kurulum başlatılıyor</string>
     <string name="step">Adım</string>
@@ -231,7 +231,7 @@
     <string name="icon_mask_style_tapered_rectangle">Sivrilen\nDikdörtgen</string>
     <string name="icon_mask_style_vessel">Kap</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_force_round">Yuvarlak Zorla</string>
+    <string name="icon_mask_style_round">Yuvarlak Zorla</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Temel Renkler</string>
     <string name="activity_desc_basic_colors">Birincil ve ikincil rengi değiştirin</string>
@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">Tıklanabilir Saat</string>
     <string name="statusbar_clock_clickable_desc">Saat uygulamasını açmak için tıklayın</string>
     <string name="section_title_text">Metin</string>
-    <string name="statusbar_clock_text_title">Saat Metin Rengi</string>
-    <string name="sbclock_color_follow_system">Sistemi Takip Et</string>
-    <string name="sbclock_color_transparent_text">Şeffaf Metin</string>
-    <string name="sbclock_color_custom_color">Özel Renk</string>
+    <string name="statusbar_clock_text_color_title">Saat Metin Rengi</string>
+    <string name="sbclock_text_color_follow_system">Sistemi Takip Et</string>
+    <string name="sbclock_text_color_transparent_text">Şeffaf Metin</string>
+    <string name="sbclock_text_color_custom_color">Özel Renk</string>
     <string name="clock_text_color_picker_title">Metin Renk Seçici</string>
     <string name="clock_text_color_picker_desc">Durum çubuğu saati metninin rengini ayarlayın</string>
     <string name="section_title_status_icons">Durum Simgeleri</string>

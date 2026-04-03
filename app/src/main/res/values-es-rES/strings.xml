@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Personaliza la aburrida interfaz de Android</string>
+    <string name="app_motto">Personaliza la aburrida interfaz de Android</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Iniciando la configuración</string>
     <string name="step">Paso</string>
@@ -231,7 +231,7 @@
     <string name="icon_mask_style_tapered_rectangle">Cuadrado cortado</string>
     <string name="icon_mask_style_vessel">Vaso</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_force_round">Forzar redondeo</string>
+    <string name="icon_mask_style_round">Forzar redondeo</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Colores básicos</string>
     <string name="activity_desc_basic_colors">Cambia el color primario y el secundado</string>
@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">Reloj Cliqueable</string>
     <string name="statusbar_clock_clickable_desc">Clic para abrir la aplicación del reloj</string>
     <string name="section_title_text">Texto</string>
-    <string name="statusbar_clock_text_title">Color de texto del reloj</string>
-    <string name="sbclock_color_follow_system">Seguir el Sistema</string>
-    <string name="sbclock_color_transparent_text">Texto Transparente</string>
-    <string name="sbclock_color_custom_color">Color Personalizado</string>
+    <string name="statusbar_clock_text_color_title">Color de texto del reloj</string>
+    <string name="sbclock_text_color_follow_system">Seguir el Sistema</string>
+    <string name="sbclock_text_color_transparent_text">Texto Transparente</string>
+    <string name="sbclock_text_color_custom_color">Color Personalizado</string>
     <string name="clock_text_color_picker_title">Selector de color del reloj</string>
     <string name="clock_text_color_picker_desc">Establecer el color del texto del reloj de la barra de estado</string>
     <string name="section_title_status_icons">Iconos de estado</string>

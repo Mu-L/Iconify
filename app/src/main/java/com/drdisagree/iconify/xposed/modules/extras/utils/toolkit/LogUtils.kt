@@ -1,5 +1,6 @@
-package com.drdisagree.iconify.xposed.modules.extras.utils.toolkit
+@file:Suppress("Unused")
 
+package com.drdisagree.iconify.xposed.modules.extras.utils.toolkit
 
 import android.view.View
 import android.view.ViewGroup
@@ -80,7 +81,7 @@ fun Class<*>?.dumpClass() {
     }
 
     XposedBridge.log("\n\nClass: $name")
-    XposedBridge.log("extends: ${superclass.name}")
+    XposedBridge.log("extends: ${superclass?.name ?: "None"}")
 
     XposedBridge.log("Subclasses:")
     val scs = classes.toList().union(declaredClasses.toList())

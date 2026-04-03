@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">شخصی سازی رابط‌ کاربری خسته کننده اندروید</string>
+    <string name="app_motto">شخصی سازی رابط‌ کاربری خسته کننده اندروید</string>
     <!-- Onboarding -->
     <string name="init_module_installation">راه‌اندازی اولیه</string>
     <string name="step">قدم</string>
@@ -231,7 +231,7 @@
     <string name="icon_mask_style_tapered_rectangle">مخروطی\nمستطیل</string>
     <string name="icon_mask_style_vessel">کشتی</string>
     <string name="icon_mask_style_rice_rohie_meow">روهی میو</string>
-    <string name="icon_mask_style_force_round">نیروی دور</string>
+    <string name="icon_mask_style_round">نیروی دور</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">بخش انتخاب رنگ</string>
     <string name="activity_desc_basic_colors">رنگ مورد نظر خود را در این قسمت انتخاب کنید</string>
@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">ساعت قابل کلیک</string>
     <string name="statusbar_clock_clickable_desc">برای بازکردن برنامه ساعت کلیک کنید</string>
     <string name="section_title_text">متن</string>
-    <string name="statusbar_clock_text_title">رنگ متن ساعت</string>
-    <string name="sbclock_color_follow_system">پیروی از سیستم</string>
-    <string name="sbclock_color_transparent_text">متن شفاف</string>
-    <string name="sbclock_color_custom_color">رنگ سفارشی</string>
+    <string name="statusbar_clock_text_color_title">رنگ متن ساعت</string>
+    <string name="sbclock_text_color_follow_system">پیروی از سیستم</string>
+    <string name="sbclock_text_color_transparent_text">متن شفاف</string>
+    <string name="sbclock_text_color_custom_color">رنگ سفارشی</string>
     <string name="clock_text_color_picker_title">انتخابگر رنگ متن</string>
     <string name="clock_text_color_picker_desc">تنظیم رنگ متن ساعت نوار‌اعلان</string>
     <string name="section_title_status_icons">نمادهای وضعیت</string>

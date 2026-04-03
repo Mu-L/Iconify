@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">退屈な Android の UI をカスタマイズ</string>
+    <string name="app_motto">退屈な Android の UI をカスタマイズ</string>
     <!-- Onboarding -->
     <string name="init_module_installation">セットアップの初期化中</string>
     <string name="step">ステップ</string>
@@ -231,7 +231,7 @@
     <string name="icon_mask_style_tapered_rectangle">角の取れた\n四角形</string>
     <string name="icon_mask_style_vessel">湯呑み</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_force_round">Force Round</string>
+    <string name="icon_mask_style_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">基本色</string>
     <string name="activity_desc_basic_colors">プライマリとセカンダリ カラーを変更</string>
@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">Clickable Clock</string>
     <string name="statusbar_clock_clickable_desc">Click to open clock app</string>
     <string name="section_title_text">Text</string>
-    <string name="statusbar_clock_text_title">Clock Text Color</string>
-    <string name="sbclock_color_follow_system">システムに従う</string>
-    <string name="sbclock_color_transparent_text">透過テキスト</string>
-    <string name="sbclock_color_custom_color">カスタムカラー</string>
+    <string name="statusbar_clock_text_color_title">Clock Text Color</string>
+    <string name="sbclock_text_color_follow_system">システムに従う</string>
+    <string name="sbclock_text_color_transparent_text">透過テキスト</string>
+    <string name="sbclock_text_color_custom_color">カスタムカラー</string>
     <string name="clock_text_color_picker_title">Text Color Picker</string>
     <string name="clock_text_color_picker_desc">Set color of statubsar clock text</string>
     <string name="section_title_status_icons">ステータスアイコン</string>

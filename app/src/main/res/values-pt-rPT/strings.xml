@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Personalizar a IU Android</string>
+    <string name="app_motto">Personalizar a IU Android</string>
     <!-- Onboarding -->
     <string name="init_module_installation">A inicializar</string>
     <string name="step">Passo</string>
@@ -231,7 +231,7 @@
     <string name="icon_mask_style_tapered_rectangle">Cónico\nRetângulo</string>
     <string name="icon_mask_style_vessel">Navio</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_force_round">Force Round</string>
+    <string name="icon_mask_style_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Cores básicas</string>
     <string name="activity_desc_basic_colors">Personalizar as cores primária e secundária</string>
@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">Clickable Clock</string>
     <string name="statusbar_clock_clickable_desc">Click to open clock app</string>
     <string name="section_title_text">Text</string>
-    <string name="statusbar_clock_text_title">Clock Text Color</string>
-    <string name="sbclock_color_follow_system">Follow System</string>
-    <string name="sbclock_color_transparent_text">Transparent Text</string>
-    <string name="sbclock_color_custom_color">Custom Color</string>
+    <string name="statusbar_clock_text_color_title">Clock Text Color</string>
+    <string name="sbclock_text_color_follow_system">Follow System</string>
+    <string name="sbclock_text_color_transparent_text">Transparent Text</string>
+    <string name="sbclock_text_color_custom_color">Custom Color</string>
     <string name="clock_text_color_picker_title">Text Color Picker</string>
     <string name="clock_text_color_picker_desc">Set color of statubsar clock text</string>
     <string name="section_title_status_icons">Status Icons</string>
