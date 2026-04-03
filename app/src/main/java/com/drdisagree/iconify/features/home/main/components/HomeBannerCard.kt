@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.common.LocalDarkMode
 import com.drdisagree.iconify.core.ui.components.extensions.ShakeConfig
 import com.drdisagree.iconify.core.ui.components.extensions.rememberShakeController
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
@@ -44,6 +45,8 @@ import com.drdisagree.iconify.core.ui.components.texts.AutoResizeableText
 
 @Composable
 fun HomeBannerCard(modifier: Modifier = Modifier) {
+    val darkMode = LocalDarkMode.current
+
     val shape = MaterialTheme.shapes.large
     val shakeController = rememberShakeController()
     val interactionSource = remember { MutableInteractionSource() }
@@ -151,7 +154,10 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Image(
-                painter = painterResource(id = R.drawable.img_home_card_bg),
+                painter = painterResource(
+                    id = if (!darkMode) R.drawable.img_home_card_bg
+                    else R.drawable.img_home_card_bg_night
+                ),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.TopCenter,
