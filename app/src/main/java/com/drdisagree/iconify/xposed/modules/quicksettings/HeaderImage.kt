@@ -66,7 +66,8 @@ class HeaderImage(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            showHeaderImage = getBoolean(XposedKey.CUSTOM_HEADER_IMAGE)
+            showHeaderImage = getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) &&
+                    getString(XposedKey.HEADER_IMAGE_FILE_URI).isNotEmpty()
             headerImageAlpha = getInt(XposedKey.HEADER_IMAGE_OPACITY)
             imageHeight = getInt(XposedKey.HEADER_IMAGE_HEIGHT)
             zoomToFit = getBoolean(XposedKey.HEADER_IMAGE_ZOOM_TO_FIT)
@@ -76,6 +77,7 @@ class HeaderImage(context: Context) : ModPack(context) {
 
         when (key.firstOrNull()) {
             XposedKey.CUSTOM_HEADER_IMAGE.name,
+            XposedKey.HEADER_IMAGE_FILE_URI.name,
             XposedKey.HEADER_IMAGE_OPACITY.name,
             XposedKey.HEADER_IMAGE_HEIGHT.name,
             XposedKey.HEADER_IMAGE_ZOOM_TO_FIT.name,
