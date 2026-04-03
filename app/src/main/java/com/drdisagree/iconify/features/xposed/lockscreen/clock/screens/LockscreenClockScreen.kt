@@ -50,9 +50,9 @@ val lsClockPreferences = preferenceScreen {
 
         filePicker(
             key = XposedKey.LSCLOCK_IMAGE1_FILE_URI,
-            title = stringRes(R.string.lockscreen_clock_font_title),
-            summary = { _, _ -> stringRes(R.string.lockscreen_clock_font_desc) },
-            pickerType = FilePickerType.Font,
+            title = stringRes(R.string.lockscreen_clock_image1_title),
+            summary = { _, _ -> stringRes(R.string.lockscreen_clock_image_desc) },
+            pickerType = FilePickerType.Image,
             saveFileUri = true,
             onFileSelected = { _, uriString ->
                 if (uriString.isNotEmpty()) {
@@ -65,9 +65,9 @@ val lsClockPreferences = preferenceScreen {
 
         filePicker(
             key = XposedKey.LSCLOCK_IMAGE2_FILE_URI,
-            title = stringRes(R.string.lockscreen_clock_font_title),
-            summary = { _, _ -> stringRes(R.string.lockscreen_clock_font_desc) },
-            pickerType = FilePickerType.Font,
+            title = stringRes(R.string.lockscreen_clock_image2_title),
+            summary = { _, _ -> stringRes(R.string.lockscreen_clock_image_desc) },
+            pickerType = FilePickerType.Image,
             saveFileUri = true,
             onFileSelected = { _, uriString ->
                 if (uriString.isNotEmpty()) {
