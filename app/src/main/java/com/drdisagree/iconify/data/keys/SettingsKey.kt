@@ -18,7 +18,7 @@ enum class SettingsKey(override val default: Any?) : Key {
     BLUR_EFFECT(true),
     UI_SCALE(1f),
     TEXT_SCALE(1f),
-    SAVED_VERSION_CODE(-1),
+    OVERLAY_VERSION_CODE(-1),
     RESTART_SYSTEMUI_AFTER_BOOT(false),
     ON_HOME_PAGE(false),
     FIRST_INSTALL(true),

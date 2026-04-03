@@ -148,7 +148,7 @@ class OnboardingViewModel @Inject constructor(
             val overlayExists = overlayExists()
 
             if ((!skipInstallation && (Config.FORCE_OVERLAY_INSTALLATION ||
-                        prefController.getInt(SettingsKey.SAVED_VERSION_CODE) != BuildConfig.VERSION_CODE ||
+                        prefController.getInt(SettingsKey.OVERLAY_VERSION_CODE) != BuildConfig.OVERLAY_VERSION_CODE ||
                         !moduleExists ||
                         !overlayExists)) ||
                 (skipInstallation && !moduleExists)
@@ -449,7 +449,7 @@ class OnboardingViewModel @Inject constructor(
 
         if (!hasErroredOut) {
             if (!skip) {
-                if (BuildConfig.VERSION_CODE != prefController.getInt(SettingsKey.SAVED_VERSION_CODE)) {
+                if (BuildConfig.OVERLAY_VERSION_CODE != prefController.getInt(SettingsKey.OVERLAY_VERSION_CODE)) {
                     if (prefController.getBoolean(SettingsKey.FIRST_INSTALL)) {
                         prefController.setBoolean(SettingsKey.FIRST_INSTALL, true)
                         prefController.setBoolean(SettingsKey.UPDATE_DETECTED, false)
@@ -458,7 +458,10 @@ class OnboardingViewModel @Inject constructor(
                         prefController.setBoolean(SettingsKey.UPDATE_DETECTED, true)
                     }
 
-                    prefController.setInt(SettingsKey.SAVED_VERSION_CODE, BuildConfig.VERSION_CODE)
+                    prefController.setInt(
+                        SettingsKey.OVERLAY_VERSION_CODE,
+                        BuildConfig.OVERLAY_VERSION_CODE
+                    )
                 }
 
                 prefController.setBoolean(SettingsKey.XPOSED_ONLY_MODE, false)

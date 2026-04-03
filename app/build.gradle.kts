@@ -30,6 +30,7 @@ android {
         versionName = "8.0.0"
         multiDexEnabled = true
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
+        buildConfigField("int", "OVERLAY_VERSION_CODE", "1")
     }
 
     val keystorePropertiesFile = rootProject.file("keystore.properties")

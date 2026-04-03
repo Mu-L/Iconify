@@ -198,8 +198,8 @@ fun SettingsScreen() {
                             disableBlur(false)
 
                             prefController.setInt(
-                                SettingsKey.SAVED_VERSION_CODE,
-                                BuildConfig.VERSION_CODE
+                                SettingsKey.OVERLAY_VERSION_CODE,
+                                BuildConfig.OVERLAY_VERSION_CODE
                             )
                             prefController.setBoolean(
                                 SettingsKey.ON_HOME_PAGE,

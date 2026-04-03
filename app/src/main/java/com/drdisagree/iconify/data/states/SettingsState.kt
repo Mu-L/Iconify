@@ -13,6 +13,6 @@ data class SettingsState(
     val isHapticEnabled: Boolean,
     val floatingBottomBar: Boolean,
     val blurEffect: Boolean,
-    val savedVersionCode: Int,
+    val overlayVersionCode: Int,
     val isLoaded: Boolean,
 )

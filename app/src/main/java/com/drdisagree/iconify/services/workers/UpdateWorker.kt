@@ -17,7 +17,6 @@ import com.drdisagree.iconify.app.MainActivity
 import com.drdisagree.iconify.data.common.Const.LATEST_VERSION_URL
 import com.drdisagree.iconify.data.common.Preferences.UPDATE_OVER_WIFI
 import com.drdisagree.iconify.data.config.RPrefs
-import com.drdisagree.iconify.data.keys.SettingsKey
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -40,8 +39,7 @@ class UpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker
             if (jsonStr != null) {
                 try {
                     val latestVersion = JSONObject(jsonStr)
-                    val latestVersionCode =
-                        latestVersion.getInt(SettingsKey.SAVED_VERSION_CODE.name)
+                    val latestVersionCode = latestVersion.getInt("versionCode")
 
                     if (latestVersionCode > BuildConfig.VERSION_CODE) {
                         showUpdateNotification()

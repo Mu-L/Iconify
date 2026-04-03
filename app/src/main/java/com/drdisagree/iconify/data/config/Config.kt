@@ -23,9 +23,9 @@ object Config {
         val isRooted = RootUtils.deviceProperlyRooted()
         val isModuleInstalled = ModuleUtils.moduleExists()
         val isOverlayInstalled = OverlayUtils.overlayExists()
-        var isXposedOnlyMode = RPrefs.getBoolean(SettingsKey.XPOSED_ONLY_MODE, false)
-        val savedVersionCode = RPrefs.getInt(SettingsKey.SAVED_VERSION_CODE)
-        val isVersionCodeCorrect = BuildConfig.VERSION_CODE == savedVersionCode
+        var isXposedOnlyMode = RPrefs.getBoolean(SettingsKey.XPOSED_ONLY_MODE)
+        val savedOverlayVersion = RPrefs.getInt(SettingsKey.OVERLAY_VERSION_CODE)
+        val isOverlayVersionCurrent = BuildConfig.OVERLAY_VERSION_CODE == savedOverlayVersion
 
         if (isRooted) {
             if (isOverlayInstalled) {
@@ -41,6 +41,6 @@ object Config {
                 !FORCE_OVERLAY_INSTALLATION
 
         return SKIP_TO_HOMEPAGE_FOR_TESTING ||
-                (isRooted && isModuleProperlyInstalled && isVersionCodeCorrect)
+                (isRooted && isModuleProperlyInstalled && isOverlayVersionCurrent)
     }
 }

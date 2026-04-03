@@ -18,7 +18,7 @@ val defaultSettings = SettingsState(
     isHapticEnabled = true,
     floatingBottomBar = true,
     blurEffect = true,
-    savedVersionCode = 0,
+    overlayVersionCode = 0,
     isLoaded = false,
 )
 

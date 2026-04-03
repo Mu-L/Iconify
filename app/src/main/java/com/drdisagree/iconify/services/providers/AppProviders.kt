@@ -56,7 +56,7 @@ fun AppProviders(
     val contrastLevel by settingsViewModel.stringState(SettingsKey.CONTRAST_LEVEL)
     val floatingBottomBar by settingsViewModel.booleanState(SettingsKey.FLOATING_BOTTOM_BAR)
     val blurEffect by settingsViewModel.booleanState(SettingsKey.BLUR_EFFECT)
-    val savedVersionCode by settingsViewModel.intState(SettingsKey.SAVED_VERSION_CODE)
+    val overlayVersionCode by settingsViewModel.intState(SettingsKey.OVERLAY_VERSION_CODE)
     val uiScale by settingsViewModel.floatState(SettingsKey.UI_SCALE)
     val textScale by settingsViewModel.floatState(SettingsKey.TEXT_SCALE)
 
@@ -73,7 +73,7 @@ fun AppProviders(
                 isHapticEnabled = isHapticEnabled,
                 floatingBottomBar = floatingBottomBar,
                 blurEffect = blurEffect,
-                savedVersionCode = savedVersionCode,
+                overlayVersionCode = overlayVersionCode,
                 isLoaded = true,
             )
         }
