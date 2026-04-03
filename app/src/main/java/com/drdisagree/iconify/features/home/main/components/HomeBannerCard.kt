@@ -28,18 +28,19 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.rememberAsyncImagePainter
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.common.LocalDarkMode
 import com.drdisagree.iconify.core.ui.components.extensions.ShakeConfig
 import com.drdisagree.iconify.core.ui.components.extensions.rememberShakeController
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.extensions.shake
+import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.components.texts.AutoResizeableText
 
@@ -153,11 +154,13 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
+            val painter = rememberAsyncImagePainter(
+                model = if (!darkMode) R.drawable.img_home_card_bg
+                else R.drawable.img_home_card_bg_night
+            )
+
             Image(
-                painter = painterResource(
-                    id = if (!darkMode) R.drawable.img_home_card_bg
-                    else R.drawable.img_home_card_bg_night
-                ),
+                painter = painter,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.TopCenter,
@@ -192,5 +195,7 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun HomeBannerCardPreview() {
-    HomeBannerCard()
+    PreviewComposable {
+        HomeBannerCard()
+    }
 }

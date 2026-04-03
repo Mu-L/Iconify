@@ -90,3 +90,7 @@
 -keep interface com.drdisagree.iconify.**.I* { *; }
 -keep class com.drdisagree.iconify.**.I*$Stub { *; }
 -keep class com.drdisagree.iconify.**.I*$Stub$Proxy { *; }
+
+# Keep all drawable resources
+-keep class androidx.compose.ui.res.** { *; }
+-keepclassmembers class **.R$drawable { <fields>; }
