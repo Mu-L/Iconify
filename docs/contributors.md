@@ -35,10 +35,10 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/mrx7014">
-                    <img src="https://avatars.githubusercontent.com/u/90919499?v=4" width="100;" alt="mrx7014"/>
+                <a href="https://github.com/xenoZ0x">
+                    <img src="https://avatars.githubusercontent.com/u/90919499?v=4" width="100;" alt="xenoZ0x"/>
                     <br />
-                    <sub><b>MRX7014 | Octopus</b></sub>
+                    <sub><b>xenoZ0x</b></sub>
                 </a>
             </td>
             <td align="center">
