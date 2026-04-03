@@ -3,14 +3,17 @@ package com.drdisagree.iconify.features.xposed.statusbar.main.screens
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
+import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.arrayRes
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
+import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 
 val statusbarPreferences = preferenceScreen {
     category(title = stringRes(R.string.section_title_clock)) {
@@ -131,7 +134,29 @@ val statusbarPreferences = preferenceScreen {
 }
 
 @Composable
-fun StatusbarScreen() {
+fun StatusbarScreen(
+    systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
+) {
+    PreferenceListener { event ->
+        when (event.key) {
+            XposedKey.STATUSBAR_CLOCK_POSITION.name,
+            XposedKey.STATUSBAR_CLOCK_CLICKABLE.name,
+            XposedKey.STATUSBAR_CLOCK_TEXT_SIZE_SWITCH.name,
+            XposedKey.STATUSBAR_CLOCK_TEXT_SIZE.name,
+            XposedKey.HIDE_BATTERY_VIEW.name,
+            XposedKey.STATUSBAR_LOGO.name,
+            XposedKey.COLORED_STATUSBAR_ICON.name,
+            XposedKey.STATUSBAR_SWAP_WIFI_CELLULAR.name,
+            XposedKey.STATUSBAR_SWAP_CELLULAR_NETWORK_TYPE.name,
+            XposedKey.SHOW_4G_INSTEAD_OF_LTE.name,
+            XposedKey.NOTIFICATION_ICONS_LIMIT.name,
+            XposedKey.DUAL_STATUSBAR.name,
+            XposedKey.ONGOING_ACTION_CHIP.name -> {
+                systemActionViewModel?.shouldRestartSystemUI()
+            }
+        }
+    }
+
     PreferenceScreen(
         items = statusbarPreferences,
         title = stringResource(R.string.activity_title_statusbar),
@@ -143,6 +168,6 @@ fun StatusbarScreen() {
 @Composable
 fun StatusbarScreenPreview() {
     PreviewComposable {
-        StatusbarScreen()
+        StatusbarScreen(null)
     }
 }

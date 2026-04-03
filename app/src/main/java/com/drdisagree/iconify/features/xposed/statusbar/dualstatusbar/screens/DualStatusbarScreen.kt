@@ -3,12 +3,15 @@ package com.drdisagree.iconify.features.xposed.statusbar.dualstatusbar.screens
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
+import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 
 val dualStatusbarPreferences = preferenceScreen {
     category {
@@ -144,7 +147,17 @@ val dualStatusbarPreferences = preferenceScreen {
 }
 
 @Composable
-fun DualStatusbarScreen() {
+fun DualStatusbarScreen(
+    systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
+) {
+    PreferenceListener { event ->
+        when (event.key) {
+            XposedKey.DUAL_STATUSBAR.name -> {
+                systemActionViewModel?.shouldRestartSystemUI()
+            }
+        }
+    }
+
     PreferenceScreen(
         items = dualStatusbarPreferences,
         title = stringResource(R.string.activity_title_dual_statusbar),
@@ -156,6 +169,6 @@ fun DualStatusbarScreen() {
 @Composable
 fun DualStatusbarScreenPreview() {
     PreviewComposable {
-        DualStatusbarScreen()
+        DualStatusbarScreen(null)
     }
 }

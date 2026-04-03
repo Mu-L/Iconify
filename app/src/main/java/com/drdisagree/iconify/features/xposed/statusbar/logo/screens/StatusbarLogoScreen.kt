@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.net.toUri
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.common.LocalPreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceListener
@@ -25,6 +26,7 @@ import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
 import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
+import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.statusbar.logo.components.StatusbarLogoBottomSheet
 import com.drdisagree.iconify.features.xposed.statusbar.logo.components.rememberStatusbarLogoItems
 import com.drdisagree.iconify.helpers.toXposedSharedPath
@@ -95,7 +97,9 @@ fun statusbarLogoPreferences(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StatusbarLogoScreen() {
+fun StatusbarLogoScreen(
+    systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
+) {
     val context = LocalContext.current
     val prefController = LocalPreferenceController.current
 
@@ -134,8 +138,16 @@ fun StatusbarLogoScreen() {
         )
     }
 
-    PreferenceListener(key = XposedKey.STATUSBAR_LOGO_FILE_URI) {
-        reloadKey++
+    PreferenceListener { event ->
+        when (event.key) {
+            XposedKey.STATUSBAR_LOGO.name -> {
+                systemActionViewModel?.shouldRestartSystemUI()
+            }
+
+            XposedKey.STATUSBAR_LOGO_FILE_URI.name -> {
+                reloadKey++
+            }
+        }
     }
 
     PreferenceScreen(
@@ -153,6 +165,6 @@ fun StatusbarLogoScreen() {
 @Composable
 fun StatusbarLogoScreenPreview() {
     PreviewComposable {
-        StatusbarLogoScreen()
+        StatusbarLogoScreen(null)
     }
 }

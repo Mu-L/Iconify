@@ -190,7 +190,21 @@ fun QuickSettingsScreen(
 ) {
     PreferenceListener(key = null) { event ->
         when (event.key) {
-            XposedKey.CUSTOM_QS_MARGINS.name -> systemActionViewModel?.shouldRestartSystemUI()
+            XposedKey.CUSTOM_QS_MARGINS.name,
+            XposedKey.COLORED_NOTIFICATION_ICON.name,
+            XposedKey.COLORED_NOTIFICATION_VIEW.name,
+            XposedKey.NOTIFICATION_HEADS_UP_BLUR.name,
+            XposedKey.COMPACT_MEDIA_PLAYER.name,
+            XposedKey.BLUR_MEDIA_PLAYER_ARTWORK.name,
+            XposedKey.HIDE_QS_SILENT_TEXT.name,
+            XposedKey.HIDE_QS_FOOTER_BUTTONS.name,
+            XposedKey.QS_PANEL_HIDE_CARRIER.name,
+            XposedKey.HIDE_STATUS_ICONS.name,
+            XposedKey.FIX_QS_TILE_COLOR.name,
+            XposedKey.FIX_NOTIFICATION_COLOR.name,
+            XposedKey.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR.name -> {
+                systemActionViewModel?.shouldRestartSystemUI()
+            }
         }
     }
 

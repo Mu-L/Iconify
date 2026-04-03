@@ -3,14 +3,17 @@ package com.drdisagree.iconify.features.xposed.lockscreen.main.screens
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
+import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.iconRes
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
+import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 
 val lockscreenPreferences = preferenceScreen {
     category {
@@ -112,7 +115,20 @@ val lockscreenPreferences = preferenceScreen {
 }
 
 @Composable
-fun LockscreenScreen() {
+fun LockscreenScreen(
+    systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
+) {
+    PreferenceListener { event ->
+        when (event.key) {
+            XposedKey.LOCKSCREEN_WALLPAPER_BLUR.name,
+            XposedKey.HIDE_LOCKSCREEN_LOCK_ICON.name,
+            XposedKey.HIDE_LOCKSCREEN_CARRIER.name,
+            XposedKey.HIDE_LOCKSCREEN_STATUSBAR.name -> {
+                systemActionViewModel?.shouldRestartSystemUI()
+            }
+        }
+    }
+
     PreferenceScreen(
         items = lockscreenPreferences,
         title = stringResource(R.string.activity_title_lockscreen),
@@ -124,6 +140,6 @@ fun LockscreenScreen() {
 @Composable
 fun LockscreenScreenPreview() {
     PreviewComposable {
-        LockscreenScreen()
+        LockscreenScreen(null)
     }
 }
