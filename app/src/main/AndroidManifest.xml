@@ -60,6 +60,22 @@
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="subject_segment" />
 
+        <!-- Quick Settings Tile -->
+        <service
+            android:name=".services.tiles.RestartSystemUITile"
+            android:exported="true"
+            android:icon="@drawable/ic_tile_restart_systemui"
+            android:label="@string/restart_sysui_title"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service>
+
         <!-- Xposed Metadata -->
         <meta-data
             android:name="xposedmodule"
