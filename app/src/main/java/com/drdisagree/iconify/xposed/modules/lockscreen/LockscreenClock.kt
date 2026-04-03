@@ -168,7 +168,8 @@ class LockscreenClock(context: Context) : ModPack(context) {
 
         Xprefs.apply {
             showLockscreenClock = getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
-            clockStyle = getInt(XposedKey.LSCLOCK_STYLE)
+            clockStyle =
+                getInt(XposedKey.LSCLOCK_STYLE.name, XposedKey.LSCLOCK_STYLE.default as Int)
             topMargin = getInt(XposedKey.LSCLOCK_TOP_MARGIN)
             bottomMargin = getInt(XposedKey.LSCLOCK_BOTTOM_MARGIN)
             textScaleFactor = getFloat(XposedKey.LSCLOCK_TEXT_SCALE)
