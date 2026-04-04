@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +47,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.others.BlurBehindDialog
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.coloredLogText
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun InstallationDialog(
@@ -113,15 +115,17 @@ fun InstallationDialog(
                 var contentHeightPx by remember { mutableIntStateOf(0) }
                 val density = LocalDensity.current
 
-                LaunchedEffect(logs.size) {
-                    if (logs.isNotEmpty()) {
-                        val lastIndex = (logs.size - 1).coerceAtLeast(0)
-                        try {
-                            listState.animateScrollToItem(lastIndex)
-                        } catch (_: IndexOutOfBoundsException) {
-                            // List mutated during scroll animation; safe to ignore
+                LaunchedEffect(Unit) {
+                    snapshotFlow { logs.size }
+                        .collectLatest {
+                            if (it > 0) {
+                                try {
+                                    listState.scrollToItem(it - 1)
+                                } catch (_: Exception) {
+                                    // List mutated during scroll animation; safe to ignore
+                                }
+                            }
                         }
-                    }
                 }
 
                 AnimatedVisibility(logs.isNotEmpty()) {
@@ -180,17 +184,15 @@ fun InstallationDialog(
 @Preview(showBackground = true)
 @Composable
 fun InstallationDialogPreview() {
-    val sampleLogs = listOf(
-        "I: Creating module template",
-        "W: Some overlays skipped",
-        "E: Failed to flash module",
-    )
-
     PreviewComposable {
         InstallationDialog(
             title = "Installing",
             desc = "Please wait",
-            logs = sampleLogs
+            logs = listOf(
+                "I: Creating module template",
+                "W: Some overlays skipped",
+                "E: Failed to flash module",
+            )
         )
     }
 }
