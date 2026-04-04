@@ -5,7 +5,6 @@ import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.core.utils.Logger.writeLog
 import com.drdisagree.iconify.core.utils.apksigner.CryptoUtils
 import com.drdisagree.iconify.core.utils.apksigner.SignAPK
-import com.drdisagree.iconify.core.utils.overlay.managers.QsResourceManager
 import com.drdisagree.iconify.data.common.Dynamic.AAPT2
 import com.drdisagree.iconify.data.common.Dynamic.ZIPALIGN
 import com.drdisagree.iconify.data.common.Resources.FRAMEWORK_DIR
@@ -49,10 +48,6 @@ object OnboardingCompiler {
         var attempt = 3
 
         val command: String = getAAPT2Command(source, name)
-
-        if (isQsTileOrTextOverlay(name)) {
-            QsResourceManager.removeQuickSettingsStyles(source)
-        }
 
         while (attempt-- != 0) {
             result = Shell.cmd(command).exec()
@@ -183,9 +178,5 @@ object OnboardingCompiler {
         }
 
         return false
-    }
-
-    private fun isQsTileOrTextOverlay(name: String): Boolean {
-        return name.contains("QSS") || name.contains("QSNT") || name.contains("QSPT")
     }
 }
