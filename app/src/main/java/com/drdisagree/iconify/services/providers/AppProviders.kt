@@ -57,6 +57,7 @@ fun AppProviders(
     val floatingBottomBar by settingsViewModel.booleanState(SettingsKey.FLOATING_BOTTOM_BAR)
     val blurEffect by settingsViewModel.booleanState(SettingsKey.BLUR_EFFECT)
     val overlayVersionCode by settingsViewModel.intState(SettingsKey.OVERLAY_VERSION_CODE)
+    val isXposedOnlyMode by settingsViewModel.booleanState(SettingsKey.XPOSED_ONLY_MODE)
     val uiScale by settingsViewModel.floatState(SettingsKey.UI_SCALE)
     val textScale by settingsViewModel.floatState(SettingsKey.TEXT_SCALE)
 
@@ -74,6 +75,7 @@ fun AppProviders(
                 floatingBottomBar = floatingBottomBar,
                 blurEffect = blurEffect,
                 overlayVersionCode = overlayVersionCode,
+                isXposedOnlyMode = isXposedOnlyMode,
                 isLoaded = true,
             )
         }

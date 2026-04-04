@@ -2,11 +2,10 @@ package com.drdisagree.iconify.features.common.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.drdisagree.iconify.core.di.SharedPrefs
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.toPrefValue
 import com.drdisagree.iconify.data.keys.SettingsKey
-import com.drdisagree.iconify.data.storage.PreferenceStorage
+import com.drdisagree.iconify.data.keys.XposedKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
@@ -18,20 +17,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    @param:SharedPrefs private val preferenceStorage: PreferenceStorage
+    private val prefController: PreferenceController
 ) : ViewModel() {
-
-    private val prefController = PreferenceController(preferenceStorage)
 
     init {
         viewModelScope.launch {
-            loadSettings()
+            loadSettingsKeys()
+        }
+        viewModelScope.launch {
+            loadXposedKeys()
         }
     }
 
-    private fun loadSettings() {
+    private fun loadSettingsKeys() {
         prefController.initAll(
             SettingsKey.entries.associate { key ->
+                key.name to key.default.toPrefValue()
+            }
+        )
+    }
+
+    private fun loadXposedKeys() {
+        prefController.initAll(
+            XposedKey.entries.associate { key ->
                 key.name to key.default.toPrefValue()
             }
         )

@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navigation
 import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.scaffolds.MainScaffold
 import com.drdisagree.iconify.core.ui.utils.sharedHiltViewModel
 import com.drdisagree.iconify.features.common.viewmodels.BottomNavViewModel
@@ -34,6 +35,7 @@ import com.drdisagree.iconify.features.home.settingsicons.screens.SettingsIconsS
 import com.drdisagree.iconify.features.home.toastframe.screens.ToastFrameScreen
 import com.drdisagree.iconify.features.home.tweaks.screens.TweaksScreen
 import com.drdisagree.iconify.features.home.wifiicons.screens.WifiIconScreen
+import com.drdisagree.iconify.features.main.screens.MainScreen
 import com.drdisagree.iconify.features.onboarding.screens.OnboardingScreen
 import com.drdisagree.iconify.features.settings.lookandfeel.screens.LookAndFeelScreen
 import com.drdisagree.iconify.features.settings.main.screens.SettingsScreen
@@ -63,6 +65,7 @@ fun NavGraph(
     skipOnboarding: Boolean,
     bottomNavViewModel: BottomNavViewModel = sharedHiltViewModel()
 ) {
+    val settings = LocalSettings.current
     val previewMode = LocalInspectionMode.current
     val navController = LocalNavController.current
     val layoutDirection = LocalLayoutDirection.current
@@ -182,7 +185,9 @@ fun NavGraph(
             composable<NavRoutes.Onboarding> {
                 OnboardingScreen(navController = navController)
             }
-            navigation<NavRoutes.Main>(startDestination = NavRoutes.Home.Root) {
+            navigation<NavRoutes.Main>(startDestination = NavRoutes.Root) {
+                composable<NavRoutes.Root> { MainScreen() }
+
                 navigation<NavRoutes.Home.Root>(startDestination = NavRoutes.Home.Tab) {
                     composable<NavRoutes.Home.Tab> { HomeScreen() }
                     composable<NavRoutes.Home.More> { TweaksScreen() }
@@ -244,7 +249,7 @@ fun NavGraph(
     LaunchedEffect(navBackStackEntry) {
         val currentDestination = navBackStackEntry?.destination
         val selectedIndex = currentDestination.bottomTabIndex()
-            ?: BOTTOM_BAR_TABS.indexOf(DEFAULT_BOTTOM_BAR_TAB)
+            ?: if (settings.isXposedOnlyMode) 0 else bottomNavViewModel.defaultTabIndex
 
         bottomNavViewModel.selectTab(selectedIndex)
     }

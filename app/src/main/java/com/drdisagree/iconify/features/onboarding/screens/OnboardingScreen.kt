@@ -58,6 +58,7 @@ import androidx.navigation.NavController
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.dialogs.ErrorDialog
 import com.drdisagree.iconify.core.ui.components.dialogs.InstallationDialog
 import com.drdisagree.iconify.core.ui.components.extensions.customClickable
@@ -81,6 +82,7 @@ fun OnboardingScreen(
 ) {
     val context = LocalContext.current
     val activity = LocalActivity.current
+    val settings = LocalSettings.current
     val configuration = LocalConfiguration.current
     val locale = configuration.locales[0]
     val numberFormat = remember(locale) { NumberFormat.getInstance(locale) }
@@ -145,9 +147,16 @@ fun OnboardingScreen(
     LaunchedEffect(Unit) {
         onboardingViewModel.state.collect { state ->
             when (state) {
-                InstallationState.Success -> {
+                is InstallationState.Success -> {
                     installationProgressRunning = false
-                    navController.navigate(NavRoutes.Main) {
+
+                    val destination = if (settings.isXposedOnlyMode) {
+                        NavRoutes.Xposed.Root
+                    } else {
+                        NavRoutes.Home.Root
+                    }
+
+                    navController.navigate(destination) {
                         popUpTo(NavRoutes.Onboarding) { inclusive = true }
                         launchSingleTop = true
                     }
@@ -272,7 +281,7 @@ fun OnboardingScreen(
                 Spacer(modifier = Modifier.weight(1f))
 
                 @Composable
-                fun onNextClick(skip: Boolean) = withHaptic {
+                fun onNextClick(skip: Boolean): () -> Unit = withHaptic {
                     if (shouldShowRebootOption) {
                         restartDevice()
                     } else {
@@ -287,7 +296,7 @@ fun OnboardingScreen(
                 }
 
                 Button(
-                    onClick = onNextClick(false),
+                    onClick = {},
                     shapes = ButtonDefaults.shapes(),
                     interactionSource = interactionSource,
                     modifier = Modifier

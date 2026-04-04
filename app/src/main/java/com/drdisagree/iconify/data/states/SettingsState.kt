@@ -14,5 +14,6 @@ data class SettingsState(
     val floatingBottomBar: Boolean,
     val blurEffect: Boolean,
     val overlayVersionCode: Int,
+    val isXposedOnlyMode: Boolean,
     val isLoaded: Boolean,
 )

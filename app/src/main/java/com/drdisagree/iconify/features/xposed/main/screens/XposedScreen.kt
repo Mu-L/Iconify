@@ -3,6 +3,7 @@ package com.drdisagree.iconify.features.xposed.main.screens
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -16,11 +17,14 @@ import com.drdisagree.iconify.core.preferences.iconRes
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
+import com.drdisagree.iconify.core.ui.utils.sharedHiltViewModel
 import com.drdisagree.iconify.core.utils.AppUtils.launchAppThrowError
 import com.drdisagree.iconify.core.utils.AppUtils.openUrl
 import com.drdisagree.iconify.data.common.Const.PL_ENHANCED_PACKAGE
 import com.drdisagree.iconify.data.common.Const.PL_ENHANCED_URL
+import com.drdisagree.iconify.features.common.viewmodels.BottomNavViewModel
 import com.drdisagree.iconify.features.xposed.main.components.HookCheckCard
+import kotlinx.coroutines.delay
 
 fun xposedPreferences(
     onLauncherClick: () -> Unit = {}
@@ -93,7 +97,17 @@ fun xposedPreferences(
 }
 
 @Composable
-fun XposedScreen() {
+fun XposedScreen(bottomNavViewModel: BottomNavViewModel = sharedHiltViewModel()) {
+    LaunchedEffect(Unit) {
+        delay(600)
+        bottomNavViewModel.showBottomBar(true)
+    }
+
+    XposedScreenContent()
+}
+
+@Composable
+private fun XposedScreenContent() {
     val context = LocalContext.current
     val activity = LocalActivity.current
 
@@ -115,6 +129,6 @@ fun XposedScreen() {
 @Composable
 fun XposedScreenPreview() {
     PreviewComposable {
-        XposedScreen()
+        XposedScreenContent()
     }
 }

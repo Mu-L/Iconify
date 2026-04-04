@@ -1,9 +1,5 @@
 package com.drdisagree.iconify.data.common
 
-import com.drdisagree.iconify.data.config.Config
-import com.drdisagree.iconify.data.config.RPrefs
-import com.drdisagree.iconify.data.keys.SettingsKey
-
 object Preferences {
 
     // Xposed mods
@@ -82,9 +78,6 @@ object Preferences {
     const val AUTO_UPDATE = "IconifyAutoUpdate"
     const val UPDATE_OVER_WIFI = "IconifyUpdateOverWifi"
     const val NEW_UPDATE_FOUND = "newUpdateFound"
-
-    var isXposedOnlyMode = RPrefs.getBoolean(SettingsKey.XPOSED_ONLY_MODE, true) &&
-            !Config.SKIP_TO_HOMEPAGE_FOR_TESTING
 
     // Others
     const val BOOT_ID = "boot_id"

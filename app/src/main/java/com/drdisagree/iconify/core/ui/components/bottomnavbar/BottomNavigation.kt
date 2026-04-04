@@ -47,7 +47,7 @@ import androidx.compose.ui.util.fastCoerceAtMost
 import androidx.compose.ui.util.lerp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.drdisagree.iconify.app.navigation.BOTTOM_BAR_TABS
-import com.drdisagree.iconify.app.navigation.DEFAULT_BOTTOM_BAR_TAB
+import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.common.LocalHazeState
 import com.drdisagree.iconify.core.common.LocalLayerBackdrop
 import com.drdisagree.iconify.core.common.LocalNavController
@@ -76,6 +76,7 @@ fun BottomNavigation(bottomNavViewModel: BottomNavViewModel = sharedHiltViewMode
     val selectedTabIndex by bottomNavViewModel::selectedTabIndex
     val blurEffect = settings.blurEffect
     val floatingBottomBar = settings.floatingBottomBar
+    val defaultTabIndex = if (settings.isXposedOnlyMode) 0 else bottomNavViewModel.defaultTabIndex
 
     if (!floatingBottomBar) {
         NavigationBar(
@@ -93,14 +94,17 @@ fun BottomNavigation(bottomNavViewModel: BottomNavViewModel = sharedHiltViewMode
             else NavigationBarDefaults.containerColor,
         ) {
             BOTTOM_BAR_TABS.forEachIndexed { index, tab ->
+                val isEnabled = !settings.isXposedOnlyMode || tab.route != NavRoutes.Home.Tab.route
+
                 NavigationBarItem(
                     selected = selectedTabIndex == index,
+                    enabled = isEnabled,
                     onClick = {
                         if (index != selectedTabIndex) {
-                            val isDefaultTab =
-                                index == BOTTOM_BAR_TABS.indexOf(DEFAULT_BOTTOM_BAR_TAB)
+                            val isDefaultTab = index == defaultTabIndex
+
                             navController.navigate(tab.route) {
-                                popUpTo(DEFAULT_BOTTOM_BAR_TAB) {
+                                popUpTo(BOTTOM_BAR_TABS[defaultTabIndex]) {
                                     inclusive = isDefaultTab
                                 }
                                 launchSingleTop = true
@@ -194,15 +198,17 @@ fun BottomNavigation(bottomNavViewModel: BottomNavViewModel = sharedHiltViewMode
             BottomBarTabs(
                 tabs = BOTTOM_BAR_TABS,
                 selectedTab = selectedTabIndex,
+                isTabEnabled = { tab ->
+                    !settings.isXposedOnlyMode || tab.route != NavRoutes.Home.Tab.route
+                },
                 onTabSelected = { tab ->
                     val newIndex = BOTTOM_BAR_TABS.indexOf(tab)
 
                     if (newIndex != selectedTabIndex) {
-                        val isDefaultTab =
-                            newIndex == BOTTOM_BAR_TABS.indexOf(DEFAULT_BOTTOM_BAR_TAB)
+                        val isDefaultTab = newIndex == defaultTabIndex
 
                         navController.navigate(tab.route) {
-                            popUpTo(DEFAULT_BOTTOM_BAR_TAB) {
+                            popUpTo(BOTTOM_BAR_TABS[defaultTabIndex]) {
                                 inclusive = isDefaultTab
                             }
                             launchSingleTop = true

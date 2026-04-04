@@ -19,6 +19,7 @@ val defaultSettings = SettingsState(
     floatingBottomBar = true,
     blurEffect = true,
     overlayVersionCode = 0,
+    isXposedOnlyMode = false,
     isLoaded = false,
 )
 

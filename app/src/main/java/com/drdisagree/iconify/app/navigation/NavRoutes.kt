@@ -20,6 +20,9 @@ sealed class NavRoutes {
     data object Main : NavRoutes()
 
     @Serializable
+    data object Root : NavRoutes()
+
+    @Serializable
     sealed class Home : NavRoutes() {
 
         @Serializable
@@ -63,9 +66,6 @@ sealed class NavRoutes {
 
         @Serializable
         data object Root : Xposed()
-
-        @Serializable
-        data object Main : Xposed()
 
         @Serializable
         sealed class Statusbar : Xposed() {
@@ -185,5 +185,3 @@ val BOTTOM_BAR_TABS = listOf<NavRoutes.BottomBarTab>(
     NavRoutes.Home.Tab,
     NavRoutes.Settings.Tab,
 )
-
-val DEFAULT_BOTTOM_BAR_TAB = NavRoutes.Home.Tab

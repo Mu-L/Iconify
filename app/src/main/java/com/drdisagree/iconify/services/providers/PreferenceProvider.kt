@@ -8,8 +8,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import com.drdisagree.iconify.core.common.LocalPreferenceController
 import com.drdisagree.iconify.core.di.PreferenceEntryPoint
-import com.drdisagree.iconify.core.ui.components.others.FakeSharedPrefsStorage
 import com.drdisagree.iconify.core.preferences.PreferenceController
+import com.drdisagree.iconify.core.ui.components.others.FakeSharedPrefsStorage
 import dagger.hilt.android.EntryPointAccessors
 
 @Composable
@@ -20,21 +20,12 @@ fun ProvideSharedPreferencesController(content: @Composable () -> Unit) {
         remember { PreferenceController(FakeSharedPrefsStorage()) }
     } else {
         val context = LocalContext.current.applicationContext
-
-        val preferenceStorage = remember {
+        remember {
             EntryPointAccessors.fromApplication(
                 context,
                 PreferenceEntryPoint::class.java
-            ).sharedPrefsStorage()
+            ).preferenceController()
         }
-
-        remember(preferenceStorage) {
-            PreferenceController(preferenceStorage)
-        }
-    }
-
-    DisposableEffect(prefController) {
-        onDispose { prefController.dispose() }
     }
 
     ProvidePreferenceController(prefController, content)

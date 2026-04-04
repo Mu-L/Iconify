@@ -6,8 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalViewConfiguration
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun Modifier.customClickable(
@@ -18,21 +19,31 @@ fun Modifier.customClickable(
     val viewConfiguration = LocalViewConfiguration.current
 
     LaunchedEffect(interactionSource) {
-        var isLongClick = false
+        var longPressJob: Job? = null
+        var didLongClick = false
 
-        interactionSource?.interactions?.collectLatest { interaction ->
+        interactionSource?.interactions?.collect { interaction ->
             when (interaction) {
                 is PressInteraction.Press -> {
-                    isLongClick = false
-                    delay(viewConfiguration.longPressTimeoutMillis)
-                    isLongClick = true
-                    onLongClick()
+                    longPressJob?.cancel()
+                    didLongClick = false
+                    longPressJob = launch {
+                        delay(viewConfiguration.longPressTimeoutMillis)
+                        didLongClick = true
+                        onLongClick()
+                    }
                 }
 
                 is PressInteraction.Release -> {
-                    if (isLongClick.not()) {
-                        onClick()
-                    }
+                    longPressJob?.cancel()
+                    longPressJob = null
+                    if (!didLongClick) onClick()
+                }
+
+                is PressInteraction.Cancel -> {
+                    longPressJob?.cancel()
+                    longPressJob = null
+                    didLongClick = false
                 }
             }
         }

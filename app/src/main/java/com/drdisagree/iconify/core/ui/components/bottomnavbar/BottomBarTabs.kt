@@ -36,6 +36,7 @@ import com.drdisagree.iconify.core.ui.components.others.withHaptic
 fun BottomBarTabs(
     tabs: List<NavRoutes.BottomBarTab>,
     selectedTab: Int,
+    isTabEnabled: (NavRoutes.BottomBarTab) -> Boolean,
     onTabSelected: (NavRoutes.BottomBarTab) -> Unit,
 ) {
     CompositionLocalProvider(
@@ -55,12 +56,18 @@ fun BottomBarTabs(
         ) {
             for (tab in tabs) {
                 val index = tabs.indexOf(tab)
+                val enabled = isTabEnabled(tab)
+
                 val alpha by animateFloatAsState(
-                    targetValue = if (selectedTab == index) 1f else 0.35f,
+                    targetValue = when {
+                        !enabled -> 0.25f
+                        selectedTab == index -> 1f
+                        else -> 0.35f
+                    },
                     label = "alpha"
                 )
                 val scale by animateFloatAsState(
-                    targetValue = if (selectedTab == index) 1f else 0.98f,
+                    targetValue = if (selectedTab == index && enabled) 1f else 0.98f,
                     visibilityThreshold = 0.000001f,
                     animationSpec = spring(
                         stiffness = Spring.StiffnessLow,
@@ -76,6 +83,7 @@ fun BottomBarTabs(
                         .fillMaxHeight()
                         .padding(horizontal = 18.dp)
                         .clickable(
+                            enabled = enabled,
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() },
                             onClick = withHaptic {
@@ -90,14 +98,15 @@ fun BottomBarTabs(
                     } else {
                         tab.iconUnchecked
                     }
+
                     Icon(
                         painter = painterResource(iconRes),
                         contentDescription = stringResource(tab.title),
-                        tint = MaterialTheme.colorScheme.onSurface
+                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = if (enabled) 1f else 0.4f)
                     )
                     Text(
                         text = stringResource(tab.title),
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = if (enabled) 1f else 0.4f)
                     )
                 }
             }

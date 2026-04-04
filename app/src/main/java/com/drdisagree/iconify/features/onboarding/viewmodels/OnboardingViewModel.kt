@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.core.di.SharedPrefs
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.utils.AssetsUtils.copyAssets
 import com.drdisagree.iconify.core.utils.FileUtils
@@ -39,7 +38,6 @@ import com.drdisagree.iconify.data.common.Resources.UNSIGNED_DIR
 import com.drdisagree.iconify.data.common.Resources.UNSIGNED_UNALIGNED_DIR
 import com.drdisagree.iconify.data.config.Config
 import com.drdisagree.iconify.data.keys.SettingsKey
-import com.drdisagree.iconify.data.storage.PreferenceStorage
 import com.drdisagree.iconify.features.onboarding.states.InstallationEvent
 import com.drdisagree.iconify.features.onboarding.states.InstallationState
 import com.drdisagree.iconify.helpers.BackupRestore.restoreFiles
@@ -64,12 +62,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    @param:SharedPrefs private val preferenceStorage: PreferenceStorage
+    private val prefController: PreferenceController
 ) : ViewModel() {
 
     private val tag = OnboardingViewModel::class.java.simpleName
-
-    private val prefController = PreferenceController(preferenceStorage)
 
     private val _state = MutableStateFlow<InstallationState>(InstallationState.Idle)
     val state: StateFlow<InstallationState> = _state.asStateFlow()
@@ -156,18 +152,15 @@ class OnboardingViewModel @Inject constructor(
                 clearDatabase(skipInstallation, moduleExists, overlayExists)
                 performInstallation(skipInstallation)
             } else {
-                prefController.setBoolean(
-                    SettingsKey.XPOSED_ONLY_MODE,
-                    skipInstallation && !overlayExists
-                )
+                prefController.setBoolean(SettingsKey.FIRST_INSTALL, false)
 
-                if (!skipInstallation) {
-                    _state.emit(InstallationState.Success)
-                } else {
+                if (skipInstallation) {
                     _events.emit(
                         InstallationEvent.Toast(R.string.toast_skipped_installation)
                     )
                 }
+
+                _state.emit(InstallationState.Success)
             }
         }
     }
@@ -380,11 +373,10 @@ class OnboardingViewModel @Inject constructor(
         }
 
         if (!hasErroredOut) {
-            progress(log = "I: Moving overlays to system directory", nextStep = true)
-
-            if (skip) {
-                delay(100)
-                progress(log = "W: Skipping...")
+            if (!skip) {
+                progress(log = "I: Moving overlays to system directory", nextStep = true)
+            } else {
+                progress(log = "W: Skip moving overlays to system directory", nextStep = true)
             }
         }
 
@@ -448,23 +440,20 @@ class OnboardingViewModel @Inject constructor(
         delay(500)
 
         if (!hasErroredOut) {
+            if (prefController.getBoolean(SettingsKey.FIRST_INSTALL)) {
+                prefController.setBoolean(SettingsKey.FIRST_INSTALL, false)
+                prefController.setBoolean(SettingsKey.UPDATE_DETECTED, false)
+            } else {
+                prefController.setBoolean(SettingsKey.UPDATE_DETECTED, true)
+            }
+
             if (!skip) {
                 if (BuildConfig.OVERLAY_VERSION_CODE != prefController.getInt(SettingsKey.OVERLAY_VERSION_CODE)) {
-                    if (prefController.getBoolean(SettingsKey.FIRST_INSTALL)) {
-                        prefController.setBoolean(SettingsKey.FIRST_INSTALL, true)
-                        prefController.setBoolean(SettingsKey.UPDATE_DETECTED, false)
-                    } else {
-                        prefController.setBoolean(SettingsKey.FIRST_INSTALL, false)
-                        prefController.setBoolean(SettingsKey.UPDATE_DETECTED, true)
-                    }
-
                     prefController.setInt(
                         SettingsKey.OVERLAY_VERSION_CODE,
                         BuildConfig.OVERLAY_VERSION_CODE
                     )
                 }
-
-                prefController.setBoolean(SettingsKey.XPOSED_ONLY_MODE, false)
 
                 if (moduleExists() && overlayExists()) {
                     _events.emit(
@@ -479,8 +468,6 @@ class OnboardingViewModel @Inject constructor(
                     _state.emit(InstallationState.Reboot)
                 }
             } else {
-                prefController.setBoolean(SettingsKey.XPOSED_ONLY_MODE, true)
-
                 _events.emit(
                     InstallationEvent.Toast(R.string.one_time_reboot_needed)
                 )
@@ -529,8 +516,6 @@ class OnboardingViewModel @Inject constructor(
     }
 
     private fun onCancelled() {
-        prefController.setBoolean(SettingsKey.XPOSED_ONLY_MODE, false)
-
         Shell.cmd(
             "rm -rf $DATA_DIR",
             "rm -rf $TEMP_DIR",
@@ -541,7 +526,6 @@ class OnboardingViewModel @Inject constructor(
 
     override fun onCleared() {
         installationJob?.cancel()
-        onCancelled()
         super.onCleared()
     }
 }

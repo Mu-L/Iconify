@@ -27,10 +27,8 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.app.navigation.NavGraph
 import com.drdisagree.iconify.core.common.LocalPreferenceController
 import com.drdisagree.iconify.core.common.LocalSettings
-import com.drdisagree.iconify.core.preferences.PreferenceScreenItem
 import com.drdisagree.iconify.core.ui.components.others.BLUR_RADIUS
 import com.drdisagree.iconify.core.ui.theme.MyAppTheme
-import com.drdisagree.iconify.data.common.References.PREFERENCE_LIST
 import com.drdisagree.iconify.data.config.Config
 import com.drdisagree.iconify.data.states.AppState
 import com.drdisagree.iconify.services.providers.AppProviders
@@ -84,7 +82,7 @@ class MainActivity : ComponentActivity() {
                                 "Model availability: ${response.areModulesAvailable()}"
                             )
                         }
-                        delay(500)
+                        delay(300)
                         isInitializing = false
                     }
                 }
@@ -156,14 +154,6 @@ class MainActivity : ComponentActivity() {
         val prefController = LocalPreferenceController.current
 
         LaunchedEffect(Unit) {
-            withContext(Dispatchers.IO) {
-                val defaults = PREFERENCE_LIST
-                    .filterIsInstance<PreferenceScreenItem.Category>()
-                    .flatMap { it.definition.preferences }
-                    .associate { pref -> pref.key to pref.defaultValue }
-                prefController.initAll(defaults)
-            }
-
             val shellReady = withContext(Dispatchers.IO) {
                 try {
                     withTimeout(15_000L) {
@@ -187,7 +177,7 @@ class MainActivity : ComponentActivity() {
                     false
                 } else {
                     try {
-                        Config.shouldSkipOnboarding()
+                        Config.shouldSkipOnboarding(prefController = prefController)
                     } catch (e: Exception) {
                         Log.e(TAG, "shouldSkipOnboarding error", e)
                         false

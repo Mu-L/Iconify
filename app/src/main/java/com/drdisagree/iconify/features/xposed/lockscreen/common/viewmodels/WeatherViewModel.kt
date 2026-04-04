@@ -11,13 +11,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.core.di.SharedPrefs
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.toPrefValue
 import com.drdisagree.iconify.core.utils.OmniJawsClient
 import com.drdisagree.iconify.core.utils.weather.WeatherConfig
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.data.storage.PreferenceStorage
 import com.drdisagree.iconify.features.xposed.lockscreen.common.events.WeatherDialog
 import com.drdisagree.iconify.features.xposed.lockscreen.common.events.WeatherEvent
 import com.drdisagree.iconify.features.xposed.lockscreen.common.models.WeatherIconPackItem
@@ -41,10 +39,8 @@ import javax.inject.Inject
 class WeatherViewModel @Inject constructor(
     @param:ApplicationContext val context: Context,
     val mWeatherClient: OmniJawsClient,
-    @param:SharedPrefs private val preferenceStorage: PreferenceStorage,
+    private val prefController: PreferenceController
 ) : ViewModel() {
-
-    private val prefController = PreferenceController(preferenceStorage)
 
     private val _screenState = MutableStateFlow(WeatherScreenState())
     val screenState: StateFlow<WeatherScreenState> = _screenState.asStateFlow()

@@ -53,10 +53,11 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.common.LocalPreferenceController
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.utils.CARD_CORNER_LARGE
-import com.drdisagree.iconify.data.common.Preferences
 import com.drdisagree.iconify.features.xposed.main.viewmodels.HookCheckViewModel
 import kotlinx.coroutines.delay
 
@@ -66,7 +67,9 @@ fun HookCheckCard(
     viewModel: HookCheckViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
+    val settings = LocalSettings.current
     val previewMode = LocalInspectionMode.current
+    val prefController = LocalPreferenceController.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     var showDialog by rememberSaveable { mutableStateOf(false) }
@@ -80,7 +83,7 @@ fun HookCheckCard(
             text = {
                 val message = if (!uiState.hasBootlooped) {
                     buildString {
-                        if (Preferences.isXposedOnlyMode) {
+                        if (settings.isXposedOnlyMode) {
                             append(stringResource(R.string.xposed_only_desc))
                             append("\n\n")
                         }
