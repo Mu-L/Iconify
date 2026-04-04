@@ -58,8 +58,9 @@ class LockscreenClockViewModel @Inject constructor() : ViewModel() {
 
             WallpaperUtils.prepareLockWallpaper()?.let { file ->
                 _wallpaperBytes.emit(file.readBytes())
-                _wallpaperReady.emit(true)
             }
+
+            _wallpaperReady.emit(true)
         }
     }
 }
