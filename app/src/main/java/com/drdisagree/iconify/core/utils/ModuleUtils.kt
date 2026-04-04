@@ -1,13 +1,12 @@
 package com.drdisagree.iconify.core.utils
 
-import android.content.Context
 import android.util.Log
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.app.MainActivity
 import com.drdisagree.iconify.core.utils.AssetsUtils.readRawResource
-import com.drdisagree.iconify.core.utils.RootUtils.setPermissions
+import com.drdisagree.iconify.core.utils.RootUtils.setPermissionsRecursively
 import com.drdisagree.iconify.core.utils.overlay.FabricatedUtils
 import com.drdisagree.iconify.core.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
@@ -187,10 +186,10 @@ object ModuleUtils {
         if (RootUtils.isMagiskInstalled) {
             result = Shell.cmd("magisk --install-module $modulePath").exec()
         } else if (RootUtils.isKSUInstalled) {
-            result = Shell.cmd("/data/adb/ksud module install $modulePath").exec()
+            result = Shell.cmd("ksud module install $modulePath").exec()
         } else if (RootUtils.isApatchInstalled) {
             result = Shell.cmd("apd module install $modulePath").exec()
-            setPermissions(755, MODULE_DIR)
+            setPermissionsRecursively(MODULE_DIR)
         }
 
         if (result == null) {

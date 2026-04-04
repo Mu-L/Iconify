@@ -34,14 +34,18 @@ object RootUtils {
         Shell.cmd("chmod $permission $filename").exec()
     }
 
-    fun setPermissionsRecursively(permission: Int, folderName: String) {
-        Shell.cmd("chmod -R $permission $folderName").exec()
-        val perm = permission.toString()
-
-        if (!Shell.cmd("stat -c '%a' $folderName").exec().out.contains(perm) || !Shell.cmd(
-                $$"fl=$(find '$$folderName' -type f -mindepth 1 -print -quit); stat -c '%a' $fl"
-            ).exec().out.contains(perm)
-        ) Shell.cmd($$"for file in $$folderName*; do chmod $$permission \"$file\"; done").exec()
+    fun setPermissionsRecursively(
+        folderName: String,
+        dirPerm: Int = 755,
+        filePerm: Int = 644,
+        execPerm: Int = 755
+    ) {
+        Shell.cmd(
+            "find '$folderName' -type d -exec chmod $dirPerm {} \\;",
+            "find '$folderName' -type f -name '*.sh' -exec chmod $execPerm {} \\;",
+            "find '$folderName' -type f ! -name '*.sh' -exec chmod $filePerm {} \\;",
+            "find '$folderName/META-INF' -type f -name 'update-binary' -exec chmod $execPerm {} \\;",
+        ).exec()
     }
 
     fun fileExists(path: String): Boolean {
