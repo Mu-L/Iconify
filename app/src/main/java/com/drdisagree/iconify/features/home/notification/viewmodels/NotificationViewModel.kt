@@ -3,12 +3,14 @@ package com.drdisagree.iconify.features.home.notification.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.core.utils.overlay.compilers.OnDemandCompiler
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.events.ToastUiEvent
 import com.drdisagree.iconify.data.keys.CustomizationKey
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.data.repository.SystemActionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +27,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
+    private val prefController: PreferenceController,
     private val systemActionRepository: SystemActionRepository
 ) : ViewModel() {
 
@@ -54,6 +57,8 @@ class NotificationViewModel @Inject constructor(
             _isLoading.value = true
 
             if (_notificationStyle.value == packId) {
+                prefController.setBoolean(XposedKey.FIX_NOTIFICATION_COLOR, false)
+                prefController.setBoolean(XposedKey.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, false)
                 OverlayUtils.disableOverlay("IconifyComponent$category.overlay")
 
                 delay(1000)
@@ -80,6 +85,8 @@ class NotificationViewModel @Inject constructor(
             }
 
             if (!hasError) {
+                prefController.setBoolean(XposedKey.FIX_NOTIFICATION_COLOR, true)
+                prefController.setBoolean(XposedKey.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, true)
                 OverlayUtils.enableRoundnessIfDisabled()
             }
 
