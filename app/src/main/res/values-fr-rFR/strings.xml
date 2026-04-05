@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_motto">Personnaliser l\'interface utilisateur ennuyeuse d\'Android</string>
+    <string name="app_motto">Customize Boring Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Initialisation de la configuration</string>
     <string name="step">Étape</string>
@@ -20,17 +20,35 @@
     <string name="onboarding_title_3">Pouvons-nous commencer maintenant ?</string>
     <string name="onboarding_subtitle_3">Il est temps pour iconify de faire un travail interne.</string>
     <string name="onboarding_desc_3">Démarrage de tâches internes, marquant le lancement de travaux essentiels. Prêt à commencer ?</string>
+    <string name="grant_permission">Grant Permission</string>
     <string name="need_storage_perm_title">Besoin de l\'autorisation d\'accès au stockage</string>
     <string name="need_storage_perm_desc">L\'autorisation d\'accès au stockage est requise pour créer les fichiers nécessaires.</string>
+    <string name="notification_perm_title">Allow Notifications</string>
+    <string name="notification_perm_desc">Needed to notify you about available updates and to display test notifications.</string>
+    <string name="optional_permission">Granting these permissions is optional!</string>
     <string name="compatible_root_not_found_title">Impossible de trouver une méthode root compatible</string>
     <string name="compatible_root_not_found_desc">Vous devez rooter votre appareil.</string>
     <string name="root_not_found_title">Root non accessible</string>
     <string name="root_not_found_desc">On dirait que votre appareil n\'est pas rooté !</string>
+    <string name="metamodule_not_found_title">Metamodule not installed</string>
+    <string name="metamodule_not_found_desc">KernelSU 3.0.0 and newer require the Metamodule to enable systemless /system modifications.</string>
     <string name="need_reboot_title">Vous devez redémarrer votre appareil</string>
     <string name="need_reboot_desc">Redémarrez votre appareil pour mettre tous les fichiers en place.</string>
     <string name="installation_failed_title">Oups, je ne m\'attendais pas à ça</string>
     <string name="installation_failed_desc">Les journaux ont été enregistrés dans le dossier des documents.</string>
     <string name="logs">Journaux</string>
+    <!-- Disclaimer -->
+    <string name="disclaimer">Disclaimer</string>
+    <string name="disclaimer_1_title">Root Access &amp; Environment</string>
+    <string name="disclaimer_1_description">This application requires Root privileges via Magisk, KernelSU, or APatch to modify system resources.\nWhile LSPosed is optional, it is highly recommended for the best compatibility and advanced feature support.\nThe app will prompt for Superuser permissions; without them, no changes can be applied to your system.</string>
+    <string name="disclaimer_2_title">System Overlays &amp; Modifications</string>
+    <string name="disclaimer_2_description">Iconify functions by generating and injecting dynamic Runtime Resource Overlays (RRO) directly into your system.\nThese modifications are designed for AOSP-based ROMs and may conflict with heavily modified OEM skins (like HyperOS, Realme UI or OneUI).\nChanging certain system values may cause UI freezes or \"System UI has stopped\" errors depending on your specific Android version.</string>
+    <string name="disclaimer_3_title">Risk of Bootloop &amp; Recovery</string>
+    <string name="disclaimer_3_description">Modifying system files carries an inherent risk of causing a bootloop where the device fails to start.\nBefore proceeding, ensure you have a custom recovery (like TWRP, OrangeFox) installed.\nAlways know the hardware key combination for your device to boot into \"Safe Mode,\" which can disable all modules in an emergency.</string>
+    <string name="disclaimer_4_title">No Warranty &amp; Liability</string>
+    <string name="disclaimer_4_description">This software is provided \"as-is\" under the GPL-3.0 license, without any express or implied warranties.\nThe developer is not legally or financially responsible for bricked hardware, dead SD cards, or unexpected \"black screens.\"\nBy using this app, you acknowledge that you are modifying your device\'s core software at your own discretion.</string>
+    <string name="disclaimer_5_title">Data Safety &amp; Responsibility</string>
+    <string name="disclaimer_5_description">Backup is mandatory: Always maintain an off-device backup of your photos, contacts, and files before performing deep system theming.\nIt is your responsibility to verify compatibility with your ROM by checking the official GitHub documentation or community groups.\nIf you are unsure how to manually remove a Magisk module via ADB, please do not proceed with advanced modifications.</string>
     <!-- Search Preference -->
     <string name="search_title">Rechercher</string>
     <string name="searchpreference_search">Rechercher…</string>
@@ -220,7 +238,7 @@
     <string name="icon_mask_style_scroll">Scroll</string>
     <string name="icon_mask_style_square">Carré</string>
     <string name="icon_mask_style_teardrop">Larme</string>
-    <string name="icon_mask_style_rounded_rectangle">Rectangle\narrondi</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded Rectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Nuageux</string>
     <string name="icon_mask_style_cylinder">Cylindre</string>
@@ -228,10 +246,10 @@
     <string name="icon_mask_style_heart">Cœur</string>
     <string name="icon_mask_style_leaf">Feuille</string>
     <string name="icon_mask_style_stretched">Étiré</string>
-    <string name="icon_mask_style_tapered_rectangle">Rectangle\neffilé</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered Rectangle</string>
     <string name="icon_mask_style_vessel">Vessel</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_round">Force Round</string>
+    <string name="icon_mask_style_round">Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Couleurs basiques</string>
     <string name="activity_desc_basic_colors">Modifier la couleur primaire et secondaire</string>
@@ -507,6 +525,7 @@
     <string name="lockscreen_device_widget_style_classic">Barre avec deux arcs</string>
     <string name="lockscreen_device_widget_style_arcs">Quatre Arcs</string>
     <!-- LS Widgets Actions -->
+    <string name="none">None</string>
     <string name="camera">Caméra</string>
     <string name="clock_timer">Horloge/Minuterie</string>
     <string name="calculator">Calculatrice</string>
@@ -729,6 +748,8 @@
     <string name="lockscreen_clock_move_notification_icon_desc">Déplacer les icônes AOD sous l\'horloge personnalisée, peut être buggé sur les anciennes ROM</string>
     <string name="lockscreen_clock_font_title">Police de l\'horloge</string>
     <string name="lockscreen_clock_font_desc">Utiliser une police personnalisée pour l\'horloge de l\'écran de verrouillage</string>
+    <string name="lockscreen_clock_image1_title">Custom Image 1</string>
+    <string name="lockscreen_clock_image2_title">Custom Image 2</string>
     <string name="lockscreen_clock_image_title">Image personnalisée</string>
     <string name="lockscreen_clock_image_desc">Utiliser une image personnalisée pour l\'horloge de l\'écran de verrouillage</string>
     <string name="lsclock_custom_color_title">Couleur de l\'horloge personnalisée</string>
@@ -782,6 +803,7 @@
     <string name="wallpaper_background_sensitivity_title">Sensibilité de l\'arrière-plan</string>
     <string name="depth_wallpaper_model_ready">Le modèle IA est téléchargé sur l\'appareil</string>
     <string name="depth_wallpaper_model_not_available">Le modèle IA n\'est pas (encore) disponible sur l\'appareil</string>
+    <string name="depth_wallpaper_model_checking">Checking for AI model availability…</string>
     <string name="depth_wallpaper_subject_extraction_started">Extraction du sujet du fond d\'écran…</string>
     <string name="depth_wallpaper_subject_extraction_success">Sujet du fond d\'écran extrait !</string>
     <string name="depth_wallpaper_subject_extraction_failed">Impossible d\'extraire le sujet du fond d\'écran !</string>
@@ -796,10 +818,14 @@
     <string name="statusbar_clock_clickable_title">Horloge cliquable</string>
     <string name="statusbar_clock_clickable_desc">Cliquez pour ouvrir l\'application d\'horloge</string>
     <string name="section_title_text">Texte</string>
-    <string name="statusbar_clock_text_color_title">Couleur du texte de l\'horloge</string>
-    <string name="sbclock_text_color_follow_system">Suivre le système</string>
-    <string name="sbclock_text_color_transparent_text">Texte transparent</string>
-    <string name="sbclock_text_color_custom_color">Couleurs personnalisées</string>
+    <string name="statusbar_clock_text_color_title">Clock Text Color</string>
+    <string name="sbclock_text_color_follow_system">Follow System</string>
+    <string name="sbclock_text_color_transparent_text">Transparent Text</string>
+    <string name="sbclock_text_color_custom_color">Custom Color</string>
+    <string name="statusbar_clock_fill_color_title">Clock Fill Color</string>
+    <string name="sbclock_fill_color_accent">@string/apply_monet_accent_title</string>
+    <string name="sbclock_fill_color_gradient">@string/apply_monet_gradient_title</string>
+    <string name="sbclock_fill_color_custom">@string/sbclock_text_color_custom_color</string>
     <string name="clock_text_color_picker_title">Sélecteur de couleur du texte</string>
     <string name="clock_text_color_picker_desc">Définir la couleur du texte de l\'horloge de la barre de statut</string>
     <string name="section_title_status_icons">Icônes de la barre d’état</string>
@@ -818,8 +844,10 @@
     <string name="fill_end_color">Couleur de fin de remplissage</string>
     <string name="section_title_border">Bordure</string>
     <string name="enable_border">Activer la bordure</string>
-    <string name="accent_border_color">Couleur de la bordure d\'accentuation</string>
-    <string name="border_color">Couleur de la bordure</string>
+    <string name="border_color_title">Border Color</string>
+    <string name="border_color_accent">Accent Color</string>
+    <string name="border_color_custom">Custom Color</string>
+    <string name="border_color_custom_title">Custom Border Color</string>
     <string name="dashed_border">Bordure en pointillés</string>
     <string name="dash_width">Largeur des pointillés</string>
     <string name="dash_gap">Écartement des pointillés</string>
@@ -904,6 +932,8 @@
     <string name="status_bar_logo_style_custom">Custom Image</string>
     <string name="status_bar_logo_tint_title">Follow Statusbar Tint</string>
     <string name="status_bar_logo_tint_desc">Switch to a light/dark background to update tint</string>
+    <string name="status_bar_logo_chooser_title">Select Logo Image</string>
+    <string name="status_bar_logo_chooser_desc">Select a custom logo image</string>
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">Barre d\'état à double ligne</string>
     <string name="dsb_portrait_only_title">Portrait uniquement</string>
@@ -1062,6 +1092,7 @@
     <string name="btn_skip">Ignorer</string>
     <string name="btn_next">Suivant</string>
     <string name="btn_back">Précédent</string>
+    <string name="btn_agree">I Agree</string>
     <string name="btn_lets_go">C\'est parti</string>
     <string name="btn_close">Fermer</string>
     <string name="btn_positive">Oui</string>
@@ -1097,6 +1128,8 @@
     <string name="toast_selected_successfully">Sélectionné avec succès</string>
     <string name="toast_unavailable">Indisponible</string>
     <string name="toast_use_from_xposed_menu">Utiliser cette fonctionnalité du menu Xposed</string>
+    <string name="toast_downgrade_kernelsu">Downgrade KernelSU app and try again</string>
+    <string name="toast_reboot_and_try_again">Reboot device and try again</string>
     <!-- Push Notification -->
     <string name="new_update_title">Mise à jour disponible</string>
     <string name="new_update_desc">Une nouvelle version d\'Iconify est disponible.</string>
@@ -1161,6 +1194,7 @@
     <string name="force_enable_blur_desc">Forcer l\'activation du flou pour les roms non supportées</string>
     <string name="choose_header_image">Choisir l\'image d\'en-tête</string>
     <string name="choose_clock_font">Choisir la police de l\'horloge</string>
+    <string name="choose_weather_font">Choose Weather Font</string>
     <string name="pick_style">Choisissez un style de votre choix</string>
     <string name="attention">Attention !</string>
     <string name="method_toggle_dark_mode">Mode sombre à double bascule</string>
