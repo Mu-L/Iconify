@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.data.common
 
 import android.os.Environment
+import android.util.Log
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.core.utils.FileUtils
 
@@ -20,10 +21,14 @@ object Resources {
             .also { FileUtils.ensureDirs(it) }
 
     private val BASE_DIR: String
-        get() = appContext
-            .getExternalFilesDir(null)!!
-            .absolutePath
-            .also { FileUtils.ensureDirs(it) }
+        get() {
+            val dir = appContext.getExternalFilesDir(null)
+                ?: run {
+                    Log.w("Resources", "External storage unavailable, falling back to internal")
+                    appContext.filesDir
+                }
+            return dir.absolutePath.also { FileUtils.ensureDirs(it) }
+        }
 
     val LOG_DIR: String
         get() = "$DOCUMENTS_DIR/Iconify"
