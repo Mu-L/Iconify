@@ -3,6 +3,16 @@ PKGNAME="$BASEPKGNAME.debug"
 LSPDDBPATH="/data/adb/lspd/config/modules_config.db"
 MAGISKDBPATH="/data/adb/magisk.db"
 
+checkAndroidVersion() {
+  SDK=$(getprop ro.build.version.sdk)
+
+  if [ "$SDK" -lt 36 ]; then
+    ui_print "! Android 16 (SDK 36) or higher is required."
+    ui_print "! Detected SDK level: $SDK"
+    abort "! Aborting installation."
+  fi
+}
+
 prepareAPK() {
   ui_print '- Unzipping APK...'
 	unzip $ZIPFILE 'Iconify.apk' -d $TMPDIR/ > /dev/null
@@ -35,7 +45,7 @@ launchApp() {
   sleep 1
   if pm list packages | grep -q "$PKGNAME"; then
     ui_print "- Launching Iconify..."
-    am start -n $PKGNAME/$BASEPKGNAME.SplashActivity
+    am start -n $PKGNAME/$BASEPKGNAME.app.MainActivity
   fi
 }
 
@@ -107,16 +117,16 @@ activateModuleLSPD() {
 finishInstallation() {
 	launchApp
 	ui_print ''
-	ui_print '- Installation Complete!'
-	ui_print ''
 	ui_print ''
 	ui_print '  ***************************************'
+	ui_print '  *       ~INSTALLATION COMPLETE~       *'
 	ui_print '  * IGNORE THE FOLLOWING ERROR MESSAGE. *'
 	ui_print '  ***************************************'
 	ui_print ''
 	abort ''
 }
 
+checkAndroidVersion
 prepareAPK
 installAPK
 prepareSQL
