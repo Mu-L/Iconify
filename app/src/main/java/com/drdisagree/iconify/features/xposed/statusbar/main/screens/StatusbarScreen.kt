@@ -6,6 +6,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
+import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.arrayRes
@@ -139,6 +140,13 @@ fun StatusbarScreen(
 ) {
     PreferenceListener { event ->
         when (event.key) {
+            XposedKey.STATUSBAR_CLOCK_CHIP.name -> {
+                val newValue = (event.newValue as PrefValue.BoolValue).v
+                if (!newValue) {
+                    systemActionViewModel?.shouldRestartSystemUI()
+                }
+            }
+
             XposedKey.STATUSBAR_CLOCK_POSITION.name,
             XposedKey.STATUSBAR_CLOCK_CLICKABLE.name,
             XposedKey.STATUSBAR_CLOCK_TEXT_SIZE_SWITCH.name,
