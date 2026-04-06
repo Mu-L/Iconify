@@ -102,14 +102,23 @@ class QSTheme(context: Context) : ModPack(context) {
                 if (!customQsTheme) return@runAfter
 
                 val tileUiState = param.args[0]
+                val iconOnly = param.args[1] as Boolean
                 val state = tileUiState.getAnyField("visualState", "state") as? Int
+                val handlesSecondaryClick = tileUiState.getAnyField(
+                    "handlesSecondaryClick",
+                    "handlesToggleClick"
+                ) as Boolean
+                val isDualTarget = handlesSecondaryClick && !iconOnly
 
                 param.result.apply {
                     when (state) {
                         STATE_ACTIVE -> {
                             setField(
                                 "background",
-                                colorKtClass.callStaticMethod("Color", activeBgColor)
+                                colorKtClass.callStaticMethod(
+                                    "Color",
+                                    if (isDualTarget) activeBgColor else activeIconBgColor
+                                )
                             )
                             setField(
                                 "icon",
