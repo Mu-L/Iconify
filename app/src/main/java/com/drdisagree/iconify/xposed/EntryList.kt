@@ -2,7 +2,6 @@ package com.drdisagree.iconify.xposed
 
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.xposed.modules.statusbar.ClockChip
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ConfigurationCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ControllersProvider
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
@@ -10,6 +9,7 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
+import com.drdisagree.iconify.xposed.modules.extras.utils.GraphicsColorKt
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet
 import com.drdisagree.iconify.xposed.modules.extras.utils.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.framework.BroadcastController
@@ -28,6 +28,7 @@ import com.drdisagree.iconify.xposed.modules.quicksettings.QSTheme
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSTransparency
 import com.drdisagree.iconify.xposed.modules.quicksettings.QuickSettings
 import com.drdisagree.iconify.xposed.modules.statusbar.AppIconsInStatusbar
+import com.drdisagree.iconify.xposed.modules.statusbar.ClockChip
 import com.drdisagree.iconify.xposed.modules.statusbar.DualStatusbar
 import com.drdisagree.iconify.xposed.modules.statusbar.OnGoingActionChip
 import com.drdisagree.iconify.xposed.modules.statusbar.StatusbarLogo
@@ -41,6 +42,7 @@ object EntryList {
 
     private val topPriorityCommonModPacks: List<Class<out ModPack>> = listOf(
         SettingsLibUtils::class.java,
+        GraphicsColorKt::class.java,
         HookCheck::class.java
     )
 
