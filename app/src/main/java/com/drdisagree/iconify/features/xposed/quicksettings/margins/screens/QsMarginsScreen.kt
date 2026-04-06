@@ -14,7 +14,7 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 
 val qsMarginsPreferences = preferenceScreen {
-    category(title = stringRes(R.string.section_title_transparency)) {
+    category {
         switch(
             key = XposedKey.CUSTOM_QS_MARGINS,
             isMasterSwitch = true,
