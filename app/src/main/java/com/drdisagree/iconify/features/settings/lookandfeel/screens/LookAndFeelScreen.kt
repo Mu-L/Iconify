@@ -215,7 +215,6 @@ val lookAndFeelPreferences = preferenceScreen {
             showDefaultIndicator = true,
             hideDefaultValue = true,
             showResetButton = true,
-            applyOnValueChangeFinished = true,
         )
 
         slider(
@@ -230,7 +229,6 @@ val lookAndFeelPreferences = preferenceScreen {
             showDefaultIndicator = true,
             hideDefaultValue = true,
             showResetButton = true,
-            applyOnValueChangeFinished = true,
         )
     }
 }
