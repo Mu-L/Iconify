@@ -111,12 +111,12 @@ fun SliderPreferenceItem(
                     onValueChange = { newValue ->
                         updateUiValue(newValue)
 
-                        if (!type.applyOnValueChangeFinished) {
+                        if (type.applyImmediately) {
                             persistValue(newValue)
                         }
                     },
                     onValueChangeFinished = {
-                        if (type.applyOnValueChangeFinished) {
+                        if (!type.applyImmediately) {
                             persistValue(sliderValue)
                         }
                     },

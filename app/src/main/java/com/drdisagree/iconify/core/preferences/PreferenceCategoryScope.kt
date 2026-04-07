@@ -114,7 +114,7 @@ class PreferenceCategoryScope {
         max: Float = 100f,
         steps: Int = 0,
         valueLabel: ((Float) -> String)? = null,
-        applyOnValueChangeFinished: Boolean = true,
+        applyImmediately: Boolean = false,
         showResetButton: Boolean = false,
         showDefaultIndicator: Boolean = false,
         hideDefaultValue: Boolean = false,
@@ -125,7 +125,7 @@ class PreferenceCategoryScope {
         PreferenceDefinition(
             key, title, defaultValue.toPrefValue(),
             PreferenceType.Slider(
-                min, max, steps, valueLabel, applyOnValueChangeFinished,
+                min, max, steps, valueLabel, applyImmediately,
                 showResetButton, showDefaultIndicator, hideDefaultValue
             ),
             icon, summary, isVisible, isEnabled
@@ -141,7 +141,7 @@ class PreferenceCategoryScope {
         max: Float = 100f,
         steps: Int = 0,
         valueLabel: ((Float) -> String)? = null,
-        applyOnValueChangeFinished: Boolean = true,
+        applyImmediately: Boolean = false,
         showResetButton: Boolean = false,
         showDefaultIndicator: Boolean = false,
         hideDefaultValue: Boolean = false,
@@ -152,7 +152,7 @@ class PreferenceCategoryScope {
         PreferenceDefinition(
             key.name, title, defaultValue.toPrefValue(),
             PreferenceType.Slider(
-                min, max, steps, valueLabel, applyOnValueChangeFinished,
+                min, max, steps, valueLabel, applyImmediately,
                 showResetButton, showDefaultIndicator, hideDefaultValue
             ),
             icon, summary, isVisible, isEnabled

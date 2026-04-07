@@ -13,7 +13,7 @@ sealed class PreferenceType {
         val max: Float = 100f,
         val steps: Int = 0,
         val valueLabel: ((Float) -> String)? = null,
-        val applyOnValueChangeFinished: Boolean,
+        val applyImmediately: Boolean,
         val showResetButton: Boolean = false,
         val showDefaultIndicator: Boolean = false,
         val hideDefaultValue: Boolean = false
