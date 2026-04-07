@@ -3,7 +3,6 @@ package com.drdisagree.iconify.core.utils.overlay.compilers
 import android.util.Log
 import com.drdisagree.iconify.core.utils.AssetsUtils.copyAssets
 import com.drdisagree.iconify.core.utils.FileUtils
-import com.drdisagree.iconify.core.utils.FileUtils.ensureRw
 import com.drdisagree.iconify.core.utils.Logger.writeLog
 import com.drdisagree.iconify.core.utils.RootUtils.setPermissions
 import com.drdisagree.iconify.core.utils.SystemUtils.mountRO
@@ -198,10 +197,7 @@ object RoundnessCompiler {
     private fun writeResources(source: String, resources: String): Boolean {
         return try {
             Shell.cmd("rm -rf $source/res/values/dimens.xml").exec()
-            File("$source/res/values/dimens.xml").apply {
-                writeText(resources)
-                ensureRw(executable = true)
-            }
+            File("$source/res/values/dimens.xml").writeText(resources)
             Log.i("$TAG - WriteResources", "Successfully written resources for UiRoundness")
             false
         } catch (e: Exception) {

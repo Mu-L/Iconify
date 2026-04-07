@@ -3,7 +3,6 @@ package com.drdisagree.iconify.core.utils.overlay.compilers
 import android.util.Log
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.core.utils.AppUtils.getSplitLocations
-import com.drdisagree.iconify.core.utils.FileUtils.ensureRw
 import com.drdisagree.iconify.core.utils.Logger.writeLog
 import com.drdisagree.iconify.core.utils.apksigner.CryptoUtils
 import com.drdisagree.iconify.core.utils.apksigner.SignAPK
@@ -28,10 +27,7 @@ object OverlayCompiler {
     fun createManifest(overlayName: String?, targetPackage: String?, sourceDir: String): Boolean {
         return try {
             val content = CompilerUtils.createManifestContent(overlayName, targetPackage)
-            File("$sourceDir/AndroidManifest.xml").apply {
-                writeText(content)
-                ensureRw(executable = true)
-            }
+            File("$sourceDir/AndroidManifest.xml").writeText(content)
             Log.i("$TAG - Manifest", "Successfully created manifest for $overlayName")
             false
         } catch (e: Exception) {
