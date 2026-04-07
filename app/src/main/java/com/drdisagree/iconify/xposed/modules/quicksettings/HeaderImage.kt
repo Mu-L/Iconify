@@ -69,7 +69,8 @@ class HeaderImage(context: Context) : ModPack(context) {
             showHeaderImage = getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) &&
                     getString(XposedKey.HEADER_IMAGE_FILE_URI).isNotEmpty()
             headerImageAlpha = getInt(XposedKey.HEADER_IMAGE_OPACITY)
-            imageHeight = getInt(XposedKey.HEADER_IMAGE_HEIGHT)
+            imageHeight = if (getBoolean(XposedKey.HEADER_IMAGE_MAXIMUM_HEIGHT)) -1
+            else getInt(XposedKey.HEADER_IMAGE_HEIGHT)
             zoomToFit = getBoolean(XposedKey.HEADER_IMAGE_ZOOM_TO_FIT)
             hideLandscapeHeaderImage = getBoolean(XposedKey.HEADER_IMAGE_HIDE_IN_LANDSCAPE)
             bottomFadeAmount = mContext.toPx(getInt(XposedKey.HEADER_IMAGE_BOTTOM_FADE_AMOUNT))
@@ -118,7 +119,9 @@ class HeaderImage(context: Context) : ModPack(context) {
                 }
 
                 val layoutParams = LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, TypedValue.applyDimension(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
+                    else TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         imageHeight.toFloat(),
                         mContext.resources.displayMetrics
@@ -297,7 +300,9 @@ class HeaderImage(context: Context) : ModPack(context) {
         } else {
             mQsHeaderLayout!!.visibility = View.VISIBLE
 
-            mQsHeaderLayout!!.layoutParams.height = TypedValue.applyDimension(
+            mQsHeaderLayout!!.layoutParams.height =
+                if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
+                else TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 imageHeight.toFloat(),
                 mContext.resources.displayMetrics

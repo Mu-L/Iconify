@@ -37,13 +37,21 @@ val headerImagePreferences = preferenceScreen {
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) }
         )
 
+        switch(
+            key = XposedKey.HEADER_IMAGE_MAXIMUM_HEIGHT,
+            title = stringRes("Maximum Height"),
+            summary = { _, _ -> stringRes("Show header image on full QS panel") },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) }
+        )
+
         slider(
             key = XposedKey.HEADER_IMAGE_HEIGHT,
             title = stringRes(R.string.header_image_height_title),
             min = 40f,
             max = 400f,
             valueLabel = { "${it.toInt()}dp" },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) }
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) },
+            isVisible = { !it.getBoolean(XposedKey.HEADER_IMAGE_MAXIMUM_HEIGHT) }
         )
 
         slider(

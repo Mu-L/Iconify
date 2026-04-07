@@ -92,6 +92,7 @@ enum class XposedKey(override val default: Any?) : Key {
     // Quick Settings - Header Image
     CUSTOM_HEADER_IMAGE(false),
     HEADER_IMAGE_FILE_URI(""),
+    HEADER_IMAGE_MAXIMUM_HEIGHT(false),
     HEADER_IMAGE_HEIGHT(140f),
     HEADER_IMAGE_OPACITY(100f),
     HEADER_IMAGE_BOTTOM_FADE_AMOUNT(40f),
