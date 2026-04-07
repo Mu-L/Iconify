@@ -3,6 +3,7 @@ package com.drdisagree.iconify.core.utils.overlay.compilers
 import android.util.Log
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.core.utils.AppUtils.getSplitLocations
+import com.drdisagree.iconify.core.utils.FileUtils.ensureRw
 import com.drdisagree.iconify.core.utils.Logger.writeLog
 import com.drdisagree.iconify.core.utils.apksigner.CryptoUtils
 import com.drdisagree.iconify.core.utils.apksigner.SignAPK
@@ -12,6 +13,7 @@ import com.drdisagree.iconify.data.common.Resources
 import com.drdisagree.iconify.data.common.Resources.FRAMEWORK_DIR
 import com.drdisagree.iconify.data.common.Resources.UNSIGNED_DIR
 import com.topjohnwu.superuser.Shell
+import java.io.File
 import java.security.PrivateKey
 import java.security.cert.X509Certificate
 
@@ -24,35 +26,23 @@ object OverlayCompiler {
     private var cert: X509Certificate? = null
 
     fun createManifest(overlayName: String?, targetPackage: String?, sourceDir: String): Boolean {
-        val module: MutableList<String> = ArrayList()
-        module.add(
-            "printf '${
-                CompilerUtils.createManifestContent(
-                    overlayName,
-                    targetPackage
-                )
-            }' > " + sourceDir + "/AndroidManifest.xml;"
-        )
-
-        val result = Shell.cmd(java.lang.String.join("\\n", module)).exec()
-
-        if (result.isSuccess) Log.i(
-            "$TAG - Manifest",
-            "Successfully created manifest for $overlayName"
-        ) else {
-            Log.e(
+        return try {
+            val content = CompilerUtils.createManifestContent(overlayName, targetPackage)
+            File("$sourceDir/AndroidManifest.xml").apply {
+                writeText(content)
+                ensureRw(executable = true)
+            }
+            Log.i("$TAG - Manifest", "Successfully created manifest for $overlayName")
+            false
+        } catch (e: Exception) {
+            Log.e("$TAG - Manifest", "Failed to create manifest for $overlayName\n${e.message}")
+            writeLog(
                 "$TAG - Manifest",
-                "Failed to create manifest for $overlayName\n${
-                    java.lang.String.join(
-                        "\n",
-                        result.out
-                    )
-                }"
+                "Failed to create manifest for $overlayName",
+                listOf(e.message ?: e.cause?.toString() ?: e.toString())
             )
-            writeLog("$TAG - Manifest", "Failed to create manifest for $overlayName", result.out)
+            true
         }
-
-        return !result.isSuccess
     }
 
     fun runAapt(source: String, targetPackage: String?): Boolean {

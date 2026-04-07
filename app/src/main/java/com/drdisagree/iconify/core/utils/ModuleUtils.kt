@@ -6,6 +6,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.app.MainActivity
 import com.drdisagree.iconify.core.utils.AssetsUtils.readRawResource
+import com.drdisagree.iconify.core.utils.FileUtils.ensureRw
 import com.drdisagree.iconify.core.utils.RootUtils.setPermissionsRecursively
 import com.drdisagree.iconify.core.utils.overlay.FabricatedUtils
 import com.drdisagree.iconify.core.utils.overlay.OverlayUtils
@@ -49,11 +50,7 @@ object ModuleUtils {
     private fun installModule(skippedInstallation: Boolean) {
         Log.d(TAG, "Module does not exist, creating...")
 
-        // Clean temporary directory
-        FileUtils.ensureDirs(
-            TEMP_DIR,
-            TEMP_MODULE_DIR
-        )
+        FileUtils.ensureDirs(TEMP_DIR, TEMP_MODULE_DIR)
 
         val moduleProp = readRawResource(R.raw.module_module).replaceAll(
             "{{VERSION_NAME}}" to BuildConfig.VERSION_NAME,
@@ -68,22 +65,42 @@ object ModuleUtils {
             "{{PACKAGE_NAME}}" to BuildConfig.APPLICATION_ID,
             "{{CLASS_PATH}}" to MainActivity::class.qualifiedName!!
         )
-        val serviceSh = readRawResource(R.raw.module_service).replaceAll(
-            "{{RESTART_SYSUI_AFTER_BOOT}}" to ("killall $SYSTEMUI_PACKAGE\n"
-                .takeIf { RPrefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false) }
-                ?: "")
-        )
-        val skippedServiceSh = readRawResource(R.raw.module_service_skipped)
+        val serviceSh = if (!skippedInstallation) {
+            readRawResource(R.raw.module_service).replaceAll(
+                "{{RESTART_SYSUI_AFTER_BOOT}}" to ("killall $SYSTEMUI_PACKAGE\n"
+                    .takeIf { RPrefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false) }
+                    ?: "")
+            )
+        } else {
+            readRawResource(R.raw.module_service_skipped)
+        }
 
-        Shell.cmd(
-            "printf '$moduleProp' > $TEMP_MODULE_DIR/module.prop",
-            "printf '$postFsDataSh' > $TEMP_MODULE_DIR/post-fs-data.sh",
-            if (!skippedInstallation) "printf '$serviceSh' > $TEMP_MODULE_DIR/service.sh"
-            else "printf '$skippedServiceSh' > $TEMP_MODULE_DIR/service.sh",
-            "printf '$actionSh' > $TEMP_MODULE_DIR/action.sh",
-            "touch $TEMP_MODULE_DIR/system.prop",
-            "touch $TEMP_MODULE_DIR/auto_mount",
-        ).exec()
+        File(TEMP_MODULE_DIR).apply {
+            resolve("module.prop").apply {
+                writeText(moduleProp)
+                ensureRw(executable = true)
+            }
+            resolve("post-fs-data.sh").apply {
+                writeText(postFsDataSh)
+                ensureRw(executable = true)
+            }
+            resolve("service.sh").apply {
+                writeText(serviceSh)
+                ensureRw(executable = true)
+            }
+            resolve("action.sh").apply {
+                writeText(actionSh)
+                ensureRw(executable = true)
+            }
+            resolve("system.prop").apply {
+                createNewFile()
+                ensureRw(executable = true)
+            }
+            resolve("auto_mount").apply {
+                createNewFile()
+                ensureRw(executable = true)
+            }
+        }
 
         FileUtils.ensureDirs("$TEMP_MODULE_DIR/system/product/overlay")
 
@@ -98,10 +115,16 @@ object ModuleUtils {
 
         FileUtils.ensureDirs("$TEMP_MODULE_DIR/META-INF/com/google/android")
 
-        Shell.cmd(
-            "printf '$updateBinary' > $TEMP_MODULE_DIR/META-INF/com/google/android/update-binary",
-            "printf '#MAGISK' > $TEMP_MODULE_DIR/META-INF/com/google/android/updater-script"
-        ).exec()
+        File("$TEMP_MODULE_DIR/META-INF/com/google/android").apply {
+            resolve("update-binary").apply {
+                writeText(updateBinary)
+                ensureRw(executable = true)
+            }
+            resolve("updater-script").apply {
+                writeText("#MAGISK")
+                ensureRw(executable = true)
+            }
+        }
     }
 
     private fun writePostExec(skippedInstallation: Boolean) {
@@ -150,7 +173,10 @@ object ModuleUtils {
             }
         }
 
-        Shell.cmd("printf '$postExec' > $TEMP_MODULE_DIR/post-exec.sh").exec()
+        File("$TEMP_MODULE_DIR/post-exec.sh").apply {
+            writeText(postExec.toString())
+            ensureRw(executable = true)
+        }
     }
 
     private fun shouldUseDefaultColors(): Boolean {

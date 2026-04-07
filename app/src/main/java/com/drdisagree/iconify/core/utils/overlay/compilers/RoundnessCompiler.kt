@@ -3,6 +3,7 @@ package com.drdisagree.iconify.core.utils.overlay.compilers
 import android.util.Log
 import com.drdisagree.iconify.core.utils.AssetsUtils.copyAssets
 import com.drdisagree.iconify.core.utils.FileUtils
+import com.drdisagree.iconify.core.utils.FileUtils.ensureRw
 import com.drdisagree.iconify.core.utils.Logger.writeLog
 import com.drdisagree.iconify.core.utils.RootUtils.setPermissions
 import com.drdisagree.iconify.core.utils.SystemUtils.mountRO
@@ -23,6 +24,7 @@ import com.drdisagree.iconify.data.common.Resources.UNSIGNED_DIR
 import com.drdisagree.iconify.data.common.Resources.UNSIGNED_UNALIGNED_DIR
 import com.drdisagree.iconify.helpers.BinaryInstaller.symLinkBinaries
 import com.topjohnwu.superuser.Shell
+import java.io.File
 import java.io.IOException
 
 object RoundnessCompiler {
@@ -194,31 +196,25 @@ object RoundnessCompiler {
     }
 
     private fun writeResources(source: String, resources: String): Boolean {
-        val result = Shell.cmd(
-            "rm -rf $source/res/values/dimens.xml",
-            "printf '$resources' > $source/res/values/dimens.xml;"
-        ).exec()
-
-        if (result.isSuccess) Log.i(
-            "$TAG - WriteResources",
-            "Successfully written resources for UiRoundness"
-        ) else {
+        return try {
+            Shell.cmd("rm -rf $source/res/values/dimens.xml").exec()
+            File("$source/res/values/dimens.xml").apply {
+                writeText(resources)
+                ensureRw(executable = true)
+            }
+            Log.i("$TAG - WriteResources", "Successfully written resources for UiRoundness")
+            false
+        } catch (e: Exception) {
             Log.e(
                 "$TAG - WriteResources",
-                "Failed to write resources for UiRoundness\n${
-                    java.lang.String.join(
-                        "\n",
-                        result.out
-                    )
-                }"
+                "Failed to write resources for UiRoundness\n${e.message}"
             )
             writeLog(
                 "$TAG - WriteResources",
                 "Failed to write resources for UiRoundness",
-                result.out
+                listOf(e.message ?: "")
             )
+            true
         }
-
-        return !result.isSuccess
     }
 }

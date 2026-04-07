@@ -34,13 +34,13 @@ object Resources {
         get() = "$DOCUMENTS_DIR/Iconify"
 
     val BACKUP_DIR: String
-        get() = "$BASE_DIR/.iconify_backup"
+        get() = "$BASE_DIR/iconify_backup"
 
     val WALLPAPER_DIR: String
-        get() = "$BASE_DIR/.wallpapers"
+        get() = "$BASE_DIR/wallpapers_backup"
 
     val TEMP_DIR: String
-        get() = "$BASE_DIR/.iconify"
+        get() = "$BASE_DIR/iconify_temp"
 
     val TEMP_MODULE_DIR: String
         get() = "$TEMP_DIR/Iconify"

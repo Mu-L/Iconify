@@ -3,6 +3,8 @@ package com.drdisagree.iconify.core.utils
 import android.content.ContentUris
 import android.content.ContentValues
 import android.provider.MediaStore
+import android.system.ErrnoException
+import android.system.Os
 import android.util.Log
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import java.io.File
@@ -82,6 +84,23 @@ object FileUtils {
             }
 
             Log.d(TAG, "Writable ${dir.absolutePath}: ${dir.canWrite()}")
+        }
+    }
+
+    fun File.ensureRw(executable: Boolean = false) {
+        if (!exists()) return
+
+        setReadable(true, true)
+        setWritable(true, true)
+        setExecutable(executable, true)
+
+        try {
+            val mode = when {
+                executable -> 0b111_000_000
+                else -> 0b110_000_000
+            }
+            Os.chmod(absolutePath, mode)
+        } catch (_: ErrnoException) {
         }
     }
 }
