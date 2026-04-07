@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -81,6 +82,7 @@ fun BottomBarTabs(
                         .scale(scale)
                         .alpha(alpha)
                         .fillMaxHeight()
+                        .widthIn(min = 68.dp)
                         .padding(horizontal = 18.dp)
                         .clickable(
                             enabled = enabled,
