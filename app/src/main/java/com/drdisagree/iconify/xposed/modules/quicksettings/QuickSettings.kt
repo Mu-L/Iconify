@@ -232,7 +232,7 @@ class QuickSettings(context: Context) : ModPack(context) {
     private fun compactMediaPlayer() {
         val mediaViewControllerClass =
             findClass(
-                "$SYSTEMUI_PACKAGE.media.controls.ui.prefController.MediaViewController",
+                "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaViewController",
                 "$SYSTEMUI_PACKAGE.media.controls.ui.MediaViewController"
             )
 
