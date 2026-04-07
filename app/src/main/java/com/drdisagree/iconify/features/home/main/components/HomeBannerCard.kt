@@ -4,14 +4,18 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -26,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.changedToUp
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -43,6 +48,7 @@ import com.drdisagree.iconify.core.ui.components.extensions.shake
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.components.texts.AutoResizeableText
+import kotlin.math.abs
 
 @Composable
 fun HomeBannerCard(modifier: Modifier = Modifier) {
@@ -112,29 +118,52 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .pointerInput(Unit) {
-                detectTapGestures(
-                    onPress = { offset ->
-                        // Update position
-                        touchX = (offset.x / size.width).coerceIn(0f, 1f)
-                        touchY = (offset.y / size.height).coerceIn(0f, 1f)
+                awaitEachGesture {
+                    val down = awaitFirstDown(requireUnconsumed = false)
+                    val press = PressInteraction.Press(down.position)
+                    interactionSource.tryEmit(press) // Safe in pointerInput
 
-                        // Emit press to interactionSource
-                        val press = PressInteraction.Press(offset)
-                        interactionSource.emit(press)
+                    var released = false
+                    var cancelled = false
+                    var isScrolling = false
+                    val startX = down.position.x
+                    val startY = down.position.y
+                    val scrollThreshold = viewConfiguration.touchSlop
 
-                        val released = tryAwaitRelease()
+                    touchX = (startX / size.width).coerceIn(0f, 1f)
+                    touchY = (startY / size.height).coerceIn(0f, 1f)
 
-                        if (released) {
-                            interactionSource.emit(PressInteraction.Release(press))
-                        } else {
-                            interactionSource.emit(PressInteraction.Cancel(press))
+                    while (true) {
+                        val event = awaitPointerEvent()
+                        val change = event.changes.firstOrNull() ?: break
+                        val dx = change.position.x - startX
+                        val dy = change.position.y - startY
+
+                        if (!isScrolling && (abs(dy) > scrollThreshold || abs(dx) > scrollThreshold)) {
+                            isScrolling = true
+                            interactionSource.tryEmit(PressInteraction.Cancel(press))
+                            cancelled = true
                         }
-                    },
-                    onTap = { onTapAction() }
-                )
+
+                        if (change.changedToUp()) {
+                            if (!isScrolling) {
+                                interactionSource.tryEmit(PressInteraction.Release(press))
+                                onTapAction()
+                            }
+                            released = true
+                            break
+                        }
+                    }
+
+                    if (!released && !cancelled) {
+                        interactionSource.tryEmit(PressInteraction.Cancel(press))
+                    }
+                }
             }
             .shake(shakeController)
             .fillMaxWidth()
+            .heightIn(max = 320.dp)
+            .aspectRatio(3f)
             .graphicsLayer {
                 rotationX = tiltX
                 rotationY = tiltY
@@ -169,8 +198,8 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
 
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(36.dp),
+                    .fillMaxSize()
+                    .padding(horizontal = 36.dp),
                 verticalArrangement = Arrangement.Center
             ) {
                 AutoResizeableText(
