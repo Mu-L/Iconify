@@ -206,7 +206,7 @@ val lookAndFeelPreferences = preferenceScreen {
         slider(
             key = SettingsKey.UI_SCALE,
             icon = iconRes(Icons.Rounded.PhotoSizeSelectLarge),
-            title = stringRes("UI Scale"),
+            title = stringRes("Display Scale"),
             summary = { _, _ -> stringRes("Change the size of UI elements") },
             min = 0.5f,
             max = 1.2f,
