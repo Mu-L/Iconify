@@ -3,6 +3,7 @@ package com.drdisagree.iconify.core.ui.components.bottomnavbar
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.SubcomposeLayout
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
+import kotlin.math.roundToInt
 
 @Composable
 fun BottomBarTabs(
@@ -38,7 +41,12 @@ fun BottomBarTabs(
     selectedTab: Int,
     isTabEnabled: (NavRoutes.BottomBarTab) -> Boolean,
     onTabSelected: (NavRoutes.BottomBarTab) -> Unit,
+    maxScreenFraction: Float = 0.7f
 ) {
+    val containerSize = LocalWindowInfo.current.containerSize
+    val screenWidth = containerSize.width
+    val maxTotalWidth = screenWidth * maxScreenFraction
+
     CompositionLocalProvider(
         LocalTextStyle provides LocalTextStyle.current.copy(
             fontSize = 12.sp,
@@ -60,16 +68,22 @@ fun BottomBarTabs(
                     measurables.first().measure(constraints)
                 }
 
-                val maxTabWidth = tabPlaceables.maxOf { it.width }
-                val totalWidth = maxTabWidth * tabs.size
+                val naturalMaxWidth = tabPlaceables.maxOf { it.width }
 
-                layout(totalWidth, tabPlaceables.maxOf { it.height }) {
-                    val layoutHeight = tabPlaceables.maxOf { it.height }
+                val maxTotalWidthPx = maxTotalWidth.roundToInt()
+                val tabCount = tabs.size
+                val finalTabWidth =
+                    (naturalMaxWidth * tabCount).coerceAtMost(maxTotalWidthPx) / tabCount
+
+                val totalWidth = finalTabWidth * tabCount
+                val layoutHeight = tabPlaceables.maxOf { it.height }
+
+                layout(totalWidth, layoutHeight) {
                     var xPosition = 0
                     tabPlaceables.forEach { placeable ->
                         val yPosition = (layoutHeight - placeable.height) / 2
                         placeable.placeRelative(x = xPosition, y = yPosition)
-                        xPosition += maxTabWidth
+                        xPosition += finalTabWidth
                     }
                 }
             }
@@ -115,7 +129,7 @@ private fun TabContent(
             )
             .padding(horizontal = 18.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center // centers vertically
+        verticalArrangement = Arrangement.Center
     ) {
         val iconRes = if (selected) tab.iconChecked else tab.iconUnchecked
         Icon(
@@ -125,7 +139,9 @@ private fun TabContent(
         )
         Text(
             text = stringResource(tab.title),
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = if (enabled) 1f else 0.4f)
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = if (enabled) 1f else 0.4f),
+            maxLines = 1,
+            modifier = Modifier.basicMarquee(Int.MAX_VALUE)
         )
     }
 }
