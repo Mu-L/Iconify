@@ -145,8 +145,8 @@ fun FilePickerPreferenceItem(
                 )
             }
             val uriStr = pickedUri.toString()
-            if (type.saveFileUri) prefController.setString(def.key, uriStr)
             type.onFileSelected(prefController, uriStr)
+            if (type.saveFileUri) prefController.setString(def.key, uriStr)
         }
     }
 
@@ -161,8 +161,8 @@ fun FilePickerPreferenceItem(
                 )
             }
             val uriStr = pickedUri.toString()
-            if (type.saveFileUri) prefController.setString(def.key, uriStr)
             type.onFileSelected(prefController, uriStr)
+            if (type.saveFileUri) prefController.setString(def.key, uriStr)
         }
     }
 
@@ -223,10 +223,8 @@ fun FilePickerPreferenceItem(
                     type = type.pickerType,
                     isEnabled = isEnabled,
                     onClear = withHaptic {
-                        if (type.saveFileUri) {
-                            prefController.setString(def.key, "")
-                        }
                         type.onFileSelected(prefController, "")
+                        if (type.saveFileUri) prefController.setString(def.key, "")
                     },
                 )
                 Spacer(Modifier.height(8.dp))
