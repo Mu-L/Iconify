@@ -248,7 +248,7 @@ class DualStatusbar(context: Context) : ModPack(context) {
                     newStartSideContainer?.id = statusbarStartSideContainer.id
                     statusbarStartSideContainer.id = View.NO_ID
 
-                    batteryIconView = phoneStatusBarView.findViewById<View>(
+                    batteryIconView = phoneStatusBarView.findViewById(
                         mContext.resources.getIdentifier(
                             "battery",
                             "id",
@@ -312,11 +312,11 @@ class DualStatusbar(context: Context) : ModPack(context) {
         KeyguardShowingCallback.getInstance().registerKeyguardShowingListener(
             object : KeyguardShowingCallback.KeyguardShowingListener {
                 override fun onKeyguardShown() {
-                    batteryIconView?.visibility = View.INVISIBLE
+                    batteryIconView?.visibility = View.GONE
                 }
 
                 override fun onKeyguardDismissed() {
-                    batteryIconView?.visibility = View.VISIBLE
+                    batteryIconView?.visibility = View.GONE
                 }
             }
         )
