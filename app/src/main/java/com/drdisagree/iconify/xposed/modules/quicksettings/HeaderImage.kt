@@ -50,7 +50,6 @@ class HeaderImage(context: Context) : ModPack(context) {
     private var mQsHeaderImageView: ImageView? = null
     private var bottomFadeAmount = 0
     private var notificationPanelViewControllerInstance: Any? = null
-    private var mShadeHeaderExpansion = 0f
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -62,6 +61,7 @@ class HeaderImage(context: Context) : ModPack(context) {
         }
     }
     private var showHeaderClock = false
+    private var lastImageAlpha = -1
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -131,6 +131,7 @@ class HeaderImage(context: Context) : ModPack(context) {
                         mContext.resources.displayMetrics
                     ).toInt()
                 ).apply {
+                    gravity = Gravity.START
                     leftMargin = TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         -16f,
@@ -240,61 +241,71 @@ class HeaderImage(context: Context) : ModPack(context) {
     }
 
     private fun updateQSHeaderImage() {
-        if (mQsHeaderImageLayout == null || mQsHeaderImageView == null) return
-
-        if (!showHeaderImage && mQsHeaderImageView!!.visibility != View.INVISIBLE) {
-            mQsHeaderImageView!!.visibility = View.INVISIBLE
-        } else if (showHeaderImage) {
+        if (showHeaderImage && mQsHeaderImageView != null) {
             mQsHeaderImageView!!.visibility = View.VISIBLE
             mQsHeaderImageView!!.loadImageOrGif()
         }
-
         updateQSHeaderImageState()
     }
 
     private fun updateQSHeaderImageState() {
-        if (mQsHeaderImageLayout == null
-            || mQsHeaderImageView == null
-            || notificationPanelViewControllerInstance == null
-        ) return
+        val layout = mQsHeaderImageLayout ?: return
+        val imageView = mQsHeaderImageView ?: return
+        val notificationPanel = notificationPanelViewControllerInstance ?: return
 
-        if (!showHeaderImage && mQsHeaderImageView!!.visibility != View.INVISIBLE) {
-            mQsHeaderImageView!!.visibility = View.INVISIBLE
-        }
-
-        val screenWidth = mContext.resources.displayMetrics.widthPixels
-        val shadeHeaderExpansion = notificationPanelViewControllerInstance
+        val shadeHeaderExpansion = notificationPanel
             .getField("mShadeHeaderController")
             .getField("shadeExpandedFraction") as Float
+        val computedAlpha = (shadeHeaderExpansion * (headerImageAlpha / 100.0 * 255.0)).toInt()
+
         val isLandscape = mContext.isLandscape
+        val screenWidth = mContext.resources.displayMetrics.widthPixels
 
-        if (shadeHeaderExpansion <= 0f || (isLandscape && hideLandscapeHeaderImage)) {
-            mQsHeaderImageView!!.visibility = View.INVISIBLE
-        } else {
-            mQsHeaderImageView!!.apply {
-                if (showHeaderImage) {
-                    visibility = View.VISIBLE
-                }
-                layoutParams.apply {
-                    width = if (isLandscape && halfWidthLandscapeHeaderImage) screenWidth / 2
-                    else ViewGroup.LayoutParams.MATCH_PARENT
-                    height = if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
-                    else TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        imageHeight.toFloat(),
-                        mContext.resources.displayMetrics
-                    ).toInt()
-                }
+        if (!showHeaderImage || shadeHeaderExpansion <= 0f || (isLandscape && hideLandscapeHeaderImage)) {
+            if (imageView.visibility != View.INVISIBLE) {
+                imageView.visibility = View.INVISIBLE
             }
-
-            if (mShadeHeaderExpansion != shadeHeaderExpansion) {
-                mShadeHeaderExpansion = shadeHeaderExpansion
-                mQsHeaderImageView!!.imageAlpha =
-                    (mShadeHeaderExpansion * (headerImageAlpha / 100.0 * 255.0)).toInt()
-            }
+            return
         }
 
-        mQsHeaderImageLayout!!.apply {
+        if (imageView.visibility != View.VISIBLE) {
+            imageView.visibility = View.VISIBLE
+        }
+
+        if (lastImageAlpha != computedAlpha || lastImageAlpha == -1) {
+            layout.alpha = computedAlpha / 255f
+            lastImageAlpha = computedAlpha
+        }
+
+        val lp = imageView.layoutParams
+        var requiresLpUpdate = false
+
+        val targetWidth = if (isLandscape && halfWidthLandscapeHeaderImage) screenWidth / 2
+        else ViewGroup.LayoutParams.MATCH_PARENT
+
+        if (lp.width != targetWidth) {
+            lp.width = targetWidth
+            requiresLpUpdate = true
+        }
+
+        val targetHeight = if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
+        else TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            imageHeight.toFloat(),
+            mContext.resources.displayMetrics
+        ).toInt()
+
+        if (lp.height != targetHeight) {
+            lp.height = targetHeight
+            requiresLpUpdate = true
+        }
+
+        if (requiresLpUpdate) {
+            imageView.layoutParams = lp
+            imageView.updateImageProperties()
+        }
+
+        layout.apply {
             setFadeEdges(false, false, bottomFadeAmount != 0, false)
             setFadeSizes(0, 0, bottomFadeAmount, 0)
             requestLayout()
@@ -333,21 +344,24 @@ class HeaderImage(context: Context) : ModPack(context) {
 
                 setImageDrawable(drawable)
                 clipToOutline = true
-
-                if (!zoomToFit) {
-                    scaleType = ImageView.ScaleType.FIT_XY
-                } else {
-                    scaleType = ImageView.ScaleType.CENTER_CROP
-                    adjustViewBounds = false
-                    cropToPadding = false
-                    minimumWidth = ViewGroup.LayoutParams.MATCH_PARENT
-                    addCenterProperty()
-                }
+                updateImageProperties()
 
                 if (drawable is AnimatedImageDrawable) {
                     drawable.start()
                 }
             }
+        }
+    }
+
+    private fun ImageView.updateImageProperties() {
+        if (!zoomToFit) {
+            scaleType = ImageView.ScaleType.FIT_XY
+        } else {
+            scaleType = ImageView.ScaleType.CENTER_CROP
+            adjustViewBounds = false
+            cropToPadding = false
+            minimumWidth = ViewGroup.LayoutParams.MATCH_PARENT
+            addCenterProperty()
         }
     }
 }

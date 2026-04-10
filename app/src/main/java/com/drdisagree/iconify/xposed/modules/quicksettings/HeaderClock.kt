@@ -101,7 +101,6 @@ class HeaderClock(context: Context) : ModPack(context) {
     private var systemBarUtilsClass: Class<*>? = null
     private var notificationPanelViewControllerInstance: Any? = null
     private var shadeHeaderControllerInstance: Any? = null
-    private var mShadeHeaderExpansion = 0f
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -120,6 +119,8 @@ class HeaderClock(context: Context) : ModPack(context) {
             onDateClick()
         }
     }
+    private var lastShadeHeaderExpansion = -1f
+    private var lastQsExpandedFraction = -1f
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -500,43 +501,59 @@ class HeaderClock(context: Context) : ModPack(context) {
     }
 
     private fun updateQSHeaderClockState() {
-        if (notificationPanelViewControllerInstance == null ||
-            shadeHeaderControllerInstance == null
-        ) return
+        val notificationPanel = notificationPanelViewControllerInstance
+        val shadeHeader = shadeHeaderControllerInstance
 
-        if (!showHeaderClock && mQsHeaderClockContainer.visibility != View.GONE) {
-            mQsHeaderClockContainer.visibility = View.GONE
+        if (notificationPanel == null || shadeHeader == null) return
+
+        if (!showHeaderClock) {
+            if (mQsHeaderClockContainer.visibility != View.GONE) {
+                mQsHeaderClockContainer.visibility = View.GONE
+            }
             return
         }
 
-        val shadeHeaderExpansion = notificationPanelViewControllerInstance
+        val shadeHeaderExpansion = notificationPanel
             .getField("mShadeHeaderController")
             .getField("shadeExpandedFraction") as Float
-        val qsExpandedFraction = shadeHeaderControllerInstance
+
+        val qsExpandedFraction = shadeHeader
             .getField("qsExpandedFraction") as Float
 
         if (shadeHeaderExpansion <= 0f) {
-            mQsHeaderClockContainer.visibility = View.GONE
-        } else {
-            val isLandscape = mContext.isLandscape
-            val screenWidth = mContext.resources.displayMetrics.widthPixels
-            val targetWidth = if (isLandscape && halfWidthLandscapeHeaderImage) screenWidth / 2
-            else ViewGroup.LayoutParams.MATCH_PARENT
-
-            val lp = mQsHeaderClockContainer.layoutParams
-            if (lp != null && lp.width != targetWidth) {
-                lp.width = targetWidth
-                mQsHeaderClockContainer.layoutParams = lp
+            if (mQsHeaderClockContainer.visibility != View.GONE) {
+                mQsHeaderClockContainer.visibility = View.GONE
             }
-
-            mQsHeaderClockContainer.visibility = View.VISIBLE
-            mQQSContainerAnimator?.setPosition(qsExpandedFraction)
-
-            if (mShadeHeaderExpansion != shadeHeaderExpansion) {
-                mShadeHeaderExpansion = shadeHeaderExpansion
-                mQsHeaderClockContainer.alpha = mShadeHeaderExpansion
-            }
+            return
         }
+
+        if (mQsHeaderClockContainer.visibility != View.VISIBLE) {
+            mQsHeaderClockContainer.visibility = View.VISIBLE
+        }
+
+        val isLandscape = mContext.isLandscape
+        val screenWidth = mContext.resources.displayMetrics.widthPixels
+
+        val lp = mQsHeaderClockContainer.layoutParams
+        val targetWidth = if (isLandscape && halfWidthLandscapeHeaderImage) screenWidth / 2
+        else ViewGroup.LayoutParams.MATCH_PARENT
+
+        if (targetWidth != lp.width) {
+            lp.width = targetWidth
+            mQsHeaderClockContainer.layoutParams = lp
+        }
+
+        if (shadeHeaderExpansion != lastShadeHeaderExpansion) {
+            mQsHeaderClockContainer.alpha = shadeHeaderExpansion
+            lastShadeHeaderExpansion = shadeHeaderExpansion
+        }
+
+        if (qsExpandedFraction != lastQsExpandedFraction) {
+            mQQSContainerAnimator?.setPosition(qsExpandedFraction)
+            lastQsExpandedFraction = qsExpandedFraction
+        }
+
+        mQsHeaderClockContainer.requestLayout()
     }
 
     private val clockView: View?
