@@ -41,6 +41,7 @@ import com.drdisagree.iconify.data.common.XposedConst.HEADER_CLOCK_FONT_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.TouchAnimator
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyFontRecursively
@@ -119,7 +120,7 @@ class HeaderClock(context: Context) : ModPack(context) {
             onDateClick()
         }
     }
-    private var lastShadeHeaderExpansion = -1f
+    private var lastShadeExpandedFraction = -1f
     private var lastQsExpandedFraction = -1f
 
     override fun updatePrefs(vararg key: String) {
@@ -420,6 +421,27 @@ class HeaderClock(context: Context) : ModPack(context) {
             }
 
         BootCallback.registerBootListener { updateClockView() }
+        QsShowingCallback.getInstance()
+            .registerQsShowingListener(
+                object : QsShowingCallback.QsShowingListener {
+                    override fun onQuickSettingsExpanded() {
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            if (showHeaderClock && mQsHeaderClockContainer.visibility != View.VISIBLE) {
+                                mQsHeaderClockContainer.visibility = View.VISIBLE
+
+                                if (mQsHeaderClockContainer.alpha <= 0f) {
+                                    mQsHeaderClockContainer.animate()
+                                        .alpha(1f)
+                                        .setDuration(100)
+                                        .start()
+                                }
+                            }
+                        }, 100)
+                    }
+
+                    override fun onQuickSettingsCollapsed() {}
+                }
+            )
     }
 
     private fun buildHeaderViewExpansion() {
@@ -501,10 +523,7 @@ class HeaderClock(context: Context) : ModPack(context) {
     }
 
     private fun updateQSHeaderClockState() {
-        val notificationPanel = notificationPanelViewControllerInstance
-        val shadeHeader = shadeHeaderControllerInstance
-
-        if (notificationPanel == null || shadeHeader == null) return
+        val shadeHeader = shadeHeaderControllerInstance ?: return
 
         if (!showHeaderClock) {
             if (mQsHeaderClockContainer.visibility != View.GONE) {
@@ -513,14 +532,13 @@ class HeaderClock(context: Context) : ModPack(context) {
             return
         }
 
-        val shadeHeaderExpansion = notificationPanel
-            .getField("mShadeHeaderController")
+        val shadeExpandedFraction = shadeHeader
             .getField("shadeExpandedFraction") as Float
 
         val qsExpandedFraction = shadeHeader
             .getField("qsExpandedFraction") as Float
 
-        if (shadeHeaderExpansion <= 0f) {
+        if (shadeExpandedFraction <= 0f) {
             if (mQsHeaderClockContainer.visibility != View.GONE) {
                 mQsHeaderClockContainer.visibility = View.GONE
             }
@@ -543,9 +561,9 @@ class HeaderClock(context: Context) : ModPack(context) {
             mQsHeaderClockContainer.layoutParams = lp
         }
 
-        if (shadeHeaderExpansion != lastShadeHeaderExpansion) {
-            mQsHeaderClockContainer.alpha = shadeHeaderExpansion
-            lastShadeHeaderExpansion = shadeHeaderExpansion
+        if (shadeExpandedFraction != lastShadeExpandedFraction) {
+            mQsHeaderClockContainer.alpha = shadeExpandedFraction
+            lastShadeExpandedFraction = shadeExpandedFraction
         }
 
         if (qsExpandedFraction != lastQsExpandedFraction) {

@@ -7,6 +7,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.ImageDecoder
 import android.graphics.drawable.AnimatedImageDrawable
+import android.os.Handler
+import android.os.Looper
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -23,6 +25,7 @@ import com.drdisagree.iconify.data.common.XposedConst.HEADER_IMAGE_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
@@ -50,6 +53,7 @@ class HeaderImage(context: Context) : ModPack(context) {
     private var mQsHeaderImageView: ImageView? = null
     private var bottomFadeAmount = 0
     private var notificationPanelViewControllerInstance: Any? = null
+    private var shadeHeaderControllerInstance: Any? = null
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -61,7 +65,7 @@ class HeaderImage(context: Context) : ModPack(context) {
         }
     }
     private var showHeaderClock = false
-    private var lastImageAlpha = -1
+    private var lastLayoutAlpha = -1
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -103,6 +107,10 @@ class HeaderImage(context: Context) : ModPack(context) {
             mBroadcastRegistered = true
         }
 
+        val shadeHeaderControllerClass = findClass(
+            "$SYSTEMUI_PACKAGE.shade.LargeScreenShadeHeaderController",
+            "$SYSTEMUI_PACKAGE.shade.ShadeHeaderController"
+        )
         val qsContainerImplClass = findClass("$SYSTEMUI_PACKAGE.qs.QSContainerImpl")
         val notificationPanelViewControllerClass =
             findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
@@ -238,6 +246,34 @@ class HeaderImage(context: Context) : ModPack(context) {
                     requestLayout()
                 }
             }
+
+        shadeHeaderControllerClass
+            .hookMethod("onInit")
+            .runAfter { param ->
+                shadeHeaderControllerInstance = param.thisObject
+            }
+
+        QsShowingCallback.getInstance()
+            .registerQsShowingListener(
+                object : QsShowingCallback.QsShowingListener {
+                    override fun onQuickSettingsExpanded() {
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            if (showHeaderImage && mQsHeaderImageView != null && mQsHeaderImageView!!.visibility != View.VISIBLE) {
+                                mQsHeaderImageView!!.visibility = View.VISIBLE
+
+                                if (mQsHeaderImageLayout != null && mQsHeaderImageLayout!!.alpha <= 0f) {
+                                    mQsHeaderImageLayout!!.animate()
+                                        .alpha(1f)
+                                        .setDuration(100)
+                                        .start()
+                                }
+                            }
+                        }, 100)
+                    }
+
+                    override fun onQuickSettingsCollapsed() {}
+                }
+            )
     }
 
     private fun updateQSHeaderImage() {
@@ -251,17 +287,16 @@ class HeaderImage(context: Context) : ModPack(context) {
     private fun updateQSHeaderImageState() {
         val layout = mQsHeaderImageLayout ?: return
         val imageView = mQsHeaderImageView ?: return
-        val notificationPanel = notificationPanelViewControllerInstance ?: return
+        val shadeHeader = shadeHeaderControllerInstance ?: return
 
-        val shadeHeaderExpansion = notificationPanel
-            .getField("mShadeHeaderController")
+        val shadeExpandedFraction = shadeHeader
             .getField("shadeExpandedFraction") as Float
-        val computedAlpha = (shadeHeaderExpansion * (headerImageAlpha / 100.0 * 255.0)).toInt()
+        val computedAlpha = (shadeExpandedFraction * (headerImageAlpha / 100.0 * 255.0)).toInt()
 
         val isLandscape = mContext.isLandscape
         val screenWidth = mContext.resources.displayMetrics.widthPixels
 
-        if (!showHeaderImage || shadeHeaderExpansion <= 0f || (isLandscape && hideLandscapeHeaderImage)) {
+        if (!showHeaderImage || shadeExpandedFraction <= 0f || (isLandscape && hideLandscapeHeaderImage)) {
             if (imageView.visibility != View.INVISIBLE) {
                 imageView.visibility = View.INVISIBLE
             }
@@ -272,9 +307,9 @@ class HeaderImage(context: Context) : ModPack(context) {
             imageView.visibility = View.VISIBLE
         }
 
-        if (lastImageAlpha != computedAlpha || lastImageAlpha == -1) {
+        if (lastLayoutAlpha != computedAlpha || lastLayoutAlpha == -1) {
             layout.alpha = computedAlpha / 255f
-            lastImageAlpha = computedAlpha
+            lastLayoutAlpha = computedAlpha
         }
 
         val lp = imageView.layoutParams
