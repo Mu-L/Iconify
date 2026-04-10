@@ -102,6 +102,9 @@ sealed class NavRoutes {
             data object HeaderImage : QuickSettings()
 
             @Serializable
+            data object Clock : QuickSettings()
+
+            @Serializable
             data object Themes : QuickSettings()
 
             @Serializable

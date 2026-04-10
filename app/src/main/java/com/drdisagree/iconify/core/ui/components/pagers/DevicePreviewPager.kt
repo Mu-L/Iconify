@@ -118,11 +118,14 @@ fun DevicePreviewPager(
     wallpaperReady: Boolean = true,
     wallpaperBytes: ByteArray? = null,
     sidePageScale: Float = 0.82f,
-    onPageChanged: (index: Int) -> Unit = {},
-    onSelect: (index: Int) -> Unit = {},
     horizontalPaddingToIgnore: Dp = 0.dp,
+    androidViewHeight: Int = ViewGroup.LayoutParams.MATCH_PARENT,
+    androidViewGravity: Int = Gravity.CENTER_HORIZONTAL,
     paddingTopPx: Int = 0,
     paddingHorizontalPx: Int = 0,
+    showPunchHole: Boolean = true,
+    onPageChanged: (index: Int) -> Unit = {},
+    onSelect: (index: Int) -> Unit = {},
     content: @Composable () -> Unit = {},
 ) {
     val context = LocalContext.current
@@ -336,6 +339,23 @@ fun DevicePreviewPager(
                     }
                 }
 
+                @Composable
+                fun ScaledContent() {
+                    AutoScalingDevicePreview(
+                        modifier = Modifier
+                            .width(screenAreaW)
+                            .height(screenAreaH)
+                            .graphicsLayer {
+                                transformOrigin = TransformOrigin(
+                                    0.5f,
+                                    0.5f
+                                )
+                            }
+                    ) {
+                        content()
+                    }
+                }
+
                 val pillCorner = 20.dp
                 val darkBgColor = if (isDarkTheme) MaterialTheme.colorScheme.surface
                 else MaterialTheme.colorScheme.inverseSurface
@@ -387,8 +407,9 @@ fun DevicePreviewPager(
                     bezelHorizontal = bezelH,
                     bezelVertical = bezelV,
                     wallpaperBytes = wallpaperBytes,
+                    showPunchHole = showPunchHole,
                     modifier = Modifier.zIndex(1f),
-                    content = content
+                    content = { ScaledContent() }
                 )
 
                 val hapticFeedback = withHaptic { /* no-op */ }
@@ -500,8 +521,8 @@ fun DevicePreviewPager(
                                                 addView(
                                                     view, FrameLayout.LayoutParams(
                                                         ViewGroup.LayoutParams.MATCH_PARENT,
-                                                        ViewGroup.LayoutParams.MATCH_PARENT,
-                                                        Gravity.CENTER_HORIZONTAL
+                                                        androidViewHeight,
+                                                        androidViewGravity
                                                     )
                                                 )
                                             }
@@ -519,8 +540,8 @@ fun DevicePreviewPager(
                                             view,
                                             FrameLayout.LayoutParams(
                                                 ViewGroup.LayoutParams.MATCH_PARENT,
-                                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                                Gravity.CENTER_HORIZONTAL
+                                                androidViewHeight,
+                                                androidViewGravity
                                             )
                                         )
                                     },
@@ -612,6 +633,7 @@ private fun PhoneFrame(
     frameHeight: Dp,
     bezelHorizontal: Dp,
     bezelVertical: Dp,
+    showPunchHole: Boolean,
     wallpaperBytes: ByteArray?,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
@@ -662,7 +684,14 @@ private fun PhoneFrame(
                 .clip(RoundedCornerShape(cornerRadius2))
                 .background(colors.screenCutOutColor),
         ) {
-            content()
+            AnimatedVisibility(
+                visible = isReady,
+                modifier = Modifier.align(Alignment.TopCenter),
+                enter = fadeIn(),
+                exit = fadeOut(),
+            ) {
+                content()
+            }
         }
 
         if (isReady) {
@@ -715,14 +744,16 @@ private fun PhoneFrame(
         )
 
         // Camera punch-hole
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .offset(y = bezelVertical + 8.dp)
-                .size(bezelVertical * 1.2f)
-                .clip(RoundedCornerShape(50))
-                .background(colors.punchHoleColor),
-        )
+        if (showPunchHole) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .offset(y = bezelVertical + 8.dp)
+                    .size(bezelVertical * 1.2f)
+                    .clip(RoundedCornerShape(50))
+                    .background(colors.punchHoleColor),
+            )
+        }
 
         // Gesture indicator pill
         Box(

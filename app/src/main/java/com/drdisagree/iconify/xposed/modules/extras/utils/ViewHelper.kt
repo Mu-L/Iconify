@@ -456,6 +456,13 @@ object ViewHelper {
                 if (isVisible) {
                     visibility = View.INVISIBLE
                 }
+                if (this is TextView) {
+                    setTextColor(Color.TRANSPARENT)
+                    compoundDrawablesRelative.forEach { it?.setTint(Color.TRANSPARENT) }
+                    compoundDrawables.forEach { it?.setTint(Color.TRANSPARENT) }
+                } else if (this is ImageView) {
+                    setColorFilter(Color.TRANSPARENT)
+                }
             }
         }
 

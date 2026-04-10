@@ -15,7 +15,7 @@ object Preferences {
     const val ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG = "iconify_depth_wallpaper_foreground"
     const val ICONIFY_DEPTH_WALLPAPER_BACKGROUND_TAG = "iconify_depth_wallpaper_background"
     const val ICONIFY_CHARGING_ICON_TAG = "iconify_charging_icon"
-    const val ICONIFY_QS_HEADER_CONTAINER_TAG = "iconify_qs_header_container"
+    const val ICONIFY_QS_HEADER_IMAGE_CONTAINER_TAG = "iconify_qs_header_image_container"
     const val ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG = "iconify_qs_header_container_shade"
     const val ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG = "iconify_sb_center_clock_container"
 

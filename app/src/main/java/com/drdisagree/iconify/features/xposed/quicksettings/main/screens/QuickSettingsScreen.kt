@@ -42,6 +42,18 @@ val quickSettingsPreferences = preferenceScreen {
         )
 
         action(
+            key = "xposedHeaderClock",
+            icon = iconRes(R.drawable.ic_xposed_clock),
+            title = stringRes(R.string.activity_title_header_clock),
+            summary = { _, _ -> stringRes(R.string.activity_desc_header_clock) },
+            onClick = { _, _, nav ->
+                nav.navigate(NavRoutes.Xposed.QuickSettings.Clock) {
+                    launchSingleTop = true
+                }
+            }
+        )
+
+        action(
             key = "xposedThemes",
             icon = iconRes(R.drawable.ic_xposed_themes),
             title = stringRes(R.string.activity_title_themes),

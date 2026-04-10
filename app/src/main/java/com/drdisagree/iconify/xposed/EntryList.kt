@@ -22,6 +22,7 @@ import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgets
 import com.drdisagree.iconify.xposed.modules.misc.Miscellaneous
 import com.drdisagree.iconify.xposed.modules.quicksettings.AppIconInNotification
 import com.drdisagree.iconify.xposed.modules.quicksettings.ColorizeNotificationView
+import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderClock
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeadsUpBlur
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSTheme
@@ -51,6 +52,7 @@ object EntryList {
     )
 
     private val systemUIModPacks: List<Class<out ModPack>> = listOf(
+        /* Top priority */
         MyConstraintSet::class.java,
         ControllersProvider::class.java,
         ThemeChangeCallback::class.java,
@@ -59,8 +61,10 @@ object EntryList {
         KeyguardShowingCallback::class.java,
         DozeCallback::class.java,
         ConfigurationCallback::class.java,
+        /* Not so top priority :P */
         ClockChip::class.java,
         HeaderImage::class.java,
+        HeaderClock::class.java,
         Lockscreen::class.java,
         LockscreenWidgets::class.java,
         LockscreenWeather::class.java,
