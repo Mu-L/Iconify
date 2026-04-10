@@ -138,7 +138,7 @@ val lsClockPreferences = preferenceScreen {
 
         colorPicker(
             key = XposedKey.LSCLOCK_COLOR_ACCENT_SECONDARY,
-            title = stringRes(R.string.accent_primary),
+            title = stringRes(R.string.accent_secondary),
             isEnabled = {
                 it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) &&
                         it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
@@ -148,7 +148,7 @@ val lsClockPreferences = preferenceScreen {
 
         colorPicker(
             key = XposedKey.LSCLOCK_COLOR_ACCENT_TERTIARY,
-            title = stringRes(R.string.accent_primary),
+            title = stringRes(R.string.accent_tertiary),
             isEnabled = {
                 it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) &&
                         it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
@@ -158,7 +158,7 @@ val lsClockPreferences = preferenceScreen {
 
         colorPicker(
             key = XposedKey.LSCLOCK_COLOR_TEXT_PRIMARY,
-            title = stringRes(R.string.accent_primary),
+            title = stringRes(R.string.text_color_primary),
             isEnabled = {
                 it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) &&
                         it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
@@ -168,7 +168,7 @@ val lsClockPreferences = preferenceScreen {
 
         colorPicker(
             key = XposedKey.LSCLOCK_COLOR_TEXT_INVERSE,
-            title = stringRes(R.string.accent_primary),
+            title = stringRes(R.string.text_color_inverse),
             isEnabled = {
                 it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) &&
                         it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
