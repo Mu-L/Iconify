@@ -96,8 +96,9 @@ enum class XposedKey(override val default: Any?) : Key {
     HEADER_IMAGE_HEIGHT(140f),
     HEADER_IMAGE_OPACITY(100f),
     HEADER_IMAGE_BOTTOM_FADE_AMOUNT(40f),
-    HEADER_IMAGE_ZOOM_TO_FIT(false),
+    HEADER_IMAGE_ZOOM_TO_FIT(true),
     HEADER_IMAGE_HIDE_IN_LANDSCAPE(true),
+    HEADER_IMAGE_HALF_WIDTH_IN_LANDSCAPE(true),
 
     // Quick Settings - Themes
     CUSTOM_QS_THEME(false),

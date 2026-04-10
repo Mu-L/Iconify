@@ -760,6 +760,8 @@
     <string name="header_image_zoom_to_fit_desc">Image is stretched to fit by default</string>
     <string name="header_image_hide_in_landscape_title">Hide in Landscape</string>
     <string name="header_image_hide_in_landscape_desc">Hide image in landscape mode</string>
+    <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
     <string name="header_image_alpha_gradient_title">Alpha Gradient</string>
     <string name="header_image_alpha_gradient_desc">Add faded effect to the header image</string>
 

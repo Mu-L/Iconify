@@ -85,6 +85,14 @@ val headerImagePreferences = preferenceScreen {
             summary = { _, _ -> stringRes(R.string.header_image_hide_in_landscape_desc) },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) }
         )
+
+        switch(
+            key = XposedKey.HEADER_IMAGE_HALF_WIDTH_IN_LANDSCAPE,
+            title = stringRes(R.string.header_image_half_width_in_landscape_title),
+            summary = { _, _ -> stringRes(R.string.header_image_half_width_in_landscape_desc) },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) },
+            isVisible = { !it.getBoolean(XposedKey.HEADER_IMAGE_HIDE_IN_LANDSCAPE) }
+        )
     }
 
     category {

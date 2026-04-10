@@ -48,6 +48,7 @@ class HeaderImage(context: Context) : ModPack(context) {
     private var headerImageAlpha = 100
     private var zoomToFit = false
     private var hideLandscapeHeaderImage = true
+    private var halfWidthLandscapeHeaderImage = true
     private var mQsHeaderLayout: FadingEdgeLayout? = null
     private var mQsHeaderImageView: ImageView? = null
     private var bottomFadeAmount = 0
@@ -73,6 +74,8 @@ class HeaderImage(context: Context) : ModPack(context) {
             else getInt(XposedKey.HEADER_IMAGE_HEIGHT)
             zoomToFit = getBoolean(XposedKey.HEADER_IMAGE_ZOOM_TO_FIT)
             hideLandscapeHeaderImage = getBoolean(XposedKey.HEADER_IMAGE_HIDE_IN_LANDSCAPE)
+            halfWidthLandscapeHeaderImage =
+                getBoolean(XposedKey.HEADER_IMAGE_HALF_WIDTH_IN_LANDSCAPE)
             bottomFadeAmount = mContext.toPx(getInt(XposedKey.HEADER_IMAGE_BOTTOM_FADE_AMOUNT))
         }
 
@@ -289,24 +292,28 @@ class HeaderImage(context: Context) : ModPack(context) {
         }
 
         val config = mContext.resources.configuration
+        val screenWidth = mContext.resources.displayMetrics.widthPixels
         val shadeHeaderExpansion = notificationPanelViewControllerInstance
             .getField("mShadeHeaderController")
             .getField("shadeExpandedFraction") as Float
+        val isLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-        if (shadeHeaderExpansion <= 0f
-            || (config.orientation == Configuration.ORIENTATION_LANDSCAPE && hideLandscapeHeaderImage)
-        ) {
+        if (shadeHeaderExpansion <= 0f || (isLandscape && hideLandscapeHeaderImage)) {
             mQsHeaderLayout!!.visibility = View.GONE
         } else {
-            mQsHeaderLayout!!.visibility = View.VISIBLE
-
-            mQsHeaderLayout!!.layoutParams.height =
-                if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
-                else TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                imageHeight.toFloat(),
-                mContext.resources.displayMetrics
-            ).toInt()
+            mQsHeaderLayout!!.apply {
+                visibility = View.VISIBLE
+                layoutParams.apply {
+                    width = if (isLandscape && halfWidthLandscapeHeaderImage) screenWidth / 2
+                    else ViewGroup.LayoutParams.MATCH_PARENT
+                    height = if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
+                    else TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        imageHeight.toFloat(),
+                        mContext.resources.displayMetrics
+                    ).toInt()
+                }
+            }
 
             if (mShadeHeaderExpansion != shadeHeaderExpansion) {
                 mShadeHeaderExpansion = shadeHeaderExpansion
