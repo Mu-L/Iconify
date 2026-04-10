@@ -432,6 +432,9 @@ class HeaderClock(context: Context) : ModPack(context) {
             .addResource("status_bar_height_default") {
                 (mQsHeaderClockContainer.height / density + 16).toInt()
             }
+            .forPackageName(SYSTEMUI_PACKAGE)
+            .whenCondition { showHeaderClock && mContext.isLandscape }
+            .addResource("config_use_split_notification_shade") { true }
             .apply()
 
         if (isLandscape) {
@@ -497,10 +500,14 @@ class HeaderClock(context: Context) : ModPack(context) {
     }
 
     private fun updateQSHeaderClockState() {
-        if (!showHeaderClock ||
-            notificationPanelViewControllerInstance == null ||
+        if (notificationPanelViewControllerInstance == null ||
             shadeHeaderControllerInstance == null
         ) return
+
+        if (!showHeaderClock && mQsHeaderClockContainer.visibility != View.GONE) {
+            mQsHeaderClockContainer.visibility = View.GONE
+            return
+        }
 
         val shadeHeaderExpansion = notificationPanelViewControllerInstance
             .getField("mShadeHeaderController")
@@ -522,9 +529,7 @@ class HeaderClock(context: Context) : ModPack(context) {
                 mQsHeaderClockContainer.layoutParams = lp
             }
 
-            if (mQsHeaderClockContainer.visibility != View.VISIBLE) {
-                mQsHeaderClockContainer.visibility = View.VISIBLE
-            }
+            mQsHeaderClockContainer.visibility = View.VISIBLE
             mQQSContainerAnimator?.setPosition(qsExpandedFraction)
 
             if (mShadeHeaderExpansion != shadeHeaderExpansion) {

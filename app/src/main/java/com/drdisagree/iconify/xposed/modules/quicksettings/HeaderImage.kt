@@ -46,7 +46,7 @@ class HeaderImage(context: Context) : ModPack(context) {
     private var zoomToFit = false
     private var hideLandscapeHeaderImage = true
     private var halfWidthLandscapeHeaderImage = false
-    private var mQsHeaderLayout: FadingEdgeLayout? = null
+    private var mQsHeaderImageLayout: FadingEdgeLayout? = null
     private var mQsHeaderImageView: ImageView? = null
     private var bottomFadeAmount = 0
     private var notificationPanelViewControllerInstance: Any? = null
@@ -61,6 +61,7 @@ class HeaderImage(context: Context) : ModPack(context) {
             }
         }
     }
+    private var showHeaderClock = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -74,6 +75,7 @@ class HeaderImage(context: Context) : ModPack(context) {
             halfWidthLandscapeHeaderImage =
                 getBoolean(XposedKey.HEADER_IMAGE_HALF_WIDTH_IN_LANDSCAPE)
             bottomFadeAmount = mContext.toPx(getInt(XposedKey.HEADER_IMAGE_BOTTOM_FADE_AMOUNT))
+            showHeaderClock = getBoolean(XposedKey.CUSTOM_HEADER_CLOCK)
         }
 
         when (key.firstOrNull()) {
@@ -115,11 +117,12 @@ class HeaderImage(context: Context) : ModPack(context) {
                 notificationPanelViewControllerInstance = param.thisObject
 
                 val notificationPanelView = param.thisObject.getField("mView") as FrameLayout
-                mQsHeaderLayout = FadingEdgeLayout(mContext).apply {
+
+                mQsHeaderImageLayout = FadingEdgeLayout(mContext).apply {
                     tag = ICONIFY_QS_HEADER_IMAGE_CONTAINER_TAG
                 }
 
-                val layoutParams = LinearLayout.LayoutParams(
+                mQsHeaderImageLayout!!.layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
                     else TypedValue.applyDimension(
@@ -127,29 +130,28 @@ class HeaderImage(context: Context) : ModPack(context) {
                         imageHeight.toFloat(),
                         mContext.resources.displayMetrics
                     ).toInt()
-                )
-                layoutParams.leftMargin = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    -16f,
-                    mContext.resources.displayMetrics
-                ).toInt()
-                layoutParams.rightMargin = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    -16f,
-                    mContext.resources.displayMetrics
-                ).toInt()
-
-                mQsHeaderLayout!!.layoutParams = layoutParams
-                mQsHeaderLayout!!.visibility = View.GONE
+                ).apply {
+                    leftMargin = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        -16f,
+                        mContext.resources.displayMetrics
+                    ).toInt()
+                    rightMargin = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        -16f,
+                        mContext.resources.displayMetrics
+                    ).toInt()
+                }
 
                 mQsHeaderImageView = ImageView(mContext)
                 mQsHeaderImageView!!.layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
+                mQsHeaderImageView!!.visibility = View.INVISIBLE
 
-                mQsHeaderLayout!!.reAddView(mQsHeaderImageView)
-                notificationPanelView.reAddView(mQsHeaderLayout, 0)
+                mQsHeaderImageLayout!!.reAddView(mQsHeaderImageView)
+                notificationPanelView.reAddView(mQsHeaderImageLayout, 0)
 
                 updateQSHeaderImage()
             }
@@ -158,7 +160,7 @@ class HeaderImage(context: Context) : ModPack(context) {
         notificationPanelViewControllerClass
             .hookMethod("setExpandedHeightInternal")
             .runBefore { param ->
-                if (!showHeaderImage) return@runBefore
+                if (!showHeaderImage && !showHeaderClock) return@runBefore
 
                 val mNotificationShadeWindowController =
                     param.thisObject.getField("mNotificationShadeWindowController")
@@ -207,7 +209,7 @@ class HeaderImage(context: Context) : ModPack(context) {
         configurationListenerClass
             .hookMethod("onConfigChanged")
             .runAfter {
-                if (!showHeaderImage) return@runAfter
+                if (!showHeaderImage && !showHeaderClock) return@runAfter
 
                 val notificationPanelView = notificationPanelViewControllerInstance
                     .getField("mView") as FrameLayout
@@ -217,7 +219,7 @@ class HeaderImage(context: Context) : ModPack(context) {
         shadeLayoutChangeListenerClass
             .hookMethod("onLayoutChange")
             .runAfter {
-                if (!showHeaderImage) return@runAfter
+                if (!showHeaderImage && !showHeaderClock) return@runAfter
 
                 val notificationPanelView = notificationPanelViewControllerInstance
                     .getField("mView") as FrameLayout
@@ -238,27 +240,26 @@ class HeaderImage(context: Context) : ModPack(context) {
     }
 
     private fun updateQSHeaderImage() {
-        if (mQsHeaderLayout == null || mQsHeaderImageView == null) return
+        if (mQsHeaderImageLayout == null || mQsHeaderImageView == null) return
 
-        if (!showHeaderImage && mQsHeaderLayout!!.visibility != View.GONE) {
-            mQsHeaderLayout!!.visibility = View.GONE
-            return
+        if (!showHeaderImage && mQsHeaderImageView!!.visibility != View.INVISIBLE) {
+            mQsHeaderImageView!!.visibility = View.INVISIBLE
+        } else if (showHeaderImage) {
+            mQsHeaderImageView!!.visibility = View.VISIBLE
+            mQsHeaderImageView!!.loadImageOrGif()
         }
 
-        mQsHeaderLayout!!.visibility = View.VISIBLE
-        mQsHeaderImageView!!.loadImageOrGif()
         updateQSHeaderImageState()
     }
 
     private fun updateQSHeaderImageState() {
-        if (mQsHeaderLayout == null
+        if (mQsHeaderImageLayout == null
             || mQsHeaderImageView == null
             || notificationPanelViewControllerInstance == null
         ) return
 
-        if (!showHeaderImage && mQsHeaderLayout!!.visibility != View.GONE) {
-            mQsHeaderLayout!!.visibility = View.GONE
-            return
+        if (!showHeaderImage && mQsHeaderImageView!!.visibility != View.INVISIBLE) {
+            mQsHeaderImageView!!.visibility = View.INVISIBLE
         }
 
         val screenWidth = mContext.resources.displayMetrics.widthPixels
@@ -268,10 +269,10 @@ class HeaderImage(context: Context) : ModPack(context) {
         val isLandscape = mContext.isLandscape
 
         if (shadeHeaderExpansion <= 0f || (isLandscape && hideLandscapeHeaderImage)) {
-            mQsHeaderLayout!!.visibility = View.GONE
+            mQsHeaderImageView!!.visibility = View.INVISIBLE
         } else {
-            mQsHeaderLayout!!.apply {
-                if (visibility != View.VISIBLE) {
+            mQsHeaderImageView!!.apply {
+                if (showHeaderImage) {
                     visibility = View.VISIBLE
                 }
                 layoutParams.apply {
@@ -293,7 +294,7 @@ class HeaderImage(context: Context) : ModPack(context) {
             }
         }
 
-        mQsHeaderLayout!!.apply {
+        mQsHeaderImageLayout!!.apply {
             setFadeEdges(false, false, bottomFadeAmount != 0, false)
             setFadeSizes(0, 0, bottomFadeAmount, 0)
             requestLayout()
