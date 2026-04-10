@@ -28,6 +28,8 @@ class LockscreenClockViewModel @Inject constructor() : ViewModel() {
     val wallpaperReady: StateFlow<Boolean> = _wallpaperReady.asStateFlow()
 
     fun loadClockLayouts(resources: Resources) {
+        if (_clockLayoutIds.value.isNotEmpty()) return
+
         viewModelScope.launch(Dispatchers.IO) {
             val ids = buildList {
                 var index = 0
