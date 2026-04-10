@@ -97,8 +97,6 @@ import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.materialkolor.ktx.harmonize
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.take
@@ -122,7 +120,10 @@ fun DevicePreviewPager(
     sidePageScale: Float = 0.82f,
     onPageChanged: (index: Int) -> Unit = {},
     onSelect: (index: Int) -> Unit = {},
-    horizontalPaddingToIgnore: Dp = 0.dp
+    horizontalPaddingToIgnore: Dp = 0.dp,
+    paddingTopPx: Int = 0,
+    paddingHorizontalPx: Int = 0,
+    content: @Composable () -> Unit = {},
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
@@ -387,6 +388,7 @@ fun DevicePreviewPager(
                     bezelVertical = bezelV,
                     wallpaperBytes = wallpaperBytes,
                     modifier = Modifier.zIndex(1f),
+                    content = content
                 )
 
                 val hapticFeedback = withHaptic { /* no-op */ }
@@ -482,8 +484,8 @@ fun DevicePreviewPager(
                                     factory = { ctx ->
                                         val cachedView = viewCache[resId]
                                         val d = ctx.resources.displayMetrics.density
-                                        val paddingTopPx = (100 * d).toInt()
-                                        val paddingHorizontalPx = (28 * d).toInt()
+                                        val paddingTopPx = (paddingTopPx * d).toInt()
+                                        val paddingHorizontalPx = (paddingHorizontalPx * d).toInt()
 
                                         FrameLayout(ctx).apply {
                                             setPaddingRelative(
@@ -612,6 +614,7 @@ private fun PhoneFrame(
     bezelVertical: Dp,
     wallpaperBytes: ByteArray?,
     modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
     val isDarkTheme = LocalDarkMode.current
@@ -658,7 +661,9 @@ private fun PhoneFrame(
                 .fillMaxSize()
                 .clip(RoundedCornerShape(cornerRadius2))
                 .background(colors.screenCutOutColor),
-        )
+        ) {
+            content()
+        }
 
         if (isReady) {
             AsyncImage(

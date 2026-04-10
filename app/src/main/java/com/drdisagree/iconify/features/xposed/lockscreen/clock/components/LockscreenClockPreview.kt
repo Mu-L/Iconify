@@ -63,6 +63,8 @@ fun LockscreenClockPreview(
         wallpaperReady = wallpaperReady,
         wallpaperBytes = wallpaperBytes,
         horizontalPaddingToIgnore = 16.dp,
+        paddingTopPx = 100,
+        paddingHorizontalPx = 28,
         onSelect = { index ->
             prefController.setInt(XposedKey.LSCLOCK_STYLE, index)
         }
