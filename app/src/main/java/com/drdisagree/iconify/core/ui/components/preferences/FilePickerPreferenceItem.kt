@@ -37,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,6 +52,7 @@ import com.drdisagree.iconify.core.preferences.PreferenceType
 import com.drdisagree.iconify.core.preferences.resolve
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
+import kotlinx.coroutines.launch
 
 sealed class FilePickerType {
 
@@ -124,6 +126,7 @@ fun FilePickerPreferenceItem(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     val uriString by prefController.observe(def.key, "")
     val uri: Uri? = remember(uriString) { uriString.takeIf { it.isNotEmpty() }?.let(Uri::parse) }
@@ -145,8 +148,10 @@ fun FilePickerPreferenceItem(
                 )
             }
             val uriStr = pickedUri.toString()
-            type.onFileSelected(prefController, uriStr)
-            if (type.saveFileUri) prefController.setString(def.key, uriStr)
+            scope.launch {
+                type.onFileSelected(prefController, uriStr)
+                if (type.saveFileUri) prefController.setString(def.key, uriStr)
+            }
         }
     }
 
@@ -161,8 +166,10 @@ fun FilePickerPreferenceItem(
                 )
             }
             val uriStr = pickedUri.toString()
-            type.onFileSelected(prefController, uriStr)
-            if (type.saveFileUri) prefController.setString(def.key, uriStr)
+            scope.launch {
+                type.onFileSelected(prefController, uriStr)
+                if (type.saveFileUri) prefController.setString(def.key, uriStr)
+            }
         }
     }
 
@@ -223,8 +230,10 @@ fun FilePickerPreferenceItem(
                     type = type.pickerType,
                     isEnabled = isEnabled,
                     onClear = withHaptic {
-                        type.onFileSelected(prefController, "")
-                        if (type.saveFileUri) prefController.setString(def.key, "")
+                        scope.launch {
+                            type.onFileSelected(prefController, "")
+                            if (type.saveFileUri) prefController.setString(def.key, "")
+                        }
                     },
                 )
                 Spacer(Modifier.height(8.dp))

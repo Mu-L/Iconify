@@ -10,6 +10,8 @@ import android.util.Log
 import androidx.compose.ui.graphics.Color
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.data.common.XposedConst.XPOSED_RESOURCE_FOLDER_NAME
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 fun String.replaceAll(vararg replacements: Pair<String, Any>): String {
     var result = this
@@ -49,13 +51,14 @@ fun Color.Companion.fromHexSafe(hex: String): Color? = runCatching {
 }.getOrNull()
 
 @SuppressLint("SetWorldReadable")
-fun Uri.toXposedSharedPath(customFileName: String? = null): String? {
+suspend fun Uri.toXposedSharedPath(customFileName: String? = null):
+        String? = withContext(Dispatchers.IO) {
     val context = appContext
     val resolver = context.contentResolver
 
-    return try {
-        val fileName =
-            customFileName ?: resolver.query(this, null, null, null, null)?.use { cursor ->
+    try {
+        val fileName = customFileName
+            ?: resolver.query(this@toXposedSharedPath, null, null, null, null)?.use { cursor ->
                 val col = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
                 if (col != -1 && cursor.moveToFirst()) cursor.getString(col) else null
             } ?: lastPathSegment ?: "unknown_file"
@@ -86,10 +89,10 @@ fun Uri.toXposedSharedPath(customFileName: String? = null): String? {
             put(MediaStore.Downloads.IS_PENDING, 1)
         }
 
-        val itemUri = resolver.insert(collection, values) ?: return null
+        val itemUri = resolver.insert(collection, values) ?: return@withContext null
 
         resolver.openOutputStream(itemUri, "wt")?.use { output ->
-            resolver.openInputStream(this)?.use { input ->
+            resolver.openInputStream(this@toXposedSharedPath)?.use { input ->
                 input.copyTo(output)
             }
         }

@@ -301,7 +301,7 @@ class PreferenceCategoryScope {
         isEnabled: ((PreferenceController) -> Boolean) = { true },
         pickerType: FilePickerType = FilePickerType.Any,
         saveFileUri: Boolean = false,
-        onFileSelected: (PreferenceController, String) -> Unit = { _, _ -> },
+        onFileSelected: suspend (PreferenceController, String) -> Unit = { _, _ -> },
     ) = prefs.add(
         PreferenceDefinition(
             key,
@@ -321,7 +321,7 @@ class PreferenceCategoryScope {
         isEnabled: ((PreferenceController) -> Boolean) = { true },
         pickerType: FilePickerType = FilePickerType.Any,
         saveFileUri: Boolean = false,
-        onFileSelected: (PreferenceController, String) -> Unit = { _, _ -> },
+        onFileSelected: suspend (PreferenceController, String) -> Unit = { _, _ -> },
     ) = prefs.add(
         PreferenceDefinition(
             key.name,

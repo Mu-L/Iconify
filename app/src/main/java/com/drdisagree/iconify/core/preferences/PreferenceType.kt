@@ -40,7 +40,7 @@ sealed class PreferenceType {
     data class FilePicker(
         val pickerType: FilePickerType,
         val saveFileUri: Boolean,
-        val onFileSelected: (PreferenceController, String) -> Unit
+        val onFileSelected: suspend (PreferenceController, String) -> Unit
     ) : PreferenceType()
 
     data class TwoTargetSwitch(
