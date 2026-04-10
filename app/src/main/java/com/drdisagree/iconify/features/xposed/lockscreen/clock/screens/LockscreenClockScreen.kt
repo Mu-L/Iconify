@@ -211,10 +211,10 @@ val lsClockPreferences = preferenceScreen {
 
 @Composable
 fun LockscreenClockScreen(
-    systemActionViewModel: SystemActionViewModel = hiltViewModel(),
+    systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
 ) {
     PreferenceListener(key = XposedKey.CUSTOM_LOCKSCREEN_CLOCK) {
-        systemActionViewModel.shouldRestartSystemUI()
+        systemActionViewModel?.shouldRestartSystemUI()
     }
 
     PreferenceScreen(
@@ -228,6 +228,6 @@ fun LockscreenClockScreen(
 @Composable
 fun LockscreenClockScreenPreview() {
     PreviewComposable {
-        LockscreenClockScreen()
+        LockscreenClockScreen(null)
     }
 }
