@@ -57,13 +57,18 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.getColorResCompat
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.util.Locale
 
@@ -271,6 +276,56 @@ class HeaderClock(context: Context) : ModPack(context) {
 
                 buildHeaderViewExpansion()
                 updateClockView()
+            }
+
+        var notificationShadeWindowControllerHooks: Set<XC_MethodHook.Unhook>? = null
+        notificationPanelViewControllerClass
+            .hookMethod("setExpandedHeightInternal")
+            .runBefore { param ->
+                if (!showHeaderClock) return@runBefore
+
+                val mNotificationShadeWindowController =
+                    param.thisObject.getField("mNotificationShadeWindowController")
+
+                notificationShadeWindowControllerHooks = XposedBridge.hookAllMethods(
+                    mNotificationShadeWindowController::class.java,
+                    "batchApplyWindowLayoutParams",
+                    object : XC_MethodHook() {
+                        override fun beforeHookedMethod(param2: MethodHookParam) {
+                            if (param2.thisObject !== mNotificationShadeWindowController) return
+
+                            val scope = param2.args[0] as Runnable
+
+                            val mDeferWindowLayoutParams =
+                                param2.thisObject.getFieldSilently("mDeferWindowLayoutParams") as? Int
+                            mDeferWindowLayoutParams?.let {
+                                param2.thisObject.setFieldSilently(
+                                    "mDeferWindowLayoutParams",
+                                    it + 1
+                                )
+                            }
+                            scope.run()
+                            Runnable {
+                                val notificationPanelView =
+                                    param.thisObject.getField("mView") as FrameLayout
+                                notificationPanelView.post { updateQSHeaderClockState() }
+                            }.run()
+                            mDeferWindowLayoutParams?.let {
+                                param2.thisObject.setFieldSilently(
+                                    "mDeferWindowLayoutParams",
+                                    it
+                                )
+                            }
+                            param2.thisObject.callMethodSilently("applyWindowLayoutParams")
+
+                            param2.result = null
+                        }
+                    }
+                )
+            }
+            .runAfter {
+                notificationShadeWindowControllerHooks?.forEach { it.unhook() }
+                notificationShadeWindowControllerHooks = null
             }
 
         configurationListenerClass
