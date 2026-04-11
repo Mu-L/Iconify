@@ -203,12 +203,15 @@ class HeaderImage(context: Context) : ModPack(context) {
                 object : QsShowingCallback.QsShowingListener {
                     override fun onQuickSettingsExpanded() {
                         Handler(Looper.getMainLooper()).postDelayed({
-                            if (showHeaderImage && mQsHeaderImageView != null && mQsHeaderImageView!!.visibility != View.VISIBLE) {
+                            if (showHeaderImage &&
+                                mQsHeaderImageView != null &&
+                                mQsHeaderImageView!!.visibility != View.VISIBLE
+                            ) {
                                 mQsHeaderImageView!!.visibility = View.VISIBLE
 
                                 if (mQsHeaderImageLayout != null && mQsHeaderImageLayout!!.alpha <= 0f) {
                                     mQsHeaderImageLayout!!.animate()
-                                        .alpha(1f)
+                                        .alpha(headerImageAlpha / 100f)
                                         .setDuration(100)
                                         .start()
                                 }
