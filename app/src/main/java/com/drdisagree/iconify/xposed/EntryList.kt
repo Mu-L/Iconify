@@ -12,7 +12,6 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallbac
 import com.drdisagree.iconify.xposed.modules.extras.utils.GraphicsColorKt
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet
 import com.drdisagree.iconify.xposed.modules.extras.utils.SettingsLibUtils
-import com.drdisagree.iconify.xposed.modules.framework.BroadcastController
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt
 import com.drdisagree.iconify.xposed.modules.lockscreen.DepthWallpaper
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen
@@ -45,10 +44,6 @@ object EntryList {
         SettingsLibUtils::class.java,
         GraphicsColorKt::class.java,
         HookCheck::class.java
-    )
-
-    private val frameworkModPacks: List<Class<out ModPack>> = listOf(
-        BroadcastController::class.java
     )
 
     private val systemUIModPacks: List<Class<out ModPack>> = listOf(
@@ -96,7 +91,7 @@ object EntryList {
         modPacks.addAll(topPriorityCommonModPacks)
 
         when (packageName) {
-            FRAMEWORK_PACKAGE -> modPacks.addAll(frameworkModPacks)
+            FRAMEWORK_PACKAGE -> {}
 
             SYSTEMUI_PACKAGE -> {
                 if (!HookEntry.isChildProcess) {
