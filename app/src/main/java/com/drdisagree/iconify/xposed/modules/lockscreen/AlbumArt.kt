@@ -2,7 +2,6 @@ package com.drdisagree.iconify.xposed.modules.lockscreen
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.media.session.PlaybackState
@@ -10,10 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.drdisagree.iconify.data.common.Const.ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getColored
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getGrayscaleBlurredImage
@@ -186,13 +185,7 @@ class AlbumArt(context: Context) : ModPack(context) {
     }
 
     private fun broadcastAlbumArtUpdate() {
-        Thread {
-            mContext.sendBroadcast(
-                Intent(ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY).apply {
-                    flags = Intent.FLAG_RECEIVER_FOREGROUND
-                }
-            )
-        }.start()
+        AlbumArtCallback.notifyVisibilityChanged()
     }
 
     private fun updateAlbumArtState() {

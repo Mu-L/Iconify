@@ -27,7 +27,6 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_FAILURE
 import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_SUBJECT
 import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_SUCCESS
-import com.drdisagree.iconify.data.common.Const.ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY
 import com.drdisagree.iconify.data.common.Const.AI_PLUGIN_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_BACKGROUND_TAG
@@ -43,6 +42,7 @@ import com.drdisagree.iconify.services.providers.IExtractSubjectCallback
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.findChildIndexContainsTag
@@ -96,13 +96,8 @@ class DepthWallpaper(context: Context) : ModPack(context) {
 
     private var shouldShowForeground = true
     private var shouldShowBackground = true
-    private var mBroadcastRegistered = false
-    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY) {
-                updateForegroundVisibility()
-            }
-        }
+    private val albumArtVisibilityListener = AlbumArtCallback.AlbumArtVisibilityListener {
+        updateForegroundVisibility()
     }
 
     fun handleSubjectExtraction(scaledWallpaper: Bitmap?) {
@@ -160,22 +155,9 @@ class DepthWallpaper(context: Context) : ModPack(context) {
         }
     }
 
-    @SuppressLint("UnspecifiedRegisterReceiverFlag", "NewApi")
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
-        // Receiver to handle foreground visibility
-        if (!mBroadcastRegistered) {
-            val intentFilter = IntentFilter().apply {
-                addAction(ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY)
-            }
-
-            mContext.registerReceiver(
-                mReceiver,
-                intentFilter,
-                Context.RECEIVER_EXPORTED
-            )
-
-            mBroadcastRegistered = true
-        }
+        // Listen for album art visibility changes
+        AlbumArtCallback.registerVisibilityListener(albumArtVisibilityListener)
 
         mPluginReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
