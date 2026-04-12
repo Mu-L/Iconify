@@ -41,7 +41,6 @@ import com.drdisagree.iconify.data.common.XposedConst.HEADER_CLOCK_FONT_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
-import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.TouchAnimator
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyFontRecursively
@@ -63,13 +62,25 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
+import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.ANIM_END_FRACTION
+import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.ANIM_START_FRACTION
+import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.STATE_CLOSED
+import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.STATE_OPEN
+import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.STATE_OPENING
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.android.awaitFrame
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 @SuppressLint("DiscouragedApi")
@@ -102,6 +113,17 @@ class HeaderClock(context: Context) : ModPack(context) {
     private var systemBarUtilsClass: Class<*>? = null
     private var notificationPanelViewControllerInstance: Any? = null
     private var shadeHeaderControllerInstance: Any? = null
+    private var qsOpeningJob: Job? = null
+    private var lastShadeExpandedFraction = -1f
+    private var lastQsExpandedFraction = -1f
+    private val mViewOnClickListener = View.OnClickListener { v: View ->
+        val tag = v.tag.toString()
+        if (tag == "clock") {
+            onClockClick()
+        } else if (tag == "date") {
+            onDateClick()
+        }
+    }
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -112,16 +134,6 @@ class HeaderClock(context: Context) : ModPack(context) {
             }
         }
     }
-    private val mViewOnClickListener = View.OnClickListener { v: View ->
-        val tag = v.tag.toString()
-        if (tag == "clock") {
-            onClockClick()
-        } else if (tag == "date") {
-            onDateClick()
-        }
-    }
-    private var lastShadeExpandedFraction = -1f
-    private var lastQsExpandedFraction = -1f
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -351,6 +363,19 @@ class HeaderClock(context: Context) : ModPack(context) {
                 notificationPanelView.post { updateQSHeaderClockState() }
             }
 
+        notificationPanelViewControllerClass
+            .hookMethodMatchPattern("onPanelStateChanged.*")
+            .runAfter {
+                if (!showHeaderClock) return@runAfter
+
+                val state = it.args[0] as Int
+
+                when (state) {
+                    STATE_OPENING -> startQsOpeningLoop()
+                    STATE_OPEN, STATE_CLOSED -> stopQsOpeningLoop()
+                }
+            }
+
         qsContainerImplClass
             .hookMethod("onFinishInflate")
             .runAfter { param ->
@@ -420,27 +445,28 @@ class HeaderClock(context: Context) : ModPack(context) {
             }
 
         BootCallback.registerBootListener { updateClockView() }
-        QsShowingCallback.getInstance()
-            .registerQsShowingListener(
-                object : QsShowingCallback.QsShowingListener {
-                    override fun onQuickSettingsExpanded() {
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            if (showHeaderClock && mQsHeaderClockContainer.visibility != View.VISIBLE) {
-                                mQsHeaderClockContainer.visibility = View.VISIBLE
+    }
 
-                                if (mQsHeaderClockContainer.alpha <= 0f) {
-                                    mQsHeaderClockContainer.animate()
-                                        .alpha(1f)
-                                        .setDuration(100)
-                                        .start()
-                                }
-                            }
-                        }, 100)
-                    }
+    private fun startQsOpeningLoop() {
+        if (qsOpeningJob?.isActive == true ||
+            notificationPanelViewControllerInstance == null
+        ) return
 
-                    override fun onQuickSettingsCollapsed() {}
-                }
-            )
+        val notificationPanelView = notificationPanelViewControllerInstance
+            .getField("mView") as FrameLayout
+
+        qsOpeningJob = CoroutineScope(Dispatchers.Main).launch {
+            while (isActive) {
+                awaitFrame()
+                if (!notificationPanelView.isLaidOut) continue
+                updateQSHeaderClockState()
+            }
+        }
+    }
+
+    private fun stopQsOpeningLoop() {
+        qsOpeningJob?.cancel()
+        qsOpeningJob = null
     }
 
     private fun buildHeaderViewExpansion() {
@@ -531,11 +557,12 @@ class HeaderClock(context: Context) : ModPack(context) {
             return
         }
 
-        val shadeExpandedFraction = shadeHeader
-            .getField("shadeExpandedFraction") as Float
+        val shadeExpandedFraction = shadeHeader.getField("shadeExpandedFraction") as Float
+        val qsExpandedFraction = shadeHeader.getField("qsExpandedFraction") as Float
 
-        val qsExpandedFraction = shadeHeader
-            .getField("qsExpandedFraction") as Float
+        val normalizedFraction =
+            ((shadeExpandedFraction - ANIM_START_FRACTION) / (ANIM_END_FRACTION - ANIM_START_FRACTION))
+                .coerceIn(0f, 1f)
 
         if (shadeExpandedFraction <= 0f) {
             if (mQsHeaderClockContainer.visibility != View.GONE) {
@@ -560,9 +587,9 @@ class HeaderClock(context: Context) : ModPack(context) {
             mQsHeaderClockContainer.layoutParams = lp
         }
 
-        if (shadeExpandedFraction != lastShadeExpandedFraction) {
-            mQsHeaderClockContainer.alpha = shadeExpandedFraction
-            lastShadeExpandedFraction = shadeExpandedFraction
+        if (normalizedFraction != lastShadeExpandedFraction) {
+            mQsHeaderClockContainer.alpha = normalizedFraction
+            lastShadeExpandedFraction = normalizedFraction
         }
 
         if (qsExpandedFraction != lastQsExpandedFraction) {
