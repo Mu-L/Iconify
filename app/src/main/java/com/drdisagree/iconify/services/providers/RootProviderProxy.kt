@@ -10,7 +10,7 @@ import android.util.Log
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.utils.FileUtils
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
-import com.drdisagree.iconify.xposed.modules.extras.utils.BitmapSubjectSegmenter
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.BitmapSubjectSegmenter
 import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse
 import com.topjohnwu.superuser.Shell
 import java.io.File

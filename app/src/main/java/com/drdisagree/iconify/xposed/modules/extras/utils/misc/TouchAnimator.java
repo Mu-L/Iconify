@@ -12,7 +12,7 @@
  * permissions and limitations under the License.
  */
 
-package com.drdisagree.iconify.xposed.modules.extras.utils;
+package com.drdisagree.iconify.xposed.modules.extras.utils.misc;
 
 import android.util.FloatProperty;
 import android.util.Property;

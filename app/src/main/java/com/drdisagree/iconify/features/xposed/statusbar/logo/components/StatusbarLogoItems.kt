@@ -21,7 +21,7 @@ import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
 import com.drdisagree.iconify.data.common.XposedConst.XPOSED_RESOURCE_FOLDER_NAME
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.xposed.statusbar.logo.models.StatusbarLogoItem
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toCircularDrawable
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toCircularDrawable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.FileNotFoundException

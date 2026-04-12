@@ -41,7 +41,7 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.lockscreen.depthwallpaper.components.DepthWallpaperExample
 import com.drdisagree.iconify.helpers.toXposedSharedPath
-import com.drdisagree.iconify.xposed.modules.extras.utils.BitmapSubjectSegmenter
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.BitmapSubjectSegmenter
 
 fun depthWallpaperPreferences(
     context: Context? = null,

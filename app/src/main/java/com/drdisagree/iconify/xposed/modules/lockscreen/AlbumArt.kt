@@ -13,11 +13,11 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyBlur
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getColored
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getGrayscaleBlurredImage
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toGrayscale
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyBlur
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getColored
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getGrayscaleBlurredImage
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toGrayscale
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently

@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.modules.extras.utils
+package com.drdisagree.iconify.xposed.modules.extras.utils.misc
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -19,6 +19,10 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.renderscript.Allocation
+import android.renderscript.Element
+import android.renderscript.RenderScript
+import android.renderscript.ScriptIntrinsicBlur
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -413,13 +417,13 @@ object ViewHelper {
         }
 
         val bitmap = createBitmap(tempImage.width, tempImage.height)
-        val renderScript = android.renderscript.RenderScript.create(context)
-        val blurInput = android.renderscript.Allocation.createFromBitmap(renderScript, tempImage)
-        val blurOutput = android.renderscript.Allocation.createFromBitmap(renderScript, bitmap)
+        val renderScript = RenderScript.create(context)
+        val blurInput = Allocation.createFromBitmap(renderScript, tempImage)
+        val blurOutput = Allocation.createFromBitmap(renderScript, bitmap)
 
-        android.renderscript.ScriptIntrinsicBlur.create(
+        ScriptIntrinsicBlur.create(
             renderScript,
-            android.renderscript.Element.U8_4(renderScript)
+            Element.U8_4(renderScript)
         ).apply {
             setInput(blurInput)
             setRadius(radius.coerceIn(0.0001f, 25f))

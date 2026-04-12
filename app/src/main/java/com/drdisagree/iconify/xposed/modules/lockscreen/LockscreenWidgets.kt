@@ -29,17 +29,13 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Compan
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.clone
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.connect
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.constraintSetInstance
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.assignIdsToViews
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getLsItemsContainer
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.setMargins
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.LockscreenWidgetsView
-import com.drdisagree.iconify.xposed.modules.extras.views.LockscreenWidgetsView.Companion.launchableImageViewClass
-import com.drdisagree.iconify.xposed.modules.extras.views.LockscreenWidgetsView.Companion.launchableLinearLayoutClass
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -160,6 +156,7 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
             in setOf(
                 XposedKey.LOCKSCREEN_WIDGETS_DEVICE_INFO_WIDGET.name,
                 XposedKey.LOCKSCREEN_WIDGETS.name,
+                XposedKey.LOCKSCREEN_WIDGETS_MAIN.name,
                 XposedKey.LOCKSCREEN_WIDGETS_EXTRAS.name
             ) -> updateLockscreenWidgets()
 
@@ -220,21 +217,6 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
         }
-
-        launchableImageViewClass = findClass("$SYSTEMUI_PACKAGE.animation.view.LaunchableImageView")
-
-        launchableLinearLayoutClass =
-            findClass("$SYSTEMUI_PACKAGE.animation.view.LaunchableLinearLayout")
-
-        val keyguardQuickAffordanceInteractorClass =
-            findClass("$SYSTEMUI_PACKAGE.keyguard.domain.interactor.KeyguardQuickAffordanceInteractor")
-
-        keyguardQuickAffordanceInteractorClass
-            .hookConstructor()
-            .runAfter { param ->
-                mActivityStarter = param.thisObject.getFieldSilently("activityStarter")
-                setActivityStarter()
-            }
 
         val aodBurnInSectionClass =
             findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInSection")
@@ -456,10 +438,10 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
             (mWeatherEnabled && !mWeatherInflated)
         ) return
 
-        val widgetView = LockscreenWidgetsView.getInstance(mContext, mActivityStarter)
+        val widgetView = LockscreenWidgetsView.getInstance(mContext)
 
         if (widgetView.parent != mWidgetsContainer) {
-            (mWidgetsContainer.parent as? ViewGroup)?.removeView(widgetView)
+            (widgetView.parent as? ViewGroup)?.removeView(widgetView)
             mWidgetsContainer.addView(widgetView)
 
             updateLockscreenWidgets()
@@ -648,12 +630,6 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
 
     private fun updateDozingState(isDozing: Boolean) {
         LockscreenWidgetsView.getInstance()?.setDozingState(isDozing)
-    }
-
-    private fun setActivityStarter() {
-        if (mActivityStarter != null) {
-            LockscreenWidgetsView.getInstance()?.setActivityStarter(mActivityStarter)
-        }
     }
 
     private fun resetDynamicClock() {

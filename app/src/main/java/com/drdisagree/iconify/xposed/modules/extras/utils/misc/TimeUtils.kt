@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.modules.extras.utils
+package com.drdisagree.iconify.xposed.modules.extras.utils.misc
 
 import android.content.Context
 import android.os.Build
@@ -87,7 +87,7 @@ object TimeUtils {
     private fun convertNumberToText(number: String): String {
         return try {
             numbers[number.toInt()]
-        } catch (throwable: Throwable) {
+        } catch (_: Throwable) {
             number
         }
     }

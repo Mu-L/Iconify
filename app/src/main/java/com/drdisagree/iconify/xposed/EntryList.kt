@@ -9,7 +9,9 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
+import com.drdisagree.iconify.xposed.modules.extras.utils.ActivityLauncherUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.GraphicsColorKt
+import com.drdisagree.iconify.xposed.modules.extras.utils.LaunchableViews
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet
 import com.drdisagree.iconify.xposed.modules.extras.utils.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt
@@ -49,6 +51,8 @@ object EntryList {
     private val systemUIModPacks: List<Class<out ModPack>> = listOf(
         /* Top priority */
         MyConstraintSet::class.java,
+        LaunchableViews::class.java,
+        ActivityLauncherUtils::class.java,
         ControllersProvider::class.java,
         ThemeChangeCallback::class.java,
         HeadsUpCallback::class.java,

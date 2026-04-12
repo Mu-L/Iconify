@@ -32,7 +32,7 @@ import com.drdisagree.iconify.core.ui.theme.MyAppTheme
 import com.drdisagree.iconify.data.config.Config
 import com.drdisagree.iconify.data.states.AppState
 import com.drdisagree.iconify.services.providers.AppProviders
-import com.drdisagree.iconify.xposed.modules.extras.utils.BitmapSubjectSegmenter
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.BitmapSubjectSegmenter
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers

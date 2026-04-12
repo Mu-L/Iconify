@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.drdisagree.iconify.xposed.modules.extras.utils
+package com.drdisagree.iconify.xposed.modules.extras.utils.misc
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -32,7 +32,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.InsetDrawable
 import androidx.annotation.WorkerThread
-import com.drdisagree.iconify.xposed.modules.extras.utils.MonochromeIconFactory.ClippedMonoDrawable.Companion.create
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.MonochromeIconFactory.ClippedMonoDrawable.Companion.create
 import java.nio.ByteBuffer
 import kotlin.math.max
 import kotlin.math.min

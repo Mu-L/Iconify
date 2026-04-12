@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.modules.extras.utils
+package com.drdisagree.iconify.xposed.modules.extras.utils.misc
 
 import android.annotation.SuppressLint
 import android.content.Context

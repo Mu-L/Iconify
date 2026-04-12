@@ -26,7 +26,7 @@ import android.widget.ImageView
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toCircularDrawable
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toCircularDrawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
