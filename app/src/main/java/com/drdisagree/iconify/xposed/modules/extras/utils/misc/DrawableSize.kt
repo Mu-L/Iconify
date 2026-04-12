@@ -6,6 +6,8 @@ import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.annotation.Px
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.drawable.toDrawable
 
 class DrawableSize {
 
@@ -73,7 +75,7 @@ class DrawableSize {
             // We want to keep existing config if it's more efficient than 32-bit RGB.
             val config = (drawable as? BitmapDrawable)?.bitmap?.config
                 ?: Bitmap.Config.ARGB_8888
-            val scaledDrawableBitmap = Bitmap.createBitmap(width, height, config)
+            val scaledDrawableBitmap = createBitmap(width, height, config)
             val canvas = Canvas(scaledDrawableBitmap)
 
             val originalBounds = drawable.bounds
@@ -81,7 +83,7 @@ class DrawableSize {
             drawable.draw(canvas)
             drawable.bounds = originalBounds
 
-            return BitmapDrawable(res, scaledDrawableBitmap)
+            return scaledDrawableBitmap.toDrawable(res)
         }
 
         private fun isSimpleBitmap(drawable: Drawable): Boolean {

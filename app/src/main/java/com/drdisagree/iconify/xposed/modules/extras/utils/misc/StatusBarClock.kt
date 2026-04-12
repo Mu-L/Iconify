@@ -180,12 +180,14 @@ object StatusBarClock {
                 )
             }
         }
-        clockView.layoutParams = layoutParams
 
-        (clockView as TextView).includeFontPadding = false
-        clockView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        clockView.setGravity(Gravity.CENTER)
-        clockView.textAlignment = View.TEXT_ALIGNMENT_CENTER
-        clockView.requestLayout()
+        clockView.apply {
+            this.layoutParams = layoutParams
+            (this as TextView).includeFontPadding = false
+            this.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            this.gravity = Gravity.CENTER
+            textAlignment = View.TEXT_ALIGNMENT_CENTER
+            requestLayout()
+        }
     }
 }

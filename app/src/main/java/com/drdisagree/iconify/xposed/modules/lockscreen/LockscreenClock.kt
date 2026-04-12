@@ -45,18 +45,19 @@ import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE1_FILE
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE2_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
+import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.applyTo
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clear
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clone
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.connect
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.constrainHeight
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.constrainWidth
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.constraintSetInstance
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.setVisibility
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.applyTo
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.clear
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.clone
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.connect
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.constrainHeight
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.constrainWidth
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.constraintSetInstance
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.setVisibility
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.TimeUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyTextMarginRecursively
@@ -860,7 +861,13 @@ class LockscreenClock(context: Context) : ModPack(context) {
                     val minuteView = findViewContainsTag("textMinute") as TextView
                     val tickIndicator = findViewContainsTag("tickIndicator") as TextClock
 
-                    TimeUtils.setCurrentTimeTextClock(mContext, tickIndicator, hourView, minuteView)
+                    TimeUtils.setCurrentTimeTextClock(
+                        context = mContext,
+                        modRes = modRes,
+                        tickIndicator = tickIndicator,
+                        hourView = hourView,
+                        minuteView = minuteView
+                    )
                 }
             }
         }

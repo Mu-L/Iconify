@@ -4,7 +4,7 @@ import android.content.Context
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.GraphicsColorKt
+import com.drdisagree.iconify.xposed.modules.extras.GraphicsColorKt
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod

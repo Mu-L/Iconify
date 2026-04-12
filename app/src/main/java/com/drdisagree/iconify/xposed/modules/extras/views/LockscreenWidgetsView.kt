@@ -51,9 +51,9 @@ import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ControllersProvider
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
-import com.drdisagree.iconify.xposed.modules.extras.utils.ActivityLauncherUtils
-import com.drdisagree.iconify.xposed.modules.extras.utils.LaunchableViews.Companion.createLaunchableImageView
-import com.drdisagree.iconify.xposed.modules.extras.utils.LaunchableViews.Companion.createLaunchableLinearLayout
+import com.drdisagree.iconify.xposed.modules.extras.ActivityLauncherUtils
+import com.drdisagree.iconify.xposed.modules.extras.LaunchableViews.Companion.createLaunchableImageView
+import com.drdisagree.iconify.xposed.modules.extras.LaunchableViews.Companion.createLaunchableLinearLayout
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isNightMode
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getExpandableView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView

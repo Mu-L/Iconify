@@ -9,11 +9,11 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
-import com.drdisagree.iconify.xposed.modules.extras.utils.ActivityLauncherUtils
-import com.drdisagree.iconify.xposed.modules.extras.utils.GraphicsColorKt
-import com.drdisagree.iconify.xposed.modules.extras.utils.LaunchableViews
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet
-import com.drdisagree.iconify.xposed.modules.extras.utils.SettingsLibUtils
+import com.drdisagree.iconify.xposed.modules.extras.ActivityLauncherUtils
+import com.drdisagree.iconify.xposed.modules.extras.GraphicsColorKt
+import com.drdisagree.iconify.xposed.modules.extras.LaunchableViews
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet
+import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt
 import com.drdisagree.iconify.xposed.modules.lockscreen.DepthWallpaper
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen

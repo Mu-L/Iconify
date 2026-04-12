@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.modules.extras.utils
+package com.drdisagree.iconify.xposed.modules.extras
 
 import android.content.ComponentName
 import android.content.Context

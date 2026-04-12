@@ -24,11 +24,11 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.applyTo
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.clear
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.clone
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.connect
-import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.constraintSetInstance
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.applyTo
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clear
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clone
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.connect
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.constraintSetInstance
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
