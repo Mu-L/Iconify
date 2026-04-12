@@ -7,8 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.ImageDecoder
 import android.graphics.drawable.AnimatedImageDrawable
-import android.os.Handler
-import android.os.Looper
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -25,7 +23,6 @@ import com.drdisagree.iconify.data.common.XposedConst.HEADER_IMAGE_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
-import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
@@ -34,12 +31,19 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSile
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.android.awaitFrame
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class HeaderImage(context: Context) : ModPack(context) {
 
@@ -54,6 +58,9 @@ class HeaderImage(context: Context) : ModPack(context) {
     private var bottomFadeAmount = 0
     private var notificationPanelViewControllerInstance: Any? = null
     private var shadeHeaderControllerInstance: Any? = null
+    private var qsOpeningJob: Job? = null
+    private var showHeaderClock = false
+    private var lastLayoutAlpha = -1f
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -64,8 +71,6 @@ class HeaderImage(context: Context) : ModPack(context) {
             }
         }
     }
-    private var showHeaderClock = false
-    private var lastLayoutAlpha = -1
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -222,6 +227,7 @@ class HeaderImage(context: Context) : ModPack(context) {
 
                 val notificationPanelView = notificationPanelViewControllerInstance
                     .getField("mView") as FrameLayout
+
                 notificationPanelView.post { updateQSHeaderImageState() }
             }
 
@@ -232,7 +238,21 @@ class HeaderImage(context: Context) : ModPack(context) {
 
                 val notificationPanelView = notificationPanelViewControllerInstance
                     .getField("mView") as FrameLayout
+
                 notificationPanelView.post { updateQSHeaderImageState() }
+            }
+
+        notificationPanelViewControllerClass
+            .hookMethodMatchPattern("onPanelStateChanged.*")
+            .runAfter {
+                if (!showHeaderImage && !showHeaderClock) return@runAfter
+
+                val state = it.args[0] as Int
+
+                when (state) {
+                    STATE_OPENING -> startQsOpeningLoop()
+                    STATE_OPEN, STATE_CLOSED -> stopQsOpeningLoop()
+                }
             }
 
         qsContainerImplClass
@@ -252,37 +272,44 @@ class HeaderImage(context: Context) : ModPack(context) {
             .runAfter { param ->
                 shadeHeaderControllerInstance = param.thisObject
             }
+    }
 
-        QsShowingCallback.getInstance()
-            .registerQsShowingListener(
-                object : QsShowingCallback.QsShowingListener {
-                    override fun onQuickSettingsExpanded() {
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            if (showHeaderImage &&
-                                mQsHeaderImageView != null &&
-                                mQsHeaderImageView!!.visibility != View.VISIBLE
-                            ) {
-                                mQsHeaderImageView!!.visibility = View.VISIBLE
+    private fun startQsOpeningLoop() {
+        if (qsOpeningJob?.isActive == true ||
+            notificationPanelViewControllerInstance == null
+        ) return
 
-                                if (mQsHeaderImageLayout != null && mQsHeaderImageLayout!!.alpha <= 0f) {
-                                    mQsHeaderImageLayout!!.animate()
-                                        .alpha(headerImageAlpha / 100f)
-                                        .setDuration(100)
-                                        .start()
-                                }
-                            }
-                        }, 100)
-                    }
+        val notificationPanelView = notificationPanelViewControllerInstance
+            .getField("mView") as FrameLayout
 
-                    override fun onQuickSettingsCollapsed() {}
-                }
-            )
+        qsOpeningJob = CoroutineScope(Dispatchers.Main).launch {
+            while (isActive) {
+                awaitFrame()
+                if (!notificationPanelView.isLaidOut) continue
+                updateQSHeaderImageState()
+            }
+        }
+    }
+
+    private fun stopQsOpeningLoop() {
+        qsOpeningJob?.cancel()
+        qsOpeningJob = null
     }
 
     private fun updateQSHeaderImage() {
         if (showHeaderImage && mQsHeaderImageView != null) {
-            mQsHeaderImageView!!.visibility = View.VISIBLE
-            mQsHeaderImageView!!.loadImageOrGif()
+            mQsHeaderImageView!!.apply {
+                if (visibility != View.VISIBLE) {
+                    visibility = View.VISIBLE
+                }
+                loadImageOrGif()
+                updateImageProperties()
+            }
+
+            mQsHeaderImageLayout?.apply {
+                setFadeEdges(false, false, bottomFadeAmount != 0, false)
+                setFadeSizes(0, 0, bottomFadeAmount, 0)
+            }
         }
         updateQSHeaderImageState()
     }
@@ -292,9 +319,11 @@ class HeaderImage(context: Context) : ModPack(context) {
         val imageView = mQsHeaderImageView ?: return
         val shadeHeader = shadeHeaderControllerInstance ?: return
 
-        val shadeExpandedFraction = shadeHeader
-            .getField("shadeExpandedFraction") as Float
-        val computedAlpha = (shadeExpandedFraction * (headerImageAlpha / 100.0 * 255.0)).toInt()
+        val shadeExpandedFraction = shadeHeader.getField("shadeExpandedFraction") as Float
+        val normalizedFraction =
+            ((shadeExpandedFraction - ANIM_START_FRACTION) / (ANIM_END_FRACTION - ANIM_START_FRACTION))
+                .coerceIn(0f, 1f)
+        val computedAlpha = normalizedFraction * (headerImageAlpha / 100f)
 
         val isLandscape = mContext.isLandscape
         val screenWidth = mContext.resources.displayMetrics.widthPixels
@@ -310,8 +339,8 @@ class HeaderImage(context: Context) : ModPack(context) {
             imageView.visibility = View.VISIBLE
         }
 
-        if (lastLayoutAlpha != computedAlpha || lastLayoutAlpha == -1) {
-            layout.alpha = computedAlpha / 255f
+        if (lastLayoutAlpha != computedAlpha || lastLayoutAlpha == -1f) {
+            layout.alpha = computedAlpha
             lastLayoutAlpha = computedAlpha
         }
 
@@ -321,17 +350,17 @@ class HeaderImage(context: Context) : ModPack(context) {
         val targetWidth = if (isLandscape && halfWidthLandscapeHeaderImage) screenWidth / 2
         else ViewGroup.LayoutParams.MATCH_PARENT
 
-        if (lp.width != targetWidth) {
-            lp.width = targetWidth
-            requiresLpUpdate = true
-        }
-
         val targetHeight = if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
         else TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             imageHeight.toFloat(),
             mContext.resources.displayMetrics
         ).toInt()
+
+        if (lp.width != targetWidth) {
+            lp.width = targetWidth
+            requiresLpUpdate = true
+        }
 
         if (lp.height != targetHeight) {
             lp.height = targetHeight
@@ -343,11 +372,7 @@ class HeaderImage(context: Context) : ModPack(context) {
             imageView.updateImageProperties()
         }
 
-        layout.apply {
-            setFadeEdges(false, false, bottomFadeAmount != 0, false)
-            setFadeSizes(0, 0, bottomFadeAmount, 0)
-            requestLayout()
-        }
+        layout.requestLayout()
     }
 
     private fun ImageView.addCenterProperty() {
@@ -401,5 +426,15 @@ class HeaderImage(context: Context) : ModPack(context) {
             minimumWidth = ViewGroup.LayoutParams.MATCH_PARENT
             addCenterProperty()
         }
+    }
+
+    companion object {
+        // Source: https://cs.android.com/android/platform/superproject/+/android-latest-release:frameworks/base/packages/SystemUI/src/com/android/systemui/shade/ShadeExpansionStateManager.kt;l=156-158
+        const val STATE_CLOSED = 0
+        const val STATE_OPENING = 1
+        const val STATE_OPEN = 2
+
+        const val ANIM_START_FRACTION = 0.43f
+        const val ANIM_END_FRACTION = 0.7f
     }
 }
