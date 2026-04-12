@@ -716,6 +716,8 @@
     <string name="header_image_zoom_to_fit_desc">A kép alapértelmezés szerinti illesztése</string>
     <string name="header_image_hide_in_landscape_title">Fekvőmódban ne látszódjon</string>
     <string name="header_image_hide_in_landscape_desc">A kép elrejtése tájkép-módban</string>
+    <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
     <string name="header_image_alpha_gradient_title">Halványuló színátmenet</string>
     <string name="header_image_alpha_gradient_desc">Halványuló effekt hozzáadása a fejlécképhez</string>
     <!-- Xposed Header Clock -->
@@ -729,6 +731,7 @@
     <string name="header_clock_color_picker_title">Óraszín-választó</string>
     <string name="header_clock_color_picker_desc">Állítsa be a fejléc-óra szövegének színét</string>
     <string name="header_clock_expansion_y_title">A bővítés mértéke</string>
+    <string name="header_clock_landscape_offset_y_title">Offset Y in Landscape</string>
     <string name="header_clock_font_text_scaling_title">Szövegméretezés</string>
     <string name="header_clock_side_margin_title">Oldalsó margó</string>
     <string name="header_clock_top_margin_title">Felső margó</string>
@@ -736,6 +739,8 @@
     <string name="header_clock_white_text_desc">Kényszeríti a minél fehérebb szövegszínt</string>
     <string name="header_clock_center_clock_title">Középre helyezett óra</string>
     <string name="header_clock_center_clock_desc">Mozgassa az órát közepére</string>
+    <string name="header_clock_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_clock_half_width_in_landscape_desc">Set layout width to half of screen in landscape mode</string>
     <string name="header_clock_hide_landscape_title">Fekvőmódban ne látszódjon</string>
     <string name="header_clock_hide_landscape_desc">Az óra elrejtése tájkép-módban</string>
     <!-- Xposed Lockscreen Clock -->

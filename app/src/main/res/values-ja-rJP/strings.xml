@@ -716,6 +716,8 @@
     <string name="header_image_zoom_to_fit_desc">画像はデフォルトで拡大縮小します</string>
     <string name="header_image_hide_in_landscape_title">横画面では非表示</string>
     <string name="header_image_hide_in_landscape_desc">横画面モードでは画像を非表示にします</string>
+    <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
     <string name="header_image_alpha_gradient_title">透明度グラデーション</string>
     <string name="header_image_alpha_gradient_desc">ヘッダー画像にフェード エフェクトを追加します</string>
     <!-- Xposed Header Clock -->
@@ -729,6 +731,7 @@
     <string name="header_clock_color_picker_title">時計カラーピッカー</string>
     <string name="header_clock_color_picker_desc">ヘッダー時計の色を設定します</string>
     <string name="header_clock_expansion_y_title">Expansion Amount</string>
+    <string name="header_clock_landscape_offset_y_title">Offset Y in Landscape</string>
     <string name="header_clock_font_text_scaling_title">テキストスケーリング</string>
     <string name="header_clock_side_margin_title">横マージン</string>
     <string name="header_clock_top_margin_title">上部マージン</string>
@@ -736,6 +739,8 @@
     <string name="header_clock_white_text_desc">テキスト色を白に強制します</string>
     <string name="header_clock_center_clock_title">中央に時計</string>
     <string name="header_clock_center_clock_desc">画面の中央に時計を移動します</string>
+    <string name="header_clock_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_clock_half_width_in_landscape_desc">Set layout width to half of screen in landscape mode</string>
     <string name="header_clock_hide_landscape_title">横画面では非表示</string>
     <string name="header_clock_hide_landscape_desc">横画面モードでは時計を非表示にします</string>
     <!-- Xposed Lockscreen Clock -->

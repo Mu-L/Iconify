@@ -716,6 +716,8 @@
     <string name="header_image_zoom_to_fit_desc">L\'image est étirée pour s\'adapter par défaut</string>
     <string name="header_image_hide_in_landscape_title">Cacher en mode paysage</string>
     <string name="header_image_hide_in_landscape_desc">Cacher l\'image en mode paysage</string>
+    <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
     <string name="header_image_alpha_gradient_title">Alpha des dégradés</string>
     <string name="header_image_alpha_gradient_desc">Ajouter un effet dégradé à l\'image d\'en-tête</string>
     <!-- Xposed Header Clock -->
@@ -729,6 +731,7 @@
     <string name="header_clock_color_picker_title">Sélecteur de couleurs d\'horloge</string>
     <string name="header_clock_color_picker_desc">Définir la couleur du texte de l\'horloge d\'en-tête</string>
     <string name="header_clock_expansion_y_title">Quantité d\'extension</string>
+    <string name="header_clock_landscape_offset_y_title">Offset Y in Landscape</string>
     <string name="header_clock_font_text_scaling_title">Mise à l\'échelle du texte</string>
     <string name="header_clock_side_margin_title">Marge latérale</string>
     <string name="header_clock_top_margin_title">Marge supérieure</string>
@@ -736,6 +739,8 @@
     <string name="header_clock_white_text_desc">Forcer le texte à être blanc</string>
     <string name="header_clock_center_clock_title">Centrer l\'horloge</string>
     <string name="header_clock_center_clock_desc">Déplacer l\'horloge au centre de l\'écran</string>
+    <string name="header_clock_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_clock_half_width_in_landscape_desc">Set layout width to half of screen in landscape mode</string>
     <string name="header_clock_hide_landscape_title">Masquer en mode paysage</string>
     <string name="header_clock_hide_landscape_desc">Masquer l\'horloge en mode paysage</string>
     <!-- Xposed Lockscreen Clock -->
