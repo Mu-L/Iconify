@@ -49,6 +49,7 @@ import com.drdisagree.iconify.features.xposed.lockscreen.widgets.main.screens.Lo
 import com.drdisagree.iconify.features.xposed.lockscreen.widgets.weather.screens.LockscreenWidgetsWeatherScreen
 import com.drdisagree.iconify.features.xposed.main.screens.XposedScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.clock.screens.HeaderClockScreen
+import com.drdisagree.iconify.features.xposed.quicksettings.grid.screens.QsGridScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.headerimage.screens.HeaderImageScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.main.screens.QuickSettingsScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.margins.screens.QsMarginsScreen
@@ -216,6 +217,7 @@ fun NavGraph(
                         composable<NavRoutes.Xposed.QuickSettings.Transparency> { QsTransparencyScreen() }
                         composable<NavRoutes.Xposed.QuickSettings.HeaderImage> { HeaderImageScreen() }
                         composable<NavRoutes.Xposed.QuickSettings.Clock> { HeaderClockScreen() }
+                        composable<NavRoutes.Xposed.QuickSettings.Grid> { QsGridScreen() }
                         composable<NavRoutes.Xposed.QuickSettings.Themes> { QsThemesScreen() }
                         composable<NavRoutes.Xposed.QuickSettings.Margins> { QsMarginsScreen() }
                     }

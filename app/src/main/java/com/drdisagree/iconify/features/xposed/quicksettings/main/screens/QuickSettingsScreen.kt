@@ -54,6 +54,18 @@ val quickSettingsPreferences = preferenceScreen {
         )
 
         action(
+            key = "xposedQsGrid",
+            icon = iconRes(R.drawable.ic_qs_row_column),
+            title = stringRes(R.string.activity_title_qs_row_column),
+            summary = { _, _ -> stringRes(R.string.activity_desc_qs_row_column) },
+            onClick = { _, _, nav ->
+                nav.navigate(NavRoutes.Xposed.QuickSettings.Grid) {
+                    launchSingleTop = true
+                }
+            }
+        )
+
+        action(
             key = "xposedThemes",
             icon = iconRes(R.drawable.ic_xposed_themes),
             title = stringRes(R.string.activity_title_themes),

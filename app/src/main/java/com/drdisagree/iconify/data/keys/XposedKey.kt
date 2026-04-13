@@ -118,6 +118,15 @@ enum class XposedKey(override val default: Any?) : Key {
     HEADER_CLOCK_LANDSCAPE_OFFSET_Y(8f),
     HEADER_CLOCK_HALF_WIDTH_IN_LANDSCAPE(false),
 
+    // Quick Settings - Grid
+    CUSTOM_QS_GRID(false),
+    QQS_ROW_PORTRAIT(2f),
+    QS_ROW_PORTRAIT(4f),
+    QS_COLUMN_PORTRAIT(4f),
+    QQS_ROW_LANDSCAPE(1f),
+    QS_ROW_LANDSCAPE(2f),
+    QS_COLUMN_LANDSCAPE(8f),
+
     // Quick Settings - Themes
     CUSTOM_QS_THEME(false),
     ACTIVE_QS_TILE_BACKGROUND_COLOR("#FFFFFF"),

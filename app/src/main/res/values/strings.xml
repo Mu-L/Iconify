@@ -1307,6 +1307,7 @@
     <string name="learn_more">Learn more</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
     <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your SystemUI to crash.</string>
+    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
     <string name="more">More</string>
 
     <!-- Weather -->

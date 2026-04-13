@@ -2,6 +2,11 @@ package com.drdisagree.iconify.xposed
 
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.xposed.modules.extras.ActivityLauncherUtils
+import com.drdisagree.iconify.xposed.modules.extras.GraphicsColorKt
+import com.drdisagree.iconify.xposed.modules.extras.LaunchableViews
+import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet
+import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ConfigurationCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ControllersProvider
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
@@ -9,11 +14,6 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
-import com.drdisagree.iconify.xposed.modules.extras.ActivityLauncherUtils
-import com.drdisagree.iconify.xposed.modules.extras.GraphicsColorKt
-import com.drdisagree.iconify.xposed.modules.extras.LaunchableViews
-import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet
-import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt
 import com.drdisagree.iconify.xposed.modules.lockscreen.DepthWallpaper
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen
@@ -26,6 +26,7 @@ import com.drdisagree.iconify.xposed.modules.quicksettings.ColorizeNotificationV
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderClock
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeadsUpBlur
+import com.drdisagree.iconify.xposed.modules.quicksettings.QSGrid
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSTheme
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSTransparency
 import com.drdisagree.iconify.xposed.modules.quicksettings.QuickSettings
@@ -61,6 +62,7 @@ object EntryList {
         DozeCallback::class.java,
         ConfigurationCallback::class.java,
         /* Not so top priority :P */
+        QSGrid::class.java,
         ClockChip::class.java,
         HeaderImage::class.java,
         HeaderClock::class.java,
