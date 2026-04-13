@@ -336,10 +336,12 @@ object ResourceHookManager {
                                     it.condition()
                         } ?: return@runBefore
 
-                        param.result = if (methodName == "getDimensionPixelSize")
-                            context.toPx(data.value() as Int)
-                        else
-                            data.value()
+                        param.result = when (methodName) {
+                            "getDimensionPixelSize",
+                            "getDimensionPixelOffset" -> context.toPx(data.value() as Int)
+
+                            else -> data.value()
+                        }
                     }
                     .getUnhookHandle()
 
