@@ -716,6 +716,8 @@
     <string name="header_image_zoom_to_fit_desc">L\'immagine è allungata per adattarsi in modo predefinito</string>
     <string name="header_image_hide_in_landscape_title">Nascondi in Modalità Orizzontale</string>
     <string name="header_image_hide_in_landscape_desc">Nascondi immagine in modalità orizzontale</string>
+    <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
     <string name="header_image_alpha_gradient_title">Gradiente Alfa</string>
     <string name="header_image_alpha_gradient_desc">Aggiungi un effetto sbiadito all\'immagine nell\'intestazione</string>
     <!-- Xposed Header Clock -->
@@ -729,6 +731,7 @@
     <string name="header_clock_color_picker_title">Selettore Colore Orologio</string>
     <string name="header_clock_color_picker_desc">Imposta il colore del testo dell\'orologio nell\'intestazione</string>
     <string name="header_clock_expansion_y_title">Quantità Espansione</string>
+    <string name="header_clock_landscape_offset_y_title">Offset Y in Landscape</string>
     <string name="header_clock_font_text_scaling_title">Ridimensionamento Testo</string>
     <string name="header_clock_side_margin_title">Margine Laterale</string>
     <string name="header_clock_top_margin_title">Margine Superiore</string>
@@ -736,6 +739,8 @@
     <string name="header_clock_white_text_desc">Forza i colori del testo per essere bianco</string>
     <string name="header_clock_center_clock_title">Orologio Centrato</string>
     <string name="header_clock_center_clock_desc">Sposta l\'orologio al centro della visualizzazione</string>
+    <string name="header_clock_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_clock_half_width_in_landscape_desc">Set layout width to half of screen in landscape mode</string>
     <string name="header_clock_hide_landscape_title">Nascondi in Modalità Orizzontale</string>
     <string name="header_clock_hide_landscape_desc">Nascondi l\'orologio in modalità orizzontale</string>
     <!-- Xposed Lockscreen Clock -->

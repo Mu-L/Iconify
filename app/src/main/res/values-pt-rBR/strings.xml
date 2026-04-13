@@ -716,6 +716,8 @@
     <string name="header_image_zoom_to_fit_desc">A imagem é esticada para caber por padrão</string>
     <string name="header_image_hide_in_landscape_title">Ocultar na paisagem</string>
     <string name="header_image_hide_in_landscape_desc">Oculte a imagem no modo paisagem</string>
+    <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
     <string name="header_image_alpha_gradient_title">Gradiente alfa</string>
     <string name="header_image_alpha_gradient_desc">Adicione um efeito desbotado à imagem do cabeçalho</string>
     <!-- Xposed Header Clock -->
@@ -729,6 +731,7 @@
     <string name="header_clock_color_picker_title">Seletor de cores do relógio</string>
     <string name="header_clock_color_picker_desc">Defina a cor do texto do relógio do cabeçalho</string>
     <string name="header_clock_expansion_y_title">Valor de expansão</string>
+    <string name="header_clock_landscape_offset_y_title">Offset Y in Landscape</string>
     <string name="header_clock_font_text_scaling_title">Dimensionamento de texto</string>
     <string name="header_clock_side_margin_title">Margem lateral</string>
     <string name="header_clock_top_margin_title">Margem superior</string>
@@ -736,6 +739,8 @@
     <string name="header_clock_white_text_desc">Force as cores do texto a serem brancas</string>
     <string name="header_clock_center_clock_title">Relógio central</string>
     <string name="header_clock_center_clock_desc">Mova o relógio para o centro da visão</string>
+    <string name="header_clock_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_clock_half_width_in_landscape_desc">Set layout width to half of screen in landscape mode</string>
     <string name="header_clock_hide_landscape_title">Ocultar na paisagem</string>
     <string name="header_clock_hide_landscape_desc">Oculte o relógio no modo paisagem</string>
     <!-- Xposed Lockscreen Clock -->

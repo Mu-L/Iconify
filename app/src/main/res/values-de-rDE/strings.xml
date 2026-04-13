@@ -717,6 +717,8 @@ transparent machen</string>
     <string name="header_image_zoom_to_fit_desc">Bild ist standardmäßig gestreckt um zu passen</string>
     <string name="header_image_hide_in_landscape_title">Verstecke im Querformat</string>
     <string name="header_image_hide_in_landscape_desc">Bild im Querformat verbergen</string>
+    <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
     <string name="header_image_alpha_gradient_title">Transparenzverlauf</string>
     <string name="header_image_alpha_gradient_desc">\"Verblassen\"-Effekt zum Header-Bild hinzufügen</string>
     <!-- Xposed Header Clock -->
@@ -730,6 +732,7 @@ transparent machen</string>
     <string name="header_clock_color_picker_title">Uhrfarbwähler</string>
     <string name="header_clock_color_picker_desc">Setze Farbe für den Text der Header-Uhr</string>
     <string name="header_clock_expansion_y_title">Expansion Amount</string>
+    <string name="header_clock_landscape_offset_y_title">Offset Y in Landscape</string>
     <string name="header_clock_font_text_scaling_title">Text Skalierung</string>
     <string name="header_clock_side_margin_title">Side Margin</string>
     <string name="header_clock_top_margin_title">Oberer Abstand</string>
@@ -737,6 +740,8 @@ transparent machen</string>
     <string name="header_clock_white_text_desc">Zwinge Textfarbe weiß zu sein</string>
     <string name="header_clock_center_clock_title">Zentrierte Uhr</string>
     <string name="header_clock_center_clock_desc">Bewege die Uhr zur Mitte</string>
+    <string name="header_clock_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_clock_half_width_in_landscape_desc">Set layout width to half of screen in landscape mode</string>
     <string name="header_clock_hide_landscape_title">Verstecke im Querformat</string>
     <string name="header_clock_hide_landscape_desc">Uhr im Querformat verbergen</string>
     <!-- Xposed Lockscreen Clock -->

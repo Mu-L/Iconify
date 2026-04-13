@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_motto">Customize Boring Android UI</string>
+    <string name="app_motto">Sıkıcı Android Arayüzünü Özelleştirin</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Kurulum başlatılıyor</string>
     <string name="step">Adım</string>
@@ -20,35 +20,35 @@
     <string name="onboarding_title_3">Artık Başlayalım mı?</string>
     <string name="onboarding_subtitle_3">Iconify\'ın içsel işlemleri yapma vakti geldi.</string>
     <string name="onboarding_desc_3">Gerekli işlemlerin başlatılmasını sağlayan iç görevler başlatılıyor. Başlamaya hazır mısınız?</string>
-    <string name="grant_permission">Grant Permission</string>
+    <string name="grant_permission">İzin Ver</string>
     <string name="need_storage_perm_title">Depolama İzni Gerekiyor</string>
     <string name="need_storage_perm_desc">Gerekli dosyaların oluşturulabilmesi için depolama izni gereklidir.</string>
-    <string name="notification_perm_title">Allow Notifications</string>
-    <string name="notification_perm_desc">Needed to notify you about available updates and to display test notifications.</string>
-    <string name="optional_permission">Granting these permissions is optional!</string>
+    <string name="notification_perm_title">Bildirimlere İzin Ver</string>
+    <string name="notification_perm_desc">Mevcut güncellemeleri bildirmek ve test bildirimlerini görüntülemek için gereklidir.</string>
+    <string name="optional_permission">Bu izinleri vermek isteğe bağlıdır!</string>
     <string name="compatible_root_not_found_title">Uyumlu Root Yöntemi Bulunamadı</string>
     <string name="compatible_root_not_found_desc">Devam etmek için popüler root çözümlerinden birini kullanın.</string>
     <string name="root_not_found_title">Root Erişimi Yok</string>
     <string name="root_not_found_desc">Görünüşe göre cihazınız rootlu değil!</string>
-    <string name="metamodule_not_found_title">Metamodule not installed</string>
-    <string name="metamodule_not_found_desc">KernelSU 3.0.0 and newer require the Metamodule to enable systemless /system modifications.</string>
+    <string name="metamodule_not_found_title">Metamodül yüklü değil</string>
+    <string name="metamodule_not_found_desc">KernelSU 3.0.0 ve daha yeni sürümler, sisteme dokunmayan (systemless) /system modifikasyonlarını etkinleştirmek için Metamodül gerektirir.</string>
     <string name="need_reboot_title">Cihazın Yeniden Başlatılması Gerekiyor</string>
     <string name="need_reboot_desc">Tüm dosyaların yerini alması için cihazınızı yeniden başlatın.</string>
     <string name="installation_failed_title">Ups, Bunu Beklemiyorduk</string>
     <string name="installation_failed_desc">Günlükler (Log) belgeler klasörüne kaydedildi.</string>
     <string name="logs">Günlükler</string>
     <!-- Disclaimer -->
-    <string name="disclaimer">Disclaimer</string>
-    <string name="disclaimer_1_title">Root Access &amp; Environment</string>
-    <string name="disclaimer_1_description">This application requires Root privileges via Magisk, KernelSU, or APatch to modify system resources.\nWhile LSPosed is optional, it is highly recommended for the best compatibility and advanced feature support.\nThe app will prompt for Superuser permissions; without them, no changes can be applied to your system.</string>
-    <string name="disclaimer_2_title">System Overlays &amp; Modifications</string>
-    <string name="disclaimer_2_description">Iconify functions by generating and injecting dynamic Runtime Resource Overlays (RRO) directly into your system.\nThese modifications are designed for AOSP-based ROMs and may conflict with heavily modified OEM skins (like HyperOS, Realme UI or OneUI).\nChanging certain system values may cause UI freezes or \"System UI has stopped\" errors depending on your specific Android version.</string>
-    <string name="disclaimer_3_title">Risk of Bootloop &amp; Recovery</string>
-    <string name="disclaimer_3_description">Modifying system files carries an inherent risk of causing a bootloop where the device fails to start.\nBefore proceeding, ensure you have a custom recovery (like TWRP, OrangeFox) installed.\nAlways know the hardware key combination for your device to boot into \"Safe Mode,\" which can disable all modules in an emergency.</string>
-    <string name="disclaimer_4_title">No Warranty &amp; Liability</string>
-    <string name="disclaimer_4_description">This software is provided \"as-is\" under the GPL-3.0 license, without any express or implied warranties.\nThe developer is not legally or financially responsible for bricked hardware, dead SD cards, or unexpected \"black screens.\"\nBy using this app, you acknowledge that you are modifying your device\'s core software at your own discretion.</string>
-    <string name="disclaimer_5_title">Data Safety &amp; Responsibility</string>
-    <string name="disclaimer_5_description">Backup is mandatory: Always maintain an off-device backup of your photos, contacts, and files before performing deep system theming.\nIt is your responsibility to verify compatibility with your ROM by checking the official GitHub documentation or community groups.\nIf you are unsure how to manually remove a Magisk module via ADB, please do not proceed with advanced modifications.</string>
+    <string name="disclaimer">Sorumluluk Reddi</string>
+    <string name="disclaimer_1_title">Root Erişimi &amp; Ortamı</string>
+    <string name="disclaimer_1_description">Bu uygulama, sistem kaynaklarını değiştirmek için Magisk, KernelSU veya APatch aracılığıyla Root yetkileri gerektirir.\nLSPosed isteğe bağlı olsa da, en iyi uyumluluk ve gelişmiş özellik desteği için şiddetle tavsiye edilir.\nUygulama, Süper Kullanıcı izni isteyecektir; bu izinler olmadan sisteminizde hiçbir değişiklik yapılamaz.</string>
+    <string name="disclaimer_2_title">Sistem Katmanları &amp; Modifikasyonları</string>
+    <string name="disclaimer_2_description">Iconify, dinamik Çalışma Zamanı Kaynak Katmanları (RRO) oluşturup bunları doğrudan sisteminize enjekte ederek çalışır.\nBu modifikasyonlar AOSP tabanlı ROM\'lar için tasarlanmıştır ve yoğun şekilde modifiye edilmiş OEM arayüzleriyle (HyperOS, Realme UI veya OneUI gibi) çakışabilir.\nBelirli sistem değerlerini değiştirmek, Android sürümünüze bağlı olarak arayüz donmalarına veya \"Sistem arayüzü durdu\" hatalarına neden olabilir.</string>
+    <string name="disclaimer_3_title">Önyükleme Döngüsü (Bootloop) Riski &amp; Kurtarma</string>
+    <string name="disclaimer_3_description">Sistem dosyalarını değiştirmek, cihazın açılmadığı bir önyükleme döngüsüne (bootloop) girme riskini beraberinde getirir.\nİşleme devam etmeden önce, cihazınızda özel bir kurtarma modunun (TWRP, OrangeFox gibi) yüklü olduğundan emin olun.\nAcil durumlarda tüm modülleri devre dışı bırakabilen \"Güvenli Mod\"a girmek için cihazınızın donanım tuş kombinasyonunu mutlaka öğrenin.</string>
+    <string name="disclaimer_4_title">Garanti &amp; Sorumluluk Muafiyeti</string>
+    <string name="disclaimer_4_description">Bu yazılım, GPL-3.0 lisansı kapsamında, açık veya zımni hiçbir garanti verilmeksizin \"olduğu gibi\" sunulmaktadır.\nGeliştirici; kullanılamaz hale gelmiş (bricked) donanımlardan, bozulan SD kartlardan veya beklenmedik \"siyah ekran\" hatalarından yasal veya mali olarak sorumlu değildir.\nBu uygulamayı kullanarak, cihazınızın çekirdek yazılımını tamamen kendi sorumluluğunuzda modifiye ettiğinizi kabul etmiş sayılırsınız.</string>
+    <string name="disclaimer_5_title">Veri Güvenliği &amp; Sorumluluk</string>
+    <string name="disclaimer_5_description">Yedekleme zorunludur: Derin sistem temalandırma işlemleri yapmadan önce her zaman fotoğraflarınızın, kişilerinizin ve dosyalarınızın cihaz dışı bir yedeğini bulundurun.\nResmi GitHub dokümantasyonunu veya topluluk gruplarını kontrol ederek ROM\'unuzla uyumluluğu doğrulamak sizin sorumluluğunuzdadır.\nEğer bir Magisk modülünü ADB aracılığıyla manuel olarak nasıl kaldıracağınızdan emin değilseniz, lütfen gelişmiş modifikasyonlara devam etmeyin.</string>
     <!-- Search Preference -->
     <string name="search_title">Ara</string>
     <string name="searchpreference_search">Arama…</string>
@@ -238,7 +238,7 @@
     <string name="icon_mask_style_scroll">Parşömen</string>
     <string name="icon_mask_style_square">Kare</string>
     <string name="icon_mask_style_teardrop">Gözyaşı Damlası</string>
-    <string name="icon_mask_style_rounded_rectangle">Rounded Rectangle</string>
+    <string name="icon_mask_style_rounded_rectangle">Yuvarlatılmış Dikdörtgen</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Bulutlu</string>
     <string name="icon_mask_style_cylinder">Silindir</string>
@@ -246,10 +246,10 @@
     <string name="icon_mask_style_heart">Kalp</string>
     <string name="icon_mask_style_leaf">Yaprak</string>
     <string name="icon_mask_style_stretched">Genişletilmiş</string>
-    <string name="icon_mask_style_tapered_rectangle">Tapered Rectangle</string>
+    <string name="icon_mask_style_tapered_rectangle">Daralan Dikdörtgen</string>
     <string name="icon_mask_style_vessel">Gemi</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_round">Round</string>
+    <string name="icon_mask_style_round">Dairesel Yuvarlak</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Temel Renkler</string>
     <string name="activity_desc_basic_colors">Birincil ve ikincil rengi değiştirin</string>
@@ -525,7 +525,7 @@
     <string name="lockscreen_device_widget_style_classic">İki Yaylı Çubuk</string>
     <string name="lockscreen_device_widget_style_arcs">Dört Yay</string>
     <!-- LS Widgets Actions -->
-    <string name="none">None</string>
+    <string name="none">Yok</string>
     <string name="camera">Kamera</string>
     <string name="clock_timer">Saat/Zamanlayıcı</string>
     <string name="calculator">Hesap Makinesi</string>
@@ -716,6 +716,8 @@
     <string name="header_image_zoom_to_fit_desc">Resim varsayılan olarak sığdırılacak şekilde uzatılır</string>
     <string name="header_image_hide_in_landscape_title">Yatay Modda Gizle</string>
     <string name="header_image_hide_in_landscape_desc">Yatay modda resmi gizle</string>
+    <string name="header_image_half_width_in_landscape_title">Yatay Modda Yarım Genişlik</string>
+    <string name="header_image_half_width_in_landscape_desc">Yatay modda görsel genişliğini ekranın yarısına ayarla</string>
     <string name="header_image_alpha_gradient_title">Gradiyant Saydamlığı</string>
     <string name="header_image_alpha_gradient_desc">Başlık resmine soluklaşma efekti ekle</string>
     <!-- Xposed Header Clock -->
@@ -729,6 +731,7 @@
     <string name="header_clock_color_picker_title">Saat Renk Seçici</string>
     <string name="header_clock_color_picker_desc">Başlık saati metninin rengini ayarla</string>
     <string name="header_clock_expansion_y_title">Genişletme Miktarı</string>
+    <string name="header_clock_landscape_offset_y_title">Yatay Modda Y Ekseni Kaydırması</string>
     <string name="header_clock_font_text_scaling_title">Metin Ölçeklendirme</string>
     <string name="header_clock_side_margin_title">Yan Boşluk</string>
     <string name="header_clock_top_margin_title">Üst Boşluk</string>
@@ -736,6 +739,8 @@
     <string name="header_clock_white_text_desc">Metin renklerini beyaz olmaya zorla</string>
     <string name="header_clock_center_clock_title">Saati Ortala</string>
     <string name="header_clock_center_clock_desc">Saati görünümün ortasına taşı</string>
+    <string name="header_clock_half_width_in_landscape_title">Yatay Modda Yarım Genişlik</string>
+    <string name="header_clock_half_width_in_landscape_desc">Yatay modda düzen genişliğini ekranın yarısına ayarla</string>
     <string name="header_clock_hide_landscape_title">Yatay Modda Gizle</string>
     <string name="header_clock_hide_landscape_desc">Yatay modda saati gizle</string>
     <!-- Xposed Lockscreen Clock -->
@@ -748,8 +753,8 @@
     <string name="lockscreen_clock_move_notification_icon_desc">AOD (Sürekli Açık Ekran) simgelerini özel saatin altına taşı, eski ROM\'larda hatalı olabilir</string>
     <string name="lockscreen_clock_font_title">Saat Yazı Tipi</string>
     <string name="lockscreen_clock_font_desc">Kilit ekranı saati için özel yazı tipi kullan</string>
-    <string name="lockscreen_clock_image1_title">Custom Image 1</string>
-    <string name="lockscreen_clock_image2_title">Custom Image 2</string>
+    <string name="lockscreen_clock_image1_title">Özel Görsel 1</string>
+    <string name="lockscreen_clock_image2_title">Özel Görsel 2</string>
     <string name="lockscreen_clock_image_title">Özel Resim</string>
     <string name="lockscreen_clock_image_desc">Kilit ekranı saati için özel resim kullan</string>
     <string name="lsclock_custom_color_title">Özel Saat Rengi</string>
@@ -803,7 +808,7 @@
     <string name="wallpaper_background_sensitivity_title">Arka Plan Hassasiyeti</string>
     <string name="depth_wallpaper_model_ready">AI modeli cihaza indirildi</string>
     <string name="depth_wallpaper_model_not_available">AI modeli cihazda henüz mevcut değil</string>
-    <string name="depth_wallpaper_model_checking">Checking for AI model availability…</string>
+    <string name="depth_wallpaper_model_checking">Yapay zeka modelinin kullanılabilirliği kontrol ediliyor…</string>
     <string name="depth_wallpaper_subject_extraction_started">Duvar kağıdı nesnesi çıkarılıyor…</string>
     <string name="depth_wallpaper_subject_extraction_success">Duvar kağıdı nesnesi başarıyla çıkarıldı!</string>
     <string name="depth_wallpaper_subject_extraction_failed">Duvar kağıdı nesnesi çıkarılamadı!</string>
@@ -818,11 +823,11 @@
     <string name="statusbar_clock_clickable_title">Tıklanabilir Saat</string>
     <string name="statusbar_clock_clickable_desc">Saat uygulamasına gitmek için tıklayın</string>
     <string name="section_title_text">Metin</string>
-    <string name="statusbar_clock_text_color_title">Clock Text Color</string>
-    <string name="sbclock_text_color_follow_system">Follow System</string>
-    <string name="sbclock_text_color_transparent_text">Transparent Text</string>
-    <string name="sbclock_text_color_custom_color">Custom Color</string>
-    <string name="statusbar_clock_fill_color_title">Clock Fill Color</string>
+    <string name="statusbar_clock_text_color_title">Saat Metni Rengi</string>
+    <string name="sbclock_text_color_follow_system">Sistemi Takip Et</string>
+    <string name="sbclock_text_color_transparent_text">Şeffaf Metin</string>
+    <string name="sbclock_text_color_custom_color">Özel Renk</string>
+    <string name="statusbar_clock_fill_color_title">Saat Dolgu Rengi</string>
     <string name="sbclock_fill_color_accent">@string/apply_monet_accent_title</string>
     <string name="sbclock_fill_color_gradient">@string/apply_monet_gradient_title</string>
     <string name="sbclock_fill_color_custom">@string/sbclock_text_color_custom_color</string>
@@ -844,10 +849,10 @@
     <string name="fill_end_color">Dolgu Bitiş Rengi</string>
     <string name="section_title_border">Kenarlık</string>
     <string name="enable_border">Kenarlığı Etkinleştir</string>
-    <string name="border_color_title">Border Color</string>
-    <string name="border_color_accent">Accent Color</string>
-    <string name="border_color_custom">Custom Color</string>
-    <string name="border_color_custom_title">Custom Border Color</string>
+    <string name="border_color_title">Kenarlık Rengi</string>
+    <string name="border_color_accent">Vurgu Rengi</string>
+    <string name="border_color_custom">Özel Renk</string>
+    <string name="border_color_custom_title">Özel Kenarlık Rengi</string>
     <string name="dashed_border">Kesik Çizgili Kenarlık</string>
     <string name="dash_width">Çizgi Genişliği</string>
     <string name="dash_gap">Çizgi Aralığı</string>
@@ -932,8 +937,8 @@
     <string name="status_bar_logo_style_custom">Özel Resim</string>
     <string name="status_bar_logo_tint_title">Durum Çubuğu Tonunu Takip Et</string>
     <string name="status_bar_logo_tint_desc">Tonu güncellemek için açık/koyu arka plana geçiş yapın</string>
-    <string name="status_bar_logo_chooser_title">Select Logo Image</string>
-    <string name="status_bar_logo_chooser_desc">Select a custom logo image</string>
+    <string name="status_bar_logo_chooser_title">Logo Görselini Seç</string>
+    <string name="status_bar_logo_chooser_desc">Özel bir logo görseli seçin</string>
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">İki Satırlı Durum Çubuğu</string>
     <string name="dsb_portrait_only_title">Sadece Dikey</string>
@@ -1092,7 +1097,7 @@
     <string name="btn_skip">Geç</string>
     <string name="btn_next">İleri</string>
     <string name="btn_back">Geri</string>
-    <string name="btn_agree">I Agree</string>
+    <string name="btn_agree">Kabul Ediyorum</string>
     <string name="btn_lets_go">Hadi Başlayalım</string>
     <string name="btn_close">Kapat</string>
     <string name="btn_positive">Evet</string>
@@ -1128,8 +1133,8 @@
     <string name="toast_selected_successfully">Başarıyla seçildi</string>
     <string name="toast_unavailable">Kullanılamaz</string>
     <string name="toast_use_from_xposed_menu">Bu özelliği Xposed Menüsünden kullanın</string>
-    <string name="toast_downgrade_kernelsu">Downgrade KernelSU app and try again</string>
-    <string name="toast_reboot_and_try_again">Reboot device and try again</string>
+    <string name="toast_downgrade_kernelsu">KernelSU uygulamasını eski sürüme döndürün ve tekrar deneyin</string>
+    <string name="toast_reboot_and_try_again">Cihazı yeniden başlatın ve tekrar deneyin</string>
     <!-- Push Notification -->
     <string name="new_update_title">Güncelleme Mevcut</string>
     <string name="new_update_desc">Iconify\'ın yeni bir sürümü mevcut.</string>
@@ -1194,7 +1199,7 @@
     <string name="force_enable_blur_desc">Desteklenmeyen ROM\'lar için bulanıklığı etkinleştirmeye zorla</string>
     <string name="choose_header_image">Başlık Resmi Seç</string>
     <string name="choose_clock_font">Saat Yazı Tipi Seç</string>
-    <string name="choose_weather_font">Choose Weather Font</string>
+    <string name="choose_weather_font">Hava Durumu Yazı Tipini Seçin</string>
     <string name="pick_style">İstediğiniz bir stili seçin</string>
     <string name="attention">Dikkat!</string>
     <string name="method_toggle_dark_mode">Koyu Modu Çift Değiştir</string>

@@ -716,6 +716,8 @@
     <string name="header_image_zoom_to_fit_desc">По стандарту зображення розтягнуто</string>
     <string name="header_image_hide_in_landscape_title">Сховати в альбомному режимі</string>
     <string name="header_image_hide_in_landscape_desc">Сховати зображення в альбомному режимі</string>
+    <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
     <string name="header_image_alpha_gradient_title">Альфа градієнт</string>
     <string name="header_image_alpha_gradient_desc">Додавання ефекту вицвітання до зображення заголовка</string>
     <!-- Xposed Header Clock -->
@@ -729,6 +731,7 @@
     <string name="header_clock_color_picker_title">Вибір кольорів для годинника</string>
     <string name="header_clock_color_picker_desc">Встановити колір тексту годинника</string>
     <string name="header_clock_expansion_y_title">Висота годинника</string>
+    <string name="header_clock_landscape_offset_y_title">Offset Y in Landscape</string>
     <string name="header_clock_font_text_scaling_title">Масштабування тексту</string>
     <string name="header_clock_side_margin_title">Бокове поле</string>
     <string name="header_clock_top_margin_title">Верхнє поле</string>
@@ -736,6 +739,8 @@
     <string name="header_clock_white_text_desc">Примусово використовувати білий колір тексту</string>
     <string name="header_clock_center_clock_title">Годинник по центру</string>
     <string name="header_clock_center_clock_desc">Перемістити годинник у центр</string>
+    <string name="header_clock_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_clock_half_width_in_landscape_desc">Set layout width to half of screen in landscape mode</string>
     <string name="header_clock_hide_landscape_title">Сховати в альбомному режимі</string>
     <string name="header_clock_hide_landscape_desc">Сховати годинник в альбомному режимі</string>
     <!-- Xposed Lockscreen Clock -->

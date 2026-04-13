@@ -716,6 +716,8 @@
     <string name="header_image_zoom_to_fit_desc">預設情況下，圖像會被拉伸到合適的尺寸</string>
     <string name="header_image_hide_in_landscape_title">在 Landscape 中隱藏</string>
     <string name="header_image_hide_in_landscape_desc">在 Landscape 模式中隱藏圖像</string>
+    <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
     <string name="header_image_alpha_gradient_title">Alpha 梯度</string>
     <string name="header_image_alpha_gradient_desc">為標頭圖像添加淡入淡出效果</string>
     <!-- Xposed Header Clock -->
@@ -729,6 +731,7 @@
     <string name="header_clock_color_picker_title">時鐘顔色選取</string>
     <string name="header_clock_color_picker_desc">設定標頭時鐘文本的顔色</string>
     <string name="header_clock_expansion_y_title">Expansion Amount</string>
+    <string name="header_clock_landscape_offset_y_title">Offset Y in Landscape</string>
     <string name="header_clock_font_text_scaling_title">文本縮放</string>
     <string name="header_clock_side_margin_title">Side Margin</string>
     <string name="header_clock_top_margin_title">Top Margin</string>
@@ -736,6 +739,8 @@
     <string name="header_clock_white_text_desc">强制文本顔色為白色</string>
     <string name="header_clock_center_clock_title">中間時鐘</string>
     <string name="header_clock_center_clock_desc">將時鐘移動至視圖的中間</string>
+    <string name="header_clock_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_clock_half_width_in_landscape_desc">Set layout width to half of screen in landscape mode</string>
     <string name="header_clock_hide_landscape_title">在 Landscape 中隱藏</string>
     <string name="header_clock_hide_landscape_desc">在 Landscape 模式中隱藏時鐘</string>
     <!-- Xposed Lockscreen Clock -->
