@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">Xoay ngang thiết bị để thay đổi. Nếu không hoạt động, hãy khởi động lại SystemUI.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Khoảng cách</string>
-    <string name="sb_left_padding">Đệm trái</string>
-    <string name="sb_right_padding">Đệm phải</string>
+    <string name="sb_start_padding">Đệm trái</string>
+    <string name="sb_end_padding">Đệm phải</string>
     <string name="sb_height">Chiều cao</string>
     <string name="section_title_color">Màu</string>
     <string name="sb_color_tint_title">Sắc thái màu</string>

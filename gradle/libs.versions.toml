@@ -2,8 +2,9 @@
 accompanistDrawablepainter = "0.37.3"
 accompanistNavigationAnimation = "0.36.0"
 activityCompose = "1.13.0"
-agp = "9.1.0"
+agp = "9.1.1"
 appcompat = "1.7.1"
+asynclayoutinflater = "1.1.0"
 backdrop = "1.0.6"
 #noinspection NewerVersionAvailable,GradleDependency
 bcpkixJdk18on = "1.78.1"
@@ -27,30 +28,32 @@ http = "5.3.2"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 kotlin = "2.3.20"
-kotlinxSerializationJson = "1.10.0"
+kotlinxSerializationJson = "1.11.0"
 ksp = "2.3.6"
 libsuVersion = "6.0.0"
 lifecycleRuntimeKtx = "2.10.0"
 lottie = "6.7.1"
 material = "1.13.0"
-material3 = "1.5.0-alpha16"
+material3 = "1.5.0-alpha17"
+material3WindowSizeClass = "1.4.0"
 materialIconsExtended = "1.7.8"
 materialKolor = "4.1.1"
 navigationCompose = "2.9.7"
 navigationRuntimeKtx = "2.9.7"
 playServicesBase = "18.10.0"
 remotepreferences = "0.8"
+roomVersion = "2.8.4"
 workRuntimeKtx = "2.11.2"
 xposedbridge = "main-SNAPSHOT"
 zip4j = "2.11.6"
-material3WindowSizeClass = "1.4.0"
-asynclayoutinflater = "1.1.0"
 
 [libraries]
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanistDrawablepainter" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
+androidx-asynclayoutinflater = { group = "androidx.asynclayoutinflater", name = "asynclayoutinflater", version.ref = "asynclayoutinflater" }
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+androidx-compose-material3-window-size-class1 = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3WindowSizeClass" }
 androidx-concurrent-futures = { module = "androidx.concurrent:concurrent-futures", version.ref = "concurrentFutures" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
@@ -94,13 +97,14 @@ material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "m
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "http" }
 play-services-base = { module = "com.google.android.gms:play-services-base", version.ref = "playServicesBase" }
 remotepreferences = { module = "com.crossbowffs.remotepreferences:remotepreferences", version.ref = "remotepreferences" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
 su-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsuVersion" }
 su-nio = { module = "com.github.topjohnwu.libsu:nio", version.ref = "libsuVersion" }
 su-service = { module = "com.github.topjohnwu.libsu:service", version.ref = "libsuVersion" }
 xposedbridge = { module = "com.github.Mahmud0808:XposedBridge", version.ref = "xposedbridge" }
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
-androidx-compose-material3-window-size-class1 = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3WindowSizeClass" }
-androidx-asynclayoutinflater = { group = "androidx.asynclayoutinflater", name = "asynclayoutinflater", version.ref = "asynclayoutinflater" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">Forgassa meg a készülékét a változások megtekintéséhez. Ha ez nem működik, akkor rendszerfelület-újraindítás szükséges.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Térköz</string>
-    <string name="sb_left_padding">Bal oldali kitöltés</string>
-    <string name="sb_right_padding">Jobb oldali kitöltés</string>
+    <string name="sb_start_padding">Bal oldali kitöltés</string>
+    <string name="sb_end_padding">Jobb oldali kitöltés</string>
     <string name="sb_height">Magasság</string>
     <string name="section_title_color">Szín</string>
     <string name="sb_color_tint_title">Színárnyalat</string>

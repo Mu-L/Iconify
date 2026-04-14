@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">Rotate device to see changes. If that doesn\'t work, restart SystemUI.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">間距</string>
-    <string name="sb_left_padding">左内邊距</string>
-    <string name="sb_right_padding">右内邊距</string>
+    <string name="sb_start_padding">左内邊距</string>
+    <string name="sb_end_padding">右内邊距</string>
     <string name="sb_height">高度</string>
     <string name="section_title_color">顔色</string>
     <string name="sb_color_tint_title">色調</string>

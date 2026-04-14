@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">Поверните устройство, чтобы увидеть изменения. Если это не сработает, перезапустите SystemUI.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Интервалы</string>
-    <string name="sb_left_padding">Левый отступ</string>
-    <string name="sb_right_padding">Правый отступ</string>
+    <string name="sb_start_padding">Левый отступ</string>
+    <string name="sb_end_padding">Правый отступ</string>
     <string name="sb_height">Высота</string>
     <string name="section_title_color">Цвет</string>
     <string name="sb_color_tint_title">Оттенок</string>

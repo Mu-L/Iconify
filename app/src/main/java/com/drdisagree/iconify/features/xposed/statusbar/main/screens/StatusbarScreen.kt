@@ -135,7 +135,7 @@ val statusbarPreferences = preferenceScreen {
 }
 
 @Composable
-fun StatusbarScreen(
+fun XposedStatusbarScreen(
     systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
 ) {
     PreferenceListener { event ->
@@ -174,8 +174,8 @@ fun StatusbarScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun StatusbarScreenPreview() {
+fun XposedStatusbarScreenPreview() {
     PreviewComposable {
-        StatusbarScreen(null)
+        XposedStatusbarScreen(null)
     }
 }

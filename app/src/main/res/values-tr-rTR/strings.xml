@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">Değişiklikleri görmek için cihazı döndürün. Eğer işe yaramazsa, SystemUI\'ı yeniden başlatın.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Boşluk</string>
-    <string name="sb_left_padding">Sol İç Boşluk (Padding)</string>
-    <string name="sb_right_padding">Sağ İç Boşluk (Padding)</string>
+    <string name="sb_start_padding">Sol İç Boşluk (Padding)</string>
+    <string name="sb_end_padding">Sağ İç Boşluk (Padding)</string>
     <string name="sb_height">Yükseklik</string>
     <string name="section_title_color">Renk</string>
     <string name="sb_color_tint_title">Renk Tonu</string>

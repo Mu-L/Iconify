@@ -33,7 +33,8 @@ import com.drdisagree.iconify.features.home.main.screens.HomeScreen
 import com.drdisagree.iconify.features.home.notification.screens.NotificationScreen
 import com.drdisagree.iconify.features.home.settingsicons.screens.SettingsIconsScreen
 import com.drdisagree.iconify.features.home.toastframe.screens.ToastFrameScreen
-import com.drdisagree.iconify.features.home.tweaks.screens.TweaksScreen
+import com.drdisagree.iconify.features.home.tweaks.main.screens.TweaksScreen
+import com.drdisagree.iconify.features.home.tweaks.statusbar.screens.TweaksStatusbarScreen
 import com.drdisagree.iconify.features.home.wifiicons.screens.WifiIconScreen
 import com.drdisagree.iconify.features.main.screens.MainScreen
 import com.drdisagree.iconify.features.onboarding.screens.OnboardingScreen
@@ -58,7 +59,7 @@ import com.drdisagree.iconify.features.xposed.quicksettings.transparency.screens
 import com.drdisagree.iconify.features.xposed.statusbar.clockchip.screens.ClockChipScreen
 import com.drdisagree.iconify.features.xposed.statusbar.dualstatusbar.screens.DualStatusbarScreen
 import com.drdisagree.iconify.features.xposed.statusbar.logo.screens.StatusbarLogoScreen
-import com.drdisagree.iconify.features.xposed.statusbar.main.screens.StatusbarScreen
+import com.drdisagree.iconify.features.xposed.statusbar.main.screens.XposedStatusbarScreen
 import com.drdisagree.iconify.features.xposed.volumepanel.screens.VolumePanelScreen
 import kotlinx.serialization.json.Json
 
@@ -192,7 +193,6 @@ fun NavGraph(
 
                 navigation<NavRoutes.Home.Root>(startDestination = NavRoutes.Home.Tab) {
                     composable<NavRoutes.Home.Tab> { HomeScreen() }
-                    composable<NavRoutes.Home.More> { TweaksScreen() }
                     composable<NavRoutes.Home.IconPack> { IconPackScreen() }
                     composable<NavRoutes.Home.CellularIcons> { CellularIconScreen() }
                     composable<NavRoutes.Home.WifiIcons> { WifiIconScreen() }
@@ -200,13 +200,18 @@ fun NavGraph(
                     composable<NavRoutes.Home.Notification> { NotificationScreen() }
                     composable<NavRoutes.Home.IconShape> { IconShapeScreen() }
                     composable<NavRoutes.Home.ToastFrame> { ToastFrameScreen() }
+
+                    navigation<NavRoutes.Home.More.Root>(startDestination = NavRoutes.Home.More.Main) {
+                        composable<NavRoutes.Home.More.Main> { TweaksScreen() }
+                        composable<NavRoutes.Home.More.StatusBar> { TweaksStatusbarScreen() }
+                    }
                 }
 
                 navigation<NavRoutes.Xposed.Root>(startDestination = NavRoutes.Xposed.Tab) {
                     composable<NavRoutes.Xposed.Tab> { XposedScreen() }
 
                     navigation<NavRoutes.Xposed.Statusbar.Root>(startDestination = NavRoutes.Xposed.Statusbar.Main) {
-                        composable<NavRoutes.Xposed.Statusbar.Main> { StatusbarScreen() }
+                        composable<NavRoutes.Xposed.Statusbar.Main> { XposedStatusbarScreen() }
                         composable<NavRoutes.Xposed.Statusbar.ClockChip> { ClockChipScreen() }
                         composable<NavRoutes.Xposed.Statusbar.Logo> { StatusbarLogoScreen() }
                         composable<NavRoutes.Xposed.Statusbar.DualStatusbar> { DualStatusbarScreen() }

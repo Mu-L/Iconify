@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">أدر الجهاز لرؤية التغييرات. إن لم يعمل، أعد تشغيل واجهة المستخدم.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">التباعد</string>
-    <string name="sb_left_padding">الحشو الأيسر</string>
-    <string name="sb_right_padding">الحشو الأيمن</string>
+    <string name="sb_start_padding">الحشو الأيسر</string>
+    <string name="sb_end_padding">الحشو الأيمن</string>
     <string name="sb_height">الارتفاع</string>
     <string name="section_title_color">اللون</string>
     <string name="sb_color_tint_title">لون تينت</string>

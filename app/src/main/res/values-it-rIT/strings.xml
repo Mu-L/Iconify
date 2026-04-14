@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">Ruota il dispositivo per vedere le modifiche. Se non funziona, riavvia SystemUI.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Spaziatura</string>
-    <string name="sb_left_padding">Riempimento Sinistro</string>
-    <string name="sb_right_padding">Riempimento Destro</string>
+    <string name="sb_start_padding">Riempimento Sinistro</string>
+    <string name="sb_end_padding">Riempimento Destro</string>
     <string name="sb_height">Altezza</string>
     <string name="section_title_color">Colore</string>
     <string name="sb_color_tint_title">Tinta Colore</string>

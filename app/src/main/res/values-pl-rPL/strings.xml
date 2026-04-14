@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">Obróć urządzenie, aby zobaczyć zmiany. Jeśli to nie zadziała, uruchom urządzenie ponownie.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Odległość</string>
-    <string name="sb_left_padding">Wypełnienie lewe</string>
-    <string name="sb_right_padding">Wypełnienie prawe</string>
+    <string name="sb_start_padding">Wypełnienie lewe</string>
+    <string name="sb_end_padding">Wypełnienie prawe</string>
     <string name="sb_height">Wysokość</string>
     <string name="section_title_color">Kolor</string>
     <string name="sb_color_tint_title">Zmień kolor</string>

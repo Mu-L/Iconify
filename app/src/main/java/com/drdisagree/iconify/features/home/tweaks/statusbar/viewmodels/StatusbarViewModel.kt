@@ -1,0 +1,178 @@
+package com.drdisagree.iconify.features.home.tweaks.statusbar.viewmodels
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.drdisagree.iconify.core.utils.overlay.resource.ResourceEntry
+import com.drdisagree.iconify.core.utils.overlay.resource.ResourceManager
+import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
+import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.data.events.ToastUiEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class StatusbarViewModel @Inject constructor() : ViewModel() {
+
+    private val tag = "StatusbarViewModel"
+
+    private val statusbarStartPaddingId = "status_bar_padding_start"
+    private val statusbarEndPaddingId = "status_bar_padding_end"
+    private val statusbarHeightId = "status_bar_height"
+
+    private fun statusbarStartPaddingResourceEntries(padding: Int) = listOf(
+        ResourceEntry(
+            SYSTEMUI_PACKAGE,
+            "dimen",
+            "status_bar_padding_start",
+            padding.toString() + "dp"
+        )
+    )
+
+    private fun statusbarEndPaddingResourceEntries(padding: Int) = listOf(
+        ResourceEntry(
+            SYSTEMUI_PACKAGE,
+            "dimen",
+            "status_bar_padding_end",
+            padding.toString() + "dp"
+        )
+    )
+
+    private fun statusbarHeightResourceEntries(height: Int) = listOf(
+        ResourceEntry(
+            SYSTEMUI_PACKAGE,
+            "dimen",
+            "status_bar_height",
+            height.toString() + "dp"
+        ),
+        ResourceEntry(
+            FRAMEWORK_PACKAGE,
+            "dimen",
+            "status_bar_height",
+            height.toString() + "dp"
+        ),
+        ResourceEntry(
+            FRAMEWORK_PACKAGE,
+            "dimen",
+            "status_bar_height_default",
+            height.toString() + "dp"
+        ),
+        ResourceEntry(
+            FRAMEWORK_PACKAGE,
+            "dimen",
+            "status_bar_height_portrait",
+            height.toString() + "dp"
+        ),
+        ResourceEntry(
+            FRAMEWORK_PACKAGE,
+            "dimen",
+            "status_bar_height_landscape",
+            height.toString() + "dp"
+        )
+    )
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    private val _uiEvent = MutableSharedFlow<ToastUiEvent>()
+    val uiEvent = _uiEvent.asSharedFlow()
+
+    fun applyStatusbarStartPadding(padding: Int, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (_isLoading.value) return@launch
+
+            _isLoading.value = true
+
+            val entries = statusbarStartPaddingResourceEntries(padding)
+
+            val error = if (padding >= 0) {
+                ResourceManager.buildOverlayWithResource(
+                    statusbarStartPaddingId,
+                    *entries.toTypedArray()
+                )
+            } else {
+                ResourceManager.removeResourceFromOverlay(
+                    overlayIds = listOf(statusbarStartPaddingId),
+                    packagesToUpdate = entries.map { it.packageName }.distinct()
+                )
+            }
+
+            _isLoading.value = false
+
+            if (!error) {
+                _uiEvent.emit(ToastUiEvent.Applied)
+                onSuccess()
+            } else {
+                _uiEvent.emit(ToastUiEvent.Error)
+            }
+        }
+    }
+
+    fun applyStatusbarEndPadding(padding: Int, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (_isLoading.value) return@launch
+
+            _isLoading.value = true
+
+            val entries = statusbarEndPaddingResourceEntries(padding)
+
+            val error = if (padding >= 0) {
+                ResourceManager.buildOverlayWithResource(
+                    statusbarEndPaddingId,
+                    *entries.toTypedArray()
+                )
+            } else {
+                ResourceManager.removeResourceFromOverlay(
+                    overlayIds = listOf(statusbarEndPaddingId),
+                    packagesToUpdate = entries.map { it.packageName }.distinct()
+                )
+            }
+
+            _isLoading.value = false
+
+            if (!error) {
+                _uiEvent.emit(ToastUiEvent.Applied)
+                onSuccess()
+            } else {
+                _uiEvent.emit(ToastUiEvent.Error)
+            }
+        }
+    }
+
+    fun applyStatusbarHeight(height: Int, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (_isLoading.value) return@launch
+
+            _isLoading.value = true
+
+            val entries = statusbarHeightResourceEntries(height)
+
+            val error = if (height >= 0) {
+                ResourceManager.buildOverlayWithResource(
+                    statusbarHeightId,
+                    *entries.toTypedArray()
+                )
+            } else {
+                ResourceManager.removeResourceFromOverlay(
+                    overlayIds = listOf(statusbarHeightId),
+                    packagesToUpdate = entries.map { it.packageName }.distinct()
+                )
+            }
+
+            _isLoading.value = false
+
+            if (!error) {
+                _uiEvent.emit(ToastUiEvent.Applied)
+                onSuccess()
+            } else {
+                _uiEvent.emit(ToastUiEvent.Error)
+            }
+        }
+    }
+}

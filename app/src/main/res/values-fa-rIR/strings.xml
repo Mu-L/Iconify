@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">دستگاه را برای دیدن تغییرات بچرخانید. اگر کار نمرد رابط را راه‌اندازی مجدد کنید.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">فضادهی</string>
-    <string name="sb_left_padding">تنظیم حاشیه سمت چپ</string>
-    <string name="sb_right_padding">تنظیم حاشیه سمت راست</string>
+    <string name="sb_start_padding">تنظیم حاشیه سمت چپ</string>
+    <string name="sb_end_padding">تنظیم حاشیه سمت راست</string>
     <string name="sb_height">ارتفاع</string>
     <string name="section_title_color">رنگ</string>
     <string name="sb_color_tint_title">افکت ته رنگ</string>

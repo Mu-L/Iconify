@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">Putar device untuk melihat perubahan. Jika tidak berhasil, restart SystemUI.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Spacing</string>
-    <string name="sb_left_padding">Left Padding</string>
-    <string name="sb_right_padding">Padding Kanan</string>
+    <string name="sb_start_padding">Left Padding</string>
+    <string name="sb_end_padding">Padding Kanan</string>
     <string name="sb_height">Tinggi</string>
     <string name="section_title_color">Warna</string>
     <string name="sb_color_tint_title">Tint Warna</string>

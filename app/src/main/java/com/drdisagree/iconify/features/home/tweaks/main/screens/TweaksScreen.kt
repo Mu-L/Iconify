@@ -1,9 +1,10 @@
-package com.drdisagree.iconify.features.home.tweaks.screens
+package com.drdisagree.iconify.features.home.tweaks.main.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.iconRes
 import com.drdisagree.iconify.core.preferences.preferenceScreen
@@ -37,14 +38,6 @@ val tweaksPreferences = preferenceScreen {
         //            onClick = { _, _, _ -> }
         //        )
 
-        action(
-            key = "qsRowColumn",
-            icon = iconRes(R.drawable.ic_qs_row_column),
-            title = stringRes(R.string.activity_title_qs_row_column),
-            summary = { _, _ -> stringRes(R.string.activity_desc_qs_row_column) },
-            onClick = { context, _, _ -> showComingSoonToast(context) }
-        )
-
         //        action(
         //            key = "qsIconLabel",
         //            icon = iconRes(R.drawable.ic_qs_icon_and_label),
@@ -66,7 +59,11 @@ val tweaksPreferences = preferenceScreen {
             icon = iconRes(R.drawable.ic_tweaks_statusbar),
             title = stringRes(R.string.activity_title_statusbar),
             summary = { _, _ -> stringRes(R.string.activity_desc_statusbar) },
-            onClick = { context, _, _ -> showComingSoonToast(context) }
+            onClick = { _, _, navController ->
+                navController.navigate(NavRoutes.Home.More.StatusBar) {
+                    launchSingleTop = true
+                }
+            }
         )
 
         action(

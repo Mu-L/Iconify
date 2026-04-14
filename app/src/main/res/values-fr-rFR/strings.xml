@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">Faites pivoter l\'appareil pour voir les modifications. Si cela ne fonctionne pas, redémarrez SystemUI.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Espacement</string>
-    <string name="sb_left_padding">Rembourrage gauche</string>
-    <string name="sb_right_padding">Rembourrage droit</string>
+    <string name="sb_start_padding">Rembourrage gauche</string>
+    <string name="sb_end_padding">Rembourrage droit</string>
     <string name="sb_height">Hauteur</string>
     <string name="section_title_color">Couleur</string>
     <string name="sb_color_tint_title">Teinte</string>

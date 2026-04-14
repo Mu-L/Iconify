@@ -41,7 +41,7 @@ fun HomeCategories(modifier: Modifier = Modifier) {
             title = R.string.more,
             icon = R.drawable.ic_arrow_end_long,
             smallVariant = true,
-            route = NavRoutes.Home.More
+            route = NavRoutes.Home.More.Root
         ),
         CategoryItem(
             title = R.string.activity_title_cellular_icons,

@@ -50,7 +50,29 @@ sealed class NavRoutes {
         data object IconShape : Home()
 
         @Serializable
-        data object More : Home()
+        sealed class More : Home() {
+
+            @Serializable
+            data object Root : More()
+
+            @Serializable
+            data object Main : More()
+
+            @Serializable
+            data object ColorEngine : More()
+
+            @Serializable
+            data object UIRoundness : More()
+
+            @Serializable
+            data object StatusBar : More()
+
+            @Serializable
+            data object NavigationBar : More()
+
+            @Serializable
+            data object Miscellaneous : More()
+        }
 
         @Serializable
         data object Tab : Home(), BottomBarTab {

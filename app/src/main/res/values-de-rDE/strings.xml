@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">Gerät drehen, um Änderungen zu sehen. Sollte dies nicht funktionieren, starte SystemUI neu.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Abstand</string>
-    <string name="sb_left_padding">Linke Einrückung</string>
-    <string name="sb_right_padding">Rechte Einrückung</string>
+    <string name="sb_start_padding">Linke Einrückung</string>
+    <string name="sb_end_padding">Rechte Einrückung</string>
     <string name="sb_height">Höhe</string>
     <string name="section_title_color">Farbe</string>
     <string name="sb_color_tint_title">Farbton</string>

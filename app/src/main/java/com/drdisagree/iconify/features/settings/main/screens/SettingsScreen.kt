@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
@@ -36,11 +37,13 @@ import com.drdisagree.iconify.core.utils.CacheUtils
 import com.drdisagree.iconify.core.utils.SystemUtils
 import com.drdisagree.iconify.core.utils.SystemUtils.disableBlur
 import com.drdisagree.iconify.core.utils.SystemUtils.saveBootId
+import com.drdisagree.iconify.core.utils.weather.WeatherConfig
 import com.drdisagree.iconify.data.common.Const.GITHUB_REPO
 import com.drdisagree.iconify.data.common.Const.ICONIFY_CROWDIN
 import com.drdisagree.iconify.data.common.Const.TELEGRAM_GROUP
 import com.drdisagree.iconify.data.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.data.keys.SettingsKey
+import com.drdisagree.iconify.features.common.viewmodels.DynamicResourceViewModel
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -147,7 +150,9 @@ fun settingsPreferences(
 }
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(
+    dynamicResourceViewModel: DynamicResourceViewModel? = hiltViewModel()
+) {
     val context = LocalContext.current
     val activity = LocalActivity.current
     val prefController = LocalPreferenceController.current
@@ -182,17 +187,14 @@ fun SettingsScreen() {
 
                     coroutineScope.launch {
                         withContext(Dispatchers.IO) {
-                            //                    WeatherConfig.clear(context)
+                            // Clear weather configs
+                            WeatherConfig.clear(context)
 
                             // Clear shared preferences
                             prefController.reset()
 
                             // Clear dynamic resource database
-                            //                    DynamicResourceRepository(
-                            //                        DynamicResourceDatabase.getInstance().dynamicResourceDao()
-                            //                    ).apply {
-                            //                        deleteResources(getAllResources())
-                            //                    }
+                            dynamicResourceViewModel?.clearAllResources()
 
                             saveBootId
                             disableBlur(false)
@@ -244,6 +246,6 @@ fun SettingsScreen() {
 @Composable
 fun SettingsScreenPreview() {
     PreviewComposable {
-        SettingsScreen()
+        SettingsScreen(null)
     }
 }

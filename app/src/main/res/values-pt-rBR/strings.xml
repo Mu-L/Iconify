@@ -345,8 +345,8 @@
     <string name="qs_panel_top_margin_info">Gire o dispositivo para ver as alterações. Se isso não funcionar, reinicie a Interface do sistema.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Espaçamento</string>
-    <string name="sb_left_padding">Preenchimento esquerdo</string>
-    <string name="sb_right_padding">Preenchimento direito</string>
+    <string name="sb_start_padding">Preenchimento esquerdo</string>
+    <string name="sb_end_padding">Preenchimento direito</string>
     <string name="sb_height">Altura</string>
     <string name="section_title_color">Cor</string>
     <string name="sb_color_tint_title">Tonalidade de cor</string>

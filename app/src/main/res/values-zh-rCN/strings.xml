@@ -346,8 +346,8 @@
     <string name="qs_panel_top_margin_info">旋转设备以查看变化；如果不起作用，请重新启动SystemUI。</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">间距</string>
-    <string name="sb_left_padding">左内边距</string>
-    <string name="sb_right_padding">右内边距</string>
+    <string name="sb_start_padding">左内边距</string>
+    <string name="sb_end_padding">右内边距</string>
     <string name="sb_height">高度</string>
     <string name="section_title_color">颜色</string>
     <string name="sb_color_tint_title">色调</string>
