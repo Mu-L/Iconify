@@ -33,6 +33,7 @@ import com.drdisagree.iconify.core.preferences.PreferenceDefinition
 import com.drdisagree.iconify.core.preferences.PreferenceType
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.helpers.replaceAll
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -49,7 +50,8 @@ fun SliderPreferenceItem(
     val persistedValue by prefController.observe(def.key, defaultValue)
     var sliderValue by remember { mutableFloatStateOf(persistedValue) }
     var previousLabel by remember { mutableStateOf<String?>(null) }
-    val originalValueLabel = type.valueLabel?.invoke(sliderValue) ?: sliderValue.toInt().toString()
+    val originalValueLabel = type.valueLabel?.invoke(sliderValue)
+        ?: sliderValue.roundToInt().toString()
     val valueLabel = if (type.showDefaultIndicator && sliderValue == defaultValue) {
         if (type.hideDefaultValue) {
             stringResource(R.string.opt_default).replaceAll("(" to "", ")" to "")
@@ -66,7 +68,7 @@ fun SliderPreferenceItem(
         if (!isEnabled || sliderValue == newValue) return
 
         val newLabel = type.valueLabel?.invoke(newValue)
-            ?: newValue.toInt().toString()
+            ?: newValue.roundToInt().toString()
 
         if (newLabel != previousLabel) {
             onValueChangeWithHaptic()
