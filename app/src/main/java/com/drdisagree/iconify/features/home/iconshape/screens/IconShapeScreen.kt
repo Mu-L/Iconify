@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.features.home.iconshape.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -17,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,9 +25,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.dialogs.LoadingDialog
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
+import com.drdisagree.iconify.core.ui.components.others.ToastAppliedEvent
 import com.drdisagree.iconify.core.ui.components.others.innerPaddingValues
 import com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold
-import com.drdisagree.iconify.data.events.ToastUiEvent
 import com.drdisagree.iconify.data.models.IconShapePreview
 import com.drdisagree.iconify.data.states.UiText
 import com.drdisagree.iconify.features.home.iconshape.components.IconShapeCard
@@ -119,7 +117,6 @@ private val iconShapeList = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconShapeScreen(iconShapeViewModel: IconShapeViewModel = hiltViewModel()) {
-    val context = LocalContext.current
     val scrollState = rememberScrollState()
     val iconShapes by rememberSaveable { mutableStateOf(iconShapeList) }
     val toastFrameStyle by iconShapeViewModel.iconShapeStyle.collectAsStateWithLifecycle()
@@ -133,29 +130,7 @@ fun IconShapeScreen(iconShapeViewModel: IconShapeViewModel = hiltViewModel()) {
         LoadingDialog()
     }
 
-    LaunchedEffect(Unit) {
-        iconShapeViewModel.uiEvent.collect { event ->
-            when (event) {
-                ToastUiEvent.Applied -> Toast.makeText(
-                    context,
-                    R.string.toast_applied,
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                ToastUiEvent.Disabled -> Toast.makeText(
-                    context,
-                    R.string.toast_disabled,
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                ToastUiEvent.Error -> Toast.makeText(
-                    context,
-                    R.string.toast_error,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
+    ToastAppliedEvent(iconShapeViewModel.uiEvent)
 
     AppScaffold(
         title = stringResource(R.string.activity_title_icon_shape),

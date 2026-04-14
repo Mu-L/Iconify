@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.features.home.toastframe.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -17,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,9 +25,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.dialogs.LoadingDialog
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
+import com.drdisagree.iconify.core.ui.components.others.ToastAppliedEvent
 import com.drdisagree.iconify.core.ui.components.others.innerPaddingValues
 import com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold
-import com.drdisagree.iconify.data.events.ToastUiEvent
 import com.drdisagree.iconify.data.models.ToastFramePreview
 import com.drdisagree.iconify.data.states.UiText
 import com.drdisagree.iconify.features.home.toastframe.components.ToastFrameCard
@@ -59,7 +57,6 @@ private val toastFrameList = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToastFrameScreen(toastFrameViewModel: ToastFrameViewModel = hiltViewModel()) {
-    val context = LocalContext.current
     val scrollState = rememberScrollState()
     val toastFrames by rememberSaveable { mutableStateOf(toastFrameList) }
     val toastFrameStyle by toastFrameViewModel.toastFrameStyle.collectAsStateWithLifecycle()
@@ -73,29 +70,7 @@ fun ToastFrameScreen(toastFrameViewModel: ToastFrameViewModel = hiltViewModel())
         LoadingDialog()
     }
 
-    LaunchedEffect(Unit) {
-        toastFrameViewModel.uiEvent.collect { event ->
-            when (event) {
-                ToastUiEvent.Applied -> Toast.makeText(
-                    context,
-                    R.string.toast_applied,
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                ToastUiEvent.Disabled -> Toast.makeText(
-                    context,
-                    R.string.toast_disabled,
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                ToastUiEvent.Error -> Toast.makeText(
-                    context,
-                    R.string.toast_error,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
+    ToastAppliedEvent(toastFrameViewModel.uiEvent)
 
     AppScaffold(
         title = stringResource(R.string.activity_title_toast_frame),
