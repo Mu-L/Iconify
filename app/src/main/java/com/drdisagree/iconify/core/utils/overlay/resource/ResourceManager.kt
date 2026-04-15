@@ -26,30 +26,12 @@ object ResourceManager {
 
     suspend fun buildOverlayWithResource(
         overlayId: String,
-        vararg resourceEntries: ResourceEntry?
+        vararg resourceEntries: ResourceEntry
     ): Boolean {
-        require(resourceEntries.isNotEmpty()) { "No resource entries provided" }
-
         return try {
-            val entries = resourceEntries.filterNotNull()
-
-            repository().insertResources(
-                entries.map { entry ->
-                    DynamicResourceEntity(
-                        overlayId = overlayId,
-                        packageName = entry.packageName,
-                        startEndTag = entry.startEndTag,
-                        resourceName = entry.resourceName,
-                        resourceValue = entry.resourceValue,
-                        isPortrait = entry.isPortrait,
-                        isLandscape = entry.isLandscape,
-                        isNightMode = entry.isNightMode
-                    )
-                }
-            )
-
-            DynamicCompiler.buildDynamicOverlay(
-                packagesToUpdate = entries
+            insertResources(overlayId, *resourceEntries)
+            triggerDynamicOverlayUpdate(
+                packagesToUpdate = resourceEntries
                     .map { it.packageName }
                     .distinct()
             )
@@ -63,17 +45,50 @@ object ResourceManager {
         overlayIds: List<String>,
         packagesToUpdate: List<String>
     ): Boolean {
-        require(overlayIds.isNotEmpty()) { "No overlay IDs provided" }
-        require(packagesToUpdate.isNotEmpty()) { "No packages provided" }
-
         return try {
-            repository().deleteOverlays(*overlayIds.toTypedArray())
-
-            DynamicCompiler.buildDynamicOverlay(packagesToUpdate = packagesToUpdate)
+            deleteResources(overlayIds)
+            triggerDynamicOverlayUpdate(packagesToUpdate = packagesToUpdate)
         } catch (e: Exception) {
             Log.e(TAG, "removeResourceFromOverlay", e)
             true
         }
+    }
+
+    @Throws(Exception::class)
+    suspend fun insertResources(
+        overlayId: String,
+        vararg resourceEntries: ResourceEntry?
+    ) {
+        require(resourceEntries.filterNotNull().isNotEmpty()) { "No resource entries provided" }
+
+        repository().insertResources(
+            resourceEntries.filterNotNull().map { entry ->
+                DynamicResourceEntity(
+                    overlayId = overlayId,
+                    packageName = entry.packageName,
+                    startEndTag = entry.startEndTag,
+                    resourceName = entry.resourceName,
+                    resourceValue = entry.resourceValue,
+                    isPortrait = entry.isPortrait,
+                    isLandscape = entry.isLandscape,
+                    isNightMode = entry.isNightMode
+                )
+            }
+        )
+    }
+
+    @Throws(Exception::class)
+    suspend fun deleteResources(overlayIds: List<String>) {
+        require(overlayIds.isNotEmpty()) { "No overlay IDs provided" }
+
+        repository().deleteOverlays(*overlayIds.toTypedArray())
+    }
+
+    @Throws(Exception::class)
+    suspend fun triggerDynamicOverlayUpdate(packagesToUpdate: List<String>): Boolean {
+        require(packagesToUpdate.isNotEmpty()) { "No packages provided" }
+
+        return DynamicCompiler.buildDynamicOverlay(packagesToUpdate = packagesToUpdate)
     }
 
     suspend fun generateXmlStructureForAllResources(

@@ -33,6 +33,7 @@ import com.drdisagree.iconify.features.home.main.screens.HomeScreen
 import com.drdisagree.iconify.features.home.notification.screens.NotificationScreen
 import com.drdisagree.iconify.features.home.settingsicons.screens.SettingsIconsScreen
 import com.drdisagree.iconify.features.home.toastframe.screens.ToastFrameScreen
+import com.drdisagree.iconify.features.home.tweaks.colornengine.screens.ColorEngineScreen
 import com.drdisagree.iconify.features.home.tweaks.main.screens.TweaksScreen
 import com.drdisagree.iconify.features.home.tweaks.miscellaneous.screens.MiscellaneousScreen
 import com.drdisagree.iconify.features.home.tweaks.statusbar.screens.TweaksStatusbarScreen
@@ -204,6 +205,7 @@ fun NavGraph(
 
                     navigation<NavRoutes.Home.More.Root>(startDestination = NavRoutes.Home.More.Main) {
                         composable<NavRoutes.Home.More.Main> { TweaksScreen() }
+                        composable<NavRoutes.Home.More.ColorEngine> { ColorEngineScreen() }
                         composable<NavRoutes.Home.More.StatusBar> { TweaksStatusbarScreen() }
                         composable<NavRoutes.Home.More.Miscellaneous> { MiscellaneousScreen() }
                     }
