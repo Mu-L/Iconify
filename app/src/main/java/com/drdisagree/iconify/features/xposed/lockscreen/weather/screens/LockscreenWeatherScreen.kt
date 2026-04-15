@@ -56,11 +56,11 @@ fun lsWeatherPreferences(
         action(
             key = "weather_update_status",
             title = stringRes(R.string.last_update_time),
-            summary = { _, _ ->
+            summary = {
                 if (updateStatusSummary != null) stringRes(updateStatusSummary)
                 else stringRes(R.string.not_available)
             },
-            onClick = { _, _, _ -> weatherViewModel?.onUpdateStatusClicked() },
+            onClick = { weatherViewModel?.onUpdateStatusClicked() },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
         )
     }
@@ -77,9 +77,8 @@ fun lsWeatherPreferences(
         editText(
             key = XposedKey.WEATHER_OWM_KEY,
             title = stringRes(R.string.weather_api_key),
-            summary = { prefs, _ ->
-                val currentVal = prefs.getString(XposedKey.WEATHER_OWM_KEY)
-
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal.isEmpty()) stringRes("No key provided")
                 else stringRes(currentVal.maskKey())
             },
@@ -90,9 +89,8 @@ fun lsWeatherPreferences(
         editText(
             key = XposedKey.WEATHER_YANDEX_KEY,
             title = stringRes(R.string.yandex_api_key),
-            summary = { prefs, _ ->
-                val currentVal = prefs.getString(XposedKey.WEATHER_YANDEX_KEY)
-
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal.isEmpty()) stringRes("No key provided")
                 else stringRes(currentVal.maskKey())
             },
@@ -103,16 +101,13 @@ fun lsWeatherPreferences(
         twoTargetSwitch(
             key = XposedKey.WEATHER_CUSTOM_LOCATION,
             title = stringRes(R.string.custom_location_title),
-            summary = { prefs, key ->
-                val currentVal = prefs.getBoolean(
-                    key,
-                    XposedKey.WEATHER_CUSTOM_LOCATION.default as Boolean
-                )
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal) stringRes(R.string.general_on)
                 else stringRes(R.string.general_off)
             },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.Location) {
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Location) {
                     launchSingleTop = true
                 }
             },
@@ -132,9 +127,8 @@ fun lsWeatherPreferences(
         switch(
             key = XposedKey.WEATHER_SHOW_LOCATION,
             title = stringRes(R.string.weather_show_location),
-            summary = { prefs, key ->
-                val currentVal =
-                    prefs.getBoolean(key, XposedKey.WEATHER_SHOW_LOCATION.default as Boolean)
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal) stringRes(R.string.general_on)
                 else stringRes(R.string.general_off)
             },
@@ -144,9 +138,8 @@ fun lsWeatherPreferences(
         switch(
             key = XposedKey.WEATHER_SHOW_CONDITION,
             title = stringRes(R.string.weather_show_condition),
-            summary = { prefs, key ->
-                val currentVal =
-                    prefs.getBoolean(key, XposedKey.WEATHER_SHOW_CONDITION.default as Boolean)
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal) stringRes(R.string.general_on)
                 else stringRes(R.string.general_off)
             },
@@ -156,9 +149,8 @@ fun lsWeatherPreferences(
         switch(
             key = XposedKey.WEATHER_SHOW_HUMIDITY,
             title = stringRes(R.string.weather_show_humidity),
-            summary = { prefs, key ->
-                val currentVal =
-                    prefs.getBoolean(key, XposedKey.WEATHER_SHOW_HUMIDITY.default as Boolean)
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal) stringRes(R.string.general_on)
                 else stringRes(R.string.general_off)
             },
@@ -168,9 +160,8 @@ fun lsWeatherPreferences(
         switch(
             key = XposedKey.WEATHER_SHOW_WIND,
             title = stringRes(R.string.weather_show_wind),
-            summary = { prefs, key ->
-                val currentVal =
-                    prefs.getBoolean(key, XposedKey.WEATHER_SHOW_WIND.default as Boolean)
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal) stringRes(R.string.general_on)
                 else stringRes(R.string.general_off)
             },
@@ -182,11 +173,8 @@ fun lsWeatherPreferences(
         switch(
             key = XposedKey.WEATHER_TEXT_COLOR,
             title = stringRes(R.string.weather_custom_color_switch_title),
-            summary = { prefs, key ->
-                val currentVal = prefs.getBoolean(
-                    key,
-                    XposedKey.WEATHER_TEXT_COLOR.default as Boolean
-                )
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal) stringRes(R.string.general_on)
                 else stringRes(R.string.general_off)
             },
@@ -196,7 +184,7 @@ fun lsWeatherPreferences(
         colorPicker(
             key = XposedKey.WEATHER_TEXT_COLOR_CODE,
             title = stringRes(R.string.weather_custom_color_title),
-            summary = { _, _ -> stringRes(R.string.weather_custom_color_summary) },
+            summary = { stringRes(R.string.weather_custom_color_summary) },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
             isVisible = { it.getBoolean(XposedKey.WEATHER_TEXT_COLOR) }
         )
@@ -204,8 +192,8 @@ fun lsWeatherPreferences(
         action(
             key = XposedKey.WEATHER_ICON_PACK,
             title = stringRes(R.string.weather_icon_pack_title),
-            summary = { _, _ -> stringRes(selectedPackLabel) },
-            onClick = { _, _, _ -> onIconPackClick() },
+            summary = { stringRes(selectedPackLabel) },
+            onClick = { onIconPackClick() },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
         )
 
@@ -222,7 +210,8 @@ fun lsWeatherPreferences(
             title = stringRes(R.string.choose_weather_font),
             pickerType = FilePickerType.Font,
             saveFileUri = true,
-            onFileSelected = { _, uriString ->
+            onFileSelected = {
+                val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
                     uriString.toUri().toXposedSharedPath(LOCKSCREEN_WEATHER_FONT_FILE.name)
                 }
@@ -235,7 +224,7 @@ fun lsWeatherPreferences(
         switch(
             key = XposedKey.WEATHER_CENTER_VIEW,
             title = stringRes(R.string.weather_center_view_title),
-            summary = { _, _ -> stringRes(R.string.weather_center_view_summary) },
+            summary = { stringRes(R.string.weather_center_view_summary) },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
         )
 

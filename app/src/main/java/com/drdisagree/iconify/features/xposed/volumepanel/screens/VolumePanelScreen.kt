@@ -18,13 +18,13 @@ val volumePanelPreferences = preferenceScreen {
         switch(
             key = XposedKey.VOLUME_PANEL_PERCENTAGE,
             title = stringRes(R.string.volume_percentage_title),
-            summary = { _, _ -> stringRes(R.string.volume_percentage_desc) },
+            summary = { stringRes(R.string.volume_percentage_desc) },
         )
 
         switch(
             key = XposedKey.VOLUME_PANEL_SAFETY_WARNING,
             title = stringRes(R.string.safety_warning_title),
-            summary = { _, _ -> stringRes(R.string.safety_warning_desc) },
+            summary = { stringRes(R.string.safety_warning_desc) },
         )
     }
 }

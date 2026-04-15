@@ -42,9 +42,9 @@ fun xposedPreferences(
             key = "xposedBackgroundChip",
             icon = iconRes(R.drawable.ic_tweaks_statusbar),
             title = stringRes(R.string.activity_title_statusbar),
-            summary = { _, _ -> stringRes(R.string.activity_desc_statusbar) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Statusbar.Root) {
+            summary = { stringRes(R.string.activity_desc_statusbar) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Statusbar.Root) {
                     launchSingleTop = true
                 }
             }
@@ -54,9 +54,9 @@ fun xposedPreferences(
             key = "xposedQuickSettings",
             icon = iconRes(R.drawable.ic_xposed_quick_settings),
             title = stringRes(R.string.activity_title_quick_settings),
-            summary = { _, _ -> stringRes(R.string.activity_desc_quick_settings) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.QuickSettings.Root) {
+            summary = { stringRes(R.string.activity_desc_quick_settings) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Root) {
                     launchSingleTop = true
                 }
             }
@@ -66,9 +66,9 @@ fun xposedPreferences(
             key = "xposedLockscreen",
             icon = iconRes(R.drawable.ic_xposed_lockscreen),
             title = stringRes(R.string.activity_title_lockscreen),
-            summary = { _, _ -> stringRes(R.string.activity_desc_lockscreen) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.Root) {
+            summary = { stringRes(R.string.activity_desc_lockscreen) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Root) {
                     launchSingleTop = true
                 }
             }
@@ -78,9 +78,9 @@ fun xposedPreferences(
             key = "xposedVolumePanel",
             icon = iconRes(R.drawable.ic_tweaks_volume),
             title = stringRes(R.string.activity_title_volume_panel),
-            summary = { _, _ -> stringRes(R.string.activity_desc_volume_panel) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.VolumePanel) {
+            summary = { stringRes(R.string.activity_desc_volume_panel) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.VolumePanel) {
                     launchSingleTop = true
                 }
             }
@@ -90,8 +90,8 @@ fun xposedPreferences(
             key = "xposedLauncher",
             icon = iconRes(R.drawable.ic_launcher),
             title = stringRes(R.string.activity_title_xposed_launcher),
-            summary = { _, _ -> stringRes(R.string.activity_desc_xposed_launcher) },
-            onClick = { _, _, _ -> onLauncherClick() }
+            summary = { stringRes(R.string.activity_desc_xposed_launcher) },
+            onClick = { onLauncherClick() }
         )
     }
 }

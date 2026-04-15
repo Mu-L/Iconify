@@ -21,9 +21,9 @@ val lockscreenPreferences = preferenceScreen {
             key = "xposedLockscreenClock",
             icon = iconRes(R.drawable.ic_xposed_clock),
             title = stringRes(R.string.activity_title_lockscreen_clock),
-            summary = { _, _ -> stringRes(R.string.activity_desc_lockscreen_clock) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.Clock) {
+            summary = { stringRes(R.string.activity_desc_lockscreen_clock) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Clock) {
                     launchSingleTop = true
                 }
             }
@@ -33,9 +33,9 @@ val lockscreenPreferences = preferenceScreen {
             key = "xposedLockscreenWeather",
             icon = iconRes(R.drawable.ic_xposed_lockscreen_weather),
             title = stringRes(R.string.activity_title_lockscreen_weather),
-            summary = { _, _ -> stringRes(R.string.activity_desc_lockscreen_weather) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.Weather) {
+            summary = { stringRes(R.string.activity_desc_lockscreen_weather) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Weather) {
                     launchSingleTop = true
                 }
             }
@@ -45,9 +45,9 @@ val lockscreenPreferences = preferenceScreen {
             key = "xposedLockscreenWidgets",
             icon = iconRes(R.drawable.ic_xposed_lockscreen_widgets),
             title = stringRes(R.string.activity_title_lockscreen_widget),
-            summary = { _, _ -> stringRes(R.string.activity_desc_lockscreen_widget) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.Widgets.Root) {
+            summary = { stringRes(R.string.activity_desc_lockscreen_widget) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Widgets.Root) {
                     launchSingleTop = true
                 }
             }
@@ -57,9 +57,9 @@ val lockscreenPreferences = preferenceScreen {
             key = "xposedDepthWallpaper",
             icon = iconRes(R.drawable.ic_xposed_depth_wallpaper),
             title = stringRes(R.string.activity_title_depth_wallpaper),
-            summary = { _, _ -> stringRes(R.string.activity_desc_depth_wallpaper) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.DepthWallpaper) {
+            summary = { stringRes(R.string.activity_desc_depth_wallpaper) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Lockscreen.DepthWallpaper) {
                     launchSingleTop = true
                 }
             }
@@ -69,9 +69,9 @@ val lockscreenPreferences = preferenceScreen {
             key = "xposedAlbumArt",
             icon = iconRes(R.drawable.ic_xposed_album_art),
             title = stringRes(R.string.activity_title_lockscreen_album_art),
-            summary = { _, _ -> stringRes(R.string.media_art_summary) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.MediaAlbumArt) {
+            summary = { stringRes(R.string.media_art_summary) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Lockscreen.MediaAlbumArt) {
                     launchSingleTop = true
                 }
             }
@@ -82,7 +82,7 @@ val lockscreenPreferences = preferenceScreen {
         switch(
             key = XposedKey.LOCKSCREEN_WALLPAPER_BLUR,
             title = stringRes(R.string.ls_wallpaper_blur_title),
-            summary = { _, _ -> stringRes(R.string.ls_wallpaper_blur_desc) },
+            summary = { stringRes(R.string.ls_wallpaper_blur_desc) },
         )
 
         slider(
@@ -97,19 +97,19 @@ val lockscreenPreferences = preferenceScreen {
         switch(
             key = XposedKey.HIDE_LOCKSCREEN_LOCK_ICON,
             title = stringRes(R.string.hide_ls_lock_icon_title),
-            summary = { _, _ -> stringRes(R.string.hide_ls_lock_icon_desc) },
+            summary = { stringRes(R.string.hide_ls_lock_icon_desc) },
         )
 
         switch(
             key = XposedKey.HIDE_LOCKSCREEN_CARRIER,
             title = stringRes(R.string.hide_ls_carrier_title),
-            summary = { _, _ -> stringRes(R.string.hide_ls_carrier_desc) },
+            summary = { stringRes(R.string.hide_ls_carrier_desc) },
         )
 
         switch(
             key = XposedKey.HIDE_LOCKSCREEN_STATUSBAR,
             title = stringRes(R.string.hide_ls_statusbar_title),
-            summary = { _, _ -> stringRes(R.string.hide_ls_statusbar_desc) },
+            summary = { stringRes(R.string.hide_ls_statusbar_desc) },
         )
     }
 }

@@ -29,7 +29,8 @@ val headerImagePreferences = preferenceScreen {
             title = stringRes(R.string.header_image_title),
             pickerType = FilePickerType.Image,
             saveFileUri = true,
-            onFileSelected = { _, uriString ->
+            onFileSelected = {
+                val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
                     uriString.toUri().toXposedSharedPath(HEADER_IMAGE_FILE.name)
                 }
@@ -40,7 +41,7 @@ val headerImagePreferences = preferenceScreen {
         switch(
             key = XposedKey.HEADER_IMAGE_MAXIMUM_HEIGHT,
             title = stringRes("Maximum Height"),
-            summary = { _, _ -> stringRes("Show header image on full QS panel") },
+            summary = { stringRes("Show header image on full QS panel") },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) }
         )
 
@@ -75,21 +76,21 @@ val headerImagePreferences = preferenceScreen {
         switch(
             key = XposedKey.HEADER_IMAGE_ZOOM_TO_FIT,
             title = stringRes(R.string.header_image_zoom_to_fit_title),
-            summary = { _, _ -> stringRes(R.string.header_image_zoom_to_fit_desc) },
+            summary = { stringRes(R.string.header_image_zoom_to_fit_desc) },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) }
         )
 
         switch(
             key = XposedKey.HEADER_IMAGE_HIDE_IN_LANDSCAPE,
             title = stringRes(R.string.header_image_hide_in_landscape_title),
-            summary = { _, _ -> stringRes(R.string.header_image_hide_in_landscape_desc) },
+            summary = { stringRes(R.string.header_image_hide_in_landscape_desc) },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) }
         )
 
         switch(
             key = XposedKey.HEADER_IMAGE_HALF_WIDTH_IN_LANDSCAPE,
             title = stringRes(R.string.header_image_half_width_in_landscape_title),
-            summary = { _, _ -> stringRes(R.string.header_image_half_width_in_landscape_desc) },
+            summary = { stringRes(R.string.header_image_half_width_in_landscape_desc) },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) },
             isVisible = { !it.getBoolean(XposedKey.HEADER_IMAGE_HIDE_IN_LANDSCAPE) }
         )

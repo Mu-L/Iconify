@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.core.ui.components.preferences
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,14 +24,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.preferences.PrefParam
 import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceDefinition
 import com.drdisagree.iconify.core.preferences.PreferenceType
+import com.drdisagree.iconify.core.preferences.resolveOrNull
+import com.drdisagree.iconify.core.preferences.toValueOrNull
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.helpers.replaceAll
 import kotlin.math.roundToInt
@@ -38,16 +44,19 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SliderPreferenceItem(
-    def: PreferenceDefinition,
+    prefDefinition: PreferenceDefinition,
     prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
-    summary: String?,
     type: PreferenceType.Slider,
     modifier: Modifier,
 ) {
-    val defaultValue = (def.defaultValue as PrefValue.FloatValue).v
-    val persistedValue by prefController.observe(def.key, defaultValue)
+    val context = LocalContext.current
+    val activity = LocalActivity.current
+    val navController = LocalNavController.current
+
+    val defaultValue = (prefDefinition.defaultValue as PrefValue.FloatValue).v
+    val persistedValue by prefController.observe(prefDefinition.key, defaultValue)
     var sliderValue by remember { mutableFloatStateOf(persistedValue) }
     var previousLabel by remember { mutableStateOf<String?>(null) }
     val originalValueLabel = type.valueLabel?.invoke(sliderValue)
@@ -61,6 +70,18 @@ fun SliderPreferenceItem(
     } else {
         originalValueLabel
     }
+
+    val param = PrefParam(
+        prefDefinition.key,
+        prefDefinition.defaultValue.toValueOrNull(),
+        sliderValue,
+        context,
+        activity,
+        prefController,
+        navController
+    )
+
+    val summary = prefDefinition.summary?.invoke(param).resolveOrNull()
 
     val onValueChangeWithHaptic = withHaptic { /* no-op */ }
 
@@ -79,7 +100,7 @@ fun SliderPreferenceItem(
     }
 
     fun persistValue(value: Float) {
-        prefController.setFloat(def.key, value)
+        prefController.setFloat(prefDefinition.key, value)
     }
 
     PreferenceContainer(
@@ -93,8 +114,8 @@ fun SliderPreferenceItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                LeadingIcon(def.icon, isEnabled)
-                TitleSummaryBlock(def.title, summary, isEnabled)
+                LeadingIcon(prefDefinition.icon, isEnabled)
+                TitleSummaryBlock(prefDefinition.title, summary, isEnabled)
                 Text(
                     text = valueLabel,
                     style = MaterialTheme.typography.labelLarge,

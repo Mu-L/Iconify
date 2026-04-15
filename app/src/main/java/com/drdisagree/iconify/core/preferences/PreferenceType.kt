@@ -1,8 +1,6 @@
 package com.drdisagree.iconify.core.preferences
 
-import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
 
 sealed class PreferenceType {
@@ -30,7 +28,7 @@ sealed class PreferenceType {
     ) : PreferenceType()
 
     data class Action(
-        val onClick: (Context, PreferenceController, NavController) -> Unit
+        val onClick: (PrefParam<Any?>) -> Unit
     ) : PreferenceType()
 
     object EditText : PreferenceType()
@@ -40,11 +38,11 @@ sealed class PreferenceType {
     data class FilePicker(
         val pickerType: FilePickerType,
         val saveFileUri: Boolean,
-        val onFileSelected: suspend (PreferenceController, String) -> Unit
+        val onFileSelected: suspend (PrefParam<String>) -> Unit
     ) : PreferenceType()
 
     data class TwoTargetSwitch(
-        val onClick: (Context, PreferenceController, NavController) -> Unit
+        val onClick: (PrefParam<Boolean>) -> Unit
     ) : PreferenceType()
 
     data class Custom(val content: @Composable () -> Unit) : PreferenceType()

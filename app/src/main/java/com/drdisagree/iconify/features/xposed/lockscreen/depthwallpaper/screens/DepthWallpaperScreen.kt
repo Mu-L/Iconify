@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.features.xposed.lockscreen.depthwallpaper.screens
 
-import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -44,7 +43,6 @@ import com.drdisagree.iconify.helpers.toXposedSharedPath
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.BitmapSubjectSegmenter
 
 fun depthWallpaperPreferences(
-    context: Context? = null,
     mlKitAvailable: Boolean? = null,
     aiPluginInstalled: Boolean = false
 ) = preferenceScreen {
@@ -84,7 +82,7 @@ fun depthWallpaperPreferences(
         switch(
             key = XposedKey.DEPTH_WALLPAPER_CUSTOM_IMAGE,
             title = stringRes(R.string.enable_custom_depth_wallpaper_title),
-            summary = { _, _ -> stringRes(R.string.enable_custom_depth_wallpaper_desc) },
+            summary = { stringRes(R.string.enable_custom_depth_wallpaper_desc) },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_DEPTH_WALLPAPER) }
         )
 
@@ -100,8 +98,8 @@ fun depthWallpaperPreferences(
         action(
             key = "xposed_depthwallpaper_aistatus",
             title = stringRes(R.string.depth_wallpaper_ai_status),
-            summary = { prefs, _ ->
-                if (prefs.getString(XposedKey.DEPTH_WALLPAPER_AI_MODE) == "0") {
+            summary = {
+                if (it.prefController.getString(XposedKey.DEPTH_WALLPAPER_AI_MODE) == "0") {
                     when (mlKitAvailable) {
                         true -> stringRes(R.string.depth_wallpaper_model_ready)
                         false -> stringRes(R.string.depth_wallpaper_model_not_available)
@@ -115,30 +113,28 @@ fun depthWallpaperPreferences(
                     }
                 }
             },
-            onClick = { _, prefs, _ ->
-                if (prefs.getString(XposedKey.DEPTH_WALLPAPER_AI_MODE) != "0") {
+            onClick = {
+                if (it.prefController.getString(XposedKey.DEPTH_WALLPAPER_AI_MODE) != "0") {
                     if (aiPluginInstalled) {
-                        context?.startActivity(
-                            context
+                        it.context.startActivity(
+                            it.context
                                 .packageManager
                                 .getLaunchIntentForPackage(AI_PLUGIN_PACKAGE)!!
                         )
                     } else {
                         try {
-                            context?.startActivity(
+                            it.context.startActivity(
                                 Intent(
                                     Intent.ACTION_VIEW,
                                     AI_PLUGIN_URL.toUri()
                                 )
                             )
                         } catch (_: Exception) {
-                            context?.let {
                                 Toast.makeText(
-                                    it,
-                                    it.getString(R.string.toast_error),
+                                    it.context,
+                                    it.context.getString(R.string.toast_error),
                                     Toast.LENGTH_SHORT
                                 ).show()
-                            }
                         }
                     }
                 }
@@ -150,10 +146,11 @@ fun depthWallpaperPreferences(
         filePicker(
             key = XposedKey.DEPTH_WALLPAPER_BACKGROUND_IMAGE_FILE_URI,
             title = stringRes(R.string.background_image_title),
-            summary = { _, _ -> stringRes(R.string.background_image_desc) },
+            summary = { stringRes(R.string.background_image_desc) },
             pickerType = FilePickerType.Image,
             saveFileUri = true,
-            onFileSelected = { _, uriString ->
+            onFileSelected = {
+                val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
                     uriString.toUri().toXposedSharedPath(DEPTH_WALL_BG_FILE.name)
                 }
@@ -165,10 +162,11 @@ fun depthWallpaperPreferences(
         filePicker(
             key = XposedKey.DEPTH_WALLPAPER_FOREGROUND_IMAGE_FILE_URI,
             title = stringRes(R.string.foreground_image_title),
-            summary = { _, _ -> stringRes(R.string.foreground_image_desc) },
+            summary = { stringRes(R.string.foreground_image_desc) },
             pickerType = FilePickerType.Image,
             saveFileUri = true,
-            onFileSelected = { _, uriString ->
+            onFileSelected = {
+                val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
                     uriString.toUri().toXposedSharedPath(DEPTH_WALL_FG_FILE.name)
                 }
@@ -189,7 +187,7 @@ fun depthWallpaperPreferences(
         switch(
             key = XposedKey.DEPTH_WALLPAPER_SHOW_ON_AOD,
             title = stringRes(R.string.depth_wallpaper_on_aod_title),
-            summary = { _, _ -> stringRes(R.string.depth_wallpaper_on_aod_desc) },
+            summary = { stringRes(R.string.depth_wallpaper_on_aod_desc) },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_DEPTH_WALLPAPER) }
         )
     }
@@ -246,7 +244,6 @@ fun DepthWallpaperScreen(
     }
 
     DepthWallpaperScreenContent(
-        context = context,
         mlKitAvailable = mlKitAvailable,
         aiPluginInstalled = aiPluginInstalled
     )
@@ -254,12 +251,11 @@ fun DepthWallpaperScreen(
 
 @Composable
 private fun DepthWallpaperScreenContent(
-    context: Context? = null,
     mlKitAvailable: Boolean? = null,
     aiPluginInstalled: Boolean = false
 ) {
     PreferenceScreen(
-        items = depthWallpaperPreferences(context, mlKitAvailable, aiPluginInstalled),
+        items = depthWallpaperPreferences(mlKitAvailable, aiPluginInstalled),
         title = stringResource(R.string.activity_title_depth_wallpaper),
         showBackIcon = true
     )

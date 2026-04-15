@@ -23,19 +23,19 @@ val miscellaneousPreferences = preferenceScreen {
         switch(
             key = TweaksKey.TABLET_LANDSCAPE,
             title = stringRes(R.string.tablet_landscape_title),
-            summary = { _, _ -> stringRes(R.string.tablet_landscape_desc) }
+            summary = { stringRes(R.string.tablet_landscape_desc) }
         )
 
         switch(
             key = TweaksKey.TABLET_HEADER,
             title = stringRes(R.string.tablet_header_title),
-            summary = { _, _ -> stringRes(R.string.tablet_header_desc) }
+            summary = { stringRes(R.string.tablet_header_desc) }
         )
 
         switch(
             key = TweaksKey.NOTCH_BAR_KILLER,
             title = stringRes(R.string.notch_bar_killer_title),
-            summary = { _, _ -> stringRes(R.string.notch_bar_killer_desc) }
+            summary = { stringRes(R.string.notch_bar_killer_desc) }
         )
     }
 
@@ -43,7 +43,7 @@ val miscellaneousPreferences = preferenceScreen {
         switch(
             key = TweaksKey.ACCENT_PRIVACY_CHIP,
             title = stringRes(R.string.accent_privacy_chip_title),
-            summary = { _, _ -> stringRes(R.string.accent_privacy_chip_desc) }
+            summary = { stringRes(R.string.accent_privacy_chip_desc) }
         )
     }
 
@@ -51,7 +51,7 @@ val miscellaneousPreferences = preferenceScreen {
         switch(
             key = TweaksKey.DISABLE_PROGRESS_WAVE,
             title = stringRes(R.string.disable_progress_wave_title),
-            summary = { _, _ -> stringRes(R.string.disable_progress_wave_desc) }
+            summary = { stringRes(R.string.disable_progress_wave_desc) }
         )
     }
 }

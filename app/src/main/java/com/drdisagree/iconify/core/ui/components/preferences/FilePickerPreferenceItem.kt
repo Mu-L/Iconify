@@ -3,6 +3,7 @@ package com.drdisagree.iconify.core.ui.components.preferences
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -45,12 +46,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.preferences.PrefParam
 import com.drdisagree.iconify.core.preferences.PrefStringRes
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceDefinition
 import com.drdisagree.iconify.core.preferences.PreferenceType
 import com.drdisagree.iconify.core.preferences.resolve
+import com.drdisagree.iconify.core.preferences.resolveOrNull
 import com.drdisagree.iconify.core.preferences.stringRes
+import com.drdisagree.iconify.core.preferences.toValueOrNull
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import kotlinx.coroutines.launch
 
@@ -117,20 +122,34 @@ sealed class FilePickerType {
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FilePickerPreferenceItem(
-    def: PreferenceDefinition,
+    prefDefinition: PreferenceDefinition,
     prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
-    summary: String?,
     type: PreferenceType.FilePicker,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val activity = LocalActivity.current
+    val navController = LocalNavController.current
+
+    fun getParam(newValue: String) = PrefParam(
+        prefDefinition.key,
+        prefDefinition.defaultValue.toValueOrNull() ?: "",
+        newValue,
+        context,
+        activity,
+        prefController,
+        navController
+    )
+
     val scope = rememberCoroutineScope()
 
-    val uriString by prefController.observe(def.key, "")
+    val uriString by prefController.observe(prefDefinition.key, "")
     val uri: Uri? = remember(uriString) { uriString.takeIf { it.isNotEmpty() }?.let(Uri::parse) }
     val fileName: String? = remember(uri) { uri?.let { resolveFileName(context, it) } }
+
+    val summary = prefDefinition.summary?.invoke(getParam(uriString)).resolveOrNull()
 
     val isImageType = type.pickerType is FilePickerType.Image
     val isImage: Boolean = remember(uri) {
@@ -147,10 +166,12 @@ fun FilePickerPreferenceItem(
                     android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION,
                 )
             }
+
             val uriStr = pickedUri.toString()
+
             scope.launch {
-                type.onFileSelected(prefController, uriStr)
-                if (type.saveFileUri) prefController.setString(def.key, uriStr)
+                type.onFileSelected(getParam(uriStr))
+                if (type.saveFileUri) prefController.setString(prefDefinition.key, uriStr)
             }
         }
     }
@@ -166,9 +187,10 @@ fun FilePickerPreferenceItem(
                 )
             }
             val uriStr = pickedUri.toString()
+
             scope.launch {
-                type.onFileSelected(prefController, uriStr)
-                if (type.saveFileUri) prefController.setString(def.key, uriStr)
+                type.onFileSelected(getParam(uriStr))
+                if (type.saveFileUri) prefController.setString(prefDefinition.key, uriStr)
             }
         }
     }
@@ -196,8 +218,8 @@ fun FilePickerPreferenceItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                LeadingIcon(def.icon, isEnabled)
-                TitleSummaryBlock(def.title, summary, isEnabled)
+                LeadingIcon(prefDefinition.icon, isEnabled)
+                TitleSummaryBlock(prefDefinition.title, summary, isEnabled)
             }
 
             Spacer(Modifier.height(10.dp))
@@ -230,9 +252,10 @@ fun FilePickerPreferenceItem(
                     type = type.pickerType,
                     isEnabled = isEnabled,
                     onClear = withHaptic {
+
                         scope.launch {
-                            type.onFileSelected(prefController, "")
-                            if (type.saveFileUri) prefController.setString(def.key, "")
+                            type.onFileSelected(getParam(""))
+                            if (type.saveFileUri) prefController.setString(prefDefinition.key, "")
                         }
                     },
                 )

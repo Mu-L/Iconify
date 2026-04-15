@@ -26,35 +26,35 @@ val dualStatusbarPreferences = preferenceScreen {
         switch(
             key = XposedKey.DUAL_STATUSBAR_PORTRAIT_ONLY,
             title = stringRes(R.string.dsb_portrait_only_title),
-            summary = { _, _ -> stringRes("Display dual rows in portrait mode only") },
+            summary = { stringRes("Display dual rows in portrait mode only") },
             isEnabled = { it.getBoolean(XposedKey.DUAL_STATUSBAR) }
         )
 
         switch(
             key = XposedKey.DUAL_STATUSBAR_START_SIDE_SINGLE_ROW,
             title = stringRes(R.string.dsb_single_line_start_side_title),
-            summary = { _, _ -> stringRes(R.string.dsb_single_line_start_side_desc) },
+            summary = { stringRes(R.string.dsb_single_line_start_side_desc) },
             isEnabled = { it.getBoolean(XposedKey.DUAL_STATUSBAR) }
         )
 
         switch(
             key = XposedKey.DUAL_STATUSBAR_END_SIDE_SINGLE_ROW,
             title = stringRes(R.string.dsb_single_line_end_side_title),
-            summary = { _, _ -> stringRes(R.string.dsb_single_line_end_side_desc) },
+            summary = { stringRes(R.string.dsb_single_line_end_side_desc) },
             isEnabled = { it.getBoolean(XposedKey.DUAL_STATUSBAR) }
         )
 
         switch(
             key = XposedKey.DUAL_STATUSBAR_SWAP_START_SIDE,
             title = stringRes(R.string.dsb_swap_start_side_title),
-            summary = { _, _ -> stringRes(R.string.dsb_swap_start_side_desc) },
+            summary = { stringRes(R.string.dsb_swap_start_side_desc) },
             isEnabled = { it.getBoolean(XposedKey.DUAL_STATUSBAR) }
         )
 
         switch(
             key = XposedKey.DUAL_STATUSBAR_SWAP_END_SIDE,
             title = stringRes(R.string.dsb_swap_end_side_title),
-            summary = { _, _ -> stringRes(R.string.dsb_swap_end_side_desc) },
+            summary = { stringRes(R.string.dsb_swap_end_side_desc) },
             isEnabled = { it.getBoolean(XposedKey.DUAL_STATUSBAR) }
         )
     }

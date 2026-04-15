@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.core.ui.components.preferences
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -20,38 +21,54 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.core.common.LocalNavController
-import com.drdisagree.iconify.core.common.LocalPreferenceController
+import com.drdisagree.iconify.core.preferences.PrefParam
+import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceDefinition
 import com.drdisagree.iconify.core.preferences.PreferenceType
+import com.drdisagree.iconify.core.preferences.resolveOrNull
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.components.others.withHapticResult
 
 @Composable
 fun TwoTargetSwitchPreferenceItem(
-    def: PreferenceDefinition,
+    prefDefinition: PreferenceDefinition,
     prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
-    summary: String?,
     type: PreferenceType.TwoTargetSwitch,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val prefController = LocalPreferenceController.current
+    val activity = LocalActivity.current
     val navController = LocalNavController.current
 
-    val checked by prefController.observe(def.key, false)
+    val checked by prefController.observe(
+        prefDefinition.key,
+        (prefDefinition.defaultValue as PrefValue.BoolValue).v
+    )
+
+    val param = PrefParam(
+        prefDefinition.key,
+        prefDefinition.defaultValue.v,
+        checked,
+        context,
+        activity,
+        prefController,
+        navController
+    )
+
+    val summary = prefDefinition.summary?.invoke(param).resolveOrNull()
 
     PreferenceContainer(
         shape = shape,
         isEnabled = isEnabled,
         modifier = modifier,
         minLine = if (summary.isNullOrEmpty()) 1 else 2,
-        onClick = withHaptic { type.onClick(context, prefController, navController) }
+        onClick = withHaptic { type.onClick(param) }
     ) {
-        LeadingIcon(def.icon, isEnabled)
-        TitleSummaryBlock(def.title, summary, isEnabled)
+        LeadingIcon(prefDefinition.icon, isEnabled)
+        TitleSummaryBlock(prefDefinition.title, summary, isEnabled)
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -75,7 +92,7 @@ fun TwoTargetSwitchPreferenceItem(
                 checked = checked,
                 onCheckedChange = withHapticResult {
                     if (isEnabled) prefController.setBoolean(
-                        def.key,
+                        prefDefinition.key,
                         it as Boolean
                     )
                 },

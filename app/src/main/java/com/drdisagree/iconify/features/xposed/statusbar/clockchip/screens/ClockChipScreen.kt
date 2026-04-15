@@ -36,7 +36,7 @@ val clockChipPreferences = preferenceScreen {
         colorPicker(
             key = XposedKey.STATUSBAR_CLOCK_CHIP_TEXT_COLOR_CODE,
             title = stringRes(R.string.clock_text_color_picker_title),
-            summary = { _, _ -> stringRes(R.string.clock_text_color_picker_desc) },
+            summary = { stringRes(R.string.clock_text_color_picker_desc) },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) },
             isVisible = { it.getString(XposedKey.STATUSBAR_CLOCK_CHIP_TEXT_COLOR_OPTION) == "2" }
         )

@@ -42,11 +42,11 @@ fun lsWidgetsWeatherPreferences(
         action(
             key = "weather_update_status",
             title = stringRes(R.string.last_update_time),
-            summary = { _, _ ->
+            summary = {
                 if (updateStatusSummary != null) stringRes(updateStatusSummary)
                 else stringRes(R.string.not_available)
             },
-            onClick = { _, _, _ -> weatherViewModel?.onUpdateStatusClicked() },
+            onClick = { weatherViewModel?.onUpdateStatusClicked() },
         )
 
         listPref(
@@ -59,9 +59,8 @@ fun lsWidgetsWeatherPreferences(
         editText(
             key = XposedKey.WEATHER_OWM_KEY,
             title = stringRes(R.string.weather_api_key),
-            summary = { prefs, _ ->
-                val currentVal = prefs.getString(XposedKey.WEATHER_OWM_KEY)
-
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal.isEmpty()) stringRes("No key provided")
                 else stringRes(currentVal.maskKey())
             },
@@ -71,9 +70,8 @@ fun lsWidgetsWeatherPreferences(
         editText(
             key = XposedKey.WEATHER_YANDEX_KEY,
             title = stringRes(R.string.yandex_api_key),
-            summary = { prefs, _ ->
-                val currentVal = prefs.getString(XposedKey.WEATHER_YANDEX_KEY)
-
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal.isEmpty()) stringRes("No key provided")
                 else stringRes(currentVal.maskKey())
             },
@@ -90,16 +88,13 @@ fun lsWidgetsWeatherPreferences(
         twoTargetSwitch(
             key = XposedKey.WEATHER_CUSTOM_LOCATION,
             title = stringRes(R.string.custom_location_title),
-            summary = { prefs, key ->
-                val currentVal = prefs.getBoolean(
-                    key,
-                    XposedKey.WEATHER_CUSTOM_LOCATION.default as Boolean
-                )
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal) stringRes(R.string.general_on)
                 else stringRes(R.string.general_off)
             },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.Location) {
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Location) {
                     launchSingleTop = true
                 }
             },
@@ -108,8 +103,8 @@ fun lsWidgetsWeatherPreferences(
         action(
             key = XposedKey.WEATHER_ICON_PACK,
             title = stringRes(R.string.weather_icon_pack_title),
-            summary = { _, _ -> stringRes(selectedPackLabel) },
-            onClick = { _, _, _ -> onIconPackClick() },
+            summary = { stringRes(selectedPackLabel) },
+            onClick = { onIconPackClick() },
         )
     }
 }

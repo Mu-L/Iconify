@@ -10,14 +10,13 @@ import com.drdisagree.iconify.core.preferences.PreferenceType
 
 @Composable
 fun PreferenceItem(
-    definition: PreferenceDefinition,
+    prefDefinition: PreferenceDefinition,
     prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
-    summary: String?,
     modifier: Modifier = Modifier,
 ) {
-    when (val type = definition.type) {
+    when (val type = prefDefinition.type) {
         is PreferenceType.Custom -> {
             Box(modifier = modifier) {
                 type.content()
@@ -25,96 +24,88 @@ fun PreferenceItem(
         }
 
         is PreferenceType.Switch -> SwitchPreferenceItem(
-            def = definition,
+            prefDefinition = prefDefinition,
             prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
-            summary = summary,
             type = type,
             modifier = modifier
         )
 
         is PreferenceType.Slider -> SliderPreferenceItem(
-            def = definition,
+            prefDefinition = prefDefinition,
             prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
-            summary = summary,
             type = type,
             modifier = modifier
         )
 
         is PreferenceType.ListPref -> ListPreferenceItem(
-            def = definition,
+            prefDefinition = prefDefinition,
             prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
-            summary = summary,
             type = type,
             modifier = modifier
         )
 
         is PreferenceType.MultiList -> MultiListPreferenceItem(
-            def = definition,
+            prefDefinition = prefDefinition,
             prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
-            summary = summary,
             type = type,
             modifier = modifier
         )
 
         is PreferenceType.Action -> ActionPreferenceItem(
-            def = definition,
+            prefDefinition = prefDefinition,
+            prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
-            summary = summary,
             type = type,
             modifier = modifier
         )
 
         is PreferenceType.EditText -> EditTextPreferenceItem(
-            def = definition,
+            prefDefinition = prefDefinition,
             prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
-            summary = summary,
             modifier = modifier
         )
 
         is PreferenceType.TwoTargetSwitch -> TwoTargetSwitchPreferenceItem(
-            def = definition,
+            prefDefinition = prefDefinition,
             prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
-            summary = summary,
             type = type,
             modifier = modifier,
         )
 
         is PreferenceType.ColorPicker -> ColorPickerPreferenceItem(
-            def = definition,
+            prefDefinition = prefDefinition,
             prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
-            summary = summary,
             modifier = modifier
         )
 
         is PreferenceType.FilePicker -> FilePickerPreferenceItem(
-            def = definition,
+            prefDefinition = prefDefinition,
             prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
-            summary = summary,
             type = type,
             modifier = modifier
         )
 
         is PreferenceType.Info -> InfoPreferenceItem(
-            def = definition,
+            prefDefinition = prefDefinition,
+            prefController = prefController,
             isEnabled = isEnabled,
-            summary = summary,
             modifier = modifier
         )
     }

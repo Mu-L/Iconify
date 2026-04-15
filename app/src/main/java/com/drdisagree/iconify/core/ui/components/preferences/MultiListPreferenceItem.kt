@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.core.ui.components.preferences
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,27 +27,47 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.preferences.PrefParam
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceDefinition
 import com.drdisagree.iconify.core.preferences.PreferenceType
 import com.drdisagree.iconify.core.preferences.resolve
+import com.drdisagree.iconify.core.preferences.resolveOrNull
 import com.drdisagree.iconify.core.preferences.resolveToStrings
+import com.drdisagree.iconify.core.preferences.toValueOrNull
 import com.drdisagree.iconify.core.ui.components.others.ColumnScrollIndicator
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 
 @Composable
 fun MultiListPreferenceItem(
-    def: PreferenceDefinition,
+    prefDefinition: PreferenceDefinition,
     prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
-    summary: String?,
     type: PreferenceType.MultiList,
     modifier: Modifier,
 ) {
+    val context = LocalContext.current
+    val activity = LocalActivity.current
+    val navController = LocalNavController.current
+
     var showDialog by rememberSaveable { mutableStateOf(false) }
-    val selectedValues by prefController.observe(def.key, emptySet<String>())
+    val selectedValues by prefController.observe(prefDefinition.key, emptySet<String>())
+
+    val param = PrefParam(
+        prefDefinition.key,
+        prefDefinition.defaultValue.toValueOrNull(),
+        selectedValues,
+        context,
+        activity,
+        prefController,
+        navController
+    )
+
+    val summary = prefDefinition.summary?.invoke(param).resolveOrNull()
 
     val displaySummary = summary
         ?: selectedValues.mapNotNull { v ->
@@ -61,8 +82,8 @@ fun MultiListPreferenceItem(
         minLine = if (summary.isNullOrEmpty()) 1 else 2,
         onClick = withHaptic { if (isEnabled) showDialog = true }
     ) {
-        LeadingIcon(def.icon, isEnabled)
-        TitleSummaryBlock(def.title, displaySummary, isEnabled)
+        LeadingIcon(prefDefinition.icon, isEnabled)
+        TitleSummaryBlock(prefDefinition.title, displaySummary, isEnabled)
     }
 
     if (showDialog) {
@@ -70,7 +91,7 @@ fun MultiListPreferenceItem(
 
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text(def.title.resolve()) },
+            title = { Text(prefDefinition.title.resolve()) },
             text = {
                 val listState = rememberLazyListState()
                 val entries = type.entries.resolve()
@@ -149,7 +170,7 @@ fun MultiListPreferenceItem(
             confirmButton = {
                 TextButton(
                     onClick = withHaptic {
-                        prefController.setStringSet(def.key, localSelected)
+                        prefController.setStringSet(prefDefinition.key, localSelected)
                         showDialog = false
                     }
                 ) { Text("OK") }

@@ -39,7 +39,7 @@ fun colorEnginePreferences(
         colorPicker(
             key = TweaksKey.BASIC_COLOR_PRIMARY,
             title = stringRes(R.string.primary_color),
-            summary = { _, _ -> stringRes(R.string.primary_color_desc) },
+            summary = { stringRes(R.string.primary_color_desc) },
             isEnabled = {
                 !it.getBoolean(TweaksKey.MONET_ACCENT) &&
                         !it.getBoolean(TweaksKey.MONET_GRADIENT)
@@ -49,7 +49,7 @@ fun colorEnginePreferences(
         colorPicker(
             key = TweaksKey.BASIC_COLOR_SECONDARY,
             title = stringRes(R.string.secondary_color),
-            summary = { _, _ -> stringRes(R.string.secondary_color_desc) },
+            summary = { stringRes(R.string.secondary_color_desc) },
             isEnabled = {
                 !it.getBoolean(TweaksKey.MONET_ACCENT) &&
                         !it.getBoolean(TweaksKey.MONET_GRADIENT)
@@ -61,13 +61,13 @@ fun colorEnginePreferences(
         switch(
             key = TweaksKey.MONET_ACCENT,
             title = stringRes(R.string.apply_monet_accent_title),
-            summary = { _, _ -> stringRes(R.string.apply_monet_accent_desc) }
+            summary = { stringRes(R.string.apply_monet_accent_desc) }
         )
 
         switch(
             key = TweaksKey.MONET_GRADIENT,
             title = stringRes(R.string.apply_monet_gradient_title),
-            summary = { _, _ -> stringRes(R.string.apply_monet_gradient_desc) }
+            summary = { stringRes(R.string.apply_monet_gradient_desc) }
         )
     }
 
@@ -75,8 +75,8 @@ fun colorEnginePreferences(
         action(
             key = "advancedColorCustomization",
             title = stringRes("Advanced Settings"),
-            summary = { _, _ -> stringRes("Get advanced color customizations") },
-            onClick = { _, _, _ -> onAdvancedClick() }
+            summary = { stringRes("Get advanced color customizations") },
+            onClick = { onAdvancedClick() }
         )
     }
 }

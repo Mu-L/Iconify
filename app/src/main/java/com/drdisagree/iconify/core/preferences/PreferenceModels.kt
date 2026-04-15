@@ -50,7 +50,7 @@ data class PreferenceDefinition(
     val defaultValue: PrefValue,
     val type: PreferenceType,
     val icon: PrefIconRes? = null,
-    val summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
-    val isVisible: ((PreferenceController) -> Boolean) = { true },
-    val isEnabled: ((PreferenceController) -> Boolean) = { true },
+    val summary: ((PrefParam<Any?>) -> PrefStringRes?)? = null,
+    val isVisible: (PreferenceController) -> Boolean = { true },
+    val isEnabled: (PreferenceController) -> Boolean = { true },
 )

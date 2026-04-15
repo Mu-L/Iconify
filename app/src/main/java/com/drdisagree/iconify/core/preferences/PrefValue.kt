@@ -27,3 +27,17 @@ fun Any?.toPrefValue(): PrefValue {
         }
     }
 }
+
+inline fun <reified T> PrefValue.toValueOrNull(): T? {
+    val value = when (this) {
+        is PrefValue.BoolValue -> v
+        is PrefValue.IntValue -> v
+        is PrefValue.FloatValue -> v
+        is PrefValue.DoubleValue -> v
+        is PrefValue.StringValue -> v
+        is PrefValue.StringSetValue -> v
+        PrefValue.None -> null
+    }
+
+    return value as? T
+}

@@ -111,9 +111,9 @@ val lookAndFeelPreferences = preferenceScreen {
             title = stringRes(R.string.settings_app_theme),
             entries = arrayRes(themeModes.map { it.name }),
             entryValues = arrayRes(themeModes.map { it.themeMode.toString() }),
-            summary = { ctrl, key ->
-                val selected = ctrl.getString(key, SettingsKey.THEME_MODE.default as String).toInt()
-                themeModes.find { it.themeMode == selected }!!.name
+            summary = {
+                val selected = it.prefController.getString(it.key, it.defValue).toInt()
+                themeModes.find { mode -> mode.themeMode == selected }!!.name
             }
         )
 
@@ -130,9 +130,9 @@ val lookAndFeelPreferences = preferenceScreen {
                     .lowercase()
                     .replace(" ", "_")
             }.toList()),
-            summary = { ctrl, key ->
-                val v = ctrl.getString(key, "dynamic")
-                stringRes(v.replaceFirstChar { it.uppercase() })
+            summary = {
+                val v = it.prefController.getString(it.key, "dynamic")
+                stringRes(v.replaceFirstChar { char -> char.uppercase() })
             }
         )
 
@@ -142,18 +142,18 @@ val lookAndFeelPreferences = preferenceScreen {
             title = stringRes("Palette Style"),
             entries = arrayRes(paletteStyles.map { it.name }.toList()),
             entryValues = arrayRes(paletteStyles.map { it.paletteStyle.name }.toList()),
-            summary = { ctrl, key ->
-                val v = ctrl.getString(key, SettingsKey.PALETTE_STYLE.default as String)
-                paletteStyles.find { it.paletteStyle.name == v }!!.name
+            summary = {
+                val v = it.prefController.getString(it.key, it.defValue)
+                paletteStyles.find { style -> style.paletteStyle.name == v }!!.name
             },
-            isVisible = { ctrl -> ctrl.getString("theme_color", "dynamic") != "dynamic" }
+            isVisible = { it.getString("theme_color", "dynamic") != "dynamic" }
         )
 
         switch(
             key = SettingsKey.AMOLED_THEME,
             icon = iconRes(Icons.Rounded.NightsStay),
             title = stringRes("Amoled Mode"),
-            summary = { _, _ -> stringRes("Black background in dark mode") },
+            summary = { stringRes("Black background in dark mode") },
             isVisible = { ctrl -> ctrl.getString("theme_color", "dynamic") != "dynamic" }
         )
 
@@ -161,7 +161,7 @@ val lookAndFeelPreferences = preferenceScreen {
             key = SettingsKey.EXPRESSIVE_COLORS,
             icon = iconRes(Icons.Rounded.WaterDrop),
             title = stringRes("Expressive Colors"),
-            summary = { _, _ -> stringRes("Use colors that are more chromatic") },
+            summary = { stringRes("Use colors that are more chromatic") },
             isVisible = { ctrl ->
                 ctrl.getString("theme_color", "dynamic") != "dynamic" &&
                         ctrl.getString(SettingsKey.PALETTE_STYLE) in listOf(
@@ -179,12 +179,12 @@ val lookAndFeelPreferences = preferenceScreen {
             title = stringRes("Contrast Level"),
             entries = arrayRes(contrastLevels.map { it.name }),
             entryValues = arrayRes(contrastLevels.map { it.contrast.value.toString() }),
-            summary = { ctrl, key ->
+            summary = {
                 val selected =
-                    ctrl.getString(key, SettingsKey.CONTRAST_LEVEL.default as String).toDouble()
-                contrastLevels.find { it.contrast.value == selected }!!.name
+                    it.prefController.getString(it.key, it.defValue).toDouble()
+                contrastLevels.find { level -> level.contrast.value == selected }!!.name
             },
-            isVisible = { ctrl -> ctrl.getString("theme_color", "dynamic") != "dynamic" }
+            isVisible = { it.getString("theme_color", "dynamic") != "dynamic" }
         )
     }
 
@@ -193,21 +193,21 @@ val lookAndFeelPreferences = preferenceScreen {
             key = SettingsKey.BLUR_EFFECT,
             icon = iconRes(Icons.Rounded.BlurOn),
             title = stringRes("Blur Effect"),
-            summary = { _, _ -> stringRes("Apply a blur effect to backgrounds and UI elements") },
+            summary = { stringRes("Apply a blur effect to backgrounds and UI elements") },
         )
 
         switch(
             key = SettingsKey.FLOATING_BOTTOM_BAR,
             icon = iconRes(Icons.Rounded.SpaceBar),
             title = stringRes("Floating Bottom Bar"),
-            summary = { _, _ -> stringRes("Make the bottom bar float over content") },
+            summary = { stringRes("Make the bottom bar float over content") },
         )
 
         slider(
             key = SettingsKey.UI_SCALE,
             icon = iconRes(Icons.Rounded.PhotoSizeSelectLarge),
             title = stringRes("Display Scale"),
-            summary = { _, _ -> stringRes("Change the size of UI elements") },
+            summary = { stringRes("Change the size of UI elements") },
             min = 0.5f,
             max = 1.2f,
             steps = 6,
@@ -221,7 +221,7 @@ val lookAndFeelPreferences = preferenceScreen {
             key = SettingsKey.TEXT_SCALE,
             icon = iconRes(Icons.Rounded.FormatSize),
             title = stringRes("Text Scale"),
-            summary = { _, _ -> stringRes("Change the size of text") },
+            summary = { stringRes("Change the size of text") },
             min = 0.5f,
             max = 2f,
             steps = 14,

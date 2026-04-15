@@ -35,10 +35,11 @@ val headerClockPreferences = preferenceScreen {
         filePicker(
             key = XposedKey.HEADER_CLOCK_FONT_FILE_URI,
             title = stringRes(R.string.header_clock_font_title),
-            summary = { _, _ -> stringRes(R.string.header_clock_font_desc) },
+            summary = { stringRes(R.string.header_clock_font_desc) },
             pickerType = FilePickerType.Font,
             saveFileUri = true,
-            onFileSelected = { _, uriString ->
+            onFileSelected = {
+                val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
                     uriString.toUri().toXposedSharedPath(HEADER_CLOCK_FONT_FILE.name)
                 }
@@ -51,14 +52,14 @@ val headerClockPreferences = preferenceScreen {
         switch(
             key = XposedKey.HEADER_CLOCK_CENTER_VIEW,
             title = stringRes(R.string.header_clock_center_clock_title),
-            summary = { _, _ -> stringRes(R.string.header_clock_center_clock_desc) },
+            summary = { stringRes(R.string.header_clock_center_clock_desc) },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_CLOCK) }
         )
 
         switch(
             key = XposedKey.HEADER_CLOCK_HALF_WIDTH_IN_LANDSCAPE,
             title = stringRes(R.string.header_clock_half_width_in_landscape_title),
-            summary = { _, _ -> stringRes(R.string.header_clock_half_width_in_landscape_desc) },
+            summary = { stringRes(R.string.header_clock_half_width_in_landscape_desc) },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_CLOCK) },
         )
     }
@@ -115,7 +116,7 @@ val headerClockPreferences = preferenceScreen {
         switch(
             key = XposedKey.HEADER_CLOCK_CUSTOM_COLOR,
             title = stringRes(R.string.custom_header_clock_color_title),
-            summary = { _, _ -> stringRes(R.string.custom_header_clock_color_desc) },
+            summary = { stringRes(R.string.custom_header_clock_color_desc) },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_CLOCK) }
         )
 

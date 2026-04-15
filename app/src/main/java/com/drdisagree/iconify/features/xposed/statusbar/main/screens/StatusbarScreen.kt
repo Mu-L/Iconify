@@ -21,9 +21,9 @@ val statusbarPreferences = preferenceScreen {
         twoTargetSwitch(
             key = XposedKey.STATUSBAR_CLOCK_CHIP,
             title = stringRes(R.string.activity_title_background_chip),
-            summary = { _, _ -> stringRes(R.string.activity_desc_background_chip) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Statusbar.ClockChip) {
+            summary = { stringRes(R.string.activity_desc_background_chip) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Statusbar.ClockChip) {
                     launchSingleTop = true
                 }
             }
@@ -39,13 +39,13 @@ val statusbarPreferences = preferenceScreen {
         switch(
             key = XposedKey.STATUSBAR_CLOCK_CLICKABLE,
             title = stringRes(R.string.statusbar_clock_clickable_title),
-            summary = { _, _ -> stringRes(R.string.statusbar_clock_clickable_desc) },
+            summary = { stringRes(R.string.statusbar_clock_clickable_desc) },
         )
 
         switch(
             key = XposedKey.STATUSBAR_CLOCK_TEXT_SIZE_SWITCH,
             title = stringRes(R.string.sb_clock_size_switch_title),
-            summary = { _, _ -> stringRes(R.string.sb_clock_size_switch_desc) },
+            summary = { stringRes(R.string.sb_clock_size_switch_desc) },
         )
 
         slider(
@@ -61,7 +61,7 @@ val statusbarPreferences = preferenceScreen {
         switch(
             key = XposedKey.HIDE_BATTERY_VIEW,
             title = stringRes(R.string.hide_battery_title),
-            summary = { _, _-> stringRes("Hide battery icon from statusbar") },
+            summary = { stringRes("Hide battery icon from statusbar") },
         )
     }
 
@@ -69,9 +69,9 @@ val statusbarPreferences = preferenceScreen {
         twoTargetSwitch(
             key = XposedKey.STATUSBAR_LOGO,
             title = stringRes(R.string.status_bar_logo_title),
-            summary = { _, _ -> stringRes(R.string.status_bar_logo_desc) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Statusbar.Logo) {
+            summary = { stringRes(R.string.status_bar_logo_desc) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Statusbar.Logo) {
                     launchSingleTop = true
                 }
             }
@@ -80,25 +80,25 @@ val statusbarPreferences = preferenceScreen {
         switch(
             key = XposedKey.COLORED_STATUSBAR_ICON,
             title = stringRes(R.string.colored_statusbar_icon_title),
-            summary = { _, _ -> stringRes(R.string.colored_statusbar_icon_desc) },
+            summary = { stringRes(R.string.colored_statusbar_icon_desc) },
         )
 
         switch(
             key = XposedKey.STATUSBAR_SWAP_WIFI_CELLULAR,
             title = stringRes(R.string.sb_swap_wifi_cellular_title),
-            summary = { _, _ -> stringRes(R.string.sb_swap_wifi_cellular_desc) },
+            summary = { stringRes(R.string.sb_swap_wifi_cellular_desc) },
         )
 
         switch(
             key = XposedKey.STATUSBAR_SWAP_CELLULAR_NETWORK_TYPE,
             title = stringRes(R.string.sb_swap_cellular_network_type_title),
-            summary = { _, _ -> stringRes(R.string.sb_swap_cellular_network_type_desc) },
+            summary = { stringRes(R.string.sb_swap_cellular_network_type_desc) },
         )
 
         switch(
             key = XposedKey.SHOW_4G_INSTEAD_OF_LTE,
             title = stringRes(R.string.sb_show_4g_icon_title),
-            summary = { _, _ -> stringRes(R.string.sb_show_4g_icon_desc) },
+            summary = { stringRes(R.string.sb_show_4g_icon_desc) },
         )
 
         slider(
@@ -118,9 +118,9 @@ val statusbarPreferences = preferenceScreen {
         twoTargetSwitch(
             key = XposedKey.DUAL_STATUSBAR,
             title = stringRes(R.string.dual_status_bar_title),
-            summary = { _, _ -> stringRes(R.string.dual_status_bar_desc) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Statusbar.DualStatusbar) {
+            summary = { stringRes(R.string.dual_status_bar_desc) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Statusbar.DualStatusbar) {
                     launchSingleTop = true
                 }
             }
@@ -129,7 +129,7 @@ val statusbarPreferences = preferenceScreen {
         switch(
             key = XposedKey.ONGOING_ACTION_CHIP,
             title = stringRes(R.string.ongoing_action_chip_title),
-            summary = { _, _ -> stringRes(R.string.ongoing_action_chip_desc) },
+            summary = { stringRes(R.string.ongoing_action_chip_desc) },
         )
     }
 }

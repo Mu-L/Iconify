@@ -18,9 +18,9 @@ val tweaksPreferences = preferenceScreen {
             key = "colorEngine",
             icon = iconRes(R.drawable.ic_tweaks_color),
             title = stringRes(R.string.activity_title_color_engine),
-            summary = { _, _ -> stringRes(R.string.activity_desc_color_engine) },
-            onClick = { _, _, navController ->
-                navController.navigate(NavRoutes.Home.More.ColorEngine) {
+            summary = { stringRes(R.string.activity_desc_color_engine) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Home.More.ColorEngine) {
                     launchSingleTop = true
                 }
             }
@@ -30,41 +30,41 @@ val tweaksPreferences = preferenceScreen {
             key = "uiRoundness",
             icon = iconRes(R.drawable.ic_tweaks_roundness),
             title = stringRes(R.string.activity_title_ui_roundness),
-            summary = { _, _ -> stringRes(R.string.activity_desc_ui_roundness) },
-            onClick = { context, _, _ -> showComingSoonToast(context) }
+            summary = { stringRes(R.string.activity_desc_ui_roundness) },
+            onClick = { showComingSoonToast(it.context) }
         )
 
         //        action(
         //            key = "coloredBattery",
         //            icon = iconRes(R.drawable.ic_colored_battery),
         //            title = stringRes(R.string.activity_title_colored_battery),
-        //            summary = { _, _ -> stringRes(R.string.activity_desc_colored_battery) },
-        //            onClick = { _, _, _ -> }
+        //            summary = { stringRes(R.string.activity_desc_colored_battery) },
+        //            onClick = { }
         //        )
 
         //        action(
         //            key = "qsIconLabel",
         //            icon = iconRes(R.drawable.ic_qs_icon_and_label),
         //            title = stringRes(R.string.activity_title_qs_icon_label),
-        //            summary = { _, _ -> stringRes(R.string.activity_desc_qs_icon_label) },
-        //            onClick = { _, _, _ -> }
+        //            summary = { stringRes(R.string.activity_desc_qs_icon_label) },
+        //            onClick = { }
         //        )
 
         //        action(
         //            key = "qsTileSize",
         //            icon = iconRes(R.drawable.ic_qs_tile_size),
         //            title = stringRes(R.string.activity_title_qs_tile_size),
-        //            summary = { _, _ -> stringRes(R.string.activity_desc_qs_tile_size) },
-        //            onClick = { _, _, _ -> }
+        //            summary = { stringRes(R.string.activity_desc_qs_tile_size) },
+        //            onClick = { }
         //        )
 
         action(
             key = "statusBarTweaks",
             icon = iconRes(R.drawable.ic_tweaks_statusbar),
             title = stringRes(R.string.activity_title_statusbar),
-            summary = { _, _ -> stringRes(R.string.activity_desc_statusbar) },
-            onClick = { _, _, navController ->
-                navController.navigate(NavRoutes.Home.More.StatusBar) {
+            summary = { stringRes(R.string.activity_desc_statusbar) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Home.More.StatusBar) {
                     launchSingleTop = true
                 }
             }
@@ -74,33 +74,33 @@ val tweaksPreferences = preferenceScreen {
             key = "navBarTweaks",
             icon = iconRes(R.drawable.ic_tweaks_navbar),
             title = stringRes(R.string.activity_title_navigation_bar),
-            summary = { _, _ -> stringRes(R.string.activity_desc_navigation_bar) },
-            onClick = { context, _, _ -> showComingSoonToast(context) }
+            summary = { stringRes(R.string.activity_desc_navigation_bar) },
+            onClick = { showComingSoonToast(it.context) }
         )
 
         //        action(
         //            key = "mediaPlayerTweaks",
         //            title = stringRes(R.string.activity_title_media_player),
         //            icon = iconRes(R.drawable.ic_tweaks_media),
-        //            summary = { _, _ -> stringRes(R.string.activity_desc_media_player) },
-        //            onClick = { _, _, _ -> }
+        //            summary = { stringRes(R.string.activity_desc_media_player) },
+        //            onClick = { }
         //        )
 
         //        action(
         //            key = "volumePanelTweaks",
         //            icon = iconRes(R.drawable.ic_tweaks_volume),
         //            title = stringRes(R.string.activity_title_volume_panel),
-        //            summary = { _, _ -> stringRes(R.string.activity_desc_volume_panel) },
-        //            onClick = { _, _, _ -> }
+        //            summary = { stringRes(R.string.activity_desc_volume_panel) },
+        //            onClick = { }
         //        )
 
         action(
             key = "miscellaneousTweaks",
             icon = iconRes(R.drawable.ic_tweaks_miscellaneous),
             title = stringRes(R.string.activity_title_miscellaneous),
-            summary = { _, _ -> stringRes(R.string.activity_desc_miscellaneous) },
-            onClick = { _, _, navController ->
-                navController.navigate(NavRoutes.Home.More.Miscellaneous) {
+            summary = { stringRes(R.string.activity_desc_miscellaneous) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Home.More.Miscellaneous) {
                     launchSingleTop = true
                 }
             }

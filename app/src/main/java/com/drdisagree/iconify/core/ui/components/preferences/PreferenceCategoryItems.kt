@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.core.preferences.PreferenceCategoryDefinition
 import com.drdisagree.iconify.core.preferences.PreferenceController
-import com.drdisagree.iconify.core.preferences.resolveOrNull
 import com.drdisagree.iconify.core.ui.components.others.animatedPreferenceShape
 import com.drdisagree.iconify.core.ui.utils.CARD_ITEM_SPACING
 import com.drdisagree.iconify.core.ui.utils.resolvePosition
@@ -41,27 +40,25 @@ fun LazyListScope.preferenceCategoryItems(
         items = category.preferences,
         key = { _, pref -> pref.key },
         contentType = { _, pref -> pref.type::class.simpleName },
-    ) { index, pref ->
+    ) { index, prefDefinition ->
         val isVisible = index in visibleIndices
         val position = resolvePosition(visibleIndices, index)
         val shape = animatedPreferenceShape(position)
-        val firstLoad = firstLoadMap[pref.key] ?: false
+        val firstLoad = firstLoadMap[prefDefinition.key] ?: false
 
         AnimatedVisibility(
             visible = isVisible,
             enter = if (firstLoad) EnterTransition.None else fadeIn() + expandVertically(),
             exit = if (firstLoad) ExitTransition.None else fadeOut() + shrinkVertically(),
         ) {
-            val isEnabled = pref.isEnabled(prefController)
-            val summary = pref.summary?.invoke(prefController, pref.key).resolveOrNull()
+            val isEnabled = prefDefinition.isEnabled(prefController)
             val topPad = if (index == visibleIndices.firstOrNull()) 0.dp else CARD_ITEM_SPACING
 
             PreferenceItem(
-                definition = pref,
+                prefDefinition = prefDefinition,
                 prefController = prefController,
                 shape = shape,
                 isEnabled = isEnabled,
-                summary = summary,
                 modifier = Modifier.padding(top = topPad),
             )
         }

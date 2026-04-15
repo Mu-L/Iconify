@@ -1,14 +1,14 @@
 package com.drdisagree.iconify.core.preferences
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavController
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
 import com.drdisagree.iconify.data.keys.Key
 import com.materialkolor.ktx.toHex
 
+@Suppress("UNCHECKED_CAST", "unused")
 class PreferenceCategoryScope {
+
     val prefs = mutableListOf<PreferenceDefinition>()
 
     fun composable(
@@ -45,13 +45,19 @@ class PreferenceCategoryScope {
         icon: PrefIconRes? = null,
         title: PrefStringRes,
         defaultValue: Boolean = false,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<Boolean>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key, title, defaultValue.toPrefValue(), PreferenceType.Switch(isMasterSwitch),
-            icon, summary, isVisible, isEnabled
+            key = key,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.Switch(isMasterSwitch),
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -61,30 +67,43 @@ class PreferenceCategoryScope {
         icon: PrefIconRes? = null,
         title: PrefStringRes,
         defaultValue: Boolean = key.default as? Boolean ?: false,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<Boolean>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key.name, title, defaultValue.toPrefValue(), PreferenceType.Switch(isMasterSwitch),
-            icon, summary, isVisible, isEnabled
+            key = key.name,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.Switch(isMasterSwitch),
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
+    // twoTargetSwitch: onClick always receives a Boolean value — T is only for the
+    // visibility/summary lambdas, not for the click handler.
     fun twoTargetSwitch(
         key: String,
         icon: PrefIconRes? = null,
         title: PrefStringRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<Boolean>) -> PrefStringRes?)? = null,
         defaultValue: Boolean = false,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
-        onClick: (Context, PreferenceController, NavController) -> Unit,
+        onClick: (PrefParam<Boolean>) -> Unit,
     ) = prefs.add(
         PreferenceDefinition(
-            key, title, defaultValue.toPrefValue(),
-            PreferenceType.TwoTargetSwitch(onClick),
-            icon, summary, isVisible, isEnabled
+            key = key,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.TwoTargetSwitch(onClick),
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -92,16 +111,21 @@ class PreferenceCategoryScope {
         key: Key,
         icon: PrefIconRes? = null,
         title: PrefStringRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<Boolean>) -> PrefStringRes?)? = null,
         defaultValue: Boolean = key.default as? Boolean ?: false,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
-        onClick: (Context, PreferenceController, NavController) -> Unit,
+        onClick: (PrefParam<Boolean>) -> Unit,
     ) = prefs.add(
         PreferenceDefinition(
-            key.name, title, defaultValue.toPrefValue(),
-            PreferenceType.TwoTargetSwitch(onClick),
-            icon, summary, isVisible, isEnabled
+            key = key.name,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.TwoTargetSwitch(onClick),
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -118,17 +142,22 @@ class PreferenceCategoryScope {
         showResetButton: Boolean = false,
         showDefaultIndicator: Boolean = false,
         hideDefaultValue: Boolean = false,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<Float>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key, title, defaultValue.toPrefValue(),
-            PreferenceType.Slider(
+            key = key,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.Slider(
                 min, max, steps, valueLabel, applyImmediately,
                 showResetButton, showDefaultIndicator, hideDefaultValue
             ),
-            icon, summary, isVisible, isEnabled
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -145,17 +174,22 @@ class PreferenceCategoryScope {
         showResetButton: Boolean = false,
         showDefaultIndicator: Boolean = false,
         hideDefaultValue: Boolean = false,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<Float>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key.name, title, defaultValue.toPrefValue(),
-            PreferenceType.Slider(
+            key = key.name,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.Slider(
                 min, max, steps, valueLabel, applyImmediately,
                 showResetButton, showDefaultIndicator, hideDefaultValue
             ),
-            icon, summary, isVisible, isEnabled
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -166,14 +200,19 @@ class PreferenceCategoryScope {
         defaultValue: String = "",
         entries: PrefArrayRes,
         entryValues: PrefArrayRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<String>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key, title, defaultValue.toPrefValue(),
-            PreferenceType.ListPref(entries, entryValues),
-            icon, summary, isVisible, isEnabled
+            key = key,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.ListPref(entries, entryValues),
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -184,14 +223,19 @@ class PreferenceCategoryScope {
         defaultValue: String = key.default as? String ?: "",
         entries: PrefArrayRes,
         entryValues: PrefArrayRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<String>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key.name, title, defaultValue.toPrefValue(),
-            PreferenceType.ListPref(entries, entryValues),
-            icon, summary, isVisible, isEnabled
+            key = key.name,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.ListPref(entries, entryValues),
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -202,18 +246,22 @@ class PreferenceCategoryScope {
         defaultValue: Set<String> = emptySet(),
         entries: PrefArrayRes,
         entryValues: PrefArrayRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<Set<String>>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key, title, defaultValue.toPrefValue(),
-            PreferenceType.MultiList(entries, entryValues),
-            icon, summary, isVisible, isEnabled
+            key = key,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.MultiList(entries, entryValues),
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
-    @Suppress("UNCHECKED_CAST")
     fun multiList(
         key: Key,
         icon: PrefIconRes? = null,
@@ -221,14 +269,19 @@ class PreferenceCategoryScope {
         defaultValue: Set<String> = key.default as? Set<String> ?: emptySet(),
         entries: PrefArrayRes,
         entryValues: PrefArrayRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<Set<String>>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key.name, title, defaultValue.toPrefValue(),
-            PreferenceType.MultiList(entries, entryValues),
-            icon, summary, isVisible, isEnabled
+            key = key.name,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.MultiList(entries, entryValues),
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -237,13 +290,19 @@ class PreferenceCategoryScope {
         icon: PrefIconRes? = null,
         title: PrefStringRes,
         defaultValue: String = "",
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<String>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key, title, defaultValue.toPrefValue(), PreferenceType.EditText,
-            icon, summary, isVisible, isEnabled
+            key = key,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.EditText,
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -252,13 +311,19 @@ class PreferenceCategoryScope {
         icon: PrefIconRes? = null,
         title: PrefStringRes,
         defaultValue: String = key.default as? String ?: "",
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<String>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key.name, title, defaultValue.toPrefValue(), PreferenceType.EditText,
-            icon, summary, isVisible, isEnabled
+            key = key.name,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.EditText,
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -267,13 +332,19 @@ class PreferenceCategoryScope {
         icon: PrefIconRes? = null,
         title: PrefStringRes,
         defaultValue: String = Color.White.toHex(),
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<String>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key, title, defaultValue.toPrefValue(), PreferenceType.ColorPicker,
-            icon, summary, isVisible, isEnabled
+            key = key,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.ColorPicker,
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -282,33 +353,45 @@ class PreferenceCategoryScope {
         icon: PrefIconRes? = null,
         title: PrefStringRes,
         defaultValue: String = key.default as? String ?: Color.White.toHex(),
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<String>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key.name, title, defaultValue.toPrefValue(), PreferenceType.ColorPicker,
-            icon, summary, isVisible, isEnabled
+            key = key.name,
+            title = title,
+            defaultValue = defaultValue.toPrefValue(),
+            type = PreferenceType.ColorPicker,
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
+    // filePicker: the selected value is always a file URI string, so T is always
+    // String here. The separate <T> on summary/isVisible is no longer needed;
+    // collapse to a single concrete signature.
     fun filePicker(
         key: String,
         icon: PrefIconRes? = null,
         title: PrefStringRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<String>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
         pickerType: FilePickerType = FilePickerType.Any,
         saveFileUri: Boolean = false,
-        onFileSelected: suspend (PreferenceController, String) -> Unit = { _, _ -> },
+        onFileSelected: suspend (PrefParam<String>) -> Unit = {},
     ) = prefs.add(
         PreferenceDefinition(
-            key,
-            title,
-            PrefValue.None,
-            PreferenceType.FilePicker(pickerType, saveFileUri, onFileSelected),
-            icon, summary, isVisible, isEnabled
+            key = key,
+            title = title,
+            defaultValue = PrefValue.None,
+            type = PreferenceType.FilePicker(pickerType, saveFileUri, onFileSelected),
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -316,19 +399,22 @@ class PreferenceCategoryScope {
         key: Key,
         icon: PrefIconRes? = null,
         title: PrefStringRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<String>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
         pickerType: FilePickerType = FilePickerType.Any,
         saveFileUri: Boolean = false,
-        onFileSelected: suspend (PreferenceController, String) -> Unit = { _, _ -> },
+        onFileSelected: suspend (PrefParam<String>) -> Unit = {},
     ) = prefs.add(
         PreferenceDefinition(
-            key.name,
-            title,
-            PrefValue.None,
-            PreferenceType.FilePicker(pickerType, saveFileUri, onFileSelected),
-            icon, summary, isVisible, isEnabled
+            key = key.name,
+            title = title,
+            defaultValue = PrefValue.None,
+            type = PreferenceType.FilePicker(pickerType, saveFileUri, onFileSelected),
+            icon = icon,
+            summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -336,15 +422,20 @@ class PreferenceCategoryScope {
         key: String,
         icon: PrefIconRes? = null,
         title: PrefStringRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<*>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
-        onClick: (Context, PreferenceController, NavController) -> Unit,
+        onClick: (PrefParam<Any?>) -> Unit,
     ) = prefs.add(
         PreferenceDefinition(
-            key, title, PrefValue.None,
-            PreferenceType.Action(onClick),
-            icon, summary, isVisible, isEnabled
+            key = key,
+            title = title,
+            defaultValue = PrefValue.None,
+            type = PreferenceType.Action(onClick),
+            icon = icon,
+            summary = summary,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -352,15 +443,20 @@ class PreferenceCategoryScope {
         key: Key,
         icon: PrefIconRes? = null,
         title: PrefStringRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        summary: ((PrefParam<*>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
-        onClick: (Context, PreferenceController, NavController) -> Unit,
+        onClick: (PrefParam<Any?>) -> Unit,
     ) = prefs.add(
         PreferenceDefinition(
-            key.name, title, PrefValue.None,
-            PreferenceType.Action(onClick),
-            icon, summary, isVisible, isEnabled
+            key = key.name,
+            title = title,
+            defaultValue = PrefValue.None,
+            type = PreferenceType.Action(onClick),
+            icon = icon,
+            summary = summary,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -372,8 +468,13 @@ class PreferenceCategoryScope {
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key, text, PrefValue.None, PreferenceType.Info,
-            icon, null, isVisible, isEnabled
+            key = key,
+            title = text,
+            defaultValue = PrefValue.None,
+            type = PreferenceType.Info,
+            icon = icon,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 
@@ -385,8 +486,13 @@ class PreferenceCategoryScope {
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
-            key.name, text, PrefValue.None, PreferenceType.Info,
-            icon, null, isVisible, isEnabled
+            key = key.name,
+            title = text,
+            defaultValue = PrefValue.None,
+            type = PreferenceType.Info,
+            icon = icon,
+            isVisible = isVisible,
+            isEnabled = isEnabled,
         )
     )
 }

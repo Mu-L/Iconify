@@ -41,7 +41,7 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean = false) = preference
         switch(
             key = XposedKey.LOCKSCREEN_WIDGETS_DEVICE_INFO_WIDGET,
             title = stringRes(R.string.lockscreen_display_widgets_title),
-            summary = { _, _ -> stringRes(R.string.lockscreen_display_widgets_summary) },
+            summary = { stringRes(R.string.lockscreen_display_widgets_summary) },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WIDGETS) }
         )
 
@@ -94,9 +94,8 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean = false) = preference
         editText(
             key = XposedKey.LOCKSCREEN_WIDGETS_CUSTOM_DEVICE_NAME,
             title = stringRes(R.string.custom_device_name),
-            summary = { prefs, _ ->
-                val currentVal = prefs.getString(XposedKey.LOCKSCREEN_WIDGETS_CUSTOM_DEVICE_NAME)
-
+            summary = {
+                val currentVal = it.newValue
                 if (currentVal.isNotEmpty()) stringRes(currentVal)
                 else stringRes(R.string.custom_device_name_summary)
             },
@@ -225,8 +224,8 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean = false) = preference
         action(
             key = "xposed_lockscreen_widget_weather_settings",
             title = stringRes(R.string.weather_settings),
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.Widgets.Weather) {
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Widgets.Weather) {
                     launchSingleTop = true
                 }
             },

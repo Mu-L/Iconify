@@ -21,9 +21,9 @@ val quickSettingsPreferences = preferenceScreen {
             key = "xposedTransparencyBlur",
             icon = iconRes(R.drawable.ic_xposed_transparency_blur),
             title = stringRes(R.string.activity_title_transparency_blur),
-            summary = { _, _ -> stringRes(R.string.activity_desc_transparency_blur) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.QuickSettings.Transparency) {
+            summary = { stringRes(R.string.activity_desc_transparency_blur) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Transparency) {
                     launchSingleTop = true
                 }
             }
@@ -33,9 +33,9 @@ val quickSettingsPreferences = preferenceScreen {
             key = "xposedHeaderImage",
             icon = iconRes(R.drawable.ic_xposed_header_image),
             title = stringRes(R.string.activity_title_header_image),
-            summary = { _, _ -> stringRes(R.string.activity_desc_header_image) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.QuickSettings.HeaderImage) {
+            summary = { stringRes(R.string.activity_desc_header_image) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.QuickSettings.HeaderImage) {
                     launchSingleTop = true
                 }
             }
@@ -45,9 +45,9 @@ val quickSettingsPreferences = preferenceScreen {
             key = "xposedHeaderClock",
             icon = iconRes(R.drawable.ic_xposed_clock),
             title = stringRes(R.string.activity_title_header_clock),
-            summary = { _, _ -> stringRes(R.string.activity_desc_header_clock) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.QuickSettings.Clock) {
+            summary = { stringRes(R.string.activity_desc_header_clock) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Clock) {
                     launchSingleTop = true
                 }
             }
@@ -57,9 +57,9 @@ val quickSettingsPreferences = preferenceScreen {
             key = "xposedQsGrid",
             icon = iconRes(R.drawable.ic_qs_row_column),
             title = stringRes(R.string.activity_title_qs_row_column),
-            summary = { _, _ -> stringRes(R.string.activity_desc_qs_row_column) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.QuickSettings.Grid) {
+            summary = { stringRes(R.string.activity_desc_qs_row_column) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Grid) {
                     launchSingleTop = true
                 }
             }
@@ -69,9 +69,9 @@ val quickSettingsPreferences = preferenceScreen {
             key = "xposedThemes",
             icon = iconRes(R.drawable.ic_xposed_themes),
             title = stringRes(R.string.activity_title_themes),
-            summary = { _, _ -> stringRes(R.string.activity_desc_themes) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.QuickSettings.Themes) {
+            summary = { stringRes(R.string.activity_desc_themes) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Themes) {
                     launchSingleTop = true
                 }
             }
@@ -82,9 +82,9 @@ val quickSettingsPreferences = preferenceScreen {
         twoTargetSwitch(
             key = XposedKey.CUSTOM_QS_MARGINS,
             title = stringRes(R.string.custom_qs_margin_title),
-            summary = { _, _ -> stringRes(R.string.custom_qs_margin_desc) },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.QuickSettings.Margins) {
+            summary = { stringRes(R.string.custom_qs_margin_desc) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Margins) {
                     launchSingleTop = true
                 }
             }
@@ -95,19 +95,19 @@ val quickSettingsPreferences = preferenceScreen {
         switch(
             key = XposedKey.COLORED_NOTIFICATION_ICON,
             title = stringRes(R.string.colored_qs_notification_title),
-            summary = { _, _ -> stringRes(R.string.colored_qs_notification_desc) },
+            summary = { stringRes(R.string.colored_qs_notification_desc) },
         )
 
         switch(
             key = XposedKey.COLORED_NOTIFICATION_VIEW,
             title = stringRes(R.string.colorize_notification_view_title),
-            summary = { _, _ -> stringRes(R.string.colorize_notification_view_desc) },
+            summary = { stringRes(R.string.colorize_notification_view_desc) },
         )
 
         switch(
             key = XposedKey.COLORED_NOTIFICATION_VIEW_ALTERNATIVE,
             title = stringRes(R.string.colorize_notification_alternative_color_generation_title),
-            summary = { _, _ -> stringRes(R.string.colorize_notification_alternative_color_generation_desc) },
+            summary = { stringRes(R.string.colorize_notification_alternative_color_generation_desc) },
             isVisible = { pref -> pref.getBoolean(XposedKey.COLORED_NOTIFICATION_VIEW) }
         )
     }
@@ -116,7 +116,7 @@ val quickSettingsPreferences = preferenceScreen {
         switch(
             key = XposedKey.NOTIFICATION_HEADS_UP_BLUR,
             title = stringRes(R.string.notification_headsup_blur_title),
-            summary = { _, _ -> stringRes(R.string.notification_headsup_blur_desc) },
+            summary = { stringRes(R.string.notification_headsup_blur_desc) },
         )
 
         slider(
@@ -142,13 +142,13 @@ val quickSettingsPreferences = preferenceScreen {
         switch(
             key = XposedKey.COMPACT_MEDIA_PLAYER,
             title = stringRes(R.string.compact_media_player_title),
-            summary = { _, _ -> stringRes(R.string.compact_media_player_desc) },
+            summary = { stringRes(R.string.compact_media_player_desc) },
         )
 
         switch(
             key = XposedKey.BLUR_MEDIA_PLAYER_ARTWORK,
             title = stringRes(R.string.media_player_artwork_blur_title),
-            summary = { _, _ -> stringRes(R.string.media_player_artwork_blur_desc) },
+            summary = { stringRes(R.string.media_player_artwork_blur_desc) },
         )
 
         slider(
@@ -165,25 +165,25 @@ val quickSettingsPreferences = preferenceScreen {
         switch(
             key = XposedKey.HIDE_QS_SILENT_TEXT,
             title = stringRes(R.string.hide_qs_silent_text_title),
-            summary = { _, _ -> stringRes(R.string.hide_qs_silent_text_desc) },
+            summary = { stringRes(R.string.hide_qs_silent_text_desc) },
         )
 
         switch(
             key = XposedKey.HIDE_QS_FOOTER_BUTTONS,
             title = stringRes(R.string.hide_qs_footer_buttons_title),
-            summary = { _, _ -> stringRes(R.string.hide_qs_footer_buttons_desc) },
+            summary = { stringRes(R.string.hide_qs_footer_buttons_desc) },
         )
 
         switch(
             key = XposedKey.QS_PANEL_HIDE_CARRIER,
             title = stringRes(R.string.hide_carrier_group_title),
-            summary = { _, _ -> stringRes(R.string.hide_carrier_group_desc) },
+            summary = { stringRes(R.string.hide_carrier_group_desc) },
         )
 
         switch(
             key = XposedKey.HIDE_STATUS_ICONS,
             title = stringRes(R.string.hide_status_icons_title),
-            summary = { _, _ -> stringRes(R.string.hide_status_icons_desc) },
+            summary = { stringRes(R.string.hide_status_icons_desc) },
         )
     }
 
@@ -191,19 +191,19 @@ val quickSettingsPreferences = preferenceScreen {
         switch(
             key = XposedKey.FIX_QS_TILE_COLOR,
             title = stringRes(R.string.fix_qs_tile_color_title),
-            summary = { _, _ -> stringRes(R.string.fix_qs_tile_color_desc) },
+            summary = { stringRes(R.string.fix_qs_tile_color_desc) },
         )
 
         switch(
             key = XposedKey.FIX_NOTIFICATION_COLOR,
             title = stringRes(R.string.fix_notification_color_title),
-            summary = { _, _ -> stringRes(R.string.fix_notification_color_desc) },
+            summary = { stringRes(R.string.fix_notification_color_desc) },
         )
 
         switch(
             key = XposedKey.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR,
             title = stringRes(R.string.fix_notification_footer_button_color_title),
-            summary = { _, _ -> stringRes(R.string.fix_notification_footer_button_color_desc) },
+            summary = { stringRes(R.string.fix_notification_footer_button_color_desc) },
         )
     }
 }

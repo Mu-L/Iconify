@@ -24,19 +24,19 @@ val qsTransparencyPreferences = preferenceScreen {
         switch(
             key = XposedKey.QUICK_SETTINGS_TRANSPARENCY,
             title = stringRes(R.string.transparent_qs_panel_title),
-            summary = { _, _ -> stringRes(R.string.transparent_qs_panel_desc) },
+            summary = { stringRes(R.string.transparent_qs_panel_desc) },
         )
 
         switch(
             key = XposedKey.NOTIFICATION_TRANSPARENCY,
             title = stringRes(R.string.transparent_notif_shade_title),
-            summary = { _, _ -> stringRes(R.string.transparent_notif_shade_desc) },
+            summary = { stringRes(R.string.transparent_notif_shade_desc) },
         )
 
         switch(
             key = XposedKey.LOCKSCREEN_SHADE,
             title = stringRes(R.string.keep_lockscreen_shade_title),
-            summary = { _, _ -> stringRes(R.string.keep_lockscreen_shade_desc) },
+            summary = { stringRes(R.string.keep_lockscreen_shade_desc) },
             isVisible = { pref ->
                 pref.getBoolean(XposedKey.QUICK_SETTINGS_TRANSPARENCY) ||
                         pref.getBoolean(XposedKey.NOTIFICATION_TRANSPARENCY)
@@ -60,13 +60,13 @@ val qsTransparencyPreferences = preferenceScreen {
         switch(
             key = XposedKey.QUICK_SETTINGS_BLUR,
             title = stringRes(R.string.window_level_blur_title),
-            summary = { _, _ -> stringRes(R.string.window_level_blur_desc) },
+            summary = { stringRes(R.string.window_level_blur_desc) },
         )
 
         switch(
             key = XposedKey.QUICK_SETTINGS_AGGRESSIVE_BLUR,
             title = stringRes(R.string.aggressive_blur_title),
-            summary = { _, _ -> stringRes(R.string.aggressive_blur_desc) },
+            summary = { stringRes(R.string.aggressive_blur_desc) },
             isVisible = { pref -> pref.getBoolean(XposedKey.QUICK_SETTINGS_BLUR) },
         )
 

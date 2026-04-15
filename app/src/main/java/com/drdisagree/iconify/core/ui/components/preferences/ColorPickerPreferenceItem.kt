@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.core.ui.components.preferences
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,15 +37,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.preferences.PrefParam
 import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceDefinition
+import com.drdisagree.iconify.core.preferences.resolveOrNull
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.helpers.fromHex
 import com.drdisagree.iconify.helpers.fromHexSafe
@@ -59,17 +64,35 @@ import com.materialkolor.ktx.toHex
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ColorPickerPreferenceItem(
-    def: PreferenceDefinition,
+    prefDefinition: PreferenceDefinition,
     prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
-    summary: String?,
     modifier: Modifier,
 ) {
+    val context = LocalContext.current
+    val activity = LocalActivity.current
+    val navController = LocalNavController.current
+
     val colorPickerController = rememberColorPickerController()
     var showDialog by rememberSaveable { mutableStateOf(false) }
-    val storedValue by prefController.observe(def.key, (def.defaultValue as PrefValue.StringValue).v)
+    val storedValue by prefController.observe(
+        prefDefinition.key,
+        (prefDefinition.defaultValue as PrefValue.StringValue).v
+    )
     var dialogSessionKey by rememberSaveable { mutableIntStateOf(0) }
+
+    val param = PrefParam(
+        prefDefinition.key,
+        prefDefinition.defaultValue.v,
+        storedValue,
+        context,
+        activity,
+        prefController,
+        navController
+    )
+
+    val summary = prefDefinition.summary?.invoke(param).resolveOrNull()
 
     PreferenceContainer(
         shape = shape,
@@ -83,8 +106,8 @@ fun ColorPickerPreferenceItem(
             }
         }
     ) {
-        LeadingIcon(def.icon, isEnabled)
-        TitleSummaryBlock(def.title, summary, isEnabled)
+        LeadingIcon(prefDefinition.icon, isEnabled)
+        TitleSummaryBlock(prefDefinition.title, summary, isEnabled)
         AlphaTile(
             modifier = Modifier
                 .size(40.dp)
@@ -248,7 +271,7 @@ fun ColorPickerPreferenceItem(
                                     draft != storedValue -> draft
                                     else -> storedValue
                                 }
-                                prefController.setString(def.key, toSave)
+                                prefController.setString(prefDefinition.key, toSave)
                                 showDialog = false
                             }
                         ) {

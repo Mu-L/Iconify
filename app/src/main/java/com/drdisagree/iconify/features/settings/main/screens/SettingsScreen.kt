@@ -58,9 +58,9 @@ fun settingsPreferences(
             key = "look_and_feel",
             icon = iconRes(R.drawable.ic_app_icon),
             title = stringRes("Look & Feel"),
-            summary = { _, _ -> stringRes("Theme, contrast and colors") },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Settings.LookAndFeel) {
+            summary = { stringRes("Theme, contrast and colors") },
+            onClick = {
+                it.navController.navigate(NavRoutes.Settings.LookAndFeel) {
                     launchSingleTop = true
                 }
             }
@@ -70,11 +70,11 @@ fun settingsPreferences(
             key = "app_language",
             icon = iconRes(R.drawable.ic_language),
             title = stringRes(R.string.settings_app_language),
-            summary = { _, _ -> stringRes("Choose your app language") },
-            onClick = { context, _, _ ->
-                context.startActivity(
+            summary = { stringRes("Choose your app language") },
+            onClick = {
+                it.context.startActivity(
                     Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
-                        data = Uri.fromParts("package", context.packageName, null)
+                        data = Uri.fromParts("package", it.context.packageName, null)
                     }
                 )
             }
@@ -84,7 +84,7 @@ fun settingsPreferences(
             key = SettingsKey.HAPTICS_AND_VIBRATION,
             icon = iconRes(R.drawable.ic_vibrate),
             title = stringRes(R.string.settings_vibrate_ui_card_title),
-            summary = { _, _ -> stringRes(R.string.settings_vibrate_ui_page_card_desc) },
+            summary = { stringRes(R.string.settings_vibrate_ui_page_card_desc) },
             isEnabled = { ctrl -> ctrl.getBoolean("notifications_enabled", true) },
         )
     }
@@ -94,20 +94,20 @@ fun settingsPreferences(
             key = SettingsKey.RESTART_SYSTEMUI_AFTER_BOOT,
             icon = iconRes(R.drawable.ic_restart_systemui_after_boot),
             title = stringRes(R.string.settings_restart_systemui_after_boot_title),
-            summary = { _, _ -> stringRes(R.string.settings_restart_systemui_after_boot_desc) },
+            summary = { stringRes(R.string.settings_restart_systemui_after_boot_desc) },
         )
 
         action(
             key = "clearAppCache",
             icon = iconRes(R.drawable.ic_clear_cache),
             title = stringRes(R.string.settings_clear_app_cache_title),
-            summary = { _, _ -> stringRes(R.string.settings_clear_app_cache_desc) },
-            onClick = { context, _, _ ->
-                CacheUtils.clearCache(context)
+            summary = { stringRes(R.string.settings_clear_app_cache_desc) },
+            onClick = {
+                CacheUtils.clearCache(it.context)
 
                 Toast.makeText(
-                    context,
-                    context.getString(R.string.toast_clear_cache),
+                    it.context,
+                    it.context.getString(R.string.toast_clear_cache),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -117,8 +117,8 @@ fun settingsPreferences(
             key = "disableEverything",
             icon = iconRes(R.drawable.ic_disable_everything),
             title = stringRes(R.string.settings_disable_everything_title),
-            summary = { _, _ -> stringRes(R.string.settings_disable_everything_desc) },
-            onClick = { _, _, _ -> onDisableEverything() }
+            summary = { stringRes(R.string.settings_disable_everything_desc) },
+            onClick = { onDisableEverything() }
         )
     }
 
@@ -127,24 +127,24 @@ fun settingsPreferences(
             key = "iconifyGitHub",
             icon = iconRes(R.drawable.ic_github),
             title = stringRes(R.string.settings_github_repository_title),
-            summary = { _, _ -> stringRes(R.string.settings_github_repository_desc) },
-            onClick = { context, _, _ -> openUrl(context, GITHUB_REPO) }
+            summary = { stringRes(R.string.settings_github_repository_desc) },
+            onClick = { openUrl(it.context, GITHUB_REPO) }
         )
 
         action(
             key = "iconifyTelegram",
             icon = iconRes(R.drawable.ic_telegram),
             title = stringRes(R.string.settings_telegram_group_title),
-            summary = { _, _ -> stringRes(R.string.settings_telegram_group_desc) },
-            onClick = { context, _, _ -> openUrl(context, TELEGRAM_GROUP) }
+            summary = { stringRes(R.string.settings_telegram_group_desc) },
+            onClick = { openUrl(it.context, TELEGRAM_GROUP) }
         )
 
         action(
             key = "iconifyTranslate",
             icon = iconRes(R.drawable.ic_translate),
             title = stringRes(R.string.settings_translate_title),
-            summary = { _, _ -> stringRes(R.string.settings_translate_desc) },
-            onClick = { context, _, _ -> openUrl(context, ICONIFY_CROWDIN) }
+            summary = { stringRes(R.string.settings_translate_desc) },
+            onClick = { openUrl(it.context, ICONIFY_CROWDIN) }
         )
     }
 }

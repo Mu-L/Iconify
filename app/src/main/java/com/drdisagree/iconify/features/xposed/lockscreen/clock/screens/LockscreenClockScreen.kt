@@ -37,10 +37,11 @@ val lsClockPreferences = preferenceScreen {
         filePicker(
             key = XposedKey.LSCLOCK_FONT_FILE_URI,
             title = stringRes(R.string.lockscreen_clock_font_title),
-            summary = { _, _ -> stringRes(R.string.lockscreen_clock_font_desc) },
+            summary = { stringRes(R.string.lockscreen_clock_font_desc) },
             pickerType = FilePickerType.Font,
             saveFileUri = true,
-            onFileSelected = { _, uriString ->
+            onFileSelected = {
+                val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
                     uriString.toUri().toXposedSharedPath(LSCLOCK_FONT_FILE.name)
                 }
@@ -51,10 +52,11 @@ val lsClockPreferences = preferenceScreen {
         filePicker(
             key = XposedKey.LSCLOCK_IMAGE1_FILE_URI,
             title = stringRes(R.string.lockscreen_clock_image1_title),
-            summary = { _, _ -> stringRes(R.string.lockscreen_clock_image_desc) },
+            summary = { stringRes(R.string.lockscreen_clock_image_desc) },
             pickerType = FilePickerType.Image,
             saveFileUri = true,
-            onFileSelected = { _, uriString ->
+            onFileSelected = {
+                val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
                     uriString.toUri().toXposedSharedPath(LSCLOCK_IMAGE1_FILE.name)
                 }
@@ -66,10 +68,11 @@ val lsClockPreferences = preferenceScreen {
         filePicker(
             key = XposedKey.LSCLOCK_IMAGE2_FILE_URI,
             title = stringRes(R.string.lockscreen_clock_image2_title),
-            summary = { _, _ -> stringRes(R.string.lockscreen_clock_image_desc) },
+            summary = { stringRes(R.string.lockscreen_clock_image_desc) },
             pickerType = FilePickerType.Image,
             saveFileUri = true,
-            onFileSelected = { _, uriString ->
+            onFileSelected = {
+                val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
                     uriString.toUri().toXposedSharedPath(LSCLOCK_IMAGE2_FILE.name)
                 }
@@ -122,7 +125,7 @@ val lsClockPreferences = preferenceScreen {
         switch(
             key = XposedKey.LSCLOCK_CUSTOM_COLOR,
             title = stringRes(R.string.lsclock_custom_color_title),
-            summary = { _, _ -> stringRes(R.string.lsclock_custom_color_desc) },
+            summary = { stringRes(R.string.lsclock_custom_color_desc) },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
 
@@ -181,8 +184,8 @@ val lsClockPreferences = preferenceScreen {
         editText(
             key = XposedKey.LSCLOCK_DEVICE_NAME,
             title = stringRes(R.string.lockscreen_clock_custom_devicename),
-            summary = { prefs, _ ->
-                val currentVal = prefs.getString(XposedKey.LSCLOCK_DEVICE_NAME)
+            summary = {
+                val currentVal = it.prefController.getString(XposedKey.LSCLOCK_DEVICE_NAME)
 
                 if (currentVal.isNotEmpty()) stringRes(currentVal)
                 else stringRes(R.string.lockscreen_clock_custom_devicename_desc)
@@ -194,8 +197,8 @@ val lsClockPreferences = preferenceScreen {
         editText(
             key = XposedKey.LSCLOCK_USER_NAME,
             title = stringRes(R.string.lockscreen_clock_custom_username),
-            summary = { prefs, _ ->
-                val currentVal = prefs.getString(XposedKey.LSCLOCK_USER_NAME)
+            summary = {
+                val currentVal = it.prefController.getString(XposedKey.LSCLOCK_USER_NAME)
 
                 if (currentVal.isNotEmpty()) stringRes(currentVal)
                 else stringRes(R.string.lockscreen_clock_custom_username_desc)

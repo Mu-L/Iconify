@@ -56,18 +56,19 @@ fun statusbarLogoPreferences(
         action(
             key = "statusbar_logo_style",
             title = stringRes(R.string.status_bar_logo_style_title),
-            summary = { _, _ -> stringRes(selectedLogoLabel) },
-            onClick = { _, _, _ -> onLogoStyleClick() },
+            summary = { stringRes(selectedLogoLabel) },
+            onClick = { onLogoStyleClick() },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_LOGO) },
         )
 
         filePicker(
             key = XposedKey.STATUSBAR_LOGO_FILE_URI,
             title = stringRes(R.string.status_bar_logo_chooser_title),
-            summary = { _, _ -> stringRes(R.string.status_bar_logo_chooser_desc) },
+            summary = { stringRes(R.string.status_bar_logo_chooser_desc) },
             pickerType = FilePickerType.Image,
             saveFileUri = true,
-            onFileSelected = { _, uriString ->
+            onFileSelected = {
+                val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
                     uriString.toUri().toXposedSharedPath(STATUSBAR_LOGO_FILE.name)
                 }
@@ -88,7 +89,7 @@ fun statusbarLogoPreferences(
         switch(
             key = XposedKey.STATUSBAR_LOGO_TINT,
             title = stringRes(R.string.status_bar_logo_tint_title),
-            summary = { _, _ -> stringRes(R.string.status_bar_logo_tint_desc) },
+            summary = { stringRes(R.string.status_bar_logo_tint_desc) },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_LOGO) },
             isVisible = { it.getString(XposedKey.STATUSBAR_LOGO_STYLE) in setOf("33") },
         )
