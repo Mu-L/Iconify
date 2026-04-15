@@ -95,11 +95,11 @@ fun TweaksStatusbarScreen(
         }
     }
 
-    TweaksStatusbarScreenContent()
+    StatusbarScreenContent()
 }
 
 @Composable
-private fun TweaksStatusbarScreenContent() {
+private fun StatusbarScreenContent() {
     PreferenceScreen(
         items = statusbarPreferences,
         title = stringResource(R.string.activity_title_statusbar),
@@ -109,8 +109,8 @@ private fun TweaksStatusbarScreenContent() {
 
 @Preview(showBackground = true)
 @Composable
-private fun TweaksStatusbarScreenPreview() {
+private fun StatusbarScreenPreview() {
     PreviewComposable {
-        TweaksStatusbarScreenContent()
+        StatusbarScreenContent()
     }
 }
