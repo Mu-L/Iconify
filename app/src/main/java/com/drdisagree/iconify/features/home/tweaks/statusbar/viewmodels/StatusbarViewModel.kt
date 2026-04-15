@@ -9,6 +9,7 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.events.ToastUiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -107,6 +108,7 @@ class StatusbarViewModel @Inject constructor() : ViewModel() {
 
             if (!error) {
                 _uiEvent.emit(ToastUiEvent.Applied)
+                delay(500)
                 onSuccess()
             } else {
                 _uiEvent.emit(ToastUiEvent.Error)
@@ -138,6 +140,7 @@ class StatusbarViewModel @Inject constructor() : ViewModel() {
 
             if (!error) {
                 _uiEvent.emit(ToastUiEvent.Applied)
+                delay(500)
                 onSuccess()
             } else {
                 _uiEvent.emit(ToastUiEvent.Error)
@@ -169,6 +172,7 @@ class StatusbarViewModel @Inject constructor() : ViewModel() {
 
             if (!error) {
                 _uiEvent.emit(ToastUiEvent.Applied)
+                delay(500)
                 onSuccess()
             } else {
                 _uiEvent.emit(ToastUiEvent.Error)
