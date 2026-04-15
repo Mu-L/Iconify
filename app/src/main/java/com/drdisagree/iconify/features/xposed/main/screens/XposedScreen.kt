@@ -127,7 +127,7 @@ private fun XposedScreenContent() {
 
 @Preview(showBackground = true)
 @Composable
-fun XposedScreenPreview() {
+private fun XposedScreenPreview() {
     PreviewComposable {
         XposedScreenContent()
     }

@@ -266,7 +266,7 @@ fun LookAndFeelScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun LookAndFeelScreenPreview() {
+private fun LookAndFeelScreenPreview() {
     PreviewComposable {
         LookAndFeelScreen()
     }

@@ -75,7 +75,7 @@ fun HeaderClockPreview(
 
 @Preview(showBackground = true)
 @Composable
-fun HeaderClockPreviewPreview() {
+private fun HeaderClockPreviewPreview() {
     PreviewComposable {
         HeaderClockPreview(null)
     }

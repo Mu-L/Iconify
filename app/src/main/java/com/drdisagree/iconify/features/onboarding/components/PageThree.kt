@@ -321,7 +321,7 @@ private fun PermissionCard(
 
 @Preview(showBackground = true)
 @Composable
-fun PageThreePreview() {
+private fun PageThreePreview() {
     val pagerState = rememberPagerState(pageCount = { 3 })
     PageThree(pagerState = pagerState)
 }

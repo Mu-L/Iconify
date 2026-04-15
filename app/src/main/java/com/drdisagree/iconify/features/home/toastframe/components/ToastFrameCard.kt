@@ -140,7 +140,7 @@ fun ToastFrameCard(
 
 @Preview(showBackground = true)
 @Composable
-fun ToastFrameCardPreview() {
+private fun ToastFrameCardPreview() {
     val iconPacks = listOf(
         ToastFramePreview(
             id = "1",

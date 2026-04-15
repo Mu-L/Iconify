@@ -138,7 +138,7 @@ fun LockscreenScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun LockscreenScreenPreview() {
+private fun LockscreenScreenPreview() {
     PreviewComposable {
         LockscreenScreen(null)
     }

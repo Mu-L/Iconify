@@ -112,6 +112,6 @@ fun TooltipArrow(
 
 @Preview
 @Composable
-fun TooltipArrowPreview() {
+private fun TooltipArrowPreview() {
     TooltipArrow()
 }

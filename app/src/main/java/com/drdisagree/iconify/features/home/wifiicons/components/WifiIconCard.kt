@@ -31,7 +31,7 @@ fun WifiIconCard(
 
 @Preview(showBackground = true)
 @Composable
-fun WifiIconCardPreview() {
+private fun WifiIconCardPreview() {
     val iconPacks = listOf(
         SignalIconPreview(
             id = "1",

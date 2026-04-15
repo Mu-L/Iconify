@@ -88,7 +88,7 @@ fun SettingsOptionsCard(
 
 @Preview
 @Composable
-fun SettingsOptionsCardPreview() {
+private fun SettingsOptionsCardPreview() {
     SettingsOptionsCard(
         title = "Icon Shape",
         buttonLabels = listOf("Squircle", "Circle", "Teardrop"),

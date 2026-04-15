@@ -362,7 +362,7 @@ private fun LockscreenWeatherScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-fun LockscreenWeatherScreenPreview() {
+private fun LockscreenWeatherScreenPreview() {
     PreviewComposable {
         LockscreenWeatherScreenContent()
     }

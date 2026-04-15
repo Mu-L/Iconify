@@ -67,7 +67,7 @@ fun LockscreenAlbumArtScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun LockscreenAlbumArtScreenPreview() {
+private fun LockscreenAlbumArtScreenPreview() {
     PreviewComposable {
         LockscreenAlbumArtScreen()
     }

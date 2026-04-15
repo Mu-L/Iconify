@@ -223,7 +223,7 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun HomeBannerCardPreview() {
+private fun HomeBannerCardPreview() {
     PreviewComposable {
         HomeBannerCard()
     }

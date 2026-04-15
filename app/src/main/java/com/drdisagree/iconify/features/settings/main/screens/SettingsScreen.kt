@@ -244,7 +244,7 @@ fun SettingsScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SettingsScreenPreview() {
+private fun SettingsScreenPreview() {
     PreviewComposable {
         SettingsScreen(null)
     }

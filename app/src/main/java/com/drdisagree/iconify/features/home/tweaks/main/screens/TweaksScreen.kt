@@ -111,7 +111,7 @@ fun TweaksScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun TweaksScreenPreview() {
+private fun TweaksScreenPreview() {
     PreviewComposable {
         TweaksScreen()
     }

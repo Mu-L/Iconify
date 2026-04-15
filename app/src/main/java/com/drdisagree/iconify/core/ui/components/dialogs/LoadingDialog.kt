@@ -66,7 +66,7 @@ fun LoadingDialog(onDismiss: () -> Unit = {}) {
 
 @Preview(showBackground = true)
 @Composable
-fun LoadingDialogPreview() {
+private fun LoadingDialogPreview() {
     PreviewComposable {
         LoadingDialog(onDismiss = {})
     }

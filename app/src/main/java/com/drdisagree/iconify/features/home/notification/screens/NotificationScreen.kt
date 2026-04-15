@@ -186,7 +186,7 @@ fun NotificationScreen(notificationViewModel: NotificationViewModel = hiltViewMo
 
 @Preview(showBackground = true, name = "Phone", device = Devices.PHONE)
 @Composable
-fun NotificationScreenPhonePreview() {
+private fun NotificationScreenPhonePreview() {
     PreviewComposable {
         NotificationScreen()
     }
@@ -194,7 +194,7 @@ fun NotificationScreenPhonePreview() {
 
 @Preview(showBackground = true, name = "Tablet", device = Devices.TABLET)
 @Composable
-fun NotificationScreenTabletPreview() {
+private fun NotificationScreenTabletPreview() {
     PreviewComposable {
         NotificationScreen()
     }

@@ -144,7 +144,7 @@ fun QsTransparencyScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun QsTransparencyScreenPreview() {
+private fun QsTransparencyScreenPreview() {
     PreviewComposable {
         QsTransparencyScreen(null)
     }

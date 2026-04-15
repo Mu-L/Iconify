@@ -243,7 +243,7 @@ fun IconPackScreen(iconPackViewModel: IconPackViewModel = hiltViewModel()) {
 
 @Preview(showBackground = true)
 @Composable
-fun IconPackScreenPreview() {
+private fun IconPackScreenPreview() {
     PreviewComposable {
         IconPackScreen()
     }

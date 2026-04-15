@@ -287,7 +287,7 @@ fun BottomNavigation(bottomNavViewModel: BottomNavViewModel = sharedHiltViewMode
 
 @Preview(showBackground = true)
 @Composable
-fun BottomNavigationPreview() {
+private fun BottomNavigationPreview() {
     PreviewComposable {
         BottomNavigation(viewModel())
     }

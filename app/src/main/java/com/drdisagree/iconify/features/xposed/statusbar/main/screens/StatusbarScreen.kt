@@ -174,7 +174,7 @@ fun XposedStatusbarScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun XposedStatusbarScreenPreview() {
+private fun XposedStatusbarScreenPreview() {
     PreviewComposable {
         XposedStatusbarScreen(null)
     }

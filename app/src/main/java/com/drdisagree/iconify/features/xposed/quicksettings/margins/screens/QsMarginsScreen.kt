@@ -93,7 +93,7 @@ fun QsMarginsScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun QsMarginsScreenPreview() {
+private fun QsMarginsScreenPreview() {
     PreviewComposable {
         QsMarginsScreen(null)
     }

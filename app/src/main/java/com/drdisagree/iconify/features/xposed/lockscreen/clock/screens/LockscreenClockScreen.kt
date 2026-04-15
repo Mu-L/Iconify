@@ -226,7 +226,7 @@ fun LockscreenClockScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun LockscreenClockScreenPreview() {
+private fun LockscreenClockScreenPreview() {
     PreviewComposable {
         LockscreenClockScreen(null)
     }

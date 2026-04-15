@@ -241,7 +241,7 @@ fun QuickSettingsScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SettingsScreenPreview() {
+private fun SettingsScreenPreview() {
     PreviewComposable {
         QuickSettingsScreen(null)
     }

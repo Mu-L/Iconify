@@ -376,7 +376,7 @@ private fun LockscreenWidgetsScreenContent(isWeatherSettingsVisible: Boolean = f
 
 @Preview(showBackground = true)
 @Composable
-fun LockscreenWidgetsScreenPreview() {
+private fun LockscreenWidgetsScreenPreview() {
     PreviewComposable {
         LockscreenWidgetsScreenContent()
     }

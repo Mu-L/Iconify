@@ -102,7 +102,7 @@ fun HomeCategoryCard(
 
 @Preview(showBackground = true, widthDp = 400)
 @Composable
-fun HomeCategoryGridPreview() {
+private fun HomeCategoryGridPreview() {
     Row(
         modifier = Modifier
             .fillMaxWidth()

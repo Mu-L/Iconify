@@ -187,7 +187,7 @@ fun IconShapeCard(
 
 @Preview(showBackground = true)
 @Composable
-fun IconShapeCardPreview() {
+private fun IconShapeCardPreview() {
     val iconShapes = listOf(
         IconShapePreview(
             id = "1",

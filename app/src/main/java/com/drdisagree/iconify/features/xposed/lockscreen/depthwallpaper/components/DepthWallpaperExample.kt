@@ -192,7 +192,7 @@ private fun ImageCard(
 
 @Preview(showBackground = true)
 @Composable
-fun DepthWallpaperExamplePreview() {
+private fun DepthWallpaperExamplePreview() {
     DepthWallpaperExample(
         leftImage = painterResource(id = R.drawable.depth_wallpaper_example_fg),
         rightImage = painterResource(id = R.drawable.depth_wallpaper_example_bg),

@@ -150,7 +150,7 @@ private fun FakeNotificationPanel() {
 
 @Preview(showBackground = true)
 @Composable
-fun FakeQuickSettingsPreview() {
+private fun FakeQuickSettingsPreview() {
     PreviewComposable {
         FakeQuickSettings()
     }

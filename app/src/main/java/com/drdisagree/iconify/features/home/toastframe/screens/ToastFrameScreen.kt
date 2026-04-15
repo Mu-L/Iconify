@@ -111,7 +111,7 @@ fun ToastFrameScreen(toastFrameViewModel: ToastFrameViewModel = hiltViewModel())
 
 @Preview(showBackground = true, name = "Phone", device = Devices.PHONE)
 @Composable
-fun IconShapeScreenPhonePreview() {
+private fun IconShapeScreenPhonePreview() {
     PreviewComposable {
         ToastFrameScreen()
     }
@@ -119,7 +119,7 @@ fun IconShapeScreenPhonePreview() {
 
 @Preview(showBackground = true, name = "Tablet", device = Devices.TABLET)
 @Composable
-fun IconShapeScreenTabletPreview() {
+private fun IconShapeScreenTabletPreview() {
     PreviewComposable {
         ToastFrameScreen()
     }

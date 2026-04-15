@@ -163,7 +163,7 @@ fun HomeCategories(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun HomeCategoriesPreview() {
+private fun HomeCategoriesPreview() {
     PreviewComposable {
         HomeCategories()
     }

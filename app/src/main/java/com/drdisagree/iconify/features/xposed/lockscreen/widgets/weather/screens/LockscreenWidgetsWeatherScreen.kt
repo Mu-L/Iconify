@@ -179,7 +179,7 @@ private fun LockscreenWidgetsWeatherScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-fun LockscreenWidgetsWeatherScreenPreview() {
+private fun LockscreenWidgetsWeatherScreenPreview() {
     PreviewComposable {
         LockscreenWidgetsWeatherScreenContent(
             null,

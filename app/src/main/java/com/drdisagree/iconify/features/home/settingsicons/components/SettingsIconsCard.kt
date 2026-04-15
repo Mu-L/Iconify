@@ -84,7 +84,7 @@ fun SettingsIconsCard(
 
 @Preview(showBackground = true)
 @Composable
-fun IconPackPreview() {
+private fun IconPackPreview() {
     val iconPacks = listOf(
         SettingsIconsPreview(
             title = UiText.Text("Aurora"),

@@ -163,7 +163,7 @@ fun StatusbarLogoScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun StatusbarLogoScreenPreview() {
+private fun StatusbarLogoScreenPreview() {
     PreviewComposable {
         StatusbarLogoScreen(null)
     }

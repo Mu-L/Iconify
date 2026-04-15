@@ -100,7 +100,7 @@ fun WeatherIconPackBottomSheet(
 
 @Preview
 @Composable
-fun WeatherIconPackBottomSheetPreview() {
+private fun WeatherIconPackBottomSheetPreview() {
     PreviewComposable {
         WeatherIconPackBottomSheet(
             iconPacks = emptyList(),

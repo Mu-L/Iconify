@@ -171,7 +171,7 @@ fun IconShapeScreen(iconShapeViewModel: IconShapeViewModel = hiltViewModel()) {
 
 @Preview(showBackground = true, name = "Phone", device = Devices.PHONE)
 @Composable
-fun IconShapeScreenPhonePreview() {
+private fun IconShapeScreenPhonePreview() {
     PreviewComposable {
         IconShapeScreen()
     }
@@ -179,7 +179,7 @@ fun IconShapeScreenPhonePreview() {
 
 @Preview(showBackground = true, name = "Tablet", device = Devices.TABLET)
 @Composable
-fun IconShapeScreenTabletPreview() {
+private fun IconShapeScreenTabletPreview() {
     PreviewComposable {
         IconShapeScreen()
     }

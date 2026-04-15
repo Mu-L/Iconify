@@ -167,7 +167,7 @@ fun DualStatusbarScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun DualStatusbarScreenPreview() {
+private fun DualStatusbarScreenPreview() {
     PreviewComposable {
         DualStatusbarScreen(null)
     }

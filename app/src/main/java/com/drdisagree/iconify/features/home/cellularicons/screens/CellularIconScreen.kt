@@ -423,7 +423,7 @@ fun CellularIconScreen(cellularIconViewModel: CellularIconViewModel = hiltViewMo
 
 @Preview(showBackground = true, name = "Phone", device = Devices.PHONE)
 @Composable
-fun CellularIconScreenPhonePreview() {
+private fun CellularIconScreenPhonePreview() {
     PreviewComposable {
         CellularIconScreen()
     }
@@ -431,7 +431,7 @@ fun CellularIconScreenPhonePreview() {
 
 @Preview(showBackground = true, name = "Tablet", device = Devices.TABLET)
 @Composable
-fun CellularIconScreenTabletPreview() {
+private fun CellularIconScreenTabletPreview() {
     PreviewComposable {
         CellularIconScreen()
     }

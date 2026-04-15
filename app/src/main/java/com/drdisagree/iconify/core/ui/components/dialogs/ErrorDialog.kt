@@ -100,7 +100,7 @@ fun ErrorDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun ErrorDialogPreview() {
+private fun ErrorDialogPreview() {
     PreviewComposable {
         ErrorDialog(
             title = "Error!",

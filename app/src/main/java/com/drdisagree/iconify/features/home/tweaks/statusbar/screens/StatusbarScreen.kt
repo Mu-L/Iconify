@@ -109,7 +109,7 @@ private fun TweaksStatusbarScreenContent() {
 
 @Preview(showBackground = true)
 @Composable
-fun TweaksStatusbarScreenPreview() {
+private fun TweaksStatusbarScreenPreview() {
     PreviewComposable {
         TweaksStatusbarScreenContent()
     }

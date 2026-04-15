@@ -249,7 +249,7 @@ fun ClockChipScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun ClockChipScreenPreview() {
+private fun ClockChipScreenPreview() {
     PreviewComposable {
         ClockChipScreen(null)
     }

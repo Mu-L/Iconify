@@ -111,7 +111,7 @@ fun QsGridScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun QsGridScreenPreview() {
+private fun QsGridScreenPreview() {
     PreviewComposable {
         QsGridScreen(null)
     }

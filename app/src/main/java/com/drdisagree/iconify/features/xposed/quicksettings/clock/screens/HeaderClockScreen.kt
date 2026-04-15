@@ -188,7 +188,7 @@ fun HeaderClockScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun HeaderClockScreenPreview() {
+private fun HeaderClockScreenPreview() {
     PreviewComposable {
         HeaderClockScreen(null)
     }

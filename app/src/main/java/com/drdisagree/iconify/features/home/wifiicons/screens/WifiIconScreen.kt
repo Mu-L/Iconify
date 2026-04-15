@@ -243,7 +243,7 @@ fun WifiIconScreen(wifiIconViewModel: WifiIconViewModel = hiltViewModel()) {
 
 @Preview(showBackground = true, name = "Phone", device = Devices.PHONE)
 @Composable
-fun WifiIconScreenPhonePreview() {
+private fun WifiIconScreenPhonePreview() {
     PreviewComposable {
         WifiIconScreen()
     }
@@ -251,7 +251,7 @@ fun WifiIconScreenPhonePreview() {
 
 @Preview(showBackground = true, name = "Tablet", device = Devices.TABLET)
 @Composable
-fun WifiIconScreenTabletPreview() {
+private fun WifiIconScreenTabletPreview() {
     PreviewComposable {
         WifiIconScreen()
     }

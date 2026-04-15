@@ -151,7 +151,7 @@ private fun LocationBrowseScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-fun LocationScreenPreview() {
+private fun LocationScreenPreview() {
     val sampleLocations = listOf(
         LocationBrowseItem(
             cityExt = "NY, USA",

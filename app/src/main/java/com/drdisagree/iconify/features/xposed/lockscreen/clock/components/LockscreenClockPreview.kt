@@ -73,7 +73,7 @@ fun LockscreenClockPreview(
 
 @Preview(showBackground = true)
 @Composable
-fun LockscreenClockPreviewPreview() {
+private fun LockscreenClockPreviewPreview() {
     PreviewComposable {
         LockscreenClockPreview(null)
     }

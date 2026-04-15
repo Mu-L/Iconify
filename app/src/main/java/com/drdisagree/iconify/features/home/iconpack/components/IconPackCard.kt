@@ -104,7 +104,7 @@ fun IconPackCard(
 
 @Preview(showBackground = true)
 @Composable
-fun IconPackPreview() {
+private fun IconPackPreview() {
     val iconPacks = listOf(
         IconPackPreview(
             id = "1",

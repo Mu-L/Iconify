@@ -31,7 +31,7 @@ fun CellularIconCard(
 
 @Preview(showBackground = true)
 @Composable
-fun CellularIconCardPreview() {
+private fun CellularIconCardPreview() {
     val iconPacks = listOf(
         SignalIconPreview(
             id = "1",

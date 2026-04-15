@@ -105,7 +105,7 @@ fun StatusbarLogoBottomSheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun StatusbarLogoBottomSheetPreview() {
+private fun StatusbarLogoBottomSheetPreview() {
     PreviewComposable {
         StatusbarLogoBottomSheet(
             sheetState = rememberModalBottomSheetState(),

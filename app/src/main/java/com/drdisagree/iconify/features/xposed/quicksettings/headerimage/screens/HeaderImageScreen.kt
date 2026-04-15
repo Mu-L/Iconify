@@ -114,7 +114,7 @@ fun HeaderImageScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun HeaderImageScreenPreview() {
+private fun HeaderImageScreenPreview() {
     PreviewComposable {
         HeaderImageScreen()
     }

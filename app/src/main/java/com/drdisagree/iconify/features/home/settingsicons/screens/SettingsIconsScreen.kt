@@ -308,7 +308,7 @@ fun SettingsIconsScreen(settingsIconsViewModel: SettingsIconsViewModel = hiltVie
 
 @Preview(showBackground = true)
 @Composable
-fun IconShapeScreenPreview() {
+private fun IconShapeScreenPreview() {
     PreviewComposable {
         SettingsIconsScreen()
     }

@@ -205,7 +205,7 @@ fun NotificationCard(
 
 @Preview(showBackground = true)
 @Composable
-fun NotificationCardPreview() {
+private fun NotificationCardPreview() {
     val notifications = listOf(
         NotificationPreview(
             id = "1",

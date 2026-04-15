@@ -210,7 +210,7 @@ fun PageTwo(
 
 @Preview(showBackground = true)
 @Composable
-fun PageTwoPreview() {
+private fun PageTwoPreview() {
     val lazyListState = rememberLazyListState()
     val pagerState = rememberPagerState(pageCount = { 3 })
     PageTwo(pagerState = pagerState, lazyListState = lazyListState)

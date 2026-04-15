@@ -50,7 +50,7 @@ fun VolumePanelScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun VolumePanelScreenPreview() {
+private fun VolumePanelScreenPreview() {
     PreviewComposable {
         VolumePanelScreen(null)
     }

@@ -171,7 +171,7 @@ fun PageOne(modifier: Modifier = Modifier, pagerState: PagerState) {
 
 @Preview(showBackground = true)
 @Composable
-fun PageOnePreview() {
+private fun PageOnePreview() {
     val pagerState = rememberPagerState(pageCount = { 3 })
     PageOne(pagerState = pagerState)
 }

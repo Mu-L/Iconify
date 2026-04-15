@@ -156,7 +156,7 @@ fun QsThemesScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun QsThemesScreenPreview() {
+private fun QsThemesScreenPreview() {
     PreviewComposable {
         QsThemesScreen(null)
     }

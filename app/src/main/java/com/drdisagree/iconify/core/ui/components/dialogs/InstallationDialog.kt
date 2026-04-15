@@ -183,7 +183,7 @@ fun InstallationDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun InstallationDialogPreview() {
+private fun InstallationDialogPreview() {
     PreviewComposable {
         InstallationDialog(
             title = "Installing",

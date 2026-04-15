@@ -48,7 +48,7 @@ private fun HomeScreenContent() {
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
+private fun HomeScreenPreview() {
     PreviewComposable {
         HomeScreenContent()
     }

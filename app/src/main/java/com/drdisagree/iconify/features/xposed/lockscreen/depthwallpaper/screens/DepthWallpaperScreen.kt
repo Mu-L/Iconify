@@ -267,7 +267,7 @@ private fun DepthWallpaperScreenContent(
 
 @Preview(showBackground = true)
 @Composable
-fun DepthWallpaperScreenPreview() {
+private fun DepthWallpaperScreenPreview() {
     PreviewComposable {
         DepthWallpaperScreenContent()
     }
