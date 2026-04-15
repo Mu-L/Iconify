@@ -11,6 +11,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceDefinition
 import com.drdisagree.iconify.core.preferences.PreferenceType
@@ -27,7 +28,7 @@ fun SwitchPreferenceItem(
     type: PreferenceType.Switch,
     modifier: Modifier,
 ) {
-    val checked by prefController.observe(def.key, false)
+    val checked by prefController.observe(def.key, (def.defaultValue as PrefValue.BoolValue).v)
     val containerColor = if (type.isMasterSwitch) MaterialTheme.colorScheme.primaryContainer
     else MaterialTheme.colorScheme.surfaceContainerHigh
     val contentColor = if (type.isMasterSwitch) MaterialTheme.colorScheme.onPrimaryContainer
