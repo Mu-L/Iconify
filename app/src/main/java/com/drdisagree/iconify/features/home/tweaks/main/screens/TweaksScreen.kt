@@ -95,7 +95,11 @@ val tweaksPreferences = preferenceScreen {
             icon = iconRes(R.drawable.ic_tweaks_miscellaneous),
             title = stringRes(R.string.activity_title_miscellaneous),
             summary = { _, _ -> stringRes(R.string.activity_desc_miscellaneous) },
-            onClick = { context, _, _ -> showComingSoonToast(context) }
+            onClick = { _, _, navController ->
+                navController.navigate(NavRoutes.Home.More.Miscellaneous) {
+                    launchSingleTop = true
+                }
+            }
         )
     }
 }
