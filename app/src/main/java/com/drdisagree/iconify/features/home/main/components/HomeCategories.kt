@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,7 +26,6 @@ private data class CategoryItem(
 
 @Composable
 fun HomeCategories(modifier: Modifier = Modifier) {
-    val context = LocalContext.current
     val navController = LocalNavController.current
 
     val categories = listOf(
@@ -92,18 +90,26 @@ fun HomeCategories(modifier: Modifier = Modifier) {
             categories
                 .filterIndexed { index, _ -> index % 2 == 0 }
                 .forEachIndexed { rowIndex, item ->
-                    val shouldBePrimary = rowIndex % 2 == 0
-                    val backgroundColor = if (shouldBePrimary) {
-                        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)
-                            .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh)
-                    } else {
-                        MaterialTheme.colorScheme.surfaceContainerHigh
-                    }
-                    val foregroundColor = if (shouldBePrimary) {
-                        MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.25f)
+                    val (backgroundColor, foregroundColor) = when (rowIndex % 4) {
+                        0 -> MaterialTheme.colorScheme.primaryContainer
+                            .copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onPrimaryContainer
+                            .copy(alpha = 0.25f)
                             .compositeOver(MaterialTheme.colorScheme.onSurface)
-                    } else {
-                        MaterialTheme.colorScheme.onSurface
+
+                        1 -> MaterialTheme.colorScheme.secondaryContainer
+                            .copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onSecondaryContainer
+                            .copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.onSurface)
+
+                        2 -> MaterialTheme.colorScheme.surfaceContainerHigh to MaterialTheme.colorScheme.onSurface
+
+                        else -> MaterialTheme.colorScheme.tertiaryContainer
+                            .copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onTertiaryContainer
+                            .copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.onSurface)
                     }
 
                     HomeCategoryCard(
@@ -129,18 +135,26 @@ fun HomeCategories(modifier: Modifier = Modifier) {
             categories
                 .filterIndexed { index, _ -> index % 2 == 1 }
                 .forEachIndexed { rowIndex, item ->
-                    val shouldBePrimary = rowIndex % 2 != 0
-                    val backgroundColor = if (shouldBePrimary) {
-                        MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.2f)
-                            .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh)
-                    } else {
-                        MaterialTheme.colorScheme.surfaceContainerHigh
-                    }
-                    val foregroundColor = if (shouldBePrimary) {
-                        MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.25f)
+                    val (backgroundColor, foregroundColor) = when (rowIndex % 4) {
+                        0 -> MaterialTheme.colorScheme.surfaceContainerHigh to MaterialTheme.colorScheme.onSurface
+
+                        1 -> MaterialTheme.colorScheme.tertiaryContainer
+                            .copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onTertiaryContainer
+                            .copy(alpha = 0.25f)
                             .compositeOver(MaterialTheme.colorScheme.onSurface)
-                    } else {
-                        MaterialTheme.colorScheme.onSurface
+
+                        2 -> MaterialTheme.colorScheme.primaryContainer
+                            .copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onPrimaryContainer
+                            .copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.onSurface)
+
+                        else -> MaterialTheme.colorScheme.secondaryContainer
+                            .copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onSecondaryContainer
+                            .copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.onSurface)
                     }
 
                     HomeCategoryCard(

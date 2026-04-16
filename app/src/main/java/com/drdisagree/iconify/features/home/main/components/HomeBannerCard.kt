@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.features.home.main.components
 
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -54,7 +56,6 @@ import kotlin.math.abs
 fun HomeBannerCard(modifier: Modifier = Modifier) {
     val darkMode = LocalDarkMode.current
 
-    val shape = MaterialTheme.shapes.large
     val shakeController = rememberShakeController()
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -80,7 +81,6 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
         ),
         label = "tiltX"
     )
-
     val tiltY by animateFloatAsState(
         targetValue = if (isPressed) (touchX - 0.5f) * 2f * maxTilt else 0f,
         animationSpec = spring(
@@ -93,15 +93,23 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
         !isPressed -> 1f
         isCorner -> 0.97f
         isSide -> 0.98f
-        else -> 0.99f
+        else -> 0.92f
     }
     val scale by animateFloatAsState(
         targetValue = scaleTarget,
         animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMedium
+            dampingRatio = 0.6f,
+            stiffness = Spring.StiffnessLow
         ),
         label = "scale"
+    )
+    val shapeCorner by animateDpAsState(
+        targetValue = if (isPressed && !isCorner && !isSide) 48.dp else 28.dp,
+        animationSpec = spring(
+            dampingRatio = 0.6f,
+            stiffness = Spring.StiffnessLow
+        ),
+        label = "shape"
     )
 
     val onTapAction = withHaptic {
@@ -179,7 +187,7 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
 
                 transformOrigin = TransformOrigin.Center
             },
-        shape = shape,
+        shape = RoundedCornerShape(shapeCorner),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
