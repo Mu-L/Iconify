@@ -71,6 +71,9 @@ sealed class NavRoutes {
             data object NavigationBar : More()
 
             @Serializable
+            data object MediaPlayer : More()
+
+            @Serializable
             data object Miscellaneous : More()
         }
 

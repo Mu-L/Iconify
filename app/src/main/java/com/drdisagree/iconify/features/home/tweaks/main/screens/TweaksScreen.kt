@@ -75,16 +75,24 @@ val tweaksPreferences = preferenceScreen {
             icon = iconRes(R.drawable.ic_tweaks_navbar),
             title = stringRes(R.string.activity_title_navigation_bar),
             summary = { stringRes(R.string.activity_desc_navigation_bar) },
-            onClick = { showComingSoonToast(it.context) }
+            onClick = {
+                it.navController.navigate(NavRoutes.Home.More.NavigationBar) {
+                    launchSingleTop = true
+                }
+            }
         )
 
-        //        action(
-        //            key = "mediaPlayerTweaks",
-        //            title = stringRes(R.string.activity_title_media_player),
-        //            icon = iconRes(R.drawable.ic_tweaks_media),
-        //            summary = { stringRes(R.string.activity_desc_media_player) },
-        //            onClick = { }
-        //        )
+        action(
+            key = "mediaPlayerTweaks",
+            title = stringRes(R.string.activity_title_media_player),
+            icon = iconRes(R.drawable.ic_tweaks_media),
+            summary = { stringRes(R.string.activity_desc_media_player) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Home.More.MediaPlayer) {
+                    launchSingleTop = true
+                }
+            }
+        )
 
         //        action(
         //            key = "volumePanelTweaks",

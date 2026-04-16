@@ -33,7 +33,6 @@ class MiscellaneousViewModel @Inject constructor(
     private val tabletLandscapeId = "tablet_qs_landscape"
     private val notchBarKillerId = "notch_bar_killer"
     private val tabletHeaderId = "tablet_qs_header"
-    private val progressWaveId = "media_progress_wave"
 
     private val tabletLandscapeResourceEntries = listOf(
         ResourceEntry(
@@ -155,21 +154,6 @@ class MiscellaneousViewModel @Inject constructor(
             "string",
             "config_mainBuiltInDisplayCutoutRectApproximation",
             "@string/config_mainBuiltInDisplayCutout"
-        )
-    )
-
-    private val progressWaveResourceEntries = listOf(
-        ResourceEntry(
-            SYSTEMUI_PACKAGE,
-            "dimen",
-            "qs_media_seekbar_progress_amplitude",
-            "0dp"
-        ),
-        ResourceEntry(
-            SYSTEMUI_PACKAGE,
-            "dimen",
-            "qs_media_seekbar_progress_phase",
-            "0dp"
         )
     )
 
@@ -301,36 +285,6 @@ class MiscellaneousViewModel @Inject constructor(
             _isLoading.value = false
 
             _uiEvent.emit(ToastUiEvent.Applied)
-        }
-    }
-
-    fun toggleDisableProgressWave(enable: Boolean) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (_isLoading.value) return@launch
-
-            _isLoading.value = true
-
-            val entries = progressWaveResourceEntries
-
-            val error = if (enable) {
-                ResourceManager.buildOverlayWithResource(
-                    progressWaveId,
-                    *entries.toTypedArray()
-                )
-            } else {
-                ResourceManager.removeResourceFromOverlay(
-                    overlayIds = listOf(progressWaveId),
-                    packagesToUpdate = entries.map { it.packageName }.distinct()
-                )
-            }
-
-            _isLoading.value = false
-
-            if (!error) {
-                _uiEvent.emit(ToastUiEvent.Applied)
-            } else {
-                _uiEvent.emit(ToastUiEvent.Error)
-            }
         }
     }
 }

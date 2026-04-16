@@ -46,14 +46,6 @@ val miscellaneousPreferences = preferenceScreen {
             summary = { stringRes(R.string.accent_privacy_chip_desc) }
         )
     }
-
-    category(title = stringRes(R.string.section_title_media_player)) {
-        switch(
-            key = TweaksKey.DISABLE_PROGRESS_WAVE,
-            title = stringRes(R.string.disable_progress_wave_title),
-            summary = { stringRes(R.string.disable_progress_wave_desc) }
-        )
-    }
 }
 
 @Composable
@@ -88,11 +80,6 @@ fun MiscellaneousScreen(
             TweaksKey.ACCENT_PRIVACY_CHIP.name -> {
                 val enable = (event.newValue as PrefValue.BoolValue).v
                 miscellaneousViewModel.toggleAccentPrivacyChip(enable)
-            }
-
-            TweaksKey.DISABLE_PROGRESS_WAVE.name -> {
-                val enable = (event.newValue as PrefValue.BoolValue).v
-                miscellaneousViewModel.toggleDisableProgressWave(enable)
             }
         }
     }

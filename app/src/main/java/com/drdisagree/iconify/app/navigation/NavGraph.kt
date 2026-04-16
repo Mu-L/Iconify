@@ -35,7 +35,9 @@ import com.drdisagree.iconify.features.home.settingsicons.screens.SettingsIconsS
 import com.drdisagree.iconify.features.home.toastframe.screens.ToastFrameScreen
 import com.drdisagree.iconify.features.home.tweaks.colornengine.screens.ColorEngineScreen
 import com.drdisagree.iconify.features.home.tweaks.main.screens.TweaksScreen
+import com.drdisagree.iconify.features.home.tweaks.mediaplayer.screens.MediaPlayerScreen
 import com.drdisagree.iconify.features.home.tweaks.miscellaneous.screens.MiscellaneousScreen
+import com.drdisagree.iconify.features.home.tweaks.navigationbar.screens.NavigationBarScreen
 import com.drdisagree.iconify.features.home.tweaks.statusbar.screens.TweaksStatusbarScreen
 import com.drdisagree.iconify.features.home.wifiicons.screens.WifiIconScreen
 import com.drdisagree.iconify.features.main.screens.MainScreen
@@ -207,6 +209,8 @@ fun NavGraph(
                         composable<NavRoutes.Home.More.Main> { TweaksScreen() }
                         composable<NavRoutes.Home.More.ColorEngine> { ColorEngineScreen() }
                         composable<NavRoutes.Home.More.StatusBar> { TweaksStatusbarScreen() }
+                        composable<NavRoutes.Home.More.NavigationBar> { NavigationBarScreen() }
+                        composable<NavRoutes.Home.More.MediaPlayer> { MediaPlayerScreen() }
                         composable<NavRoutes.Home.More.Miscellaneous> { MiscellaneousScreen() }
                     }
                 }
