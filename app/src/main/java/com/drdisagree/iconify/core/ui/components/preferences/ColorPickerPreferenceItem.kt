@@ -17,14 +17,16 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -261,10 +263,12 @@ fun ColorPickerPreferenceItem(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
                     ) {
-                        TextButton(onClick = withHaptic { showDialog = false }) {
-                            Text("Cancel")
-                        }
-                        TextButton(
+                        OutlinedButton(
+                            shapes = ButtonDefaults.shapes(),
+                            onClick = withHaptic { showDialog = false }
+                        ) { Text(stringResource(android.R.string.cancel)) }
+                        Button(
+                            shapes = ButtonDefaults.shapes(),
                             onClick = withHaptic {
                                 val toSave = when {
                                     isValidHex -> "#$hexInput"
@@ -274,9 +278,7 @@ fun ColorPickerPreferenceItem(
                                 prefController.setString(prefDefinition.key, toSave)
                                 showDialog = false
                             }
-                        ) {
-                            Text(stringResource(R.string.btn_select))
-                        }
+                        ) { Text(stringResource(R.string.btn_select)) }
                     }
                 }
             }

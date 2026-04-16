@@ -12,11 +12,14 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -28,7 +31,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.common.LocalNavController
 import com.drdisagree.iconify.core.preferences.PrefParam
 import com.drdisagree.iconify.core.preferences.PreferenceController
@@ -41,6 +46,7 @@ import com.drdisagree.iconify.core.preferences.toValueOrNull
 import com.drdisagree.iconify.core.ui.components.others.ColumnScrollIndicator
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MultiListPreferenceItem(
     prefDefinition: PreferenceDefinition,
@@ -168,17 +174,19 @@ fun MultiListPreferenceItem(
                 }
             },
             confirmButton = {
-                TextButton(
+                Button(
+                    shapes = ButtonDefaults.shapes(),
                     onClick = withHaptic {
                         prefController.setStringSet(prefDefinition.key, localSelected)
                         showDialog = false
                     }
-                ) { Text("OK") }
+                ) { Text(stringResource(R.string.btn_select)) }
             },
             dismissButton = {
-                TextButton(
+                OutlinedButton(
+                    shapes = ButtonDefaults.shapes(),
                     onClick = withHaptic { showDialog = false }
-                ) { Text("Cancel") }
+                ) { Text(stringResource(android.R.string.cancel)) }
             }
         )
     }
