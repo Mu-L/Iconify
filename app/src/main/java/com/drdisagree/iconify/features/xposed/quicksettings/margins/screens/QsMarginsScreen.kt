@@ -12,6 +12,7 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import kotlin.math.roundToInt
 
 val qsMarginsPreferences = preferenceScreen {
     category {
@@ -28,7 +29,7 @@ val qsMarginsPreferences = preferenceScreen {
             title = stringRes(R.string.qqs_panel_top_margin_title),
             min = 20f,
             max = 300f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_MARGINS) }
         )
 
@@ -37,7 +38,7 @@ val qsMarginsPreferences = preferenceScreen {
             title = stringRes(R.string.qs_panel_top_margin_title),
             min = 20f,
             max = 300f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_MARGINS) }
         )
     }
@@ -48,7 +49,7 @@ val qsMarginsPreferences = preferenceScreen {
             title = stringRes(R.string.qqs_panel_top_margin_title),
             min = 0f,
             max = 300f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_MARGINS) }
         )
 
@@ -57,7 +58,7 @@ val qsMarginsPreferences = preferenceScreen {
             title = stringRes(R.string.qs_panel_top_margin_title),
             min = 0f,
             max = 300f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_MARGINS) }
         )
     }

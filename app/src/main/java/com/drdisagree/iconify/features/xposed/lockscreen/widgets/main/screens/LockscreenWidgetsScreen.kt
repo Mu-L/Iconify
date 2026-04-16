@@ -27,6 +27,7 @@ import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.WeatherViewModel
 import com.drdisagree.iconify.services.schedulers.WeatherScheduler
 import java.util.stream.Collectors
+import kotlin.math.roundToInt
 
 fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean = false) = preferenceScreen {
     category {
@@ -238,7 +239,7 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean = false) = preference
             title = stringRes(R.string.lockscreen_clock_top_margin_title),
             min = -100f,
             max = 400f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WIDGETS) }
         )
 
@@ -247,7 +248,7 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean = false) = preference
             title = stringRes(R.string.lockscreen_clock_bottom_margin_title),
             min = -100f,
             max = 400f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WIDGETS) }
         )
 
@@ -256,7 +257,7 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean = false) = preference
             title = stringRes(R.string.lockscreen_widgets_roundness),
             min = 0f,
             max = 140f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WIDGETS) }
         )
 
@@ -266,7 +267,7 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean = false) = preference
             min = 0.5f,
             max = 1.5f,
             steps = 9,
-            valueLabel = { "${it.toInt()}x" },
+            valueLabel = { "${it.roundToInt()}x" },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WIDGETS) }
         )
     }

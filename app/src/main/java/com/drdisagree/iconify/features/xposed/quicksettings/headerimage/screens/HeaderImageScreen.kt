@@ -13,6 +13,7 @@ import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
 import com.drdisagree.iconify.data.common.XposedConst.HEADER_IMAGE_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.helpers.toXposedSharedPath
+import kotlin.math.roundToInt
 
 val headerImagePreferences = preferenceScreen {
     category {
@@ -50,7 +51,7 @@ val headerImagePreferences = preferenceScreen {
             title = stringRes(R.string.header_image_height_title),
             min = 40f,
             max = 400f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) },
             isVisible = { !it.getBoolean(XposedKey.HEADER_IMAGE_MAXIMUM_HEIGHT) }
         )
@@ -60,7 +61,7 @@ val headerImagePreferences = preferenceScreen {
             title = stringRes(R.string.header_image_opacity),
             min = 0f,
             max = 100f,
-            valueLabel = { "${it.toInt()}%" },
+            valueLabel = { "${it.roundToInt()}%" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) }
         )
 
@@ -69,7 +70,7 @@ val headerImagePreferences = preferenceScreen {
             title = stringRes(R.string.header_image_bottom_fade),
             min = 0f,
             max = 120f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) }
         )
 

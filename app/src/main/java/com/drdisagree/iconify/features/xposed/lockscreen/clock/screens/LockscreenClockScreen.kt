@@ -19,6 +19,7 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.lockscreen.clock.components.LockscreenClockPreview
 import com.drdisagree.iconify.helpers.toXposedSharedPath
+import kotlin.math.roundToInt
 
 val lsClockPreferences = preferenceScreen {
     category {
@@ -88,7 +89,7 @@ val lsClockPreferences = preferenceScreen {
             title = stringRes(R.string.lockscreen_font_line_height_title),
             min = -120f,
             max = 120f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
 
@@ -107,7 +108,7 @@ val lsClockPreferences = preferenceScreen {
             title = stringRes(R.string.lockscreen_clock_top_margin_title),
             min = 0f,
             max = 600f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
 
@@ -116,7 +117,7 @@ val lsClockPreferences = preferenceScreen {
             title = stringRes(R.string.lockscreen_clock_bottom_margin_title),
             min = 0f,
             max = 600f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
     }

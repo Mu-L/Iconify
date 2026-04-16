@@ -14,6 +14,7 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import kotlin.math.roundToInt
 
 val lockscreenPreferences = preferenceScreen {
     category {
@@ -90,7 +91,7 @@ val lockscreenPreferences = preferenceScreen {
             title = stringRes(R.string.ls_wallpaper_blur_radius_title),
             min = 0f,
             max = 100f,
-            valueLabel = { "${it.toInt()}%" },
+            valueLabel = { "${it.roundToInt()}%" },
             isVisible = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_WALLPAPER_BLUR) }
         )
 

@@ -14,6 +14,7 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import kotlin.math.roundToInt
 
 val clockChipPreferences = preferenceScreen {
     category {
@@ -114,7 +115,7 @@ val clockChipPreferences = preferenceScreen {
             min = 0f,
             max = 12f,
             steps = 11,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) },
             isVisible = {
                 it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP_DASHED_BORDER) &&
@@ -128,7 +129,7 @@ val clockChipPreferences = preferenceScreen {
             min = 0f,
             max = 12f,
             steps = 11,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) },
             isVisible = {
                 it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP_DASHED_BORDER) &&
@@ -142,7 +143,7 @@ val clockChipPreferences = preferenceScreen {
             min = 0f,
             max = 12f,
             steps = 11,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) },
             isVisible = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP_BORDER) }
         )
@@ -155,7 +156,7 @@ val clockChipPreferences = preferenceScreen {
             min = 0f,
             max = 12f,
             steps = 11,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) }
         )
 
@@ -165,7 +166,7 @@ val clockChipPreferences = preferenceScreen {
             min = 0f,
             max = 12f,
             steps = 11,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) }
         )
 
@@ -175,7 +176,7 @@ val clockChipPreferences = preferenceScreen {
             min = 0f,
             max = 12f,
             steps = 11,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) }
         )
 
@@ -185,7 +186,7 @@ val clockChipPreferences = preferenceScreen {
             min = 0f,
             max = 12f,
             steps = 11,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) }
         )
     }
@@ -196,7 +197,7 @@ val clockChipPreferences = preferenceScreen {
             title = stringRes(R.string.top_left_radius),
             min = 0f,
             max = 40f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) }
         )
 
@@ -205,7 +206,7 @@ val clockChipPreferences = preferenceScreen {
             title = stringRes(R.string.top_right_radius),
             min = 0f,
             max = 40f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) }
         )
 
@@ -214,7 +215,7 @@ val clockChipPreferences = preferenceScreen {
             title = stringRes(R.string.bottom_left_radius),
             min = 0f,
             max = 40f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) }
         )
 
@@ -223,7 +224,7 @@ val clockChipPreferences = preferenceScreen {
             title = stringRes(R.string.bottom_right_radius),
             min = 0f,
             max = 40f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP) }
         )
     }

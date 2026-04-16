@@ -15,6 +15,7 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import kotlin.math.roundToInt
 
 val statusbarPreferences = preferenceScreen {
     category(title = stringRes(R.string.section_title_clock)) {
@@ -54,7 +55,7 @@ val statusbarPreferences = preferenceScreen {
             min = 10f,
             max = 24f,
             steps = 13,
-            valueLabel = { "${it.toInt()}px" },
+            valueLabel = { "${it.roundToInt()}px" },
             isVisible = { pref -> pref.getBoolean(XposedKey.STATUSBAR_CLOCK_TEXT_SIZE_SWITCH) }
         )
 
@@ -107,7 +108,7 @@ val statusbarPreferences = preferenceScreen {
             min = -1f,
             max = 15f,
             steps = 14,
-            valueLabel = { "${it.toInt()}" },
+            valueLabel = { "${it.roundToInt()}" },
             showDefaultIndicator = true,
             hideDefaultValue = true,
             showResetButton = true

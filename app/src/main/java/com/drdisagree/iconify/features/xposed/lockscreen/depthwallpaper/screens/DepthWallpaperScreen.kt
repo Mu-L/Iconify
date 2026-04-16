@@ -41,6 +41,7 @@ import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.lockscreen.depthwallpaper.components.DepthWallpaperExample
 import com.drdisagree.iconify.helpers.toXposedSharedPath
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.BitmapSubjectSegmenter
+import kotlin.math.roundToInt
 
 fun depthWallpaperPreferences(
     mlKitAvailable: Boolean? = null,
@@ -180,7 +181,7 @@ fun depthWallpaperPreferences(
             title = stringRes(R.string.foreground_image_alpha_title),
             min = 0f,
             max = 100f,
-            valueLabel = { "${it.toInt()}%" },
+            valueLabel = { "${it.roundToInt()}%" },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_DEPTH_WALLPAPER) }
         )
 

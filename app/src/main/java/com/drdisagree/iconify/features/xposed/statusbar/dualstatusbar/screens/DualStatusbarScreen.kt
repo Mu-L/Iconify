@@ -12,6 +12,7 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import kotlin.math.roundToInt
 
 val dualStatusbarPreferences = preferenceScreen {
     category {
@@ -65,7 +66,7 @@ val dualStatusbarPreferences = preferenceScreen {
             title = stringRes(R.string.dsb_statusbar_height_title),
             min = -1f,
             max = 80f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             showDefaultIndicator = true,
             hideDefaultValue = true,
             showResetButton = true,
@@ -77,7 +78,7 @@ val dualStatusbarPreferences = preferenceScreen {
             title = stringRes(R.string.dsb_start_padding_title),
             min = -1f,
             max = 140f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             showDefaultIndicator = true,
             hideDefaultValue = true,
             showResetButton = true,
@@ -89,7 +90,7 @@ val dualStatusbarPreferences = preferenceScreen {
             title = stringRes(R.string.dsb_end_padding_title),
             min = -1f,
             max = 140f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             showDefaultIndicator = true,
             hideDefaultValue = true,
             showResetButton = true,
@@ -101,7 +102,7 @@ val dualStatusbarPreferences = preferenceScreen {
             title = stringRes(R.string.dsb_top_padding_title),
             min = -1f,
             max = 40f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             showDefaultIndicator = true,
             hideDefaultValue = true,
             showResetButton = true,
@@ -113,7 +114,7 @@ val dualStatusbarPreferences = preferenceScreen {
             title = stringRes(R.string.dsb_start_top_margin_title),
             min = 0f,
             max = 40f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.DUAL_STATUSBAR) }
         )
 
@@ -122,7 +123,7 @@ val dualStatusbarPreferences = preferenceScreen {
             title = stringRes(R.string.dsb_start_bottom_margin_title),
             min = 0f,
             max = 40f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.DUAL_STATUSBAR) }
         )
 
@@ -131,7 +132,7 @@ val dualStatusbarPreferences = preferenceScreen {
             title = stringRes(R.string.dsb_end_top_margin_title),
             min = 0f,
             max = 40f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.DUAL_STATUSBAR) }
         )
 
@@ -140,7 +141,7 @@ val dualStatusbarPreferences = preferenceScreen {
             title = stringRes(R.string.dsb_end_bottom_margin_title),
             min = 0f,
             max = 40f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.DUAL_STATUSBAR) }
         )
     }

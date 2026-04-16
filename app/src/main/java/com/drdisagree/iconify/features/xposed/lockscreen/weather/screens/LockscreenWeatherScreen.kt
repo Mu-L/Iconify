@@ -29,6 +29,7 @@ import com.drdisagree.iconify.features.xposed.lockscreen.common.components.Weath
 import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.WeatherViewModel
 import com.drdisagree.iconify.helpers.maskKey
 import com.drdisagree.iconify.helpers.toXposedSharedPath
+import kotlin.math.roundToInt
 
 fun lsWeatherPreferences(
     weatherViewModel: WeatherViewModel? = null,
@@ -234,7 +235,7 @@ fun lsWeatherPreferences(
             min = 13f,
             max = 24f,
             steps = 10,
-            valueLabel = { "${it.toInt()}px" },
+            valueLabel = { "${it.roundToInt()}px" },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
         )
 
@@ -244,7 +245,7 @@ fun lsWeatherPreferences(
             min = 13f,
             max = 24f,
             steps = 10,
-            valueLabel = { "${it.toInt()}px" },
+            valueLabel = { "${it.roundToInt()}px" },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
         )
 
@@ -253,7 +254,7 @@ fun lsWeatherPreferences(
             title = stringRes(R.string.weather_margin_side),
             min = 0f,
             max = 100f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
         )
 
@@ -262,7 +263,7 @@ fun lsWeatherPreferences(
             title = stringRes(R.string.weather_margin_top),
             min = 0f,
             max = 100f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
         )
 
@@ -271,7 +272,7 @@ fun lsWeatherPreferences(
             title = stringRes(R.string.weather_margin_bottom),
             min = 0f,
             max = 100f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
         )
     }

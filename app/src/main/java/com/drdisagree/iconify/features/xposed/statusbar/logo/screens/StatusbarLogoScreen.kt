@@ -31,6 +31,7 @@ import com.drdisagree.iconify.features.xposed.statusbar.logo.components.Statusba
 import com.drdisagree.iconify.features.xposed.statusbar.logo.components.rememberStatusbarLogoItems
 import com.drdisagree.iconify.helpers.toXposedSharedPath
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 fun statusbarLogoPreferences(
     selectedLogoLabel: String = "",
@@ -82,7 +83,7 @@ fun statusbarLogoPreferences(
             title = stringRes(R.string.status_bar_logo_size_title),
             min = 12f,
             max = 40f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_LOGO) }
         )
 

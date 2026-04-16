@@ -13,6 +13,7 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import kotlin.math.roundToInt
 
 val lsAlbumArtPreferences = preferenceScreen {
     category {
@@ -37,7 +38,7 @@ val lsAlbumArtPreferences = preferenceScreen {
             title = stringRes(R.string.media_art_blur_level_title),
             min = 0f,
             max = 100f,
-            valueLabel = { "${it.toInt()}%" },
+            valueLabel = { "${it.roundToInt()}%" },
             isVisible = { pref ->
                 pref.getString(XposedKey.ALBUM_ART_ON_LOCKSCREEN_FILTER) in setOf("3", "4")
             },

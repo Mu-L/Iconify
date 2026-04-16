@@ -18,6 +18,7 @@ import com.drdisagree.iconify.core.utils.SystemUtils
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 val qsTransparencyPreferences = preferenceScreen {
     category(title = stringRes(R.string.section_title_transparency)) {
@@ -48,7 +49,7 @@ val qsTransparencyPreferences = preferenceScreen {
             title = stringRes(R.string.qs_background_opacity_title),
             min = 0f,
             max = 100f,
-            valueLabel = { "${it.toInt()}%" },
+            valueLabel = { "${it.roundToInt()}%" },
             isVisible = { pref ->
                 pref.getBoolean(XposedKey.QUICK_SETTINGS_TRANSPARENCY) ||
                         pref.getBoolean(XposedKey.NOTIFICATION_TRANSPARENCY)
@@ -76,7 +77,7 @@ val qsTransparencyPreferences = preferenceScreen {
             min = 0f,
             max = 15f,
             steps = 14,
-            valueLabel = { "${it.toInt()}px" },
+            valueLabel = { "${it.roundToInt()}px" },
             isVisible = { pref -> pref.getBoolean(XposedKey.QUICK_SETTINGS_BLUR) },
         )
     }

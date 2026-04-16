@@ -14,6 +14,7 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import kotlin.math.roundToInt
 
 val quickSettingsPreferences = preferenceScreen {
     category {
@@ -124,7 +125,7 @@ val quickSettingsPreferences = preferenceScreen {
             title = stringRes(R.string.notification_headsup_blur_intensity_title),
             min = 0f,
             max = 100f,
-            valueLabel = { "${it.toInt()}%" },
+            valueLabel = { "${it.roundToInt()}%" },
             isVisible = { pref -> pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_BLUR) }
         )
 
@@ -133,7 +134,7 @@ val quickSettingsPreferences = preferenceScreen {
             title = stringRes(R.string.notification_headsup_blur_transparency_title),
             min = 0f,
             max = 100f,
-            valueLabel = { "${it.toInt()}%" },
+            valueLabel = { "${it.roundToInt()}%" },
             isVisible = { pref -> pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_BLUR) }
         )
     }
@@ -156,7 +157,7 @@ val quickSettingsPreferences = preferenceScreen {
             title = stringRes(R.string.media_player_artwork_blur_radius_title),
             min = 0f,
             max = 100f,
-            valueLabel = { "${it.toInt()}%" },
+            valueLabel = { "${it.roundToInt()}%" },
             isVisible = { pref -> pref.getBoolean(XposedKey.BLUR_MEDIA_PLAYER_ARTWORK) }
         )
     }

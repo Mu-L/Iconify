@@ -12,6 +12,7 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import kotlin.math.roundToInt
 
 val qsGridPreferences = preferenceScreen {
     category {
@@ -29,7 +30,7 @@ val qsGridPreferences = preferenceScreen {
             min = 1f,
             max = 4f,
             steps = 2,
-            valueLabel = { "${it.toInt()}" },
+            valueLabel = { "${it.roundToInt()}" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_GRID) },
         )
 
@@ -39,7 +40,7 @@ val qsGridPreferences = preferenceScreen {
             min = 1f,
             max = 8f,
             steps = 6,
-            valueLabel = { "${it.toInt()}" },
+            valueLabel = { "${it.roundToInt()}" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_GRID) }
         )
 
@@ -49,7 +50,7 @@ val qsGridPreferences = preferenceScreen {
             min = 2f,
             max = 8f,
             steps = 5,
-            valueLabel = { "${it.toInt()}" },
+            valueLabel = { "${it.roundToInt()}" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_GRID) },
         )
     }
@@ -61,7 +62,7 @@ val qsGridPreferences = preferenceScreen {
             min = 1f,
             max = 4f,
             steps = 2,
-            valueLabel = { "${it.toInt()}" },
+            valueLabel = { "${it.roundToInt()}" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_GRID) },
         )
 
@@ -71,7 +72,7 @@ val qsGridPreferences = preferenceScreen {
             min = 1f,
             max = 8f,
             steps = 6,
-            valueLabel = { "${it.toInt()}" },
+            valueLabel = { "${it.roundToInt()}" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_GRID) }
         )
 
@@ -81,7 +82,7 @@ val qsGridPreferences = preferenceScreen {
             min = 4f,
             max = 12f,
             steps = 7,
-            valueLabel = { "${it.toInt()}" },
+            valueLabel = { "${it.roundToInt()}" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_GRID) },
         )
     }

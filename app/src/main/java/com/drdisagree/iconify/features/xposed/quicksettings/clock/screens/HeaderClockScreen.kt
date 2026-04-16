@@ -17,6 +17,7 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.quicksettings.clock.components.HeaderClockPreview
 import com.drdisagree.iconify.helpers.toXposedSharedPath
+import kotlin.math.roundToInt
 
 val headerClockPreferences = preferenceScreen {
     category {
@@ -80,7 +81,7 @@ val headerClockPreferences = preferenceScreen {
             title = stringRes(R.string.header_clock_top_margin_title),
             min = 0f,
             max = 250f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_CLOCK) }
         )
 
@@ -89,7 +90,7 @@ val headerClockPreferences = preferenceScreen {
             title = stringRes(R.string.header_clock_side_margin_title),
             min = 0f,
             max = 200f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_CLOCK) }
         )
 
@@ -98,7 +99,7 @@ val headerClockPreferences = preferenceScreen {
             title = stringRes(R.string.header_clock_expansion_y_title),
             min = 0f,
             max = 250f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_CLOCK) }
         )
 
@@ -107,7 +108,7 @@ val headerClockPreferences = preferenceScreen {
             title = stringRes(R.string.header_clock_landscape_offset_y_title),
             min = -20f,
             max = 40f,
-            valueLabel = { "${it.toInt()}dp" },
+            valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_CLOCK) }
         )
     }
