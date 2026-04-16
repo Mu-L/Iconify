@@ -2,12 +2,14 @@ package com.drdisagree.iconify.features.home.tweaks.miscellaneous.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.core.utils.overlay.resource.ResourceEntry
 import com.drdisagree.iconify.core.utils.overlay.resource.ResourceManager
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.events.ToastUiEvent
+import com.drdisagree.iconify.data.keys.TweaksKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -20,9 +22,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MiscellaneousViewModel @Inject constructor() : ViewModel() {
+class MiscellaneousViewModel @Inject constructor(
+    private val prefController: PreferenceController
+) : ViewModel() {
 
     private val tag = "MiscellaneousViewModel"
+
+    private val accentPrivacyChipOverlayPackageName = "IconifyComponentPCBG.overlay"
 
     private val tabletLandscapeId = "tablet_qs_landscape"
     private val notchBarKillerId = "notch_bar_killer"
@@ -173,6 +179,15 @@ class MiscellaneousViewModel @Inject constructor() : ViewModel() {
     private val _uiEvent = MutableSharedFlow<ToastUiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
+    init {
+        viewModelScope.launch {
+            prefController.setBoolean(
+                TweaksKey.ACCENT_PRIVACY_CHIP,
+                OverlayUtils.isOverlayEnabled(accentPrivacyChipOverlayPackageName)
+            )
+        }
+    }
+
     fun toggleTabletLandscape(enable: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             if (_isLoading.value) return@launch
@@ -277,9 +292,9 @@ class MiscellaneousViewModel @Inject constructor() : ViewModel() {
             _isLoading.value = true
 
             if (enable) {
-                OverlayUtils.enableOverlay("IconifyComponentPCBG.overlay")
+                OverlayUtils.enableOverlay(accentPrivacyChipOverlayPackageName)
             } else {
-                OverlayUtils.disableOverlay("IconifyComponentPCBG.overlay")
+                OverlayUtils.disableOverlay(accentPrivacyChipOverlayPackageName)
             }
 
             delay(500)
