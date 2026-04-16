@@ -65,8 +65,24 @@ fun HomeCategoryCard(
         ),
         label = "scale"
     )
-    val shapeCorner by animateDpAsState(
+    val outerShapeCorner by animateDpAsState(
         targetValue = if (isPressed) 40.dp else 28.dp,
+        animationSpec = spring(
+            dampingRatio = 0.6f,
+            stiffness = Spring.StiffnessLow
+        ),
+        label = "shape"
+    )
+    val innerShapeCornerLarge by animateDpAsState(
+        targetValue = if (isPressed) 23.dp else 16.dp,
+        animationSpec = spring(
+            dampingRatio = 0.6f,
+            stiffness = Spring.StiffnessLow
+        ),
+        label = "shape"
+    )
+    val innerShapeCornerSmall by animateDpAsState(
+        targetValue = if (isPressed) 17.dp else 12.dp,
         animationSpec = spring(
             dampingRatio = 0.6f,
             stiffness = Spring.StiffnessLow
@@ -79,13 +95,13 @@ fun HomeCategoryCard(
             .fillMaxWidth()
             .height(if (smallVariant) 84.dp else 190.dp)
             .scale(scale)
-            .clip(RoundedCornerShape(shapeCorner))
+            .clip(RoundedCornerShape(outerShapeCorner))
             .clickable(
                 interactionSource = interactionSource,
                 indication = LocalIndication.current,
                 onClick = withHaptic { onClick() }
             ),
-        shape = RoundedCornerShape(shapeCorner),
+        shape = RoundedCornerShape(outerShapeCorner),
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -108,7 +124,7 @@ fun HomeCategoryCard(
                             .size(40.dp)
                             .background(
                                 color = foregroundColor.copy(alpha = 0.15f),
-                                shape = RoundedCornerShape(12.dp)
+                                shape = RoundedCornerShape(innerShapeCornerSmall)
                             ),
                         contentAlignment = Alignment.Center
                     ) {
@@ -142,7 +158,7 @@ fun HomeCategoryCard(
                             .size(48.dp)
                             .background(
                                 color = foregroundColor.copy(alpha = 0.15f),
-                                shape = RoundedCornerShape(16.dp)
+                                shape = RoundedCornerShape(innerShapeCornerLarge)
                             ),
                         contentAlignment = Alignment.Center
                     ) {

@@ -92,13 +92,13 @@ fun HomeCategories(modifier: Modifier = Modifier) {
                 .forEachIndexed { rowIndex, item ->
                     val (backgroundColor, foregroundColor) = when (rowIndex % 4) {
                         0 -> MaterialTheme.colorScheme.primaryContainer
-                            .copy(alpha = 0.25f)
+                            .copy(alpha = 0.2f)
                             .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onPrimaryContainer
                             .copy(alpha = 0.25f)
                             .compositeOver(MaterialTheme.colorScheme.onSurface)
 
                         1 -> MaterialTheme.colorScheme.secondaryContainer
-                            .copy(alpha = 0.25f)
+                            .copy(alpha = 0.2f)
                             .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onSecondaryContainer
                             .copy(alpha = 0.25f)
                             .compositeOver(MaterialTheme.colorScheme.onSurface)
@@ -106,7 +106,7 @@ fun HomeCategories(modifier: Modifier = Modifier) {
                         2 -> MaterialTheme.colorScheme.surfaceContainerHigh to MaterialTheme.colorScheme.onSurface
 
                         else -> MaterialTheme.colorScheme.tertiaryContainer
-                            .copy(alpha = 0.25f)
+                            .copy(alpha = 0.2f)
                             .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onTertiaryContainer
                             .copy(alpha = 0.25f)
                             .compositeOver(MaterialTheme.colorScheme.onSurface)
@@ -139,19 +139,19 @@ fun HomeCategories(modifier: Modifier = Modifier) {
                         0 -> MaterialTheme.colorScheme.surfaceContainerHigh to MaterialTheme.colorScheme.onSurface
 
                         1 -> MaterialTheme.colorScheme.tertiaryContainer
-                            .copy(alpha = 0.25f)
+                            .copy(alpha = 0.2f)
                             .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onTertiaryContainer
                             .copy(alpha = 0.25f)
                             .compositeOver(MaterialTheme.colorScheme.onSurface)
 
                         2 -> MaterialTheme.colorScheme.primaryContainer
-                            .copy(alpha = 0.25f)
+                            .copy(alpha = 0.2f)
                             .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onPrimaryContainer
                             .copy(alpha = 0.25f)
                             .compositeOver(MaterialTheme.colorScheme.onSurface)
 
                         else -> MaterialTheme.colorScheme.secondaryContainer
-                            .copy(alpha = 0.25f)
+                            .copy(alpha = 0.2f)
                             .compositeOver(MaterialTheme.colorScheme.surfaceContainerHigh) to MaterialTheme.colorScheme.onSecondaryContainer
                             .copy(alpha = 0.25f)
                             .compositeOver(MaterialTheme.colorScheme.onSurface)
