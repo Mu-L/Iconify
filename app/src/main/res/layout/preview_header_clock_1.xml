@@ -44,7 +44,7 @@
         android:layout_width="4dp"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
-        android:background="@drawable/custom_background_less_rounded"
+        android:background="@drawable/header_clock_1_custom_background"
         android:backgroundTint="@android:color/system_accent3_300"
         android:tag="accent3" />
 

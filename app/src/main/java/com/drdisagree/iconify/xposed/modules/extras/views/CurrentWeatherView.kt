@@ -324,7 +324,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             1 -> {
                 bg = ResourcesCompat.getDrawable(
                     appContext!!.resources,
-                    R.drawable.date_box_str_border,
+                    R.drawable.lockscreen_weather_bg_date_box_str_border,
                     appContext!!.theme
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
@@ -342,7 +342,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             2 -> {
                 bg = ResourcesCompat.getDrawable(
                     appContext!!.resources,
-                    R.drawable.date_str_border,
+                    R.drawable.lockscreen_weather_bg_date_str_border,
                     appContext!!.theme
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
@@ -360,7 +360,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             3 -> {
                 bg = ResourcesCompat.getDrawable(
                     appContext!!.resources,
-                    R.drawable.ambient_indication_pill_background,
+                    R.drawable.lockscreen_weather_bg_ambient_indication_pill_background,
                     appContext!!.theme
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
@@ -378,7 +378,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             4, 5 -> {
                 bg = ResourcesCompat.getDrawable(
                     appContext!!.resources,
-                    R.drawable.date_str_accent,
+                    R.drawable.lockscreen_weather_bg_date_str_accent,
                     appContext!!.theme
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
@@ -398,7 +398,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             6 -> {
                 bg = ResourcesCompat.getDrawable(
                     appContext!!.resources,
-                    R.drawable.date_str_gradient,
+                    R.drawable.lockscreen_weather_bg_date_str_gradient,
                     appContext!!.theme
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
@@ -418,7 +418,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             7 -> {
                 bg = ResourcesCompat.getDrawable(
                     appContext!!.resources,
-                    R.drawable.date_str_borderacc,
+                    R.drawable.lockscreen_weather_bg_date_str_borderacc,
                     appContext!!.theme
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
@@ -438,7 +438,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             8 -> {
                 bg = ResourcesCompat.getDrawable(
                     appContext!!.resources,
-                    R.drawable.date_str_bordergrad,
+                    R.drawable.lockscreen_weather_bg_date_str_bordergrad,
                     appContext!!.theme
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(

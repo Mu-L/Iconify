@@ -37,83 +37,83 @@ import com.drdisagree.iconify.features.home.notification.viewmodels.Notification
 private val notificationList = listOf(
     Pair(
         "Default",
-        R.drawable.notif_default
+        R.drawable.preview_notification_default
     ),
     Pair(
         "Layers",
-        R.drawable.notif_layers
+        R.drawable.preview_notification_layers
     ),
     Pair(
         "Thin Outline",
-        R.drawable.notif_thin_outline
+        R.drawable.preview_notification_thin_outline
     ),
     Pair(
         "Bottom Outline",
-        R.drawable.notif_bottom_outline
+        R.drawable.preview_notification_bottom_outline
     ),
     Pair(
         "Neumorph",
-        R.drawable.notif_neumorph
+        R.drawable.preview_notification_neumorph
     ),
     Pair(
         "Stack",
-        R.drawable.notif_stack
+        R.drawable.preview_notification_stack
     ),
     Pair(
         "Side Stack",
-        R.drawable.notif_side_stack
+        R.drawable.preview_notification_side_stack
     ),
     Pair(
         "Outline",
-        R.drawable.notif_outline
+        R.drawable.preview_notification_outline
     ),
     Pair(
         "Leafy Outline",
-        R.drawable.notif_leafy_outline
+        R.drawable.preview_notification_leafy_outline
     ),
     Pair(
         "Lighty",
-        R.drawable.notif_lighty
+        R.drawable.preview_notification_lighty
     ),
     Pair(
         "Neumorph Outline",
-        R.drawable.notif_neumorph_outline
+        R.drawable.preview_notification_neumorph_outline
     ),
     Pair(
         "Cyberponk",
-        R.drawable.notif_cyberponk
+        R.drawable.preview_notification_cyberponk
     ),
     Pair(
         "Cyberponk v2",
-        R.drawable.notif_cyberponk_v2
+        R.drawable.preview_notification_cyberponk_v2
     ),
     Pair(
         "Thread Line",
-        R.drawable.notif_thread_line
+        R.drawable.preview_notification_thread_line
     ),
     Pair(
         "Faded",
-        R.drawable.notif_faded
+        R.drawable.preview_notification_faded
     ),
     Pair(
         "Dumbbell",
-        R.drawable.notif_dumbbell
+        R.drawable.preview_notification_dumbbell
     ),
     Pair(
         "Semi Transparent",
-        R.drawable.notif_semi_transparent
+        R.drawable.preview_notification_semi_transparent
     ),
     Pair(
         "Pitch Black",
-        R.drawable.notif_pitch_black
+        R.drawable.preview_notification_pitch_black
     ),
     Pair(
         "Duoline",
-        R.drawable.notif_duoline
+        R.drawable.preview_notification_duoline
     ),
     Pair(
         "iOS",
-        R.drawable.notif_ios
+        R.drawable.preview_notification_ios
     ),
 ).mapIndexed { index, (name, style) ->
     NotificationPreview(

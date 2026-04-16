@@ -13,7 +13,7 @@
         android:clickable="false"
         android:clipToOutline="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/default_avatar"
+        android:src="@drawable/img_default_avatar"
         android:tag="profile_picture" />
 
     <LinearLayout
@@ -71,7 +71,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:background="@color/white"
+                    android:background="#FFFFFF"
                     android:backgroundTint="?android:textColorPrimary"
                     android:tag="text1" />
             </LinearLayout>

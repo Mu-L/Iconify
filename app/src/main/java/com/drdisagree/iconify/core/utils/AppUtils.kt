@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import androidx.core.net.toUri
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
@@ -51,7 +52,9 @@ object AppUtils {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     fun getAppIcon(packageName: String): Drawable? {
-        var appIcon = ContextCompat.getDrawable(appContext, R.drawable.ic_android)
+        var appIcon = ContextCompat.getDrawable(appContext, R.drawable.ic_statusbar_logo_android).also {
+            it?.setTint("#30dc80".toColorInt())
+        }
 
         try {
             appIcon = appContext.packageManager.getApplicationIcon(packageName)

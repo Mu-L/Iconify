@@ -210,18 +210,18 @@ private fun NotificationCardPreview() {
         NotificationPreview(
             id = "1",
             title = UiText.Text("Default"),
-            notificationStyle = R.drawable.notif_default,
+            notificationStyle = R.drawable.preview_notification_default,
             isApplied = true
         ),
         NotificationPreview(
             id = "2",
             title = UiText.Text("Layers"),
-            notificationStyle = R.drawable.notif_layers
+            notificationStyle = R.drawable.preview_notification_layers
         ),
         NotificationPreview(
             id = "3",
             title = UiText.Text("Thin Outline"),
-            notificationStyle = R.drawable.notif_thin_outline
+            notificationStyle = R.drawable.preview_notification_thin_outline
         )
     )
 

@@ -112,7 +112,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.9"
-                android:background="@drawable/arc_progress"
+                android:background="@drawable/lockscreen_widget_arc_progress"
                 android:tag="text1|volume_progress"
                 app:tint="@android:color/white" />
 
@@ -121,7 +121,7 @@
                 android:layout_height="60dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.9"
-                android:background="@drawable/arc_progress"
+                android:background="@drawable/lockscreen_widget_arc_progress"
                 android:tag="text1|ram_usage_info"
                 app:tint="@android:color/white" />
 

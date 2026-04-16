@@ -58,7 +58,7 @@
                 android:layout_marginEnd="12dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.9"
-                android:background="@drawable/arc_progress"
+                android:background="@drawable/lockscreen_widget_arc_progress"
                 android:tag="text1|battery_progress_arc"
                 app:tint="@android:color/white" />
 
@@ -68,7 +68,7 @@
                 android:layout_marginHorizontal="12dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.9"
-                android:background="@drawable/arc_progress"
+                android:background="@drawable/lockscreen_widget_arc_progress"
                 android:tag="text1|ram_usage_info"
                 app:tint="@android:color/white" />
 
@@ -78,7 +78,7 @@
                 android:layout_marginHorizontal="12dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.9"
-                android:background="@drawable/arc_progress"
+                android:background="@drawable/lockscreen_widget_arc_progress"
                 android:tag="text1|temperature_progress"
                 app:tint="@android:color/white" />
 
@@ -88,7 +88,7 @@
                 android:layout_marginStart="12dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.9"
-                android:background="@drawable/arc_progress"
+                android:background="@drawable/lockscreen_widget_arc_progress"
                 android:tag="text1|volume_progress"
                 app:tint="@android:color/white" />
 

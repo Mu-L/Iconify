@@ -297,7 +297,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             setImageDrawable(drawable)
         } catch (_: Throwable) {
             @Suppress("DEPRECATION")
-            modRes.getDrawable(R.drawable.ic_android_logo)
+            modRes.getDrawable(R.drawable.ic_statusbar_logo_android)
         }
     }
 }

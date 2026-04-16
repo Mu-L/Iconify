@@ -96,20 +96,20 @@ private val settingsIconsList = listOf(
         title = "Bubble v1",
         summary = R.string.settings_iconpack_bubble_v1,
         icons = listOf(
-            R.drawable.preview_bubble_v1_1,
-            R.drawable.preview_bubble_v1_2,
-            R.drawable.preview_bubble_v1_3,
-            R.drawable.preview_bubble_v1_4
+            R.drawable.preview_settings_icon_bubble_v1_1,
+            R.drawable.preview_settings_icon_bubble_v1_2,
+            R.drawable.preview_settings_icon_bubble_v1_3,
+            R.drawable.preview_settings_icon_bubble_v1_4
         )
     ),
     SettingsIconsPack(
         title = "Bubble v2",
         summary = R.string.settings_iconpack_bubble_v2,
         icons = listOf(
-            R.drawable.preview_bubble_v2_1,
-            R.drawable.preview_bubble_v2_2,
-            R.drawable.preview_bubble_v2_3,
-            R.drawable.preview_bubble_v2_4
+            R.drawable.preview_settings_icon_bubble_v2_1,
+            R.drawable.preview_settings_icon_bubble_v2_2,
+            R.drawable.preview_settings_icon_bubble_v2_3,
+            R.drawable.preview_settings_icon_bubble_v2_4
         )
     ),
 ).map { pack ->

@@ -690,7 +690,7 @@ class HeaderClock(context: Context) : ModPack(context) {
         get() = if (mUserManager == null) {
             ResourcesCompat.getDrawable(
                 appContext.resources,
-                R.drawable.default_avatar,
+                R.drawable.img_default_avatar,
                 appContext.theme
             )
         } else try {
@@ -711,7 +711,7 @@ class HeaderClock(context: Context) : ModPack(context) {
 
             ResourcesCompat.getDrawable(
                 appContext.resources,
-                R.drawable.default_avatar,
+                R.drawable.img_default_avatar,
                 appContext.theme
             )
         }

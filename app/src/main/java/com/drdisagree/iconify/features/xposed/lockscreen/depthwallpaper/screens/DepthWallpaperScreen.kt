@@ -67,8 +67,8 @@ fun depthWallpaperPreferences(
                 val imageWidth = (availableWidth / 2).coerceAtMost(120.dp)
 
                 DepthWallpaperExample(
-                    leftImage = painterResource(id = R.drawable.depth_wallpaper_example_fg),
-                    rightImage = painterResource(id = R.drawable.depth_wallpaper_example_bg),
+                    leftImage = painterResource(id = R.drawable.img_depth_wallpaper_example_fg),
+                    rightImage = painterResource(id = R.drawable.img_depth_wallpaper_example_bg),
                     leftName = stringResource(R.string.foreground_image_title),
                     rightName = stringResource(R.string.background_image_title),
                     imageWidth = imageWidth,

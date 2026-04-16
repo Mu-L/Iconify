@@ -28,20 +28,20 @@
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="6dp"
-                android:src="@drawable/circle"
+                android:src="@drawable/lockscreen_clock_10_circle"
                 android:tint="#FF5F56" />
 
             <ImageView
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="6dp"
-                android:src="@drawable/circle"
+                android:src="@drawable/lockscreen_clock_10_circle"
                 android:tint="#FFBD2E" />
 
             <ImageView
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:src="@drawable/circle"
+                android:src="@drawable/lockscreen_clock_10_circle"
                 android:tint="#27C940" />
 
         </LinearLayout>

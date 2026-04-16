@@ -695,23 +695,33 @@ private fun PhoneFrame(
         }
 
         if (isReady) {
-            AsyncImage(
-                model = ImageRequest.Builder(context)
-                    .data(wallpaperBytes)
-                    .memoryCacheKey("lock_wallpaper")
-                    .diskCacheKey("lock_wallpaper")
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "Lock wallpaper",
-                contentScale = ContentScale.Crop,
+            Box(
                 modifier = Modifier
                     .padding(
                         horizontal = bezelHorizontal,
                         vertical = bezelVertical
                     )
                     .fillMaxSize()
-                    .clip(RoundedCornerShape(cornerRadius2))
-            )
+                    .clip(RoundedCornerShape(cornerRadius2)),
+                contentAlignment = Alignment.Center
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(wallpaperBytes)
+                        .memoryCacheKey("lock_wallpaper")
+                        .diskCacheKey("lock_wallpaper")
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "Lock wallpaper",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color(0x33000000))
+                )
+            }
         }
 
         // Volume up
