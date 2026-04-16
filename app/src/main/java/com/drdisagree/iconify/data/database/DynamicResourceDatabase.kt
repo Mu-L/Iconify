@@ -8,7 +8,7 @@ import com.drdisagree.iconify.data.common.Resources
 import com.drdisagree.iconify.data.dao.DynamicResourceDao
 import com.drdisagree.iconify.data.entity.DynamicResourceEntity
 
-@Database(entities = [DynamicResourceEntity::class], version = 1)
+@Database(entities = [DynamicResourceEntity::class], version = 2)
 abstract class DynamicResourceDatabase : RoomDatabase() {
     abstract fun dynamicResourceDao(): DynamicResourceDao
 
@@ -18,21 +18,14 @@ abstract class DynamicResourceDatabase : RoomDatabase() {
 
         fun getInstance(): DynamicResourceDatabase {
             return INSTANCE ?: synchronized(this) {
-                Room.databaseBuilder(
+                Room
+                    .databaseBuilder(
                     appContext,
                     DynamicResourceDatabase::class.java,
                     Resources.DYNAMIC_RESOURCE_DATABASE_NAME
-                ).build().also { INSTANCE = it }
-            }
-        }
-
-        fun reloadInstance() {
-            synchronized(this) {
-                INSTANCE = Room.databaseBuilder(
-                    appContext,
-                    DynamicResourceDatabase::class.java,
-                    Resources.DYNAMIC_RESOURCE_DATABASE_NAME
-                ).build()
+                    ).fallbackToDestructiveMigration(true)
+                    .build()
+                    .also { INSTANCE = it }
             }
         }
     }

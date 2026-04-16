@@ -2,30 +2,27 @@ package com.drdisagree.iconify.data.entity
 
 import androidx.room.Entity
 import androidx.room.Index
-import androidx.room.PrimaryKey
 import com.drdisagree.iconify.data.common.Resources.DYNAMIC_RESOURCE_TABLE
 
 @Entity(
     tableName = DYNAMIC_RESOURCE_TABLE,
+    primaryKeys = [
+        "overlayId",
+        "packageName",
+        "startEndTag",
+        "resourceName",
+        "isPortrait",
+        "isLandscape",
+        "isNightMode"
+    ],
     indices = [
-        Index("packageName"),
         Index("overlayId"),
+        Index("packageName"),
         Index("resourceName"),
-        Index("createdAt"),
-        Index(
-            value = [
-                "packageName",
-                "resourceName",
-                "startEndTag",
-                "isPortrait",
-                "isLandscape",
-                "isNightMode"
-            ]
-        )
+        Index("createdAt")
     ]
 )
 data class DynamicResourceEntity(
-    @PrimaryKey
     val overlayId: String,
     val packageName: String,
     val startEndTag: String,

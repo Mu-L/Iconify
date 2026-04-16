@@ -24,6 +24,7 @@ import com.drdisagree.iconify.data.common.Const.COLORBLENDR_PACKAGE
 import com.drdisagree.iconify.data.common.Const.COLORBLENDR_URL
 import com.drdisagree.iconify.data.keys.TweaksKey
 import com.drdisagree.iconify.features.home.tweaks.colornengine.components.ColorEngineGradient
+import com.drdisagree.iconify.features.home.tweaks.colornengine.models.ColorMode
 import com.drdisagree.iconify.features.home.tweaks.colornengine.viewmodels.ColorEngineViewModel
 
 fun colorEnginePreferences(
@@ -108,18 +109,32 @@ fun ColorEngineScreen(
 
             TweaksKey.MONET_ACCENT.name -> {
                 val enable = (event.newValue as PrefValue.BoolValue).v
+
                 if (enable) {
                     prefController.setBoolean(TweaksKey.MONET_GRADIENT, false)
+                    colorEngineViewModel.setColorMode(ColorMode.MONET_ACCENT)
+                } else {
+                    val gradientEnabled = prefController.getBoolean(TweaksKey.MONET_GRADIENT)
+
+                    if (!gradientEnabled) {
+                        colorEngineViewModel.setColorMode(ColorMode.BASIC)
+                    }
                 }
-                colorEngineViewModel.toggleMonetAccent(enable)
             }
 
             TweaksKey.MONET_GRADIENT.name -> {
                 val enable = (event.newValue as PrefValue.BoolValue).v
+
                 if (enable) {
                     prefController.setBoolean(TweaksKey.MONET_ACCENT, false)
+                    colorEngineViewModel.setColorMode(ColorMode.MONET_GRADIENT)
+                } else {
+                    val accentEnabled = prefController.getBoolean(TweaksKey.MONET_ACCENT)
+
+                    if (!accentEnabled) {
+                        colorEngineViewModel.setColorMode(ColorMode.BASIC)
+                    }
                 }
-                colorEngineViewModel.toggleMonetGradient(enable)
             }
         }
     }

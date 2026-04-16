@@ -57,12 +57,14 @@ object ResourceManager {
     @Throws(Exception::class)
     suspend fun insertResources(
         overlayId: String,
-        vararg resourceEntries: ResourceEntry?
+        vararg resourceEntries: ResourceEntry
     ) {
-        require(resourceEntries.filterNotNull().isNotEmpty()) { "No resource entries provided" }
+        val entries = resourceEntries.toList()
+
+        require(entries.isNotEmpty()) { "No resource entries provided" }
 
         repository().insertResources(
-            resourceEntries.filterNotNull().map { entry ->
+            entries.map { entry ->
                 DynamicResourceEntity(
                     overlayId = overlayId,
                     packageName = entry.packageName,

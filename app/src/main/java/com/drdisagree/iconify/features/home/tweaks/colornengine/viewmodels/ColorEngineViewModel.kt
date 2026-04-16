@@ -10,6 +10,7 @@ import com.drdisagree.iconify.core.utils.overlay.resource.ResourceManager
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.events.ToastUiEvent
 import com.drdisagree.iconify.data.keys.TweaksKey
+import com.drdisagree.iconify.features.home.tweaks.colornengine.models.ColorMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -19,6 +20,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,8 +31,11 @@ class ColorEngineViewModel @Inject constructor(
 
     private val tag = "ColorEngineViewModel"
 
+    private val monetAccentOverlayPackageName = "IconifyComponentAMAC.overlay"
+    private val monetGradientOverlayPackageName = "IconifyComponentAMGC.overlay"
+
     private val basicPrimaryColorId = "basic_primary_color"
-    private val basicSecondaryColorId = "basic_primary_color"
+    private val basicSecondaryColorId = "basic_secondary_color"
 
     private fun basicPrimaryColorResourceEntries(hex: String) = listOf(
         ResourceEntry(
@@ -61,11 +67,33 @@ class ColorEngineViewModel @Inject constructor(
         )
     )
 
+    private val _currentMode = MutableStateFlow(ColorMode.BASIC)
+
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private val _uiEvent = MutableSharedFlow<ToastUiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
+
+    private val operationMutex = Mutex()
+
+    init {
+        viewModelScope.launch {
+            prefController.setBoolean(
+                TweaksKey.MONET_ACCENT,
+                OverlayUtils.isOverlayEnabled(monetAccentOverlayPackageName)
+            )
+            prefController.setBoolean(
+                TweaksKey.MONET_GRADIENT,
+                OverlayUtils.isOverlayEnabled(monetGradientOverlayPackageName)
+            )
+            _currentMode.value = when {
+                prefController.getBoolean(TweaksKey.MONET_ACCENT) -> ColorMode.MONET_ACCENT
+                prefController.getBoolean(TweaksKey.MONET_GRADIENT) -> ColorMode.MONET_GRADIENT
+                else -> ColorMode.BASIC
+            }
+        }
+    }
 
     fun applyPrimaryColor(hex: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -113,76 +141,63 @@ class ColorEngineViewModel @Inject constructor(
         }
     }
 
-    fun toggleMonetAccent(enable: Boolean) {
+    fun setColorMode(newMode: ColorMode) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (_isLoading.value) return@launch
+            operationMutex.withLock {
+                if (_currentMode.value == newMode) return@withLock
 
-            _isLoading.value = true
-            delay(500)
+                _isLoading.value = true
 
-            val monetGradientEnabled = prefController.getBoolean(TweaksKey.MONET_GRADIENT)
+                delay(500)
 
-            if (enable) {
-                if (!monetGradientEnabled) {
-                    disableBasicColors()
+                val oldMode = _currentMode.value
+                var error = false
+
+                if (oldMode == ColorMode.BASIC && newMode != ColorMode.BASIC) {
+                    error = disableBasicColors() || error
                 }
-                OverlayUtils.changeOverlayState(
-                    "IconifyComponentAMGC.overlay", false,
-                    "IconifyComponentAMAC.overlay", true,
-                )
-            } else {
-                OverlayUtils.disableOverlay("IconifyComponentAMAC.overlay")
-                if (!monetGradientEnabled) {
-                    applyBasicColors()
+
+                when (newMode) {
+                    ColorMode.BASIC -> {
+                        if (oldMode == ColorMode.MONET_ACCENT) {
+                            OverlayUtils.disableOverlay(monetAccentOverlayPackageName)
+                        } else if (oldMode == ColorMode.MONET_GRADIENT) {
+                            OverlayUtils.disableOverlay(monetGradientOverlayPackageName)
+                        }
+                        error = applyBasicColors() || error
+                    }
+
+                    ColorMode.MONET_ACCENT -> {
+                        OverlayUtils.enableOverlayExclusiveInCategory(monetAccentOverlayPackageName)
+                    }
+
+                    ColorMode.MONET_GRADIENT -> {
+                        OverlayUtils.enableOverlayExclusiveInCategory(monetGradientOverlayPackageName)
+                    }
+                }
+
+                _currentMode.value = newMode
+
+                delay(300)
+                _isLoading.value = false
+
+                if (!error) {
+                    _uiEvent.emit(ToastUiEvent.Applied)
+                } else {
+                    _uiEvent.emit(ToastUiEvent.Error)
                 }
             }
-
-            delay(500)
-            _isLoading.value = false
-
-            _uiEvent.emit(ToastUiEvent.Applied)
         }
     }
 
-    fun toggleMonetGradient(enable: Boolean) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (_isLoading.value) return@launch
-
-            _isLoading.value = true
-            delay(500)
-
-            val monetAccentEnabled = prefController.getBoolean(TweaksKey.MONET_ACCENT)
-
-            if (enable) {
-                if (!monetAccentEnabled) {
-                    disableBasicColors()
-                }
-                OverlayUtils.changeOverlayState(
-                    "IconifyComponentAMAC.overlay", false,
-                    "IconifyComponentAMGC.overlay", true,
-                )
-            } else {
-                OverlayUtils.disableOverlay("IconifyComponentAMGC.overlay")
-                if (!monetAccentEnabled) {
-                    applyBasicColors()
-                }
-            }
-
-            delay(500)
-            _isLoading.value = false
-
-            _uiEvent.emit(ToastUiEvent.Applied)
-        }
-    }
-
-    private suspend fun applyBasicColors() {
+    private suspend fun applyBasicColors(): Boolean {
         val primaryColor = prefController.getString(TweaksKey.BASIC_COLOR_PRIMARY)
         val secondaryColor = prefController.getString(TweaksKey.BASIC_COLOR_SECONDARY)
 
         val primaryColorEntries = basicPrimaryColorResourceEntries(primaryColor)
-        val secondaryColorEntries = basicPrimaryColorResourceEntries(secondaryColor)
+        val secondaryColorEntries = basicSecondaryColorResourceEntries(secondaryColor)
 
-        val error = try {
+        return try {
             ResourceManager.insertResources(
                 overlayId = basicPrimaryColorId,
                 resourceEntries = primaryColorEntries.toTypedArray()
@@ -200,25 +215,17 @@ class ColorEngineViewModel @Inject constructor(
             Log.e(tag, "applyBasicColors", e)
             true
         }
-
-        if (error) {
-            _uiEvent.emit(ToastUiEvent.Error)
-        }
     }
 
-    private suspend fun disableBasicColors() {
+    private suspend fun disableBasicColors(): Boolean {
         val primaryColorEntries = basicPrimaryColorResourceEntries("#FFFFFF")
-        val secondaryColorEntries = basicPrimaryColorResourceEntries("#FFFFFF")
+        val secondaryColorEntries = basicSecondaryColorResourceEntries("#FFFFFF")
 
-        val error = ResourceManager.removeResourceFromOverlay(
+        return ResourceManager.removeResourceFromOverlay(
             overlayIds = listOf(basicPrimaryColorId, basicSecondaryColorId),
             packagesToUpdate = (primaryColorEntries + secondaryColorEntries)
                 .map { it.packageName }
                 .distinct()
         )
-
-        if (error) {
-            _uiEvent.emit(ToastUiEvent.Error)
-        }
     }
 }

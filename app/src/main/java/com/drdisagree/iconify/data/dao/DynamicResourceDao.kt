@@ -10,7 +10,7 @@ import com.drdisagree.iconify.data.entity.DynamicResourceEntity
 @Dao
 interface DynamicResourceDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertResources(
         resources: List<DynamicResourceEntity>
     )
@@ -39,34 +39,23 @@ interface DynamicResourceDao {
 
     @Query(
         """
-        SELECT t.*
-        FROM $DYNAMIC_RESOURCE_TABLE t
-        INNER JOIN (
-            SELECT 
-                packageName,
-                resourceName,
-                startEndTag,
-                isPortrait,
-                isLandscape,
-                isNightMode,
-                MAX(createdAt) AS maxCreatedAt
-            FROM $DYNAMIC_RESOURCE_TABLE
-            GROUP BY 
-                packageName,
-                resourceName,
-                startEndTag,
-                isPortrait,
-                isLandscape,
-                isNightMode
-        ) latest
-        ON t.packageName = latest.packageName
-        AND t.resourceName = latest.resourceName
-        AND t.startEndTag = latest.startEndTag
-        AND t.isPortrait = latest.isPortrait
-        AND t.isLandscape = latest.isLandscape
-        AND t.isNightMode = latest.isNightMode
-        AND t.createdAt = latest.maxCreatedAt
-        """
+    SELECT *
+    FROM (
+        SELECT *,
+               ROW_NUMBER() OVER (
+                   PARTITION BY 
+                       packageName,
+                       resourceName,
+                       startEndTag,
+                       isPortrait,
+                       isLandscape,
+                       isNightMode
+                   ORDER BY createdAt DESC
+               ) AS rn
+        FROM $DYNAMIC_RESOURCE_TABLE
+    )
+    WHERE rn = 1
+    """
     )
     suspend fun getAllLatestResources(): List<DynamicResourceEntity>
 
