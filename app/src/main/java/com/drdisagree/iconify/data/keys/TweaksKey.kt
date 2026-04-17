@@ -7,6 +7,10 @@ enum class TweaksKey(override val default: Any?) : Key {
     MONET_ACCENT(false),
     MONET_GRADIENT(true),
 
+    // Corner Radius
+    UI_CORNER_RADIUS(28f),
+    UI_CORNER_RADIUS_SAVED(-1f),
+
     // Statusbar
     STATUSBAR_TINT_MODE("0"),
     STATUSBAR_TINT_CUSTOM_COLOR_CODE("#FFFFFF"),

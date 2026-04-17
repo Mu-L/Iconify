@@ -10,7 +10,6 @@ import com.drdisagree.iconify.core.preferences.iconRes
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
-import com.drdisagree.iconify.core.ui.components.others.showComingSoonToast
 
 val tweaksPreferences = preferenceScreen {
     category {
@@ -31,7 +30,11 @@ val tweaksPreferences = preferenceScreen {
             icon = iconRes(R.drawable.ic_tweaks_roundness),
             title = stringRes(R.string.activity_title_ui_roundness),
             summary = { stringRes(R.string.activity_desc_ui_roundness) },
-            onClick = { showComingSoonToast(it.context) }
+            onClick = {
+                it.navController.navigate(NavRoutes.Home.More.UIRoundness) {
+                    launchSingleTop = true
+                }
+            }
         )
 
         //        action(
