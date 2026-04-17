@@ -73,6 +73,10 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
     val isSide = (nearLeft || nearRight || nearTop || nearBottom) && !isCorner
     val maxTilt = 6f
 
+    val isVerticalSide = isSide && (nearTop || nearBottom)
+    val isHorizontalSide = isSide && (nearLeft || nearRight)
+    val isCenter = !isSide && !isCorner
+
     val tiltX by animateFloatAsState(
         targetValue = if (isPressed) -(touchY - 0.5f) * 2f * maxTilt else 0f,
         animationSpec = spring(
@@ -93,7 +97,7 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
         !isPressed -> 1f
         isCorner -> 0.97f
         isSide -> 0.98f
-        else -> 0.92f
+        else -> 0.96f
     }
     val scale by animateFloatAsState(
         targetValue = scaleTarget,
@@ -111,16 +115,34 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
         ),
         label = "shape"
     )
-
     val onTapAction = withHaptic {
-        shakeController.shake(
-            ShakeConfig(
-                iterations = 4,
-                intensity = 2_000f,
-                rotateY = 2f,
-                translateX = 5f,
-            )
-        )
+        when {
+            isCenter || !isPressed -> {}
+
+            isVerticalSide -> {
+                shakeController.shake(
+                    ShakeConfig(
+                        iterations = 4,
+                        intensity = 2_000f,
+                        translateY = if (nearTop) -8f else 8f,
+                        rotateY = 0f,
+                        rotateX = 2f
+                    )
+                )
+            }
+
+            else -> {
+                shakeController.shake(
+                    ShakeConfig(
+                        iterations = 4,
+                        intensity = 2_000f,
+                        translateX = if (nearLeft) -8f else 8f,
+                        rotateY = 2f,
+                        rotateX = 0f
+                    )
+                )
+            }
+        }
     }
 
     Card(
