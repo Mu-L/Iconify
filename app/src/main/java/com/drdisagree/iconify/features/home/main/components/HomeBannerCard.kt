@@ -124,7 +124,7 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
                     ShakeConfig(
                         iterations = 4,
                         intensity = 2_000f,
-                        translateY = if (nearTop) -8f else 8f,
+                        translateY = 8f,
                         rotateY = 0f,
                         rotateX = 2f
                     )
@@ -136,7 +136,7 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
                     ShakeConfig(
                         iterations = 4,
                         intensity = 2_000f,
-                        translateX = if (nearLeft) -8f else 8f,
+                        translateX = 8f,
                         rotateY = 2f,
                         rotateX = 0f
                     )
