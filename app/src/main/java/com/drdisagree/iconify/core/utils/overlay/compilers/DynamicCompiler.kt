@@ -3,6 +3,7 @@ package com.drdisagree.iconify.core.utils.overlay.compilers
 import android.util.Log
 import com.drdisagree.iconify.core.utils.AssetsUtils
 import com.drdisagree.iconify.core.utils.FileUtils
+import com.drdisagree.iconify.core.utils.Logger
 import com.drdisagree.iconify.core.utils.RootUtils
 import com.drdisagree.iconify.core.utils.SystemUtils
 import com.drdisagree.iconify.core.utils.overlay.OverlayUtils
@@ -150,6 +151,11 @@ object DynamicCompiler {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to build overlay! Exiting...", e)
+            Logger.writeLog(
+                tag = TAG,
+                header = "Dynamic overlay build failed",
+                exception = e
+            )
             postExecute(true)
             return true
         }
@@ -228,6 +234,11 @@ object DynamicCompiler {
             true
         } catch (e: Exception) {
             Log.e(TAG, "Failed to move overlay", e)
+            Logger.writeLog(
+                tag = TAG,
+                header = "Dynamic overlay moving failed",
+                exception = e
+            )
             false
         }
     }
