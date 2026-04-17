@@ -192,7 +192,7 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
                 param.result = null
             }
 
-        // Replace original notification background drawable with out blur drawable
+        // Replace original notification background drawable with our blur drawable
         notificationBackgroundViewClass
             .hookMethodMatchPattern("setCustomBackground.*")
             .runBefore { param ->
@@ -281,13 +281,13 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
             blurDrawable.callMethod(
                 "setCornerRadius",
-                context.resources.getDimensionPixelSize(
+                (context.resources.getDimensionPixelSize(
                     context.resources.getIdentifier(
                         "notification_scrim_corner_radius",
                         "dimen",
                         SYSTEMUI_PACKAGE
                     )
-                ).toFloat()
+                ) - mContext.toPx(4)).coerceAtLeast(0).toFloat()
             )
             blurDrawable.callMethod("setBlurRadius", context.toPx(headsUpBlurRadius.roundToInt()))
             blurDrawable.callMethod(
