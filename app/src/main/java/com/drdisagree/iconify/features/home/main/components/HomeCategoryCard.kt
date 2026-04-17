@@ -40,6 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.components.texts.AutoResizeableText
 
@@ -188,7 +189,7 @@ fun HomeCategoryCard(
                                 style = MaterialTheme.typography.bodyMedium.copy(
                                     fontWeight = FontWeight.SemiBold
                                 ),
-                                color = foregroundColor.copy(alpha = 0.7f),
+                                color = foregroundColor.secondaryText(),
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis
                             )
