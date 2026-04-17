@@ -51,10 +51,12 @@ android {
     } catch (_: Exception) {
     }
 
+    val isCiBuild = System.getenv("CI") == "true"
+
     buildTypes {
         debug {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = isCiBuild
+            isShrinkResources = isCiBuild
             applicationIdSuffix = ".debug"
             signingConfig = releaseSigning
             resValue("string", "derived_app_name", "Iconify (Debug)")
