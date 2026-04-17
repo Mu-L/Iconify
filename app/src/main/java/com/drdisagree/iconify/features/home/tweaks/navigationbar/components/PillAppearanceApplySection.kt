@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.common.LocalPreferenceController
+import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.data.keys.TweaksKey
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -95,7 +96,7 @@ fun PillAppearanceApplySection() {
         ) {
             Button(
                 enabled = showApplyButton.value,
-                onClick = {
+                onClick = withHaptic {
                     prefController.setString(
                         TweaksKey.NAVIGATION_BAR_PILL_APPEARANCE,
                         "$tempWidth,$tempThickness"
@@ -113,7 +114,7 @@ fun PillAppearanceApplySection() {
 
             AnimatedVisibility(visible = showDisableButton.value) {
                 Button(
-                    onClick = {
+                    onClick = withHaptic {
                         prefController.setString(
                             TweaksKey.NAVIGATION_BAR_PILL_APPEARANCE,
                             "$defaultWidth,$defaultThickness"

@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.IconPreviewGrid
+import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.data.models.IconPackPreview
 import com.drdisagree.iconify.data.states.UiText
 import com.drdisagree.iconify.data.states.asString
@@ -74,7 +75,7 @@ fun IconPackCard(
 
             AnimatedVisibility(visible = isSelected) {
                 Button(
-                    onClick = { onActionClick(iconPack) },
+                    onClick = withHaptic { onActionClick(iconPack) },
                     shapes = ButtonDefaults.shapes(),
                     modifier = Modifier
                         .fillMaxWidth()

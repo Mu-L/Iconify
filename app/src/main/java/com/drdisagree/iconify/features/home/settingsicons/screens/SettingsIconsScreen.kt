@@ -36,6 +36,7 @@ import com.drdisagree.iconify.core.ui.components.dialogs.LoadingDialog
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.ToastAppliedEvent
 import com.drdisagree.iconify.core.ui.components.others.innerPaddingValues
+import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold
 import com.drdisagree.iconify.core.ui.utils.CARD_ITEM_SPACING
 import com.drdisagree.iconify.core.ui.utils.ItemPosition
@@ -260,7 +261,7 @@ fun SettingsIconsScreen(settingsIconsViewModel: SettingsIconsViewModel = hiltVie
 
             Button(
                 enabled = showApplyButton.value,
-                onClick = {
+                onClick = withHaptic {
                     settingsIconsViewModel.applyStyle(
                         backgroundStyle = backgroundSelectedIndex,
                         backgroundShape = shapeSelectedIndex,
@@ -289,7 +290,7 @@ fun SettingsIconsScreen(settingsIconsViewModel: SettingsIconsViewModel = hiltVie
 
             AnimatedVisibility(visible = showDisableButton.value) {
                 Button(
-                    onClick = { settingsIconsViewModel.disableStyle() },
+                    onClick = withHaptic { settingsIconsViewModel.disableStyle() },
                     shapes = ButtonDefaults.shapes(),
                     modifier = Modifier
                         .fillMaxWidth()

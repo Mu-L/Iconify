@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
+import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.utils.rememberXmlPainter
 import com.drdisagree.iconify.data.models.NotificationPreview
 import com.drdisagree.iconify.data.states.UiText
@@ -175,7 +176,7 @@ fun NotificationCard(
 
             AnimatedVisibility(visible = isSelected) {
                 Button(
-                    onClick = { onActionClick(notification) },
+                    onClick = withHaptic { onActionClick(notification) },
                     shapes = ButtonDefaults.shapes(),
                     modifier = Modifier
                         .fillMaxWidth()

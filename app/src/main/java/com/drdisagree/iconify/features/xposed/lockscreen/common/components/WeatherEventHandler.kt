@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.features.xposed.lockscreen.common.events.WeatherDialog
 import com.drdisagree.iconify.features.xposed.lockscreen.common.events.WeatherEvent
 import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.WeatherViewModel
@@ -99,12 +100,12 @@ fun WeatherEventHandler(weatherViewModel: WeatherViewModel) {
                     title = { Text(stringResource(R.string.weather_retrieve_location_dialog_title)) },
                     text = { Text(stringResource(R.string.weather_retrieve_location_dialog_message)) },
                     confirmButton = {
-                        TextButton(onClick = { weatherViewModel.onOpenLocationSettingsConfirmed() }) {
+                        TextButton(onClick = withHaptic { weatherViewModel.onOpenLocationSettingsConfirmed() }) {
                             Text(stringResource(R.string.weather_retrieve_location_dialog_enable_button))
                         }
                     },
                     dismissButton = {
-                        TextButton(onClick = { weatherViewModel.dismissDialog() }) {
+                        TextButton(onClick = withHaptic { weatherViewModel.dismissDialog() }) {
                             Text(stringResource(android.R.string.cancel))
                         }
                     }
@@ -117,12 +118,12 @@ fun WeatherEventHandler(weatherViewModel: WeatherViewModel) {
                     title = { Text(stringResource(R.string.weather_permission_dialog_title)) },
                     text = { Text(stringResource(R.string.weather_permission_dialog_message)) },
                     confirmButton = {
-                        TextButton(onClick = { weatherViewModel.onOpenAppPermissionSettingsConfirmed() }) {
+                        TextButton(onClick = withHaptic { weatherViewModel.onOpenAppPermissionSettingsConfirmed() }) {
                             Text(stringResource(android.R.string.ok))
                         }
                     },
                     dismissButton = {
-                        TextButton(onClick = { weatherViewModel.dismissDialog() }) {
+                        TextButton(onClick = withHaptic { weatherViewModel.dismissDialog() }) {
                             Text(stringResource(android.R.string.cancel))
                         }
                     }
@@ -135,7 +136,7 @@ fun WeatherEventHandler(weatherViewModel: WeatherViewModel) {
                     title = { Text(stringResource(R.string.weather_provider_owm_key_title)) },
                     text = { Text(stringResource(R.string.weather_provider_owm_key_message)) },
                     confirmButton = {
-                        TextButton(onClick = { weatherViewModel.dismissDialog() }) {
+                        TextButton(onClick = withHaptic { weatherViewModel.dismissDialog() }) {
                             Text(stringResource(R.string.understood))
                         }
                     }
@@ -148,7 +149,7 @@ fun WeatherEventHandler(weatherViewModel: WeatherViewModel) {
                     title = { Text(stringResource(R.string.weather_provider_yandex_key_title)) },
                     text = { Text(stringResource(R.string.weather_provider_yandex_key_message)) },
                     confirmButton = {
-                        TextButton(onClick = { weatherViewModel.dismissDialog() }) {
+                        TextButton(onClick = withHaptic { weatherViewModel.dismissDialog() }) {
                             Text(stringResource(R.string.understood))
                         }
                     }
