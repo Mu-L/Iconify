@@ -8,13 +8,13 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver.OnDrawListener
 import android.widget.Button
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyBlur
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
@@ -23,6 +23,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilent
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
@@ -39,10 +40,6 @@ class QuickSettings(context: Context) : ModPack(context) {
     private var qsTopMarginPort = 100
     private var qqsTopMarginLand = 0
     private var qsTopMarginLand = 0
-    private var mFooterButtonsContainer: ViewGroup? = null
-    private var mFooterButtonsOnDrawListener: OnDrawListener? = null
-    private var mSilentTextContainer: ViewGroup? = null
-    private var mSilentTextOnDrawListener: OnDrawListener? = null
     private var customQsMarginsEnabled = false
     private var compactMediaPlayerEnabled = false
     private var blurMediaPlayerArtwork = false
@@ -65,8 +62,6 @@ class QuickSettings(context: Context) : ModPack(context) {
             blurMediaPlayerArtworkRadius =
                 getFloat(XposedKey.BLUR_MEDIA_PLAYER_ARTWORK_RADIUS) / 100f * 25f
         }
-
-        triggerQsElementVisibility()
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -196,25 +191,26 @@ class QuickSettings(context: Context) : ModPack(context) {
             .runAfter { param ->
                 val view = param.thisObject as View
 
-                val resId1 = mContext.resources.getIdentifier(
-                    "manage_text",
-                    "id",
-                    mContext.packageName
-                )
-
-                val resId2 = mContext.resources.getIdentifier(
+                val mFooterButtonsContainer = listOf(
                     "dismiss_text",
-                    "id",
-                    mContext.packageName
-                )
-
-                if (resId1 != 0) {
-                    mFooterButtonsContainer = view.findViewById<View?>(resId1)?.parent as? ViewGroup
-                } else if (resId2 != 0) {
-                    mFooterButtonsContainer = view.findViewById<View?>(resId2)?.parent as? ViewGroup
+                    "settings_button",
+                    "history_button",
+                    "manage_text"
+                ).map {
+                    mContext.resources.getIdentifier(
+                        it,
+                        "id",
+                        SYSTEMUI_PACKAGE
+                    )
+                }.firstOrNull { it != 0 }?.let {
+                    view.findViewById<View?>(it)?.parent as? ViewGroup
                 }
 
-                triggerQsElementVisibility()
+                if (mFooterButtonsContainer != null) {
+                    if (hideFooterButtons) mFooterButtonsContainer.hideView()
+                } else {
+                    log(this, "Footer buttons not found")
+                }
             }
 
         val sectionHeaderViewClass =
@@ -223,9 +219,9 @@ class QuickSettings(context: Context) : ModPack(context) {
         sectionHeaderViewClass
             .hookMethod("onFinishInflate")
             .runAfter { param ->
-                mSilentTextContainer = param.thisObject as ViewGroup
+                val mSilentTextContainer = param.thisObject as ViewGroup
 
-                triggerQsElementVisibility()
+                if (hideSilentText) mSilentTextContainer.hideView()
             }
     }
 
@@ -302,48 +298,6 @@ class QuickSettings(context: Context) : ModPack(context) {
                         param.result = playerAlbumDrawable
                     }
                 }
-        }
-    }
-
-    private fun triggerQsElementVisibility() {
-        if (mFooterButtonsContainer != null) {
-            if (mFooterButtonsOnDrawListener == null) {
-                mFooterButtonsOnDrawListener =
-                    OnDrawListener { mFooterButtonsContainer!!.visibility = View.INVISIBLE }
-            }
-
-            try {
-                if (hideFooterButtons) {
-                    mFooterButtonsContainer!!.visibility = View.INVISIBLE
-                    mFooterButtonsContainer!!.viewTreeObserver
-                        .addOnDrawListener(mFooterButtonsOnDrawListener)
-                } else {
-                    mFooterButtonsContainer!!.viewTreeObserver
-                        .removeOnDrawListener(mFooterButtonsOnDrawListener)
-                    mFooterButtonsContainer!!.visibility = View.VISIBLE
-                }
-            } catch (_: Throwable) {
-            }
-        }
-
-        if (mSilentTextContainer != null) {
-            if (mSilentTextOnDrawListener == null) {
-                mSilentTextOnDrawListener =
-                    OnDrawListener { mSilentTextContainer!!.visibility = View.GONE }
-            }
-
-            try {
-                if (hideSilentText) {
-                    mSilentTextContainer!!.visibility = View.GONE
-                    mSilentTextContainer!!.viewTreeObserver
-                        .addOnDrawListener(mSilentTextOnDrawListener)
-                } else {
-                    mSilentTextContainer!!.viewTreeObserver
-                        .removeOnDrawListener(mSilentTextOnDrawListener)
-                    mSilentTextContainer!!.visibility = View.VISIBLE
-                }
-            } catch (_: Throwable) {
-            }
         }
     }
 }
