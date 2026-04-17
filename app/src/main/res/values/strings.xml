@@ -377,7 +377,7 @@
     <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Height</string>
     <string name="section_title_color">Color</string>
-    <string name="sb_color_tint_title">Color Tint</string>
+    <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Tint statusbar icons and texts</string>
     <string name="sb_tint_system">Default System Tint</string>
     <string name="sb_tint_monet">Monet/Accent Tint</string>

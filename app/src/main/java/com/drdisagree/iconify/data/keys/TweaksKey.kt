@@ -8,6 +8,8 @@ enum class TweaksKey(override val default: Any?) : Key {
     MONET_GRADIENT(true),
 
     // Statusbar
+    STATUSBAR_TINT_MODE("0"),
+    STATUSBAR_TINT_CUSTOM_COLOR_CODE("#FFFFFF"),
     STATUSBAR_START_PADDING(-1f),
     STATUSBAR_END_PADDING(-1f),
     STATUSBAR_HEIGHT(-1f),

@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.xposed.modules.statusbar
 
-import android.R
+import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.StateListAnimator
@@ -30,6 +30,7 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CO
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getCenterClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getLeftClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getRightClockView
@@ -39,13 +40,17 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddV
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @SuppressLint("DiscouragedApi")
@@ -66,6 +71,8 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     private var notifIconsLimit = -1
     private var dualStatusbarEnabled = false
     private var hideDefaultBattery = false
+    private var linkToCustomColor = false
+    private var darkIconDispatcherImplInstance: Any? = null
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -79,6 +86,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             dualStatusbarEnabled = getBoolean(XposedKey.DUAL_STATUSBAR)
             mClockClickable = getBoolean(XposedKey.STATUSBAR_CLOCK_CLICKABLE)
             hideDefaultBattery = getBoolean(XposedKey.HIDE_BATTERY_VIEW)
+            linkToCustomColor = getBoolean(XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR)
         }
 
         when (key.firstOrNull()) {
@@ -91,6 +99,9 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 XposedKey.HIDE_LOCKSCREEN_CARRIER.name,
                 XposedKey.HIDE_LOCKSCREEN_STATUSBAR.name
             ) -> hideLockscreenCarrierOrStatusbar()
+
+            XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR.name,
+            XposedKey.STATUSBAR_CUSTOM_COLOR_CHANGED.name -> applyIconTint()
         }
     }
 
@@ -101,6 +112,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         show4GInsteadOfLTE()
         notificationIconsLimit()
         clickableClockView()
+        setStatusbarColor()
     }
 
     private fun hideLockscreenCarrierOrStatusbar() {
@@ -559,11 +571,11 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
                 // Add the animations to the StateListAnimator
                 stateListAnimator.addState(
-                    intArrayOf(R.attr.state_pressed),
+                    intArrayOf(android.R.attr.state_pressed),
                     pressedAnim
                 )
                 stateListAnimator.addState(
-                    intArrayOf(R.attr.state_focused),
+                    intArrayOf(android.R.attr.state_focused),
                     pressedAnim
                 )
                 stateListAnimator.addState(intArrayOf(), defaultAnim)
@@ -571,5 +583,91 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 clockView.stateListAnimator = stateListAnimator
             }
         }
+    }
+
+    private fun setStatusbarColor() {
+        val darkIconDispatcherImplClass =
+            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.DarkIconDispatcherImpl")
+
+        fun updateStatusbarColor(param: XC_MethodHook.MethodHookParam) {
+            if (!linkToCustomColor) return
+
+            val (statusbarColorLight, statusbarColorDark) = getStatusbarColors()
+
+            param.thisObject.apply {
+                setField("mLightModeIconColorSingleTone", statusbarColorLight)
+                setField("mDarkModeIconColorSingleTone", statusbarColorDark)
+                setField("mLightModeContrastColor", statusbarColorLight)
+                setField("mDarkModeContrastColor", statusbarColorDark)
+            }
+        }
+
+        darkIconDispatcherImplClass
+            .hookConstructor()
+            .runAfter { param ->
+                darkIconDispatcherImplInstance = param.thisObject
+                updateStatusbarColor(param)
+            }
+
+        darkIconDispatcherImplClass
+            .hookMethod(
+                "addDarkReceiver",
+                "applyDark",
+                "applyDarkIntensity",
+                "applyIconTint"
+            )
+            .runBefore { param ->
+                darkIconDispatcherImplInstance = param.thisObject
+                updateStatusbarColor(param)
+            }
+    }
+
+    private fun applyIconTint() {
+        if (darkIconDispatcherImplInstance == null) return
+
+        val (statusbarColorLight, statusbarColorDark) = getStatusbarColors()
+
+        val mDarkIntensity = darkIconDispatcherImplInstance.getField("mDarkIntensity") as Float
+        val argbEvaluator = ArgbEvaluator::class.java.callStaticMethod("getInstance")
+
+        val mIconTint = argbEvaluator.callMethod(
+            "evaluate",
+            mDarkIntensity,
+            statusbarColorLight,
+            statusbarColorDark
+        ).callMethod("intValue")
+        val mContrastTint = argbEvaluator.callMethod(
+            "evaluate",
+            mDarkIntensity,
+            statusbarColorLight,
+            statusbarColorDark
+        ).callMethod("intValue")
+
+        darkIconDispatcherImplInstance.apply {
+            setField("mIconTint", mIconTint)
+            setField("mContrastTint", mContrastTint)
+            callMethod("applyIconTint")
+        }
+    }
+
+    private fun getStatusbarColors(): List<Int> {
+        val statusbarColorLight = SettingsLibUtils.getColorStateListDefaultColor(
+            mContext,
+            mContext.resources.getIdentifier(
+                "light_mode_icon_color_single_tone",
+                "color",
+                SYSTEMUI_PACKAGE
+            )
+        )
+        val statusbarColorDark = SettingsLibUtils.getColorStateListDefaultColor(
+            mContext,
+            mContext.resources.getIdentifier(
+                "dark_mode_icon_color_single_tone",
+                "color",
+                SYSTEMUI_PACKAGE
+            )
+        )
+
+        return listOf(statusbarColorLight, statusbarColorDark)
     }
 }

@@ -10,18 +10,43 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
+import com.drdisagree.iconify.core.preferences.arrayRes
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.dialogs.LoadingDialog
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.ToastAppliedEvent
 import com.drdisagree.iconify.data.keys.TweaksKey
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.home.tweaks.statusbar.viewmodels.StatusbarViewModel
 import kotlin.math.roundToInt
 
 val statusbarPreferences = preferenceScreen {
-    category {
+    category(title = stringRes(R.string.section_title_color)) {
+        listPref(
+            key = TweaksKey.STATUSBAR_TINT_MODE,
+            title = stringRes(R.string.sb_color_tint_title),
+            summary = {
+                if (it.prefController.getString(TweaksKey.STATUSBAR_TINT_MODE) != "0" &&
+                    !it.prefController.getBoolean(XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR)
+                ) {
+                    stringRes("Requires ‘Link to Custom Color’ to be enabled in Xposed > Statusbar")
+                } else null
+            },
+            entries = arrayRes(R.array.statusbar_tint_entries),
+            entryValues = arrayRes(R.array.statusbar_tint_values),
+        )
+
+        colorPicker(
+            key = TweaksKey.STATUSBAR_TINT_CUSTOM_COLOR_CODE,
+            title = stringRes("Choose Custom Color"),
+            isEnabled = { it.getBoolean(XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR) },
+            isVisible = { it.getString(TweaksKey.STATUSBAR_TINT_MODE) == "2" }
+        )
+    }
+
+    category(title = stringRes(R.string.section_title_spacing)) {
         slider(
             key = TweaksKey.STATUSBAR_START_PADDING,
             title = stringRes(R.string.sb_start_padding),
@@ -72,6 +97,11 @@ fun TweaksStatusbarScreen(
 
     PreferenceListener { event ->
         when (event.key) {
+            TweaksKey.STATUSBAR_TINT_MODE.name,
+            TweaksKey.STATUSBAR_TINT_CUSTOM_COLOR_CODE.name -> {
+                statusbarViewModel.updateStatusbarTintMode()
+            }
+
             TweaksKey.STATUSBAR_START_PADDING.name -> {
                 val padding = (event.newValue as PrefValue.FloatValue).v.roundToInt()
                 statusbarViewModel.applyStatusbarStartPadding(padding) {

@@ -133,6 +133,14 @@ val statusbarPreferences = preferenceScreen {
             summary = { stringRes(R.string.ongoing_action_chip_desc) },
         )
     }
+
+    category(title = stringRes(R.string.section_title_others)) {
+        switch(
+            key = XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR,
+            title = stringRes("Link to Custom Color"),
+            summary = { stringRes("Use the color selected in Home screen > More > Statusbar") },
+        )
+    }
 }
 
 @Composable

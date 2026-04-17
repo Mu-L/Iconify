@@ -13,6 +13,8 @@ enum class XposedKey(override val default: Any?) : Key {
     SHOW_4G_INSTEAD_OF_LTE(false),
     NOTIFICATION_ICONS_LIMIT(-1f),
     ONGOING_ACTION_CHIP(false),
+    STATUSBAR_LINK_TO_CUSTOM_COLOR(false),
+    STATUSBAR_CUSTOM_COLOR_CHANGED(false),
 
     // Statusbar - Clock Chip
     STATUSBAR_CLOCK_CHIP(false),

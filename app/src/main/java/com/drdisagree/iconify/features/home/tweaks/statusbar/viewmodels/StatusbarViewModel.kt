@@ -2,11 +2,14 @@ package com.drdisagree.iconify.features.home.tweaks.statusbar.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.utils.overlay.resource.ResourceEntry
 import com.drdisagree.iconify.core.utils.overlay.resource.ResourceManager
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.events.ToastUiEvent
+import com.drdisagree.iconify.data.keys.TweaksKey
+import com.drdisagree.iconify.data.keys.XposedKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -19,13 +22,61 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class StatusbarViewModel @Inject constructor() : ViewModel() {
+class StatusbarViewModel @Inject constructor(
+    private val prefController: PreferenceController
+) : ViewModel() {
 
     private val tag = "StatusbarViewModel"
 
+    private val statusbarIconColorId = "status_bar_icon_color"
     private val statusbarStartPaddingId = "status_bar_padding_start"
     private val statusbarEndPaddingId = "status_bar_padding_end"
     private val statusbarHeightId = "status_bar_height"
+
+    private fun statusbarIconColorResourceEntries(color: String) = listOf(
+        ResourceEntry(
+            SYSTEMUI_PACKAGE,
+            "color",
+            "dark_mode_icon_color_dual_tone_fill",
+            color
+        ),
+        ResourceEntry(
+            SYSTEMUI_PACKAGE,
+            "color",
+            "dark_mode_icon_color_single_tone",
+            color
+        ),
+        ResourceEntry(
+            SYSTEMUI_PACKAGE,
+            "color",
+            "dark_mode_qs_icon_color_dual_tone_fill",
+            color
+        ),
+        ResourceEntry(
+            SYSTEMUI_PACKAGE,
+            "color",
+            "dark_mode_qs_icon_color_single_tone",
+            color
+        ),
+        ResourceEntry(
+            SYSTEMUI_PACKAGE,
+            "color",
+            "light_mode_icon_color_dual_tone_fill",
+            color
+        ),
+        ResourceEntry(
+            SYSTEMUI_PACKAGE,
+            "color",
+            "light_mode_icon_color_single_tone",
+            color
+        ),
+        ResourceEntry(
+            SYSTEMUI_PACKAGE,
+            "color",
+            "status_bar_clock_color",
+            color
+        ),
+    )
 
     private fun statusbarStartPaddingResourceEntries(padding: Int) = listOf(
         ResourceEntry(
@@ -83,6 +134,52 @@ class StatusbarViewModel @Inject constructor() : ViewModel() {
 
     private val _uiEvent = MutableSharedFlow<ToastUiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
+
+    fun updateStatusbarTintMode() {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (_isLoading.value) return@launch
+
+            _isLoading.value = true
+
+            val tintMode = prefController.getString(TweaksKey.STATUSBAR_TINT_MODE)
+            val colorCode = prefController.getString(TweaksKey.STATUSBAR_TINT_CUSTOM_COLOR_CODE)
+
+            val enable = tintMode != "0"
+            val color = when (tintMode) {
+                "1" -> "@*android:color/holo_blue_light"
+                "2" -> colorCode
+                else -> "#FFFFFF"
+            }
+
+            val entries = statusbarIconColorResourceEntries(color)
+
+            val error = if (enable) {
+                ResourceManager.buildOverlayWithResource(
+                    statusbarIconColorId,
+                    *entries.toTypedArray()
+                )
+            } else {
+                ResourceManager.removeResourceFromOverlay(
+                    overlayIds = listOf(statusbarIconColorId),
+                    packagesToUpdate = entries.map { it.packageName }.distinct()
+                )
+            }
+
+            delay(500)
+            prefController.setBoolean(
+                XposedKey.STATUSBAR_CUSTOM_COLOR_CHANGED,
+                !prefController.getBoolean(XposedKey.STATUSBAR_CUSTOM_COLOR_CHANGED)
+            )
+
+            _isLoading.value = false
+
+            if (!error) {
+                _uiEvent.emit(ToastUiEvent.Applied)
+            } else {
+                _uiEvent.emit(ToastUiEvent.Error)
+            }
+        }
+    }
 
     fun applyStatusbarStartPadding(padding: Int, onSuccess: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {

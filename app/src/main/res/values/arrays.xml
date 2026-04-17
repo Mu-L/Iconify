@@ -248,6 +248,19 @@
         <item>hotspot</item>
     </string-array>
 
+    <!-- Statusbar tint -->
+    <string-array name="statusbar_tint_entries" translatable="false">
+        <item>@string/sb_tint_system</item>
+        <item>@string/sb_tint_monet</item>
+        <item>@string/sb_tint_custom</item>
+    </string-array>
+
+    <string-array name="statusbar_tint_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <!-- Lockscreen Device Widget style -->
     <string-array name="lockscreen_device_widget_entries" translatable="false">
         <item>@string/lockscreen_device_widget_style_classic</item>
