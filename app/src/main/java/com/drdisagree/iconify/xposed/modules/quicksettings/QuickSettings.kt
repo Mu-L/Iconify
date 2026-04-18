@@ -9,6 +9,7 @@ import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.widget.TextViewCompat
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
@@ -156,26 +157,26 @@ class QuickSettings(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (!fixNotificationFooterButtonsColor) return@runAfter
 
-                try {
-                    val mManageButton = try {
-                        param.thisObject.getField("mManageButton")
-                    } catch (_: Throwable) {
-                        param.thisObject.getField("mManageOrHistoryButton")
-                    } as Button
-                    val mClearAllButton = try {
-                        param.thisObject.getField("mClearAllButton")
-                    } catch (_: Throwable) {
-                        param.thisObject.getField("mDismissButton")
-                    } as Button
+                val mClearAllButton = param.thisObject.getField("mClearAllButton") as Button
+                val mHistoryButton = param.thisObject.getField("mHistoryButton") as Button
+                val mSettingsButton = param.thisObject.getField("mSettingsButton") as Button
 
-                    mManageButton.background?.colorFilter = null
-                    mClearAllButton.background?.colorFilter = null
-
-                    Handler(Looper.getMainLooper()).post {
-                        mManageButton.invalidate()
-                        mClearAllButton.invalidate()
+                listOf(mClearAllButton, mHistoryButton, mSettingsButton).forEach { button ->
+                    button.background?.mutate()?.let {
+                        it.clearColorFilter()
+                        it.setTintList(null)
+                        it.setTintMode(null)
+                        it.alpha = 255
                     }
-                } catch (_: Throwable) {
+                    button.backgroundTintList = null
+                    button.backgroundTintMode = null
+                    TextViewCompat.setCompoundDrawableTintList(button, null)
+                }
+
+                Handler(Looper.getMainLooper()).post {
+                    mClearAllButton.invalidate()
+                    mHistoryButton.invalidate()
+                    mSettingsButton.invalidate()
                 }
             }
     }
