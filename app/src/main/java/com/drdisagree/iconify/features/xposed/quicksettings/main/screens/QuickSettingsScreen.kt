@@ -190,12 +190,6 @@ val quickSettingsPreferences = preferenceScreen {
 
     category(title = stringRes(R.string.section_title_others)) {
         switch(
-            key = XposedKey.FIX_QS_TILE_COLOR,
-            title = stringRes(R.string.fix_qs_tile_color_title),
-            summary = { stringRes(R.string.fix_qs_tile_color_desc) },
-        )
-
-        switch(
             key = XposedKey.FIX_NOTIFICATION_COLOR,
             title = stringRes(R.string.fix_notification_color_title),
             summary = { stringRes(R.string.fix_notification_color_desc) },
@@ -225,7 +219,6 @@ fun QuickSettingsScreen(
             XposedKey.HIDE_QS_FOOTER_BUTTONS.name,
             XposedKey.QS_PANEL_HIDE_CARRIER.name,
             XposedKey.HIDE_STATUS_ICONS.name,
-            XposedKey.FIX_QS_TILE_COLOR.name,
             XposedKey.FIX_NOTIFICATION_COLOR.name,
             XposedKey.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR.name -> {
                 systemActionViewModel?.shouldRestartSystemUI()

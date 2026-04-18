@@ -78,7 +78,6 @@ enum class XposedKey(override val default: Any?) : Key {
     HIDE_QS_FOOTER_BUTTONS(false),
     QS_PANEL_HIDE_CARRIER(false),
     HIDE_STATUS_ICONS(false),
-    FIX_QS_TILE_COLOR(false),
     FIX_NOTIFICATION_COLOR(false),
     FIX_NOTIFICATION_FOOTER_BUTTON_COLOR(false),
 
