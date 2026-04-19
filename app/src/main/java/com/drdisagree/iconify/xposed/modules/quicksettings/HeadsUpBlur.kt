@@ -14,6 +14,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.doOnAttach
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
@@ -157,36 +158,39 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
                 val drawable = param.thisObject.getField("mBackground") as Drawable
 
-                if (drawable is LayerDrawable) {
-                    val numberOfLayers = drawable.numberOfLayers
-                    val mCornerRadii = param.thisObject.getField("mCornerRadii") as FloatArray
-                    val mFocusOverlayCornerRadii =
-                        param.thisObject.getField("mFocusOverlayCornerRadii") as FloatArray
-                    val mFocusOverlayStroke =
-                        param.thisObject.getField("mFocusOverlayStroke") as Float
+                if (drawable !is LayerDrawable) {
+                    param.result = null
+                    return@runBefore
+                }
 
-                    for (i in 0 until numberOfLayers) {
-                        val drawableItem = drawable.getDrawable(i)
-                        if (drawableItem is GradientDrawable) {
-                            drawableItem.cornerRadii = mCornerRadii
-                        }
+                val numberOfLayers = drawable.numberOfLayers
+                val mCornerRadii = param.thisObject.getField("mCornerRadii") as FloatArray
+                val mFocusOverlayCornerRadii =
+                    param.thisObject.getField("mFocusOverlayCornerRadii") as FloatArray
+                val mFocusOverlayStroke =
+                    param.thisObject.getField("mFocusOverlayStroke") as Float
+
+                for (i in 0 until numberOfLayers) {
+                    val drawableItem = drawable.getDrawable(i)
+                    if (drawableItem is GradientDrawable) {
+                        drawableItem.cornerRadii = mCornerRadii
                     }
+                }
 
-                    val gradientDrawable = drawable.findDrawableByLayerId(
-                        mContext.resources.getIdentifier(
-                            "notification_focus_overlay",
-                            "id",
-                            SYSTEMUI_PACKAGE
-                        )
+                val gradientDrawable = drawable.findDrawableByLayerId(
+                    mContext.resources.getIdentifier(
+                        "notification_focus_overlay",
+                        "id",
+                        SYSTEMUI_PACKAGE
                     )
+                )
 
-                    mCornerRadii.forEachIndexed { index, value ->
-                        mFocusOverlayCornerRadii[index] = maxOf(0.0f, value - mFocusOverlayStroke)
-                    }
+                mCornerRadii.forEachIndexed { index, value ->
+                    mFocusOverlayCornerRadii[index] = maxOf(0.0f, value - mFocusOverlayStroke)
+                }
 
-                    if (gradientDrawable is GradientDrawable) {
-                        gradientDrawable.cornerRadii = mFocusOverlayCornerRadii
-                    }
+                if (gradientDrawable is GradientDrawable) {
+                    gradientDrawable.cornerRadii = mFocusOverlayCornerRadii
                 }
 
                 param.result = null
@@ -273,47 +277,68 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
             }
         }
 
+        fun updateColorAndOutline() {
+            callMethod("updateBackgroundColors")
+
+            callMethod("updateBackgroundTint", true)
+
+            val outlineAlphaValue = 0.0f
+            val mOutlineAlpha = getField("mOutlineAlpha") as Float
+
+            if (outlineAlphaValue != mOutlineAlpha) {
+                setField("mOutlineAlpha", outlineAlphaValue)
+                callMethod("applyRoundnessAndInvalidate")
+            }
+        }
+
         if (shouldApplyBlur) {
-            val blurDrawable = mBackgroundNormal
-                .callMethod("getViewRootImpl")
-                .callMethod("createBackgroundBlurDrawable") as? Drawable
-                ?: return
+            mBackgroundNormal.doOnAttach {
+                val blurDrawable = mBackgroundNormal
+                    .callMethod("getViewRootImpl")
+                    .callMethod("createBackgroundBlurDrawable") as? Drawable
+                    ?: return@doOnAttach
 
-            blurDrawable.callMethod(
-                "setCornerRadius",
-                (context.resources.getDimensionPixelSize(
-                    context.resources.getIdentifier(
-                        "notification_scrim_corner_radius",
-                        "dimen",
-                        SYSTEMUI_PACKAGE
-                    )
-                ) - mContext.toPx(4)).coerceAtLeast(0).toFloat()
-            )
-            blurDrawable.callMethod("setBlurRadius", context.toPx(headsUpBlurRadius.roundToInt()))
-            blurDrawable.callMethod(
-                "setColor",
-                ColorUtils.setAlphaComponent(notificationColor, headsUpTransparency.toInt())
-            )
-
-            val mutatedDrawable = notificationBgDrawable.mutate() as LayerDrawable
-            val baseLayer = mutatedDrawable.getDrawable(0).apply {
-                setTint(Color.TRANSPARENT)
-            }
-            val statefulLayer = mutatedDrawable.getDrawable(1).apply {
-                setTint(Color.TRANSPARENT)
-            }
-
-            val layerDrawable = LayerDrawable(
-                arrayOf(
-                    baseLayer,
-                    statefulLayer,
-                    blurDrawable
+                blurDrawable.callMethod(
+                    "setCornerRadius",
+                    (context.resources.getDimensionPixelSize(
+                        context.resources.getIdentifier(
+                            "notification_scrim_corner_radius",
+                            "dimen",
+                            SYSTEMUI_PACKAGE
+                        )
+                    ) - mContext.toPx(4)).coerceAtLeast(0).toFloat()
                 )
-            )
+                blurDrawable.callMethod(
+                    "setBlurRadius",
+                    context.toPx(headsUpBlurRadius.roundToInt())
+                )
+                blurDrawable.callMethod(
+                    "setColor",
+                    ColorUtils.setAlphaComponent(notificationColor, headsUpTransparency.toInt())
+                )
 
-            mBackgroundNormal.setExtraField("mBackgroundDrawable", layerDrawable)
+                val mutatedDrawable = notificationBgDrawable.mutate() as LayerDrawable
+                val baseLayer = mutatedDrawable.getDrawable(0).apply {
+                    setTint(Color.TRANSPARENT)
+                }
+                val statefulLayer = mutatedDrawable.getDrawable(1).apply {
+                    setTint(Color.TRANSPARENT)
+                }
 
-            setNotificationBackground(mBackgroundNormal, layerDrawable)
+                val layerDrawable = LayerDrawable(
+                    arrayOf(
+                        baseLayer,
+                        statefulLayer,
+                        blurDrawable
+                    )
+                )
+
+                mBackgroundNormal.setExtraField("mBackgroundDrawable", layerDrawable)
+
+                setNotificationBackground(mBackgroundNormal, layerDrawable)
+
+                updateColorAndOutline()
+            }
         } else {
             val mutatedDrawable = notificationBgDrawable.mutate() as LayerDrawable
 
@@ -324,18 +349,8 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
             mBackgroundNormal.setExtraField("mBackgroundDrawable", mutatedDrawable)
 
             setNotificationBackground(mBackgroundNormal, mutatedDrawable)
-        }
 
-        callMethod("updateBackgroundColors")
-
-        callMethod("updateBackgroundTint", true)
-
-        val outlineAlphaValue = 0.0f
-        val mOutlineAlpha = getField("mOutlineAlpha") as Float
-
-        if (outlineAlphaValue != mOutlineAlpha) {
-            setField("mOutlineAlpha", outlineAlphaValue)
-            callMethod("applyRoundnessAndInvalidate")
+            updateColorAndOutline()
         }
     }
 
