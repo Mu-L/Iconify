@@ -345,11 +345,11 @@
     <string name="qs_panel_top_margin_info">دستگاه را برای دیدن تغییرات بچرخانید. اگر کار نمرد رابط را راه‌اندازی مجدد کنید.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">فضادهی</string>
-    <string name="sb_start_padding">تنظیم حاشیه سمت چپ</string>
-    <string name="sb_end_padding">تنظیم حاشیه سمت راست</string>
+    <string name="sb_start_padding">Start Padding</string>
+    <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">ارتفاع</string>
     <string name="section_title_color">رنگ</string>
-    <string name="sb_color_tint_title">افکت ته رنگ</string>
+    <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">فعال کردن افکت ته رنگ برای آیکون‌ها و متن‌های نوارابزار</string>
     <string name="sb_tint_system">رنگ پیش‌فرض سیستم</string>
     <string name="sb_tint_monet">رنگ مونه/لهجه</string>
@@ -1239,6 +1239,7 @@
     <string name="learn_more">بیشتر بدانید</string>
     <string name="custom_tiles_footer_info">برای اطمینان از عملکرد صحیح کاشی‌های سفارشی، ابتدا یک بار از کاشی‌های پیش‌فرض اینترنت و بلوتوث استفاده کنید، سپس از کاشی‌های سفارشی استفاده کنید.</string>
     <string name="hig_res_image_footer_info">از استفاده از تصاویر با وضوح بالا خودداری کنید، زیرا ممکن است باعث خراب شدن رابط کاربری سیستم شما شوند.</string>
+    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
     <string name="more">بیشتر</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->

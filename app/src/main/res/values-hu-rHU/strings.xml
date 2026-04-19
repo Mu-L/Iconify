@@ -345,11 +345,11 @@
     <string name="qs_panel_top_margin_info">Forgassa meg a készülékét a változások megtekintéséhez. Ha ez nem működik, akkor rendszerfelület-újraindítás szükséges.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Térköz</string>
-    <string name="sb_start_padding">Bal oldali kitöltés</string>
-    <string name="sb_end_padding">Jobb oldali kitöltés</string>
+    <string name="sb_start_padding">Start Padding</string>
+    <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Magasság</string>
     <string name="section_title_color">Szín</string>
-    <string name="sb_color_tint_title">Színárnyalat</string>
+    <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Árnyalt állapotsori ikonok és szövegek</string>
     <string name="sb_tint_system">Alapértelmezett renszerszínezés</string>
     <string name="sb_tint_monet">Monet/Kiemelő színezés</string>
@@ -1239,6 +1239,7 @@
     <string name="learn_more">Tudjon meg többet</string>
     <string name="custom_tiles_footer_info">Az egyéni csempék megfelelő működésének biztosítása érdekében mielőtt egyéni csepéket használna az Internet és Bluetooth csempék helyett, használja az alapértelmezettet.</string>
     <string name="hig_res_image_footer_info">Kerülje a nagy felbontású képek használatát, mert ezek a rendszerfelület összeomlását okozhatják.</string>
+    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
     <string name="more">Egyebek</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->

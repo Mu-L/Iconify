@@ -345,11 +345,11 @@
     <string name="qs_panel_top_margin_info">Faites pivoter l\'appareil pour voir les modifications. Si cela ne fonctionne pas, redémarrez SystemUI.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Espacement</string>
-    <string name="sb_start_padding">Rembourrage gauche</string>
-    <string name="sb_end_padding">Rembourrage droit</string>
+    <string name="sb_start_padding">Start Padding</string>
+    <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Hauteur</string>
     <string name="section_title_color">Couleur</string>
-    <string name="sb_color_tint_title">Teinte</string>
+    <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Teinte des icônes et textes de la barre d\'état</string>
     <string name="sb_tint_system">Teinte système par défaut</string>
     <string name="sb_tint_monet">Teinte monet / accent</string>
@@ -1239,6 +1239,7 @@
     <string name="learn_more">En savoir plus</string>
     <string name="custom_tiles_footer_info">Pour s\'assurer que les tuiles personnalisées fonctionnent correctement, utilisez d\'abord les tuiles internet et bluetooth par défaut une fois avant d\'utiliser les tuiles personnalisées.</string>
     <string name="hig_res_image_footer_info">Évitez d\'utiliser des images haute résolution, car elles peuvent causer le plantage de l\'interface utilisateur de votre système.</string>
+    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
     <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->

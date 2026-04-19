@@ -345,11 +345,11 @@
     <string name="qs_panel_top_margin_info">Rotate device to see changes. If that doesn\'t work, restart SystemUI.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Espaçamento</string>
-    <string name="sb_start_padding">Margem esquerda</string>
-    <string name="sb_end_padding">Margem direita</string>
+    <string name="sb_start_padding">Start Padding</string>
+    <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Height</string>
     <string name="section_title_color">Cor</string>
-    <string name="sb_color_tint_title">Colorir</string>
+    <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Colorir ícones e texto na barra de estado</string>
     <string name="sb_tint_system">Cor padrão do sistema</string>
     <string name="sb_tint_monet">Cor de acentuação Monet</string>
@@ -1239,6 +1239,7 @@
     <string name="learn_more">Learn more</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
     <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your SystemUI to crash.</string>
+    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
     <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->

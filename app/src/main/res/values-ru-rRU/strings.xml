@@ -345,11 +345,11 @@
     <string name="qs_panel_top_margin_info">Поверните устройство, чтобы увидеть изменения. Если это не сработает, перезапустите SystemUI.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Интервалы</string>
-    <string name="sb_start_padding">Левый отступ</string>
-    <string name="sb_end_padding">Правый отступ</string>
+    <string name="sb_start_padding">Start Padding</string>
+    <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Высота</string>
     <string name="section_title_color">Цвет</string>
-    <string name="sb_color_tint_title">Оттенок</string>
+    <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Оттенок иконок строки состояния и текста</string>
     <string name="sb_tint_system">Стандартный системный оттенок</string>
     <string name="sb_tint_monet">Monet оттенок</string>
@@ -1239,6 +1239,7 @@
     <string name="learn_more">Узнать больше</string>
     <string name="custom_tiles_footer_info">Чтобы обеспечить правильную работу пользовательских плиток, сначала используйте плитки Интернета и Bluetooth по умолчанию, прежде чем использовать пользовательские.</string>
     <string name="hig_res_image_footer_info">Избегайте использования изображений с высоким разрешением, так как они могут привести к сбою пользовательского интерфейса вашей системы.</string>
+    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
     <string name="more">Подробнее</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->

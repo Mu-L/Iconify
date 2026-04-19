@@ -345,11 +345,11 @@
     <string name="qs_panel_top_margin_info">Gira el dispositivo para ver los cambios. Si eso no funciona, reinicia la interfaz del sistema.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Espaciado</string>
-    <string name="sb_start_padding">Relleno izquierdo</string>
-    <string name="sb_end_padding">Relleno derecho</string>
+    <string name="sb_start_padding">Start Padding</string>
+    <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Altura</string>
     <string name="section_title_color">Color</string>
-    <string name="sb_color_tint_title">Tinte de color</string>
+    <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Tintar iconos y textos de la barra de estado</string>
     <string name="sb_tint_system">Tinte de Sistema Predeterminado</string>
     <string name="sb_tint_monet">Tinte Monet/Acento</string>
@@ -1239,6 +1239,7 @@
     <string name="learn_more">Saber más</string>
     <string name="custom_tiles_footer_info">Para asegurar que los botones personalizados funcionen correctamente, primero usa los botones de Internet y Bluetooth por defecto una vez, antes de usar los personalizados.</string>
     <string name="hig_res_image_footer_info">Evite el uso de imágenes de alta resolución, ya que pueden bloquear de la interfaz de usuario.</string>
+    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
     <string name="more">Más</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->

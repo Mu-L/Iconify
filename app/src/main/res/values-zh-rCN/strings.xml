@@ -346,11 +346,11 @@
     <string name="qs_panel_top_margin_info">旋转设备以查看变化；如果不起作用，请重新启动SystemUI。</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">间距</string>
-    <string name="sb_start_padding">左内边距</string>
-    <string name="sb_end_padding">右内边距</string>
+    <string name="sb_start_padding">Start Padding</string>
+    <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">高度</string>
     <string name="section_title_color">颜色</string>
-    <string name="sb_color_tint_title">色调</string>
+    <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">着色状态栏的图标和文本</string>
     <string name="sb_tint_system">默认系统色调</string>
     <string name="sb_tint_monet">Monet / 强调色色调</string>
@@ -1240,6 +1240,7 @@
     <string name="learn_more">了解更多</string>
     <string name="custom_tiles_footer_info">为确保自定义磁贴正常工作，在使用自定义磁贴之前，请先使用一次默认的互联网和蓝牙磁贴。</string>
     <string name="hig_res_image_footer_info">尽量避免使用高分辨率的图片，因为这可能会导致您的SystemUI崩溃。</string>
+    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
     <string name="more">更多</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
