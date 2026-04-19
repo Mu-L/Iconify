@@ -263,22 +263,17 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     private fun View.hideComposeBattery() {
         if (!hideDefaultBattery) return
 
-        val batteryMeterView = findViewById<View>(
+        val systemIconsView = findViewById<ViewGroup>(
             mContext.resources.getIdentifier(
-                "battery",
+                "system_icons",
                 "id",
                 mContext.packageName
             )
         )
-        val parentViewGroup = batteryMeterView.parent as? ViewGroup ?: return
 
-        val index = parentViewGroup.indexOfChild(batteryMeterView)
-
-        // iterate over siblings after BatteryMeterView
-        for (i in index + 1 until parentViewGroup.childCount) {
-            val child = parentViewGroup.getChildAt(i)
+        for (i in systemIconsView.childCount - 1 downTo 0) {
+            val child = systemIconsView.getChildAt(i)
             if (child.javaClass.simpleName == "ComposeView") {
-                // found the ComposeView
                 child.hideView()
                 break
             }
