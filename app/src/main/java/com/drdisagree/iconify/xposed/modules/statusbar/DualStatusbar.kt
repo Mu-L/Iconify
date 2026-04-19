@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.core.view.doOnAttach
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
@@ -248,13 +249,6 @@ class DualStatusbar(context: Context) : ModPack(context) {
                     newStartSideContainer?.id = statusbarStartSideContainer.id
                     statusbarStartSideContainer.id = View.NO_ID
 
-                    batteryIconView = phoneStatusBarView.findViewById(
-                        mContext.resources.getIdentifier(
-                            "battery",
-                            "id",
-                            mContext.packageName
-                        )
-                    )
                     endTopSideContainer = LinearLayout(mContext).apply {
                         orientation = LinearLayout.HORIZONTAL
                         layoutParams = LinearLayout.LayoutParams(
@@ -274,13 +268,19 @@ class DualStatusbar(context: Context) : ModPack(context) {
                         gravity = Gravity.END or Gravity.CENTER_VERTICAL
                     }
 
-                    endTopSideContainer?.reAddView(batteryIconView, 0)
                     endBottomSideContainer?.reAddView(statusbarEndSideContainer, 0)
 
                     newEndSideContainer?.reAddView(endTopSideContainer, 0)
                     newEndSideContainer?.reAddView(endBottomSideContainer, 1)
                     newEndSideContainer?.id = statusbarEndSideContainer.id
                     statusbarEndSideContainer.id = View.NO_ID
+                }
+
+                phoneStatusBarView.doOnAttach { view ->
+                    if (batteryIconView == null || batteryIconView!!.parent != endTopSideContainer) {
+                        batteryIconView = view.findComposeBatteryView()
+                        endTopSideContainer?.reAddView(batteryIconView, 0)
+                    }
                 }
 
                 updateRowsIfNeeded()
@@ -308,15 +308,15 @@ class DualStatusbar(context: Context) : ModPack(context) {
             .addResource("status_bar_icons_padding_end") { 0 }
             .apply()
 
-        // Handle a bug where statusbar battery is shown on lockscreen too
+        // Handle a bug where statusbar battery is duplicated on lockscreen
         KeyguardShowingCallback.getInstance().registerKeyguardShowingListener(
             object : KeyguardShowingCallback.KeyguardShowingListener {
                 override fun onKeyguardShown() {
-                    batteryIconView?.visibility = View.GONE
+                    batteryIconView?.post { batteryIconView?.visibility = View.GONE }
                 }
 
                 override fun onKeyguardDismissed() {
-                    batteryIconView?.visibility = View.GONE
+                    batteryIconView?.post { batteryIconView?.visibility = View.VISIBLE }
                 }
             }
         )
@@ -551,6 +551,25 @@ class DualStatusbar(context: Context) : ModPack(context) {
                     Gravity.CENTER_VERTICAL or Gravity.END
             }
         }
+    }
+
+    private fun View.findComposeBatteryView(): View? {
+        val systemIconsView = findViewById<ViewGroup>(
+            mContext.resources.getIdentifier(
+                "system_icons",
+                "id",
+                mContext.packageName
+            )
+        )
+
+        for (i in systemIconsView.childCount - 1 downTo 0) {
+            val child = systemIconsView.getChildAt(i)
+            if (child.javaClass.simpleName == "ComposeView") {
+                return child
+            }
+        }
+
+        return null
     }
 
     private val isDsbResourceEnabled: Boolean
