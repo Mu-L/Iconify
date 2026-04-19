@@ -192,19 +192,18 @@ class MethodHookHelper private constructor(
 
         // Optionally narrow to a specific overload
         if (!parameterTypes.isNullOrEmpty()) {
-            val narrowed = matched.filter { method ->
+            return matched.filter { method ->
                 val types = method.parameterTypes
                 if (types.size != parameterTypes!!.size) return@filter false
                 types.indices.all { i ->
                     when (val expected = parameterTypes!![i]) {
-                        null -> true                         // wildcard
+                        null -> true
                         is Class<*> -> types[i] == expected
                         is String -> types[i].name == expected
                         else -> false
                     }
                 }
             }
-            if (narrowed.isNotEmpty()) return narrowed
         }
 
         return matched
