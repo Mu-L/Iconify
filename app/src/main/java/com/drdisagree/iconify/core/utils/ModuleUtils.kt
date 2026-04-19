@@ -28,7 +28,7 @@ object ModuleUtils {
 
     private val TAG = ModuleUtils::class.java.simpleName
 
-    fun handleModule(skippedInstallation: Boolean) {
+    suspend fun handleModule(skippedInstallation: Boolean) {
         if (moduleExists()) {
             // Clean temporary directory
             Shell.cmd("rm -rf $TEMP_MODULE_DIR").exec()
@@ -40,7 +40,7 @@ object ModuleUtils {
         installModule(skippedInstallation)
     }
 
-    private fun installModule(skippedInstallation: Boolean) {
+    private suspend fun installModule(skippedInstallation: Boolean) {
         Log.d(TAG, "Module does not exist, creating...")
 
         FileUtils.ensureDirs(TEMP_MODULE_DIR)
@@ -96,26 +96,21 @@ object ModuleUtils {
         }
     }
 
-    private fun writePostExec(skippedInstallation: Boolean) {
+    private suspend fun writePostExec(skippedInstallation: Boolean) {
         val postExec = StringBuilder()
-        val map = RPrefs.prefs.all
 
-        for ((key, value) in map) {
-            if (value is Boolean && value && key.startsWith("fabricated")) {
-                try {
-                    val name = key.replace("fabricated", "")
-                    val commands = FabricatedUtils.buildCommands(
-                        RPrefs.getString("FOCMDtarget$name")!!,
-                        RPrefs.getString("FOCMDname$name")!!,
-                        RPrefs.getString("FOCMDtype$name")!!,
-                        RPrefs.getString("FOCMDresourceName$name")!!,
-                        RPrefs.getString("FOCMDval$name")!!
-                    )
+        FabricatedUtils.getAllLatestResources().forEach { resource ->
+            val commands = FabricatedUtils.buildCommands(
+                FabricatedUtils.FabricatedOverlay(
+                    targetPackageName = resource.targetPackageName,
+                    overlayName = resource.overlayName,
+                    resourceType = FabricatedUtils.FabricatedResourceType.from(resource.resourceType),
+                    resourceName = resource.resourceName,
+                    resourceValue = resource.resourceValue
+                )
+            )
 
-                    postExec.append(commands[0]).append('\n').append(commands[1]).append('\n')
-                } catch (_: Exception) {
-                }
-            }
+            postExec.append(commands[0]).append('\n').append(commands[1]).append('\n')
         }
 
         File("$TEMP_MODULE_DIR/post-exec.sh").writeText(postExec.toString())

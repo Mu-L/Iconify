@@ -4,25 +4,34 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
-import com.drdisagree.iconify.data.common.Resources
+import com.drdisagree.iconify.data.common.Resources.DYNAMIC_RESOURCE_DATABASE_NAME
 import com.drdisagree.iconify.data.dao.DynamicResourceDao
+import com.drdisagree.iconify.data.dao.FabricatedResourceDao
 import com.drdisagree.iconify.data.entity.DynamicResourceEntity
+import com.drdisagree.iconify.data.entity.FabricatedResourceEntity
 
-@Database(entities = [DynamicResourceEntity::class], version = 2)
-abstract class DynamicResourceDatabase : RoomDatabase() {
+@Database(
+    entities = [
+        DynamicResourceEntity::class,
+        FabricatedResourceEntity::class], version = 2
+)
+abstract class ResourceDatabase : RoomDatabase() {
+
     abstract fun dynamicResourceDao(): DynamicResourceDao
+
+    abstract fun fabricatedResourceDao(): FabricatedResourceDao
 
     companion object {
         @Volatile
-        private var INSTANCE: DynamicResourceDatabase? = null
+        private var INSTANCE: ResourceDatabase? = null
 
-        fun getInstance(): DynamicResourceDatabase {
+        fun getInstance(): ResourceDatabase {
             return INSTANCE ?: synchronized(this) {
                 Room
                     .databaseBuilder(
                     appContext,
-                    DynamicResourceDatabase::class.java,
-                    Resources.DYNAMIC_RESOURCE_DATABASE_NAME
+                        ResourceDatabase::class.java,
+                        DYNAMIC_RESOURCE_DATABASE_NAME
                     ).fallbackToDestructiveMigration(true)
                     .build()
                     .also { INSTANCE = it }

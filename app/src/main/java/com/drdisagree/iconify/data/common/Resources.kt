@@ -72,4 +72,5 @@ object Resources {
     // Database
     const val DYNAMIC_RESOURCE_DATABASE_NAME = "dynamic_resource_database"
     const val DYNAMIC_RESOURCE_TABLE = "dynamic_resource_table"
+    const val FABRICATED_RESOURCE_TABLE = "fabricated_resource_table"
 }

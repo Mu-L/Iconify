@@ -21,7 +21,7 @@ object ResourceManager {
     }
 
     private fun repository(): DynamicResourceRepository {
-        return getEntryPoint().repository()
+        return getEntryPoint().dynamicResourceRepository()
     }
 
     suspend fun buildOverlayWithResource(

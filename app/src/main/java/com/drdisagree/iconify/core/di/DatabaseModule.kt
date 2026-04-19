@@ -1,7 +1,8 @@
 package com.drdisagree.iconify.core.di
 
 import com.drdisagree.iconify.data.dao.DynamicResourceDao
-import com.drdisagree.iconify.data.database.DynamicResourceDatabase
+import com.drdisagree.iconify.data.dao.FabricatedResourceDao
+import com.drdisagree.iconify.data.database.ResourceDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,14 +15,17 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(): DynamicResourceDatabase {
-        return DynamicResourceDatabase.getInstance()
+    fun provideDatabase(): ResourceDatabase {
+        return ResourceDatabase.getInstance()
     }
 
     @Provides
-    fun provideDynamicResourceDao(
-        database: DynamicResourceDatabase
-    ): DynamicResourceDao {
+    fun provideDynamicResourceDao(database: ResourceDatabase): DynamicResourceDao {
         return database.dynamicResourceDao()
+    }
+
+    @Provides
+    fun provideFabricatedResourceDao(database: ResourceDatabase): FabricatedResourceDao {
+        return database.fabricatedResourceDao()
     }
 }
