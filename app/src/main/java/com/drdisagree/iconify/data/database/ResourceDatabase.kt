@@ -13,7 +13,9 @@ import com.drdisagree.iconify.data.entity.FabricatedResourceEntity
 @Database(
     entities = [
         DynamicResourceEntity::class,
-        FabricatedResourceEntity::class], version = 2
+        FabricatedResourceEntity::class
+    ],
+    version = 3
 )
 abstract class ResourceDatabase : RoomDatabase() {
 
