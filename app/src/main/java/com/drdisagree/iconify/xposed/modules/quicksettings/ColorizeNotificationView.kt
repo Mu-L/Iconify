@@ -44,6 +44,7 @@ import com.materialkolor.score.Score
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers.newInstance
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import kotlin.math.roundToInt
 
 @SuppressLint("DiscouragedApi")
 @Suppress("deprecation", "UNCHECKED_CAST")
@@ -394,21 +395,19 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                     notification.getExtraFieldSilently("mNotifyBackgroundColor")
                         ?: return@runAfter
 
-                var bgColor = mNotifyBackgroundColor as Int
                 val mCurrentBackgroundTint = try {
                     expandableNotificationRow.callMethod("getCurrentBackgroundTint")
                 } catch (_: Throwable) {
                     expandableNotificationRow.getField("mCurrentBackgroundTint")
                 } as Int
 
-                if (mCurrentBackgroundTint == bgColor) return@runAfter
+                val usesTransparentBackground = (expandableNotificationRow
+                    .callMethod("calculateBgColor", true, true) as Int)
+                    .hasTransparency()
+                val bgColor = (mNotifyBackgroundColor as Int)
+                    .withSemiTransparency(isSemiTransparent = usesTransparentBackground)
 
-                bgColor = Color.argb(
-                    255,
-                    Color.red(bgColor),
-                    Color.green(bgColor),
-                    Color.blue(bgColor)
-                ).withSemiTransparency()
+                if (mCurrentBackgroundTint == bgColor) return@runAfter
 
                 expandableNotificationRow.callMethod("setBackgroundTintColor", bgColor)
                 expandableNotificationRow.setFieldSilently("mCurrentBackgroundTint", bgColor)
@@ -560,7 +559,15 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
         }
     }
 
-    fun Int.withSemiTransparency(): Int {
-        return this and 0x00FFFFFF or ((255 * 0.3f).toInt() shl 24)
+    private fun Int.withSemiTransparency(isSemiTransparent: Boolean = true): Int {
+        val alphaFactor = if (isSemiTransparent) 0.54f else 1f
+        val alpha = (255f * alphaFactor).roundToInt().coerceIn(0, 255)
+
+        return (this and 0x00FFFFFF) or (alpha shl 24)
+    }
+
+    private fun Int.hasTransparency(): Boolean {
+        val alpha = this ushr 24
+        return alpha < 255
     }
 }
