@@ -39,6 +39,9 @@
 -keep class * implements de.robv.android.xposed.IXposedHookInitPackageResources
 
 # Optimize method bodies, preserve Xposed lifecycle signatures
+-keepclassmembers class * extends com.drdisagree.iconify.xposed.ModPack {
+    public <init>(android.content.Context);
+}
 -keepclassmembers,allowoptimization,allowobfuscation class com.drdisagree.iconify.xposed.** {
     public <init>();
     public <init>(android.content.Context);
