@@ -71,10 +71,12 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddV
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.ArcProgressImageView
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
@@ -492,6 +494,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
             }
 
         val keyguardUpdateMonitor = findClass("com.android.keyguard.KeyguardUpdateMonitor")
+        val hookedCallbackClasses = mutableSetOf<Class<*>>()
 
         keyguardUpdateMonitor
             .hookMethod("registerCallback")
@@ -500,6 +503,8 @@ class LockscreenClock(context: Context) : ModPack(context) {
                 if (!showLockscreenClock) return@runAfter
 
                 val callback = param.args[0]
+
+                if (!hookedCallbackClasses.add(callback.javaClass)) return@runAfter
 
                 callback.javaClass
                     .hookMethod(
@@ -512,6 +517,8 @@ class LockscreenClock(context: Context) : ModPack(context) {
 
                         Handler(Looper.getMainLooper()).post { updateClockView() }
                     }
+
+                callback.setExtraField("hooked", true)
             }
 
         val dozeTriggersClass = findClass("$SYSTEMUI_PACKAGE.doze.DozeTriggers")
