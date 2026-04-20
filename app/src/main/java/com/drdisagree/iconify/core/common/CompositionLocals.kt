@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.core.common
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -39,4 +40,8 @@ val LocalInnerPadding = staticCompositionLocalOf<PaddingValues> {
 
 val LocalWindowSizeClass = staticCompositionLocalOf<WindowSizeClass> {
     error("No WindowSizeClass provided")
+}
+
+val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
+    error("No ColorScheme provided ")
 }

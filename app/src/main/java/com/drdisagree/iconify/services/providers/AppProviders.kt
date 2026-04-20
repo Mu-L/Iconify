@@ -1,6 +1,11 @@
 package com.drdisagree.iconify.services.providers
 
 import android.app.Activity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -9,11 +14,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.Density
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import com.drdisagree.iconify.core.common.LocalColorScheme
 import com.drdisagree.iconify.core.common.LocalDarkMode
 import com.drdisagree.iconify.core.common.LocalHazeState
 import com.drdisagree.iconify.core.common.LocalLayerBackdrop
@@ -22,8 +30,6 @@ import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.common.LocalStrongHaptic
 import com.drdisagree.iconify.core.common.LocalWeakHaptic
 import com.drdisagree.iconify.core.common.LocalWindowSizeClass
-import com.drdisagree.iconify.core.ui.theme.getColorScheme
-import com.drdisagree.iconify.core.ui.theme.getIsDarkTheme
 import com.drdisagree.iconify.core.utils.HapticUtils.strongHaptic
 import com.drdisagree.iconify.core.utils.HapticUtils.weakHaptic
 import com.drdisagree.iconify.data.keys.SettingsKey
@@ -31,6 +37,8 @@ import com.drdisagree.iconify.data.states.SettingsState
 import com.drdisagree.iconify.features.common.viewmodels.SettingsViewModel
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import com.materialkolor.PaletteStyle
+import com.materialkolor.dynamiccolor.ColorSpec
+import com.materialkolor.rememberDynamicColorScheme
 import dev.chrisbanes.haze.HazeState
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -41,6 +49,7 @@ fun AppProviders(
     content: @Composable () -> Unit
 ) {
     val view = LocalView.current
+    val context = LocalContext.current
     val baseDensity = LocalDensity.current
 
     val navController = rememberNavController()
@@ -81,13 +90,37 @@ fun AppProviders(
         }
     }
 
-    val isDarkTheme = getIsDarkTheme(settingsState = state)
-    val colorScheme = getColorScheme(settingsState = state)
+    val isDarkTheme = when (themeMode.toInt()) {
+        AppCompatDelegate.MODE_NIGHT_YES -> true
+        AppCompatDelegate.MODE_NIGHT_NO -> false
+        else -> isSystemInDarkTheme()
+    }
+
+    val colorScheme = when {
+        isDynamicColor -> when {
+            isDarkTheme -> dynamicDarkColorScheme(context)
+            else -> dynamicLightColorScheme(context)
+        }
+
+        else -> rememberDynamicColorScheme(
+            seedColor = Color(seedColor.toLong()),
+            isDark = isDarkTheme,
+            isAmoled = isAmoledTheme,
+            contrastLevel = contrastLevel.toDouble(),
+            style = PaletteStyle.valueOf(paletteStyle),
+            specVersion = if (isExpressive) ColorSpec.SpecVersion.SPEC_2025
+            else ColorSpec.SpecVersion.SPEC_2021,
+        )
+    }
+
+    val animatedSurface by animateColorAsState(
+        targetValue = colorScheme.surface,
+        label = "backdropSurface"
+    )
 
     val hazeState = remember { HazeState() }
-    val backdropColor = colorScheme.surface
     val backdrop = rememberLayerBackdrop {
-        drawRect(backdropColor)
+        drawRect(animatedSurface)
         drawContent()
     }
 
@@ -120,6 +153,7 @@ fun AppProviders(
             LocalLayerBackdrop provides backdrop,
             LocalNavController provides navController,
             LocalSettings provides state,
+            LocalColorScheme provides colorScheme,
             LocalWeakHaptic provides weakHaptic,
             LocalStrongHaptic provides strongHaptic,
             LocalDarkMode provides isDarkTheme,
