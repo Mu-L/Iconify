@@ -25,8 +25,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.ripple
@@ -53,7 +55,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.core.common.LocalPreferenceController
 import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
@@ -61,6 +62,7 @@ import com.drdisagree.iconify.core.ui.utils.CARD_CORNER_LARGE
 import com.drdisagree.iconify.features.xposed.main.viewmodels.HookCheckViewModel
 import kotlinx.coroutines.delay
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun HookCheckCard(
     modifier: Modifier = Modifier,
@@ -69,7 +71,6 @@ fun HookCheckCard(
     val context = LocalContext.current
     val settings = LocalSettings.current
     val previewMode = LocalInspectionMode.current
-    val prefController = LocalPreferenceController.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     var showDialog by rememberSaveable { mutableStateOf(false) }
@@ -95,7 +96,10 @@ fun HookCheckCard(
                 Text(text = message)
             },
             confirmButton = {
-                TextButton(onClick = withHaptic { showDialog = false }) {
+                OutlinedButton(
+                    shapes = ButtonDefaults.shapes(),
+                    onClick = withHaptic { showDialog = false }
+                ) {
                     Text(stringResource(R.string.understood))
                 }
             }
@@ -201,6 +205,7 @@ fun HookCheckCard(
                 )
             }
             TextButton(
+                shapes = ButtonDefaults.shapes(),
                 colors = ButtonDefaults.textButtonColors(
                     containerColor = MaterialTheme.colorScheme.errorContainer,
                     contentColor = MaterialTheme.colorScheme.onErrorContainer,
