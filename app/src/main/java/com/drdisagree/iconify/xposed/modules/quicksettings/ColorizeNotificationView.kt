@@ -71,8 +71,6 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             suppressError = true
         )
         val notificationBuilderClass = findClass($$"android.app.Notification$Builder")
-        val expandableNotificationRowClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.ExpandableNotificationRow")
         val notificationEntryClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.collection.NotificationEntry")
         val notificationBackgroundViewClass =
