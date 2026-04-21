@@ -21,6 +21,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookMa
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
@@ -202,7 +203,10 @@ class QuickSettings(context: Context) : ModPack(context) {
                 builder.callMethod("getColors", mParams)
 
                 val mColors = builder.getField("mColors")
-                val mPrimaryTextColor = mColors.getField("mPrimaryTextColor") as Int
+                val mPrimaryTextColor = mColors.getAnyField(
+                    "mPrimaryTextColor",
+                    "mTextColor"
+                ) as Int
                 val mBackgroundColor = mColors.getField("mBackgroundColor") as Int
 
                 mColors.setField(

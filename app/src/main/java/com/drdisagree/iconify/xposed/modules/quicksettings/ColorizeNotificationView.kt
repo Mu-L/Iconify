@@ -36,7 +36,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatc
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.materialkolor.quantize.QuantizerCelebi
@@ -249,7 +248,8 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                 "mTertiaryAccentColor" to mTertiaryAccentColor,
                 "mOnTertiaryAccentTextColor" to mOnTertiaryAccentTextColor,
                 "mTertiaryFixedDimAccentColor" to mTertiaryFixedDimAccentColor,
-                "mOnTertiaryFixedAccentTextColor" to mOnTertiaryFixedAccentTextColor
+                "mOnTertiaryFixedAccentTextColor" to mOnTertiaryFixedAccentTextColor,
+                "mTextColor" to mPrimaryTextColor
             ).forEach { (fieldName, value) ->
                 mColors.setFieldSilently(fieldName, value)
 
@@ -334,15 +334,16 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                         "mTertiaryAccentColor",
                         "mOnTertiaryAccentTextColor",
                         "mTertiaryFixedDimAccentColor",
-                        "mOnTertiaryFixedAccentTextColor"
+                        "mOnTertiaryFixedAccentTextColor",
+                        "mTextColor"
                     ).forEach { fieldName ->
                         if (fieldName == "mBackgroundColor") {
-                            mColors.setField(
+                            mColors.setFieldSilently(
                                 fieldName,
                                 (notification.getExtraField("mNotifyBackgroundColor") as? Int)?.withSemiTransparency()
                             )
                         } else {
-                            mColors.setField(
+                            mColors.setFieldSilently(
                                 fieldName,
                                 notification.getExtraField(fieldName)
                             )
