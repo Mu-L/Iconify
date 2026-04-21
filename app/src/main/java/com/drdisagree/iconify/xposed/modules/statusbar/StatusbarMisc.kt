@@ -30,6 +30,7 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CO
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.GraphicsColorKt
 import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getCenterClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getLeftClockView
@@ -48,10 +49,12 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setStaticField
 import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import kotlin.math.roundToInt
 
 @SuppressLint("DiscouragedApi")
 class StatusbarMisc(context: Context) : ModPack(context) {
@@ -615,6 +618,66 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 darkIconDispatcherImplInstance = param.thisObject
                 updateStatusbarColor(param)
             }
+
+        if (!linkToCustomColor) return
+
+        val (statusbarColorLight, statusbarColorDark) = getStatusbarColors()
+
+        val batteryLightThemeClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$LightTheme")
+        val batteryDarkThemeClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$DarkTheme")
+
+        batteryLightThemeClass.setStaticField(
+            "lowAlphaBg",
+            GraphicsColorKt.colorOf(
+                ColorUtils.setAlphaComponent(
+                    statusbarColorLight,
+                    (255 * 0.20f).roundToInt()
+                )
+            )
+        )
+        batteryLightThemeClass.setStaticField(
+            "highAlphaBg",
+            GraphicsColorKt.colorOf(
+                ColorUtils.setAlphaComponent(
+                    statusbarColorLight,
+                    (255 * 0.55f).roundToInt()
+                )
+            )
+        )
+        batteryDarkThemeClass.setStaticField(
+            "lowAlphaBg",
+            GraphicsColorKt.colorOf(
+                ColorUtils.setAlphaComponent(
+                    statusbarColorLight,
+                    (255 * 0.45f).roundToInt()
+                )
+            )
+        )
+        batteryDarkThemeClass.setStaticField(
+            "highAlphaBg",
+            GraphicsColorKt.colorOf(
+                ColorUtils.setAlphaComponent(
+                    statusbarColorLight,
+                    (255 * 0.55f).roundToInt()
+                )
+            )
+        )
+
+        val batteryLightThemeDefaultClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$LightTheme$Default")
+        val batteryDarkThemeDefaultClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$DarkTheme$Default")
+
+        batteryLightThemeDefaultClass.setStaticField(
+            "fill",
+            GraphicsColorKt.colorOf(statusbarColorLight)
+        )
+        batteryDarkThemeDefaultClass.setStaticField(
+            "fill",
+            GraphicsColorKt.colorOf(statusbarColorDark)
+        )
     }
 
     private fun applyIconTint() {

@@ -168,7 +168,8 @@ fun XposedStatusbarScreen(
             XposedKey.SHOW_4G_INSTEAD_OF_LTE.name,
             XposedKey.NOTIFICATION_ICONS_LIMIT.name,
             XposedKey.DUAL_STATUSBAR.name,
-            XposedKey.ONGOING_ACTION_CHIP.name -> {
+            XposedKey.ONGOING_ACTION_CHIP.name,
+            XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR.name -> {
                 systemActionViewModel?.shouldRestartSystemUI()
             }
         }
