@@ -345,11 +345,11 @@
     <string name="qs_panel_top_margin_info">Xoay ngang thiết bị để thay đổi. Nếu không hoạt động, hãy khởi động lại SystemUI.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Khoảng cách</string>
-    <string name="sb_start_padding">Đệm trái</string>
-    <string name="sb_end_padding">Đệm phải</string>
+    <string name="sb_start_padding">Start Padding</string>
+    <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Chiều cao</string>
     <string name="section_title_color">Màu</string>
-    <string name="sb_color_tint_title">Sắc thái màu</string>
+    <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Tô màu các biểu tượng và văn bản trên thanh trạng thái</string>
     <string name="sb_tint_system">Màu hệ thống mặc định</string>
     <string name="sb_tint_monet">Màu Monet/Nhấn mạnh màu</string>
@@ -1239,6 +1239,7 @@
     <string name="learn_more">Tìm hiểu thêm</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
     <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your SystemUI to crash.</string>
+    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
     <string name="more">Nhiều hơn</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_motto">Customize Boring Android UI</string>
+    <string name="app_motto">Personalize a interface de usuário chata do Android</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Inicializando a configuração</string>
     <string name="step">Etapa</string>
@@ -20,26 +20,26 @@
     <string name="onboarding_title_3">Vamos começar agora?</string>
     <string name="onboarding_subtitle_3">É hora do Iconify fazer algum trabalho interno.</string>
     <string name="onboarding_desc_3">Iniciando tarefas internas, marcando o início de trabalhos essenciais. Pronto para começar?</string>
-    <string name="grant_permission">Grant Permission</string>
+    <string name="grant_permission">Conceder permissão</string>
     <string name="need_storage_perm_title">Conceda permissão de armazenamento</string>
     <string name="need_storage_perm_desc">A permissão de armazenamento é necessária para criar os arquivos necessários.</string>
-    <string name="notification_perm_title">Allow Notifications</string>
-    <string name="notification_perm_desc">Needed to notify you about available updates and to display test notifications.</string>
-    <string name="optional_permission">Granting these permissions is optional!</string>
+    <string name="notification_perm_title">Permitir notificações</string>
+    <string name="notification_perm_desc">Necessário para notificá-lo sobre atualizações disponíveis e para exibir notificações de teste.</string>
+    <string name="optional_permission">Conceder essas permissões é opcional!</string>
     <string name="compatible_root_not_found_title">Não foi possível encontrar método root compatível</string>
     <string name="compatible_root_not_found_desc">Use qualquer solução root popular para continuar.</string>
     <string name="root_not_found_title">Root não está acessível</string>
     <string name="root_not_found_desc">Parece que seu dispositivo não está rooteado!</string>
-    <string name="metamodule_not_found_title">Metamodule not installed</string>
-    <string name="metamodule_not_found_desc">KernelSU 3.0.0 and newer require the Metamodule to enable systemless /system modifications.</string>
+    <string name="metamodule_not_found_title">Metamódulo não instalado</string>
+    <string name="metamodule_not_found_desc">O KernelSU 3.0.0 e versões mais recentes exigem o Metamódulo para habilitar modificações /system sem a necessidade de alterações no sistema.</string>
     <string name="need_reboot_title">Necessário reiniciar o dispositivo</string>
     <string name="need_reboot_desc">Reinicie seu dispositivo para colocar todos os arquivos no lugar.</string>
     <string name="installation_failed_title">Ops, não esperava por isso</string>
     <string name="installation_failed_desc">Os registros foram salvos na pasta documents.</string>
     <string name="logs">Registros</string>
     <!-- Disclaimer -->
-    <string name="disclaimer">Disclaimer</string>
-    <string name="disclaimer_1_title">Root Access &amp; Environment</string>
+    <string name="disclaimer">Isenção de responsabilidade</string>
+    <string name="disclaimer_1_title">Acesso root &amp; Ambiente</string>
     <string name="disclaimer_1_description">This application requires Root privileges via Magisk, KernelSU, or APatch to modify system resources.\nWhile LSPosed is optional, it is highly recommended for the best compatibility and advanced feature support.\nThe app will prompt for Superuser permissions; without them, no changes can be applied to your system.</string>
     <string name="disclaimer_2_title">System Overlays &amp; Modifications</string>
     <string name="disclaimer_2_description">Iconify functions by generating and injecting dynamic Runtime Resource Overlays (RRO) directly into your system.\nThese modifications are designed for AOSP-based ROMs and may conflict with heavily modified OEM skins (like HyperOS, Realme UI or OneUI).\nChanging certain system values may cause UI freezes or \"System UI has stopped\" errors depending on your specific Android version.</string>
@@ -238,7 +238,7 @@
     <string name="icon_mask_style_scroll">Scroll</string>
     <string name="icon_mask_style_square">Quadrado</string>
     <string name="icon_mask_style_teardrop">Lágrima</string>
-    <string name="icon_mask_style_rounded_rectangle">Rounded Rectangle</string>
+    <string name="icon_mask_style_rounded_rectangle">Retângulo arredondado</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Nublado</string>
     <string name="icon_mask_style_cylinder">Cilindro</string>
@@ -246,10 +246,10 @@
     <string name="icon_mask_style_heart">Coração</string>
     <string name="icon_mask_style_leaf">Folha</string>
     <string name="icon_mask_style_stretched">Esticado</string>
-    <string name="icon_mask_style_tapered_rectangle">Tapered Rectangle</string>
+    <string name="icon_mask_style_tapered_rectangle">Retângulo cônico</string>
     <string name="icon_mask_style_vessel">Navio</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Miau</string>
-    <string name="icon_mask_style_round">Round</string>
+    <string name="icon_mask_style_round">Arredondado</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Cores básicas</string>
     <string name="activity_desc_basic_colors">Altere a cor primária e secundária</string>
@@ -345,11 +345,11 @@
     <string name="qs_panel_top_margin_info">Gire o dispositivo para ver as alterações. Se isso não funcionar, reinicie a Interface do sistema.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Espaçamento</string>
-    <string name="sb_start_padding">Preenchimento esquerdo</string>
-    <string name="sb_end_padding">Preenchimento direito</string>
+    <string name="sb_start_padding">Start Padding</string>
+    <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Altura</string>
     <string name="section_title_color">Cor</string>
-    <string name="sb_color_tint_title">Tonalidade de cor</string>
+    <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Tinge ícones e textos da barra de status</string>
     <string name="sb_tint_system">Tonalidade padrão do sistema</string>
     <string name="sb_tint_monet">Monet/Tonalidade de destaque</string>
@@ -525,7 +525,7 @@
     <string name="lockscreen_device_widget_style_classic">Barra com dois arcos</string>
     <string name="lockscreen_device_widget_style_arcs">Quatro arcos</string>
     <!-- LS Widgets Actions -->
-    <string name="none">None</string>
+    <string name="none">Nenhum</string>
     <string name="camera">Câmera</string>
     <string name="clock_timer">Relógio/Temporizador</string>
     <string name="calculator">Calculadora</string>
@@ -716,8 +716,8 @@
     <string name="header_image_zoom_to_fit_desc">A imagem é esticada para caber por padrão</string>
     <string name="header_image_hide_in_landscape_title">Ocultar na paisagem</string>
     <string name="header_image_hide_in_landscape_desc">Oculte a imagem no modo paisagem</string>
-    <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
-    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
+    <string name="header_image_half_width_in_landscape_title">Meia largura na paisagem</string>
+    <string name="header_image_half_width_in_landscape_desc">Defina a largura da imagem para metade da tela no modo paisagem</string>
     <string name="header_image_alpha_gradient_title">Gradiente alfa</string>
     <string name="header_image_alpha_gradient_desc">Adicione um efeito desbotado à imagem do cabeçalho</string>
     <!-- Xposed Header Clock -->
@@ -731,7 +731,7 @@
     <string name="header_clock_color_picker_title">Seletor de cores do relógio</string>
     <string name="header_clock_color_picker_desc">Defina a cor do texto do relógio do cabeçalho</string>
     <string name="header_clock_expansion_y_title">Valor de expansão</string>
-    <string name="header_clock_landscape_offset_y_title">Offset Y in Landscape</string>
+    <string name="header_clock_landscape_offset_y_title">Deslocamento Y na paisagem</string>
     <string name="header_clock_font_text_scaling_title">Dimensionamento de texto</string>
     <string name="header_clock_side_margin_title">Margem lateral</string>
     <string name="header_clock_top_margin_title">Margem superior</string>
@@ -739,8 +739,8 @@
     <string name="header_clock_white_text_desc">Force as cores do texto a serem brancas</string>
     <string name="header_clock_center_clock_title">Relógio central</string>
     <string name="header_clock_center_clock_desc">Mova o relógio para o centro da visão</string>
-    <string name="header_clock_half_width_in_landscape_title">Half Width in Landscape</string>
-    <string name="header_clock_half_width_in_landscape_desc">Set layout width to half of screen in landscape mode</string>
+    <string name="header_clock_half_width_in_landscape_title">Meia largura na paisagem</string>
+    <string name="header_clock_half_width_in_landscape_desc">Defina a largura do layout para metade da tela no modo paisagem</string>
     <string name="header_clock_hide_landscape_title">Ocultar na paisagem</string>
     <string name="header_clock_hide_landscape_desc">Oculte o relógio no modo paisagem</string>
     <!-- Xposed Lockscreen Clock -->
@@ -753,8 +753,8 @@
     <string name="lockscreen_clock_move_notification_icon_desc">Move ícones AOD abaixo do relógio personalizado. Pode apresentar erros em ROMs mais antigas.</string>
     <string name="lockscreen_clock_font_title">Fonte do relógio</string>
     <string name="lockscreen_clock_font_desc">Use fonte personalizada para o relógio da tela de bloqueio</string>
-    <string name="lockscreen_clock_image1_title">Custom Image 1</string>
-    <string name="lockscreen_clock_image2_title">Custom Image 2</string>
+    <string name="lockscreen_clock_image1_title">Imagem personalizada 1</string>
+    <string name="lockscreen_clock_image2_title">Imagem personalizada 2</string>
     <string name="lockscreen_clock_image_title">Imagem personalizada</string>
     <string name="lockscreen_clock_image_desc">Use uma imagem personalizada para o relógio da tela de bloqueio</string>
     <string name="lsclock_custom_color_title">Cor do relógio personalizada</string>
@@ -808,7 +808,7 @@
     <string name="wallpaper_background_sensitivity_title">Sensibilidade do segundo plano</string>
     <string name="depth_wallpaper_model_ready">O modelo IA está sendo baixado no dispositivo</string>
     <string name="depth_wallpaper_model_not_available">O modelo IA não está disponível no dispositivo (ainda)</string>
-    <string name="depth_wallpaper_model_checking">Checking for AI model availability…</string>
+    <string name="depth_wallpaper_model_checking">Verificando a disponibilidade do modelo de IA…</string>
     <string name="depth_wallpaper_subject_extraction_started">Extraindo assunto do plano de fundo…</string>
     <string name="depth_wallpaper_subject_extraction_success">Assunto do plano de fundo extraído!</string>
     <string name="depth_wallpaper_subject_extraction_failed">Falha ao extrair o assunto do plano de fundo!</string>
@@ -823,11 +823,11 @@
     <string name="statusbar_clock_clickable_title">Relógio clicável</string>
     <string name="statusbar_clock_clickable_desc">Clique para abrir o app de relógio</string>
     <string name="section_title_text">Texto</string>
-    <string name="statusbar_clock_text_color_title">Clock Text Color</string>
-    <string name="sbclock_text_color_follow_system">Follow System</string>
-    <string name="sbclock_text_color_transparent_text">Transparent Text</string>
-    <string name="sbclock_text_color_custom_color">Custom Color</string>
-    <string name="statusbar_clock_fill_color_title">Clock Fill Color</string>
+    <string name="statusbar_clock_text_color_title">Cor do Texto do Relógio</string>
+    <string name="sbclock_text_color_follow_system">Siga o sistema</string>
+    <string name="sbclock_text_color_transparent_text">Texto Transparente</string>
+    <string name="sbclock_text_color_custom_color">Cor Personalizada</string>
+    <string name="statusbar_clock_fill_color_title">Cor de Preenchimento do Relógio</string>
     <string name="sbclock_fill_color_accent">@string/apply_monet_accent_title</string>
     <string name="sbclock_fill_color_gradient">@string/apply_monet_gradient_title</string>
     <string name="sbclock_fill_color_custom">@string/sbclock_text_color_custom_color</string>
@@ -849,10 +849,10 @@
     <string name="fill_end_color">Preencher cor final</string>
     <string name="section_title_border">Borda</string>
     <string name="enable_border">Ativar borda</string>
-    <string name="border_color_title">Border Color</string>
-    <string name="border_color_accent">Accent Color</string>
-    <string name="border_color_custom">Custom Color</string>
-    <string name="border_color_custom_title">Custom Border Color</string>
+    <string name="border_color_title">Cor da Borda</string>
+    <string name="border_color_accent">Cor de Destaque</string>
+    <string name="border_color_custom">Cor Personalizada</string>
+    <string name="border_color_custom_title">Cor da Borda Personalizada</string>
     <string name="dashed_border">Borda tracejada</string>
     <string name="dash_width">Largura do traço</string>
     <string name="dash_gap">Lacuna do traço</string>
@@ -937,8 +937,8 @@
     <string name="status_bar_logo_style_custom">Imagem personalizada</string>
     <string name="status_bar_logo_tint_title">Seguir tonalidade da barra de status</string>
     <string name="status_bar_logo_tint_desc">Alterne para um fundo claro/escuro para atualizar a tonalidade</string>
-    <string name="status_bar_logo_chooser_title">Select Logo Image</string>
-    <string name="status_bar_logo_chooser_desc">Select a custom logo image</string>
+    <string name="status_bar_logo_chooser_title">Selecionar Imagem da Logo</string>
+    <string name="status_bar_logo_chooser_desc">Selecionar Imagem da Logo Personalizada</string>
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">Barra de status de linha dupla</string>
     <string name="dsb_portrait_only_title">Somente retrato</string>
@@ -1097,7 +1097,7 @@
     <string name="btn_skip">Pular</string>
     <string name="btn_next">Próximo</string>
     <string name="btn_back">Voltar</string>
-    <string name="btn_agree">I Agree</string>
+    <string name="btn_agree">Concordo</string>
     <string name="btn_lets_go">Vamos</string>
     <string name="btn_close">Fechar</string>
     <string name="btn_positive">Sim</string>
@@ -1133,8 +1133,8 @@
     <string name="toast_selected_successfully">Selecionado com sucesso</string>
     <string name="toast_unavailable">Indisponível</string>
     <string name="toast_use_from_xposed_menu">Use este recurso do Menu Xposed</string>
-    <string name="toast_downgrade_kernelsu">Downgrade KernelSU app and try again</string>
-    <string name="toast_reboot_and_try_again">Reboot device and try again</string>
+    <string name="toast_downgrade_kernelsu">Faça o downgrade do aplicativo KernelSU e tente novamente</string>
+    <string name="toast_reboot_and_try_again">Reinicie o dispositivo e tente novamente</string>
     <!-- Push Notification -->
     <string name="new_update_title">Atualização disponível</string>
     <string name="new_update_desc">Uma nova versão do Iconify está disponível.</string>
@@ -1199,7 +1199,7 @@
     <string name="force_enable_blur_desc">Force a ativação do blur para ROMs não suportadas</string>
     <string name="choose_header_image">Escolha a imagem do cabeçalho</string>
     <string name="choose_clock_font">Escolha a fonte do relógio</string>
-    <string name="choose_weather_font">Choose Weather Font</string>
+    <string name="choose_weather_font">Escolha a fonte de previsão do tempo</string>
     <string name="pick_style">Escolha um estilo de sua preferência</string>
     <string name="attention">Atenção!</string>
     <string name="method_toggle_dark_mode">Alternar duas vezes o modo escuro</string>
@@ -1239,6 +1239,7 @@
     <string name="learn_more">Saiba mais</string>
     <string name="custom_tiles_footer_info">Para garantir que os blocos personalizados funcionem corretamente, primeiro use os blocos padrão de Internet e Bluetooth uma vez antes de usar os personalizados.</string>
     <string name="hig_res_image_footer_info">Evite usar imagens de alta resolução, pois elas podem causar falha na Interface do sistema.</string>
+    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
     <string name="more">Mais</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
