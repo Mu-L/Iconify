@@ -2,7 +2,9 @@ package com.drdisagree.iconify.xposed.modules.statusbar
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.graphics.ImageDecoder
+import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +17,6 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
-import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toCircularDrawable
@@ -38,6 +39,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
     private var logoStyle = 0
     private var logoSize = 12
     private var customLogo = false
+    private var customLogoUri = ""
     private var tintCustomLogo = false
     private var logoImageView: LogoImageView? = null
     private var logoImageViewRight: LogoImageViewRight? = null
@@ -52,6 +54,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             customLogo = listOf<String>(
                 *modRes.getStringArray(R.array.status_bar_logo_style_entries)
             )[logoStyle] == modRes.getString(R.string.status_bar_logo_style_custom)
+            customLogoUri = getString(XposedKey.STATUSBAR_LOGO_FILE_URI)
             tintCustomLogo = customLogo && getBoolean(XposedKey.STATUSBAR_LOGO_TINT)
         }
 
@@ -158,18 +161,6 @@ class StatusbarLogo(context: Context) : ModPack(context) {
                 startSideExceptHeadsUp.reAddView(logoImageView, 1)
                 systemIcons.reAddView(logoImageViewRight)
             }
-
-        HeadsUpCallback.getInstance().registerHeadsUpListener(
-            object : HeadsUpCallback.HeadsUpListener {
-                override fun onHeadsUpShown() {
-                    logoImageView?.alpha = 0f
-                }
-
-                override fun onHeadsUpGone() {
-                    logoImageView?.alpha = 1f
-                }
-            }
-        )
 
         KeyguardShowingCallback.getInstance().registerKeyguardShowingListener(
             object : KeyguardShowingCallback.KeyguardShowingListener {
@@ -288,6 +279,18 @@ class StatusbarLogo(context: Context) : ModPack(context) {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun LogoImage.loadCustomLogo() {
         if (!customLogo) return
+
+        if (customLogoUri.isEmpty()) {
+            setImageDrawable(
+                GradientDrawable().apply {
+                    shape = GradientDrawable.OVAL
+                    setStroke(mContext.toPx(2), Color.DKGRAY)
+                    setColor(Color.TRANSPARENT)
+                    setSize(mContext.toPx(logoSize), mContext.toPx(logoSize))
+                }
+            )
+            return
+        }
 
         try {
             val drawable = ImageDecoder.decodeDrawable(
