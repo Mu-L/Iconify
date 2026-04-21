@@ -200,6 +200,12 @@ val quickSettingsPreferences = preferenceScreen {
             title = stringRes(R.string.fix_notification_footer_button_color_title),
             summary = { stringRes(R.string.fix_notification_footer_button_color_desc) },
         )
+
+        switch(
+            key = XposedKey.FIX_NOTIFICATION_EXPAND_BUTTON_COLOR,
+            title = stringRes("Fix Notification Expand Button Color"),
+            summary = { stringRes("Fix expand button background color on Android 16 QPR3 beta") },
+        )
     }
 }
 
@@ -220,7 +226,8 @@ fun QuickSettingsScreen(
             XposedKey.QS_PANEL_HIDE_CARRIER.name,
             XposedKey.HIDE_STATUS_ICONS.name,
             XposedKey.FIX_NOTIFICATION_COLOR.name,
-            XposedKey.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR.name -> {
+            XposedKey.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR.name,
+            XposedKey.FIX_NOTIFICATION_EXPAND_BUTTON_COLOR.name -> {
                 systemActionViewModel?.shouldRestartSystemUI()
             }
         }

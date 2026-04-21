@@ -80,6 +80,7 @@ enum class XposedKey(override val default: Any?) : Key {
     HIDE_STATUS_ICONS(false),
     FIX_NOTIFICATION_COLOR(false),
     FIX_NOTIFICATION_FOOTER_BUTTON_COLOR(false),
+    FIX_NOTIFICATION_EXPAND_BUTTON_COLOR(false),
 
     // Quick Settings - Transparency & Blur
     QUICK_SETTINGS_TRANSPARENCY(false),

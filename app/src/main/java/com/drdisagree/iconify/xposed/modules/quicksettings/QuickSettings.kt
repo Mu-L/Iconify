@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.xposed.modules.quicksettings
 
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
@@ -9,6 +10,7 @@ import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
@@ -17,6 +19,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyB
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
@@ -34,6 +37,7 @@ class QuickSettings(context: Context) : ModPack(context) {
 
     private var fixNotificationColor = true
     private var fixNotificationFooterButtonsColor = true
+    private var fixNotificationExpandButtonColor = true
     private var hideSilentText = false
     private var hideFooterButtons = false
     private var qqsTopMarginPort = 100
@@ -44,6 +48,7 @@ class QuickSettings(context: Context) : ModPack(context) {
     private var compactMediaPlayerEnabled = false
     private var blurMediaPlayerArtwork = false
     private var blurMediaPlayerArtworkRadius = 15f
+    private var coloredNotificationView = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -55,12 +60,15 @@ class QuickSettings(context: Context) : ModPack(context) {
             fixNotificationColor = getBoolean(XposedKey.FIX_NOTIFICATION_COLOR)
             fixNotificationFooterButtonsColor =
                 getBoolean(XposedKey.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR)
+            fixNotificationExpandButtonColor =
+                getBoolean(XposedKey.FIX_NOTIFICATION_EXPAND_BUTTON_COLOR)
             hideSilentText = getBoolean(XposedKey.HIDE_QS_SILENT_TEXT)
             hideFooterButtons = getBoolean(XposedKey.HIDE_QS_FOOTER_BUTTONS)
             compactMediaPlayerEnabled = getBoolean(XposedKey.COMPACT_MEDIA_PLAYER)
             blurMediaPlayerArtwork = getBoolean(XposedKey.BLUR_MEDIA_PLAYER_ARTWORK)
             blurMediaPlayerArtworkRadius =
                 getFloat(XposedKey.BLUR_MEDIA_PLAYER_ARTWORK_RADIUS) / 100f * 25f
+            coloredNotificationView = getBoolean(XposedKey.COLORED_NOTIFICATION_VIEW)
         }
     }
 
@@ -94,6 +102,7 @@ class QuickSettings(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.statusbar.notification.footer.ui.view.FooterView",
             "$SYSTEMUI_PACKAGE.statusbar.notification.row.FooterView"
         )
+        val notificationBuilderClass = findClass($$"android.app.Notification$Builder")
 
         activatableNotificationViewClass
             .hookMethod("setBackgroundTintColor", "updateBackgroundTint")
@@ -176,6 +185,30 @@ class QuickSettings(context: Context) : ModPack(context) {
                     mHistoryButton.invalidate()
                     mSettingsButton.invalidate()
                 }
+            }
+
+        notificationBuilderClass
+            .hookConstructor()
+            .parameters(
+                Context::class.java,
+                Notification::class.java
+            )
+            .runAfter { param ->
+                if (!fixNotificationExpandButtonColor || coloredNotificationView) return@runAfter
+
+                val builder = param.thisObject as Notification.Builder
+
+                val mParams = builder.getField("mParams")
+                builder.callMethod("getColors", mParams)
+
+                val mColors = builder.getField("mColors")
+                val mPrimaryTextColor = mColors.getField("mPrimaryTextColor") as Int
+                val mBackgroundColor = mColors.getField("mBackgroundColor") as Int
+
+                mColors.setField(
+                    "mProtectionColor",
+                    ColorUtils.blendARGB(mPrimaryTextColor, mBackgroundColor, 0.9f)
+                )
             }
     }
 
