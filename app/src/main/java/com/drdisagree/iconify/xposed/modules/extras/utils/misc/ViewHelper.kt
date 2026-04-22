@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.drdisagree.iconify.xposed.modules.extras.utils.misc
 
 import android.annotation.SuppressLint
