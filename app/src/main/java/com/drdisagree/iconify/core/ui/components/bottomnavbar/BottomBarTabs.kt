@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -153,6 +154,7 @@ private fun TabContent(
             text = stringResource(tab.title),
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = if (enabled) 1f else 0.4f),
             maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.basicMarquee(Int.MAX_VALUE)
         )
     }
