@@ -14,6 +14,7 @@ import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.graphics.toColorInt
 import com.drdisagree.iconify.data.common.Const.ACTION_LS_CLOCK_INFLATED
 import com.drdisagree.iconify.data.common.Const.ACTION_WEATHER_INFLATED
 import com.drdisagree.iconify.data.common.Const.DISABLE_DYNAMIC_CLOCK_COMMAND
@@ -23,12 +24,12 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WIDGET_
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.applyTo
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clear
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clone
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.connect
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.constraintSetInstance
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
@@ -109,6 +110,8 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
         if (!XprefsIsInitialized) return
 
         Xprefs.apply {
+            fun getColor(key: XposedKey) = getString(key).toColorInt()
+
             // Widgets
             mWidgetsEnabled = getBoolean(XposedKey.LOCKSCREEN_WIDGETS)
             mDeviceWidgetEnabled = getBoolean(XposedKey.LOCKSCREEN_WIDGETS_DEVICE_INFO_WIDGET)
@@ -116,23 +119,23 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
             mExtraWidgets = getString(XposedKey.LOCKSCREEN_WIDGETS_EXTRAS)
             mDeviceCustomColor =
                 getBoolean(XposedKey.LOCKSCREEN_WIDGETS_DEVICE_INFO_WIDGET_CUSTOM_COLORS)
-            mDeviceLinearColor = getInt(XposedKey.LOCKSCREEN_WIDGETS_LINEAR_PROGRESS_COLOR)
-            mDeviceCircularColor = getInt(XposedKey.LOCKSCREEN_WIDGETS_CIRCULAR_PROGRESS_COLOR)
-            mDeviceTextColor = getInt(XposedKey.LOCKSCREEN_WIDGETS_TEXT_COLOR)
+            mDeviceLinearColor = getColor(XposedKey.LOCKSCREEN_WIDGETS_LINEAR_PROGRESS_COLOR)
+            mDeviceCircularColor = getColor(XposedKey.LOCKSCREEN_WIDGETS_CIRCULAR_PROGRESS_COLOR)
+            mDeviceTextColor = getColor(XposedKey.LOCKSCREEN_WIDGETS_TEXT_COLOR)
             mDeviceName = getString(XposedKey.LOCKSCREEN_WIDGETS_CUSTOM_DEVICE_NAME)
             mWidgetsCustomColor = getBoolean(XposedKey.LOCKSCREEN_WIDGETS_CUSTOM_WIDGET_COLORS)
-            mBigInactiveColor = getInt(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET_INACTIVE_COLOR)
-            mBigActiveColor = getInt(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET_ACTIVE_COLOR)
-            mSmallInactiveColor = getInt(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET_INACTIVE_COLOR)
-            mSmallActiveColor = getInt(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET_ACTIVE_COLOR)
+            mBigInactiveColor = getColor(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET_INACTIVE_COLOR)
+            mBigActiveColor = getColor(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET_ACTIVE_COLOR)
+            mSmallInactiveColor = getColor(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET_INACTIVE_COLOR)
+            mSmallActiveColor = getColor(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET_ACTIVE_COLOR)
             mBigIconActiveColor =
-                getInt(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET_ICON_ACTIVE_COLOR)
+                getColor(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET_ICON_ACTIVE_COLOR)
             mBigIconInactiveColor =
-                getInt(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET_ICON_INACTIVE_COLOR)
+                getColor(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET_ICON_INACTIVE_COLOR)
             mSmallIconActiveColor =
-                getInt(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET_ICON_ACTIVE_COLOR)
+                getColor(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET_ICON_ACTIVE_COLOR)
             mSmallIconInactiveColor =
-                getInt(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET_ICON_INACTIVE_COLOR)
+                getColor(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET_ICON_INACTIVE_COLOR)
             mTopMargin = getInt(XposedKey.LOCKSCREEN_WIDGETS_TOP_MARGIN)
             mBottomMargin = getInt(XposedKey.LOCKSCREEN_WIDGETS_BOTTOM_MARGIN)
             mWidgetsRoundness = getInt(XposedKey.LOCKSCREEN_WIDGETS_CORNER_RADIUS)
