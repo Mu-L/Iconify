@@ -173,15 +173,10 @@ class MainActivity : ComponentActivity() {
             }
 
             val skipOnboarding = withContext(Dispatchers.IO) {
-                if (!shellReady) {
+                if (!shellReady && !Config.SKIP_TO_HOMEPAGE_FOR_TESTING) {
                     false
                 } else {
-                    try {
-                        Config.shouldSkipOnboarding(prefController = prefController)
-                    } catch (e: Exception) {
-                        Log.e(TAG, "shouldSkipOnboarding error", e)
-                        false
-                    }
+                    Config.shouldSkipOnboarding(prefController = prefController)
                 }
             }
 
