@@ -51,7 +51,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideVi
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.getColorResCompat
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.UnhookHandle
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -134,6 +133,20 @@ class HeaderClock(context: Context) : ModPack(context) {
         }
     }
 
+    private val clockView: View?
+        get() {
+            if (!XprefsIsInitialized) return null
+
+            return LayoutInflater.from(appContext).inflate(
+                appContext.resources.getIdentifier(
+                    HEADER_CLOCK_LAYOUT + clockStyle,
+                    "layout",
+                    BuildConfig.APPLICATION_ID
+                ),
+                null
+            )
+        }
+
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             showHeaderClock = getBoolean(XposedKey.CUSTOM_HEADER_CLOCK)
@@ -210,6 +223,8 @@ class HeaderClock(context: Context) : ModPack(context) {
             findClass($$"$$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController$ConfigurationListener")
         val shadeLayoutChangeListenerClass =
             findClass($$"$$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController$ShadeLayoutChangeListener")
+        val configurationControllerListenerClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.shade.ShadeHeaderController$configurationControllerListener$1")
         systemBarUtilsClass = findClass("com.android.internal.policy.SystemBarUtils")
 
         qsSecurityFooterUtilsClass
@@ -448,6 +463,10 @@ class HeaderClock(context: Context) : ModPack(context) {
                 }
             }
 
+        configurationControllerListenerClass
+            .hookMethod("onThemeChanged", "onUiModeChanged")
+            .runAfter { updateClockView() }
+
         BootCallback.registerBootListener { updateClockView() }
     }
 
@@ -604,20 +623,6 @@ class HeaderClock(context: Context) : ModPack(context) {
         mQsHeaderClockContainer.requestLayout()
     }
 
-    private val clockView: View?
-        get() {
-            if (!XprefsIsInitialized) return null
-
-            return LayoutInflater.from(appContext).inflate(
-                appContext.resources.getIdentifier(
-                    HEADER_CLOCK_LAYOUT + clockStyle,
-                    "layout",
-                    BuildConfig.APPLICATION_ID
-                ),
-                null
-            )
-        }
-
     private fun modifyClockView(clockView: View) {
         val accent1 = if (customColorEnabled) mAccentColor1
         else mContext.resources.getColor(
@@ -644,9 +649,21 @@ class HeaderClock(context: Context) : ModPack(context) {
             ), mContext.theme
         )
         val textPrimary = if (customColorEnabled) mTextColor1
-        else getColorResCompat(mContext, android.R.attr.textColorPrimary)
+        else mContext.getColor(
+            mContext.resources.getIdentifier(
+                "shade_header_text_color",
+                "color",
+                SYSTEMUI_PACKAGE
+            )
+        )
         val textInverse = if (customColorEnabled) mTextColor2
-        else getColorResCompat(mContext, android.R.attr.textColorPrimaryInverse)
+        else mContext.getColor(
+            mContext.resources.getIdentifier(
+                "shade_header_text_color_bg",
+                "color",
+                SYSTEMUI_PACKAGE
+            )
+        )
 
         val typeface: Typeface? = if (customFontEnabled && HEADER_CLOCK_FONT_FILE.exists()) {
             Typeface.createFromFile(HEADER_CLOCK_FONT_FILE)
