@@ -34,7 +34,7 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
                 val isKeyguardState =
                     param.thisObject.getField("mBarState") in listOf(KEYGUARD, SHADE_LOCKED)
 
-                synchronized(instance!!) {
+                synchronized(this) {
                     if (this.isKeyguardState != isKeyguardState) {
                         if (isKeyguardState) {
                             notifyKeyguardShown()
@@ -66,7 +66,7 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
                                 SHADE_LOCKED
                             )
 
-                        synchronized(instance!!) {
+                        synchronized(this) {
                             if (this.isKeyguardState != isKeyguardState) {
                                 if (isKeyguardState) {
                                     notifyKeyguardShown()
@@ -98,7 +98,7 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
                                 SHADE_LOCKED
                             )
 
-                        synchronized(instance!!) {
+                        synchronized(this) {
                             if (this.isKeyguardState != isKeyguardState) {
                                 if (isKeyguardState) {
                                     notifyKeyguardShown()
