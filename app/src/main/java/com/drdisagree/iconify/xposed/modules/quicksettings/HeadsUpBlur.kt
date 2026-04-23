@@ -302,7 +302,7 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
                     "setCornerRadius",
                     (context.resources.getDimensionPixelSize(
                         context.resources.getIdentifier(
-                            "notification_scrim_corner_radius",
+                            "notification_corner_radius",
                             "dimen",
                             SYSTEMUI_PACKAGE
                         )
