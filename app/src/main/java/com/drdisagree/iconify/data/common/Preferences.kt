@@ -14,10 +14,51 @@ object Preferences {
     const val ICONIFY_DEPTH_WALLPAPER_TAG = "iconify_depth_wallpaper"
     const val ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG = "iconify_depth_wallpaper_foreground"
     const val ICONIFY_DEPTH_WALLPAPER_BACKGROUND_TAG = "iconify_depth_wallpaper_background"
-    const val ICONIFY_CHARGING_ICON_TAG = "iconify_charging_icon"
     const val ICONIFY_QS_HEADER_IMAGE_CONTAINER_TAG = "iconify_qs_header_image_container"
-    const val ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG = "iconify_qs_header_container_shade"
     const val ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG = "iconify_sb_center_clock_container"
+    const val ICONIFY_SB_BATTERY_ICON_TAG = "iconify_sb_battery_icon"
+    const val ICONIFY_LS_BATTERY_ICON_TAG = "iconify_ls_battery_icon"
+    const val ICONIFY_QS_BATTERY_ICON_TAG = "iconify_qs_battery_icon"
+
+    // Battery styles
+    const val BATTERY_STYLE_DEFAULT = 0
+    const val BATTERY_STYLE_CUSTOM_R_LANDSCAPE = 1
+    const val BATTERY_STYLE_CUSTOM_L_LANDSCAPE = 2
+    const val BATTERY_STYLE_PORTRAIT_CAPSULE = 3
+    const val BATTERY_STYLE_PORTRAIT_LORN = 4
+    const val BATTERY_STYLE_PORTRAIT_MX = 5
+    const val BATTERY_STYLE_PORTRAIT_AIROO = 6
+    const val BATTERY_STYLE_R_LANDSCAPE_STYLE_A = 7
+    const val BATTERY_STYLE_L_LANDSCAPE_STYLE_A = 8
+    const val BATTERY_STYLE_R_LANDSCAPE_STYLE_B = 9
+    const val BATTERY_STYLE_L_LANDSCAPE_STYLE_B = 10
+    const val BATTERY_STYLE_LANDSCAPE_IOS_15 = 11
+    const val BATTERY_STYLE_LANDSCAPE_IOS_16 = 12
+    const val BATTERY_STYLE_PORTRAIT_ORIGAMI = 13
+    const val BATTERY_STYLE_LANDSCAPE_SMILEY = 14
+    const val BATTERY_STYLE_LANDSCAPE_MIUI_PILL = 15
+    const val BATTERY_STYLE_L_LANDSCAPE_COLOROS = 16
+    const val BATTERY_STYLE_R_LANDSCAPE_COLOROS = 17
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_A = 18
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_B = 19
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_C = 20
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_D = 21
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_E = 22
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_F = 23
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_G = 24
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_H = 25
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_I = 26
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_J = 27
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_K = 28
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_L = 29
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_M = 30
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_N = 31
+    const val BATTERY_STYLE_LANDSCAPE_BATTERY_O = 32
+    const val BATTERY_STYLE_CIRCLE = 33
+    const val BATTERY_STYLE_DOTTED_CIRCLE = 34
+    const val BATTERY_STYLE_FILLED_CIRCLE = 35
+    const val BATTERY_STYLE_LANDSCAPE_KIM = 36
+    const val BATTERY_STYLE_LANDSCAPE_ONE_UI_7 = 37
 
     // Preference keys
     const val UPDATE_SCHEDULE = "iconify_update_schedule"

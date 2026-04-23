@@ -61,6 +61,7 @@ import com.drdisagree.iconify.features.xposed.quicksettings.main.screens.QuickSe
 import com.drdisagree.iconify.features.xposed.quicksettings.margins.screens.QsMarginsScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.themes.screens.QsThemesScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.transparency.screens.QsTransparencyScreen
+import com.drdisagree.iconify.features.xposed.statusbar.batterystyle.screens.BatteryStyleScreen
 import com.drdisagree.iconify.features.xposed.statusbar.clockchip.screens.ClockChipScreen
 import com.drdisagree.iconify.features.xposed.statusbar.dualstatusbar.screens.DualStatusbarScreen
 import com.drdisagree.iconify.features.xposed.statusbar.logo.screens.StatusbarLogoScreen
@@ -223,6 +224,7 @@ fun NavGraph(
                     navigation<NavRoutes.Xposed.Statusbar.Root>(startDestination = NavRoutes.Xposed.Statusbar.Main) {
                         composable<NavRoutes.Xposed.Statusbar.Main> { XposedStatusbarScreen() }
                         composable<NavRoutes.Xposed.Statusbar.ClockChip> { ClockChipScreen() }
+                        composable<NavRoutes.Xposed.Statusbar.BatteryStyle> { BatteryStyleScreen() }
                         composable<NavRoutes.Xposed.Statusbar.Logo> { StatusbarLogoScreen() }
                         composable<NavRoutes.Xposed.Statusbar.DualStatusbar> { DualStatusbarScreen() }
                     }

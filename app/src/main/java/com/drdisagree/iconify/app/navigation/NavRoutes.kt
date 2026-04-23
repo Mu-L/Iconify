@@ -105,6 +105,9 @@ sealed class NavRoutes {
             data object ClockChip : Statusbar()
 
             @Serializable
+            data object BatteryStyle : Statusbar()
+
+            @Serializable
             data object Logo : Statusbar()
 
             @Serializable

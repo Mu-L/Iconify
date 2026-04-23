@@ -22,6 +22,39 @@ class SettingsLibUtils(context: Context) : ModPack(context) {
     companion object {
         private var UtilsClass: Class<*>? = null
 
+        fun getThemeAttr(context: Context, attr: Int): Int {
+            return getThemeAttr(attr, context)
+        }
+
+        fun getThemeAttr(attr: Int, context: Context): Int {
+            return getThemeAttr(context, attr, 0)
+        }
+
+        fun getThemeAttr(context: Context, attr: Int, defaultValue: Int): Int {
+            return try {
+                UtilsClass.callStaticMethod(
+                    "getThemeAttr",
+                    context,
+                    attr
+                ) as Int
+            } catch (_: Throwable) {
+                try {
+                    UtilsClass.callStaticMethod(
+                        "getThemeAttr",
+                        attr,
+                        context
+                    ) as Int
+                } catch (_: Throwable) {
+                    UtilsClass.callStaticMethod(
+                        "getThemeAttr",
+                        context,
+                        attr,
+                        defaultValue
+                    ) as Int
+                }
+            }
+        }
+
         fun getColorAttr(resID: Int, context: Context): ColorStateList {
             return getColorAttr(
                 context,

@@ -8,9 +8,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.net.toUri
@@ -34,7 +36,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 fun statusbarLogoPreferences(
-    selectedLogoLabel: String = "",
+    selectedLogoLabel: () -> String = { "" },
     onLogoStyleClick: () -> Unit = {}
 ) = preferenceScreen {
     category {
@@ -57,7 +59,7 @@ fun statusbarLogoPreferences(
         action(
             key = "statusbar_logo_style",
             title = stringRes(R.string.status_bar_logo_style_title),
-            summary = { stringRes(selectedLogoLabel) },
+            summary = { stringRes(selectedLogoLabel()) },
             onClick = { onLogoStyleClick() },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_LOGO) },
         )
@@ -107,7 +109,6 @@ fun StatusbarLogoScreen(
 
     var reloadKey by rememberSaveable { mutableIntStateOf(0) }
     val logoItems = rememberStatusbarLogoItems(context, reloadKey)
-    var showLogoStyleSheet by rememberSaveable { mutableStateOf(false) }
     val selectedItemValue by prefController.observe(
         XposedKey.STATUSBAR_LOGO_STYLE.name,
         XposedKey.STATUSBAR_LOGO_STYLE.default as String
@@ -116,23 +117,44 @@ fun StatusbarLogoScreen(
         logoItems.indexOfFirst { it.value == selectedItemValue }.takeIf { it >= 0 } ?: 0
     }
 
+    val logoItemArray = stringArrayResource(R.array.status_bar_logo_style_entries)
+    val notAvailableText = stringResource(R.string.not_available)
+
+    val logoLabel = remember(selectedItemIndex, logoItems) {
+        logoItems.getOrNull(selectedItemIndex)?.label
+            ?: logoItemArray.getOrNull(0)
+            ?: notAvailableText
+    }
+    val logoLabelState = rememberUpdatedState(logoLabel)
+
+    var showLogoStyleSheet by rememberSaveable { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
+
+    val preferences = remember {
+        statusbarLogoPreferences(
+            selectedLogoLabel = { logoLabelState.value },
+            onLogoStyleClick = { showLogoStyleSheet = true }
+        )
+    }
 
     if (showLogoStyleSheet) {
         StatusbarLogoBottomSheet(
             sheetState = sheetState,
-            iconPacks = logoItems,
+            logoItems = logoItems,
             selectedItemIndex = selectedItemIndex,
             onItemClick = { index ->
                 prefController.setString(
                     XposedKey.STATUSBAR_LOGO_STYLE.name,
-                    index.toString()
+                    logoItems[index].value
                 )
-
                 if (index == logoItems.lastIndex) {
                     scope.launch {
                         sheetState.hide()
+                    }.invokeOnCompletion {
+                        if (!sheetState.isVisible) {
+                            showLogoStyleSheet = false
+                        }
                     }
                 }
             },
@@ -145,7 +167,6 @@ fun StatusbarLogoScreen(
             XposedKey.STATUSBAR_LOGO.name -> {
                 systemActionViewModel?.shouldRestartSystemUI()
             }
-
             XposedKey.STATUSBAR_LOGO_FILE_URI.name -> {
                 reloadKey++
             }
@@ -153,11 +174,7 @@ fun StatusbarLogoScreen(
     }
 
     PreferenceScreen(
-        items = statusbarLogoPreferences(
-            selectedLogoLabel = logoItems.getOrNull(selectedItemIndex)?.label
-                ?: stringResource(R.string.not_available),
-            onLogoStyleClick = { showLogoStyleSheet = true }
-        ),
+        items = preferences,
         title = stringResource(R.string.status_bar_logo_title),
         showBackIcon = true
     )

@@ -10,6 +10,7 @@ import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.arrayRes
+import com.drdisagree.iconify.core.preferences.iconRes
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
@@ -18,6 +19,20 @@ import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import kotlin.math.roundToInt
 
 val statusbarPreferences = preferenceScreen {
+    category {
+        action(
+            key = "battery_style",
+            icon = iconRes(R.drawable.ic_colored_battery),
+            title = stringRes(R.string.activity_title_battery_style),
+            summary = { stringRes(R.string.activity_desc_battery_style) },
+            onClick = {
+                it.navController.navigate(NavRoutes.Xposed.Statusbar.BatteryStyle) {
+                    launchSingleTop = true
+                }
+            }
+        )
+    }
+
     category(title = stringRes(R.string.section_title_clock)) {
         twoTargetSwitch(
             key = XposedKey.STATUSBAR_CLOCK_CHIP,
@@ -57,12 +72,6 @@ val statusbarPreferences = preferenceScreen {
             steps = 13,
             valueLabel = { "${it.roundToInt()}px" },
             isVisible = { pref -> pref.getBoolean(XposedKey.STATUSBAR_CLOCK_TEXT_SIZE_SWITCH) }
-        )
-
-        switch(
-            key = XposedKey.HIDE_BATTERY_VIEW,
-            title = stringRes(R.string.hide_battery_title),
-            summary = { stringRes("Hide battery icon from statusbar") },
         )
     }
 
@@ -160,7 +169,6 @@ fun XposedStatusbarScreen(
             XposedKey.STATUSBAR_CLOCK_CLICKABLE.name,
             XposedKey.STATUSBAR_CLOCK_TEXT_SIZE_SWITCH.name,
             XposedKey.STATUSBAR_CLOCK_TEXT_SIZE.name,
-            XposedKey.HIDE_BATTERY_VIEW.name,
             XposedKey.STATUSBAR_LOGO.name,
             XposedKey.COLORED_STATUSBAR_ICON.name,
             XposedKey.STATUSBAR_SWAP_WIFI_CELLULAR.name,

@@ -23,21 +23,20 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.drawable.toBitmap
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.bottomsheets.CustomBottomSheet
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
-import com.drdisagree.iconify.features.xposed.statusbar.logo.models.StatusbarLogoItem
+import com.drdisagree.iconify.data.models.SingleIconPreview
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 fun StatusbarLogoBottomSheet(
     sheetState: SheetState,
-    iconPacks: List<StatusbarLogoItem>,
+    logoItems: List<SingleIconPreview>,
     selectedItemIndex: Int,
     onItemClick: (Int) -> Unit,
     onDismiss: () -> Unit
@@ -52,7 +51,10 @@ fun StatusbarLogoBottomSheet(
             contentPadding = contentPadding,
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            itemsIndexed(iconPacks) { index, pack ->
+            itemsIndexed(
+                items = logoItems,
+                key = { _, pack -> pack.label }
+            ) { index, pack ->
                 val isSelected = index == selectedItemIndex
 
                 Surface(
@@ -73,12 +75,11 @@ fun StatusbarLogoBottomSheet(
                     ListItem(
                         headlineContent = { Text(pack.label) },
                         leadingContent = {
-                            pack.drawable?.let { drawable ->
+                            pack.bitmap?.let { bitmap ->
                                 Image(
-                                    bitmap = drawable
-                                        .toBitmap(48, 48)
-                                        .asImageBitmap(),
+                                    bitmap = bitmap,
                                     contentDescription = null,
+                                    contentScale = ContentScale.Fit,
                                     modifier = Modifier.size(48.dp)
                                 )
                             }
@@ -103,13 +104,13 @@ fun StatusbarLogoBottomSheet(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun StatusbarLogoBottomSheetPreview() {
     PreviewComposable {
         StatusbarLogoBottomSheet(
             sheetState = rememberModalBottomSheetState(),
-            iconPacks = emptyList(),
+            logoItems = emptyList(),
             selectedItemIndex = 0,
             onItemClick = {},
             onDismiss = {}

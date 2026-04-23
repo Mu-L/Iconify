@@ -31,6 +31,7 @@ import com.drdisagree.iconify.xposed.modules.quicksettings.QSTheme
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSTransparency
 import com.drdisagree.iconify.xposed.modules.quicksettings.QuickSettings
 import com.drdisagree.iconify.xposed.modules.statusbar.AppIconsInStatusbar
+import com.drdisagree.iconify.xposed.modules.statusbar.BatteryStyleManager
 import com.drdisagree.iconify.xposed.modules.statusbar.ClockChip
 import com.drdisagree.iconify.xposed.modules.statusbar.DualStatusbar
 import com.drdisagree.iconify.xposed.modules.statusbar.OnGoingActionChip
@@ -62,6 +63,7 @@ object EntryList {
         DozeCallback::class.java,
         ConfigurationCallback::class.java,
         /* Not so top priority :P */
+        BatteryStyleManager::class.java,
         QSGrid::class.java,
         ClockChip::class.java,
         HeaderImage::class.java,
