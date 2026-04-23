@@ -147,6 +147,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var mChargingIconMR = 0
     private var mChargingIconWH = 14
     private var hideDefaultBattery = false
+    private var dualStatusbarEnabled = false
 
     private data class BatteryCallbackState(
         val level: Int = 0,
@@ -217,6 +218,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             mChargingIconMR = getInt(XposedKey.CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT)
             mChargingIconWH = getInt(XposedKey.CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT)
             hideDefaultBattery = getBoolean(XposedKey.HIDE_DEFAULT_BATTERY_VIEW)
+            dualStatusbarEnabled = getBoolean(XposedKey.DUAL_STATUSBAR)
         }
 
         updateBatteryDrawableIfRequired(batteryIconStyle)
@@ -649,7 +651,19 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
     private fun refreshBatteryData() {
         for (batteryView in batteryViews) {
-            batteryView.visibility = if (customBatteryEnabled) View.VISIBLE else View.GONE
+            batteryView.visibility = if (customBatteryEnabled) {
+                // Handle a bug where statusbar battery is duplicated on lockscreen with dual statusbar enabled
+                if (dualStatusbarEnabled &&
+                    DualStatusbar.isKeyguardShown &&
+                    batteryView.tag == ICONIFY_SB_BATTERY_ICON_TAG
+                ) {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
+            } else {
+                View.GONE
+            }
 
             val mBatteryView = batteryView.getBatteryView()
             val mBatteryIconView = mBatteryView.batteryIcon

@@ -2,6 +2,8 @@ package com.drdisagree.iconify.xposed.modules.statusbar
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,8 @@ import android.widget.LinearLayout
 import androidx.core.view.doOnAttach
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_DEFAULT
+import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_BATTERY_ICON_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
@@ -25,7 +29,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSile
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -60,6 +63,8 @@ class DualStatusbar(context: Context) : ModPack(context) {
     private var mPhoneStatusBarViewObj: Any? = null
     private var mScrimControllerObj: Any? = null
     private var clockPosition = 0
+    private var customBatteryEnabled = false
+    private var hideDefaultBattery = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -78,6 +83,9 @@ class DualStatusbar(context: Context) : ModPack(context) {
             endTopMargin = getInt(XposedKey.DUAL_STATUSBAR_END_TOP_MARGIN)
             endBottomMargin = getInt(XposedKey.DUAL_STATUSBAR_END_BOTTOM_MARGIN)
             clockPosition = getString(XposedKey.STATUSBAR_CLOCK_POSITION).toInt()
+            customBatteryEnabled =
+                getString(XposedKey.CUSTOM_BATTERY_STYLE).toInt() != BATTERY_STYLE_DEFAULT
+            hideDefaultBattery = getBoolean(XposedKey.HIDE_DEFAULT_BATTERY_VIEW)
         }
 
         when (key.firstOrNull()) {
@@ -278,10 +286,15 @@ class DualStatusbar(context: Context) : ModPack(context) {
                 }
 
                 phoneStatusBarView.doOnAttach { view ->
-                    if (batteryIconView == null || batteryIconView!!.parent != endTopSideContainer) {
-                        batteryIconView = view.findComposeBatteryView()
-                        endTopSideContainer?.reAddView(batteryIconView, 0)
-                    }
+                    Handler(Looper.getMainLooper()).postDelayed(
+                        {
+                            if (batteryIconView == null || batteryIconView!!.parent != endTopSideContainer) {
+                                batteryIconView = view.findBatteryView()
+                                endTopSideContainer?.reAddView(batteryIconView, 0)
+                            }
+                        },
+                        200
+                    )
                 }
 
                 updateRowsIfNeeded()
@@ -313,10 +326,12 @@ class DualStatusbar(context: Context) : ModPack(context) {
         KeyguardShowingCallback.getInstance().registerKeyguardShowingListener(
             object : KeyguardShowingCallback.KeyguardShowingListener {
                 override fun onKeyguardShown() {
+                    isKeyguardShown = true
                     batteryIconView?.post { batteryIconView?.visibility = View.GONE }
                 }
 
                 override fun onKeyguardDismissed() {
+                    isKeyguardShown = false
                     batteryIconView?.post { batteryIconView?.visibility = View.VISIBLE }
                 }
             }
@@ -554,7 +569,7 @@ class DualStatusbar(context: Context) : ModPack(context) {
         }
     }
 
-    private fun View.findComposeBatteryView(): View? {
+    private fun View.findBatteryView(): View? {
         val systemIconsView = findViewById<ViewGroup>(
             mContext.resources.getIdentifier(
                 "system_icons",
@@ -563,10 +578,14 @@ class DualStatusbar(context: Context) : ModPack(context) {
             )
         )
 
-        for (i in systemIconsView.childCount - 1 downTo 0) {
-            val child = systemIconsView.getChildAt(i)
-            if (child.javaClass.simpleName == "ComposeView") {
-                return child
+        if (customBatteryEnabled) {
+            return systemIconsView.findViewWithTag(ICONIFY_SB_BATTERY_ICON_TAG)
+        } else if (!hideDefaultBattery) {
+            for (i in systemIconsView.childCount - 1 downTo 0) {
+                val child = systemIconsView.getChildAt(i)
+                if (child.javaClass.simpleName == "ComposeView") {
+                    return child
+                }
             }
         }
 
@@ -575,4 +594,8 @@ class DualStatusbar(context: Context) : ModPack(context) {
 
     private val isDsbResourceEnabled: Boolean
         get() = dualStatusbarEnabled && (!portraitOnlyEnabled || !mContext.isLandscape)
+
+    companion object {
+        var isKeyguardShown = true
+    }
 }
