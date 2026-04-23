@@ -36,7 +36,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.ge
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getLeftClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getRightClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.setClockGravity
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
@@ -73,7 +72,6 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     private var show4GInsteadOfLTE = false
     private var notifIconsLimit = -1
     private var dualStatusbarEnabled = false
-    private var hideDefaultBattery = false
     private var linkToCustomColor = false
     private var darkIconDispatcherImplInstance: Any? = null
 
@@ -88,7 +86,6 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             notifIconsLimit = getInt(XposedKey.NOTIFICATION_ICONS_LIMIT)
             dualStatusbarEnabled = getBoolean(XposedKey.DUAL_STATUSBAR)
             mClockClickable = getBoolean(XposedKey.STATUSBAR_CLOCK_CLICKABLE)
-            hideDefaultBattery = getBoolean(XposedKey.HIDE_BATTERY_VIEW)
             linkToCustomColor = getBoolean(XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR)
         }
 
@@ -253,34 +250,12 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 mCenterClockView = null
                 mRightClockView = null
 
-                (param.thisObject.getField("mView") as View).hideComposeBattery()
-
                 updateClockTextSize()
             }
 
         phoneStatusBarViewControllerClass
             .hookMethod("onViewDetached")
             .runBefore { removeClockTextListener() }
-    }
-
-    private fun View.hideComposeBattery() {
-        if (!hideDefaultBattery) return
-
-        val systemIconsView = findViewById<ViewGroup>(
-            mContext.resources.getIdentifier(
-                "system_icons",
-                "id",
-                mContext.packageName
-            )
-        )
-
-        for (i in systemIconsView.childCount - 1 downTo 0) {
-            val child = systemIconsView.getChildAt(i)
-            if (child.javaClass.simpleName == "ComposeView") {
-                child.hideView()
-                break
-            }
-        }
     }
 
     @SuppressLint("RtlHardcoded")
@@ -708,7 +683,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         }
     }
 
-    private fun getStatusbarColors(): List<Int> {
+    private fun getStatusbarColors(): Pair<Int, Int> {
         val statusbarColorLight = SettingsLibUtils.getColorStateListDefaultColor(
             mContext,
             mContext.resources.getIdentifier(
@@ -726,6 +701,6 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             )
         )
 
-        return listOf(statusbarColorLight, statusbarColorDark)
+        return Pair(statusbarColorLight, statusbarColorDark)
     }
 }
