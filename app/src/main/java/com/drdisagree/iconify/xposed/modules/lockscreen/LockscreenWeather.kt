@@ -15,7 +15,6 @@ import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.graphics.toColorInt
 import androidx.core.view.children
 import com.drdisagree.iconify.data.common.Const.ACTION_LS_CLOCK_INFLATED
 import com.drdisagree.iconify.data.common.Const.ACTION_WEATHER_INFLATED
@@ -25,13 +24,13 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WEATHER
 import com.drdisagree.iconify.data.common.XposedConst.LOCKSCREEN_WEATHER_FONT_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
-import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.applyTo
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clear
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clone
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.connect
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.constraintSetInstance
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
@@ -94,7 +93,7 @@ class LockscreenWeather(context: Context) : ModPack(context) {
             weatherShowHumidity = getBoolean(XposedKey.WEATHER_SHOW_HUMIDITY)
             weatherShowWind = getBoolean(XposedKey.WEATHER_SHOW_WIND)
             weatherCustomColor = getBoolean(XposedKey.WEATHER_TEXT_COLOR)
-            weatherColor = getString(XposedKey.WEATHER_TEXT_COLOR_CODE).toColorInt()
+            weatherColor = getColor(XposedKey.WEATHER_TEXT_COLOR_CODE)
             weatherTextSize = getInt(XposedKey.WEATHER_TEXT_SIZE)
             weatherImageSize = getInt(XposedKey.WEATHER_ICON_SIZE)
             mSideMargin = getInt(XposedKey.WEATHER_CUSTOM_MARGINS_SIDE)

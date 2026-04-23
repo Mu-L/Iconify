@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.graphics.toColorInt
 import com.drdisagree.iconify.data.common.Const
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
@@ -57,14 +56,11 @@ class ClockChip(context: Context) : ModPack(context) {
             mShowSBClockBg = getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP)
             statusBarClockColorOption =
                 getString(XposedKey.STATUSBAR_CLOCK_CHIP_TEXT_COLOR_OPTION).toInt()
-            statusBarClockColorCode =
-                getString(XposedKey.STATUSBAR_CLOCK_CHIP_TEXT_COLOR_CODE).toColorInt()
+            statusBarClockColorCode = getColor(XposedKey.STATUSBAR_CLOCK_CHIP_TEXT_COLOR_CODE)
             fillColorOption =
                 getString(XposedKey.STATUSBAR_CLOCK_CHIP_FILL_COLOR_OPTION).toInt()
-            startColor =
-                getString(XposedKey.STATUSBAR_CLOCK_CHIP_FILL_COLOR_GRADIENT_COLOR1).toColorInt()
-            endColor =
-                getString(XposedKey.STATUSBAR_CLOCK_CHIP_FILL_COLOR_GRADIENT_COLOR2).toColorInt()
+            startColor = getColor(XposedKey.STATUSBAR_CLOCK_CHIP_FILL_COLOR_GRADIENT_COLOR1)
+            endColor = getColor(XposedKey.STATUSBAR_CLOCK_CHIP_FILL_COLOR_GRADIENT_COLOR2)
             gradientDirection = ChipDrawable.GradientDirection.fromIndex(
                 getInt(XposedKey.STATUSBAR_CLOCK_CHIP_FILL_COLOR_GRADIENT_DIRECTION)
             )
@@ -78,7 +74,7 @@ class ClockChip(context: Context) : ModPack(context) {
             strokeWidth = getInt(XposedKey.STATUSBAR_CLOCK_CHIP_BORDER_THICKNESS)
             accentBorderEnabled =
                 getString(XposedKey.STATUSBAR_CLOCK_CHIP_BORDER_COLOR_OPTION).toInt() == 0
-            strokeColor = getString(XposedKey.STATUSBAR_CLOCK_CHIP_BORDER_COLOR_CODE).toColorInt()
+            strokeColor = getColor(XposedKey.STATUSBAR_CLOCK_CHIP_BORDER_COLOR_CODE)
             dashedBorderEnabled = getBoolean(XposedKey.STATUSBAR_CLOCK_CHIP_DASHED_BORDER)
             strokeDashWidth = getInt(XposedKey.STATUSBAR_CLOCK_CHIP_DASHED_BORDER_WIDTH)
             strokeDashGap = getInt(XposedKey.STATUSBAR_CLOCK_CHIP_DASHED_BORDER_GAP)

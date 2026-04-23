@@ -1,8 +1,10 @@
 package com.drdisagree.iconify.xposed.utils
 
 import android.content.Context
+import androidx.core.graphics.toColorInt
 import com.crossbowffs.remotepreferences.RemotePreferences
 import com.drdisagree.iconify.data.keys.Key
+import com.drdisagree.iconify.data.keys.XposedKey
 import kotlin.math.roundToInt
 
 @Suppress("unused")
@@ -44,4 +46,6 @@ class ExtendedRemotePreferences : RemotePreferences {
     fun getDouble(key: Key): Double {
         return getFloat(key.name, key.default as? Float ?: 0f).toDouble()
     }
+
+    fun getColor(key: XposedKey) = getString(key).toColorInt()
 }

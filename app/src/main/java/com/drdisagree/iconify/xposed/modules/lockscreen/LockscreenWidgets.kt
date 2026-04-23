@@ -14,7 +14,6 @@ import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.graphics.toColorInt
 import com.drdisagree.iconify.data.common.Const.ACTION_LS_CLOCK_INFLATED
 import com.drdisagree.iconify.data.common.Const.ACTION_WEATHER_INFLATED
 import com.drdisagree.iconify.data.common.Const.DISABLE_DYNAMIC_CLOCK_COMMAND
@@ -110,8 +109,6 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
         if (!XprefsIsInitialized) return
 
         Xprefs.apply {
-            fun getColor(key: XposedKey) = getString(key).toColorInt()
-
             // Widgets
             mWidgetsEnabled = getBoolean(XposedKey.LOCKSCREEN_WIDGETS)
             mDeviceWidgetEnabled = getBoolean(XposedKey.LOCKSCREEN_WIDGETS_DEVICE_INFO_WIDGET)

@@ -25,7 +25,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toDrawable
-import androidx.core.graphics.toColorInt
 import androidx.core.text.TextUtilsCompat
 import androidx.core.view.children
 import com.drdisagree.iconify.BuildConfig
@@ -143,11 +142,11 @@ class HeaderClock(context: Context) : ModPack(context) {
                 XposedKey.HEADER_CLOCK_STYLE.default as Int
             )
             customColorEnabled = getBoolean(XposedKey.HEADER_CLOCK_CUSTOM_COLOR)
-            mAccentColor1 = getString(XposedKey.HEADER_CLOCK_COLOR_ACCENT_PRIMARY).toColorInt()
-            mAccentColor2 = getString(XposedKey.HEADER_CLOCK_COLOR_ACCENT_SECONDARY).toColorInt()
-            mAccentColor3 = getString(XposedKey.HEADER_CLOCK_COLOR_ACCENT_TERTIARY).toColorInt()
-            mTextColor1 = getString(XposedKey.HEADER_CLOCK_COLOR_TEXT_PRIMARY).toColorInt()
-            mTextColor2 = getString(XposedKey.HEADER_CLOCK_COLOR_TEXT_INVERSE).toColorInt()
+            mAccentColor1 = getColor(XposedKey.HEADER_CLOCK_COLOR_ACCENT_PRIMARY)
+            mAccentColor2 = getColor(XposedKey.HEADER_CLOCK_COLOR_ACCENT_SECONDARY)
+            mAccentColor3 = getColor(XposedKey.HEADER_CLOCK_COLOR_ACCENT_TERTIARY)
+            mTextColor1 = getColor(XposedKey.HEADER_CLOCK_COLOR_TEXT_PRIMARY)
+            mTextColor2 = getColor(XposedKey.HEADER_CLOCK_COLOR_TEXT_INVERSE)
             customFontEnabled = getString(XposedKey.HEADER_CLOCK_FONT_FILE_URI).isNotEmpty()
             sideMargin = getInt(XposedKey.HEADER_CLOCK_SIDE_MARGIN)
             topMargin = getInt(XposedKey.HEADER_CLOCK_TOP_MARGIN)

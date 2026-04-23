@@ -31,7 +31,6 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.graphics.drawable.toDrawable
-import androidx.core.graphics.toColorInt
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.utils.TextUtils
@@ -71,7 +70,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddV
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
@@ -1030,11 +1028,11 @@ class LockscreenClock(context: Context) : ModPack(context) {
         if (!XprefsIsInitialized) return
 
         Xprefs.apply {
-            mAccentColor1 = getString(XposedKey.LSCLOCK_COLOR_ACCENT_PRIMARY).toColorInt()
-            mAccentColor2 = getString(XposedKey.LSCLOCK_COLOR_ACCENT_SECONDARY).toColorInt()
-            mAccentColor3 = getString(XposedKey.LSCLOCK_COLOR_ACCENT_TERTIARY).toColorInt()
-            mTextColor1 = getString(XposedKey.LSCLOCK_COLOR_TEXT_PRIMARY).toColorInt()
-            mTextColor2 = getString(XposedKey.LSCLOCK_COLOR_TEXT_INVERSE).toColorInt()
+            mAccentColor1 = getColor(XposedKey.LSCLOCK_COLOR_ACCENT_PRIMARY)
+            mAccentColor2 = getColor(XposedKey.LSCLOCK_COLOR_ACCENT_SECONDARY)
+            mAccentColor3 = getColor(XposedKey.LSCLOCK_COLOR_ACCENT_TERTIARY)
+            mTextColor1 = getColor(XposedKey.LSCLOCK_COLOR_TEXT_PRIMARY)
+            mTextColor2 = getColor(XposedKey.LSCLOCK_COLOR_TEXT_INVERSE)
             mSystemAccent = mContext.resources.getColor(
                 mContext.resources.getIdentifier(
                     "android:color/system_accent1_300",
