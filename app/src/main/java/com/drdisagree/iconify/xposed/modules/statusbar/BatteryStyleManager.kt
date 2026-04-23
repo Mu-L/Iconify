@@ -68,6 +68,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideVi
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
@@ -413,7 +414,13 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         shadeHeaderControllerClass
             .hookMethod("onViewAttached")
             .runAfter { param ->
-                val mView = param.thisObject.getField("mView") as View
+                var mView = param.thisObject.getField("mView") as View
+
+                param.thisObject.getExtraFieldSilently("mQsIconsContainer")?.let {
+                    // Enabling custom header clock moves the clock to a different view group
+                    mView = it as View
+                }
+
                 val header = param.thisObject.getField("header") as View
                 val context = header.context
 

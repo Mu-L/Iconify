@@ -63,6 +63,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructo
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.ANIM_END_FRACTION
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.ANIM_START_FRACTION
@@ -412,7 +413,10 @@ class HeaderClock(context: Context) : ModPack(context) {
             .runAfter { param ->
                 shadeHeaderControllerInstance = param.thisObject
 
-                if (!showHeaderClock) return@runAfter
+                if (!showHeaderClock) {
+                    param.thisObject.setExtraField("mQsIconsContainer", null)
+                    return@runAfter
+                }
 
                 val clock = param.thisObject.getField("clock") as TextView
                 clock.hideView()
@@ -430,37 +434,15 @@ class HeaderClock(context: Context) : ModPack(context) {
                 if (hideQsCarrierGroup) qsCarrierGroup.visibility = View.GONE
                 mQsIconsContainer.addView(qsCarrierGroup)
 
-                try {
-                    val systemIconsHoverContainer = param.thisObject.getField(
-                        "systemIconsHoverContainer"
-                    ) as LinearLayout
-                    (systemIconsHoverContainer.parent as? ViewGroup)
-                        ?.removeView(systemIconsHoverContainer)
-                    if (hideStatusIcons) systemIconsHoverContainer.visibility = View.GONE
-                    mQsIconsContainer.addView(systemIconsHoverContainer)
-                } catch (_: Throwable) {
-                    val iconsContainer = LinearLayout(mContext).apply {
-                        layoutParams = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            mContext.toPx(32)
-                        )
-                        orientation = LinearLayout.HORIZONTAL
-                        gravity = Gravity.END or Gravity.CENTER
-                    }
+                val systemIconsHoverContainer = param.thisObject.getField(
+                    "systemIconsHoverContainer"
+                ) as LinearLayout
+                (systemIconsHoverContainer.parent as? ViewGroup)
+                    ?.removeView(systemIconsHoverContainer)
+                if (hideStatusIcons) systemIconsHoverContainer.visibility = View.GONE
+                mQsIconsContainer.addView(systemIconsHoverContainer)
 
-                    val statusIcons = param.thisObject.getField("iconContainer") as View
-                    (statusIcons.parent as? ViewGroup)?.removeView(statusIcons)
-
-                    val batteryIcon = param.thisObject.getField("batteryIcon") as View
-                    (batteryIcon.parent as? ViewGroup)?.removeView(batteryIcon)
-
-                    iconsContainer.apply {
-                        addView(statusIcons)
-                        addView(batteryIcon)
-                        if (hideStatusIcons) visibility = View.GONE
-                        mQsIconsContainer.addView(this)
-                    }
-                }
+                param.thisObject.setExtraField("mQsIconsContainer", mQsIconsContainer)
             }
 
         configurationControllerListenerClass
