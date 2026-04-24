@@ -125,9 +125,9 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var customBatteryEnabled = false
     private var mBatteryWidth = 20
     private var mBatteryHeight = 20
-    private var mBatteryMarginLeft = 0
+    private var mBatteryMarginLeft = 2
     private var mBatteryMarginTop = 0
-    private var mBatteryMarginRight = 0
+    private var mBatteryMarginRight = 2
     private var mBatteryMarginBottom = 0
     private var frameColor = Color.WHITE
     private var mBatteryLayoutReverse = false
@@ -585,9 +585,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                marginStart = mContext.toPx(4)
-            }
+            )
             text = "%d%%".format(batteryCallbackState.level)
             val styleResId = mContext.resources.getIdentifier(
                 when (tag) {
