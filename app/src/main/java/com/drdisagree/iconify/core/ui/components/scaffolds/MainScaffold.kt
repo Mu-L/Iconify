@@ -145,21 +145,23 @@ fun MainScaffold(
         }
     }
 
-    val tertiaryContainer = MaterialTheme.colorScheme.tertiaryContainer
-    val onTertiaryContainer = MaterialTheme.colorScheme.onTertiaryContainer
+    val materialTertiaryContainer = MaterialTheme.colorScheme.tertiaryContainer
+    val materialOnTertiaryContainer = MaterialTheme.colorScheme.onTertiaryContainer
+    val materialErrorContainer = MaterialTheme.colorScheme.errorContainer
+    val materialOnErrorContainer = MaterialTheme.colorScheme.onErrorContainer
 
-    val warningContainer = if (isDarkTheme) Color(0xFFA46200) else Color(0xFFFFE0B2)
-    val onWarningContainer = if (isDarkTheme) Color(0xFFFFE0B2) else Color(0xFF4E2600)
+    val warningContainer = if (isDarkTheme) Color(0xFFA46605) else Color(0xFFFFE0B2)
+    val onWarningContainer = if (isDarkTheme) Color(0xFFFFE0B2) else Color(0xFF412300)
 
-    val errorContainer = if (isDarkTheme) Color(0xFF8C1D18) else Color(0xFFF9DEDC)
+    val errorContainer = if (isDarkTheme) Color(0xFF9B0F09) else Color(0xFFF9DEDC)
     val onErrorContainer = if (isDarkTheme) Color(0xFFF9DEDC) else Color(0xFF410E0B)
 
     val harmonizedColors = remember(MaterialTheme.colorScheme) {
         object {
-            val warningContainer = warningContainer.harmonize(tertiaryContainer)
-            val onWarningContainer = onWarningContainer.harmonize(onTertiaryContainer)
-            val errorContainer = errorContainer.harmonize(tertiaryContainer)
-            val onErrorContainer = onErrorContainer.harmonize(onTertiaryContainer)
+            val warningContainer = warningContainer.harmonize(materialTertiaryContainer)
+            val onWarningContainer = onWarningContainer.harmonize(materialOnTertiaryContainer)
+            val errorContainer = errorContainer.harmonize(materialErrorContainer)
+            val onErrorContainer = onErrorContainer.harmonize(materialOnErrorContainer)
         }
     }
 
@@ -169,8 +171,8 @@ fun MainScaffold(
                 FabMenuItem(
                     icon = R.drawable.ic_close,
                     title = R.string.btn_dismiss,
-                    containerColor = tertiaryContainer,
-                    contentColor = onTertiaryContainer,
+                    containerColor = materialTertiaryContainer,
+                    contentColor = materialOnTertiaryContainer,
                     onClick = { systemActionViewModel.clearFlags() }
                 )
             )

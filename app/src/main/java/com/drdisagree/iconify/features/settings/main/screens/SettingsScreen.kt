@@ -247,7 +247,8 @@ fun SettingsScreen(
 
     PreferenceScreen(
         items = settingsPreferences(onDisableEverything = { showDialog = true }),
-        title = stringResource(R.string.activity_title_settings)
+        title = stringResource(R.string.activity_title_settings),
+        showActionIcon = false
     )
 }
 

@@ -42,7 +42,8 @@ private fun HomeScreenContent() {
     PreferenceScreen(
         items = homePreferences,
         title = stringResource(R.string.app_name),
-        subtitle = stringResource(R.string.app_motto)
+        subtitle = stringResource(R.string.app_motto),
+        showActionIcon = false
     )
 }
 

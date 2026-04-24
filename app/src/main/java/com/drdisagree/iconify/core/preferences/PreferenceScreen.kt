@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.core.preferences
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,6 +16,7 @@ import com.drdisagree.iconify.core.common.LocalPreferenceController
 import com.drdisagree.iconify.core.ui.components.others.innerPaddingValues
 import com.drdisagree.iconify.core.ui.components.preferences.preferenceCategoryItems
 import com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold
+import com.drdisagree.iconify.core.ui.components.topappbar.TopAppBarAction
 import kotlinx.coroutines.delay
 
 fun preferenceScreen(
@@ -33,7 +33,8 @@ fun PreferenceScreen(
     @DrawableRes backIcon: Int? = null,
     showBackIcon: Boolean = false,
     onBackClick: (() -> Unit)? = null,
-    actions: @Composable RowScope.() -> Unit = {},
+    showActionIcon: Boolean = true,
+    actions: List<TopAppBarAction> = emptyList(),
 ) {
     val prefController = LocalPreferenceController.current
 
@@ -72,6 +73,7 @@ fun PreferenceScreen(
         backIcon = backIcon,
         showBackIcon = showBackIcon,
         onBackClick = onBackClick,
+        showActionIcon = showActionIcon,
         actions = actions
     ) { innerPadding, _ ->
         val padding = innerPaddingValues(
