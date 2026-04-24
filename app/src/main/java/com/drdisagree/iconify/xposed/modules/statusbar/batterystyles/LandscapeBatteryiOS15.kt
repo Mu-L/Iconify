@@ -2,6 +2,7 @@ package com.drdisagree.iconify.xposed.modules.statusbar.batterystyles
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.BlendMode
 import android.graphics.Canvas
 import android.graphics.Color
