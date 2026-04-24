@@ -18,6 +18,14 @@ sleep 3
 handle_overlay_am() {
   local amac="IconifyComponentAMAC.overlay"
   local amgc="IconifyComponentAMGC.overlay"
+  local dynamic="IconifyComponentDynamic1.overlay"
+
+  local has_holo_colors
+  has_holo_colors=$(dumpsys overlay "$dynamic" 2>/dev/null | grep -E "holo_(blue|green)_(light|dark)")
+
+  if [ -n "$has_holo_colors" ]; then
+    return 0
+  fi
 
   local overlays
   overlays="$(cmd overlay list)"
