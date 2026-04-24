@@ -589,15 +589,22 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 marginStart = mContext.toPx(4)
             }
             text = "%d%%".format(batteryCallbackState.level)
-            setTextAppearance(
-                mContext.resources.getIdentifier(
+            val styleResId = mContext.resources.getIdentifier(
+                when (tag) {
+                    ICONIFY_QS_BATTERY_ICON_TAG -> "TextAppearance.QS.Status"
+                    else -> "TextAppearance.StatusBar.Default"
+                },
+                "style",
+                SYSTEMUI_PACKAGE
+            )
+            if (styleResId != 0) setTextAppearance(styleResId)
+            else log(
+                $$"Could not find text appearance resource for battery percentage text view with id: $${
                     when (tag) {
                         ICONIFY_QS_BATTERY_ICON_TAG -> "TextAppearance.QS.Status"
                         else -> "TextAppearance.StatusBar.Default"
-                    },
-                    "style",
-                    SYSTEMUI_PACKAGE
-                )
+                    }
+                }"
             )
         }
         val chargingIconView = ImageView(mContext).apply {

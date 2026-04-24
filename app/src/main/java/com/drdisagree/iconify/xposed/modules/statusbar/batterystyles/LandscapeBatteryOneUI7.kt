@@ -33,7 +33,9 @@ import android.os.SystemClock
 import android.util.TypedValue
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.graphics.PathParser
+import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import kotlin.math.floor
 import kotlin.math.sin
 
@@ -236,16 +238,28 @@ open class LandscapeBatteryOneUI7(private val context: Context, frameColor: Int)
         intrinsicWidth = (WIDTH * density).toInt()
 
         val res = context.resources
-        val levels = res.obtainTypedArray(
-            res.getIdentifier(
-                "batterymeter_color_levels", "array", context.packageName
+
+        val levelsId = res.getIdentifier("batterymeter_color_levels", "array", context.packageName)
+            .takeIf { it != 0 }
+        val colorsId = res.getIdentifier("batterymeter_color_values", "array", context.packageName)
+            .takeIf { it != 0 }
+
+        val (levels, colors) = if (levelsId != null && colorsId != null) {
+            res.obtainTypedArray(levelsId) to res.obtainTypedArray(colorsId)
+        } else {
+            val modLevelsId = modRes.getIdentifier(
+                "batterymeter_color_levels",
+                "array",
+                BuildConfig.APPLICATION_ID
             )
-        )
-        val colors = res.obtainTypedArray(
-            res.getIdentifier(
-                "batterymeter_color_values", "array", context.packageName
+            val modColorsId = modRes.getIdentifier(
+                "batterymeter_color_values",
+                "array",
+                BuildConfig.APPLICATION_ID
             )
-        )
+            modRes.obtainTypedArray(modLevelsId) to modRes.obtainTypedArray(modColorsId)
+        }
+
         val n = levels.length()
         colorLevels = IntArray(2 * n)
         for (i in 0 until n) {
@@ -258,6 +272,7 @@ open class LandscapeBatteryOneUI7(private val context: Context, frameColor: Int)
                 colorLevels[2 * i + 1] = colors.getColor(i, 0)
             }
         }
+
         levels.recycle()
         colors.recycle()
 
