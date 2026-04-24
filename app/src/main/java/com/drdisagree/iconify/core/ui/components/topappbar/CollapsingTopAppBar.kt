@@ -219,7 +219,7 @@ private fun ActionDropdownMenu(
 
     LaunchedEffect(expanded.value) {
         if (!expanded.value) {
-            delay(300)
+            delay(200)
             menuStack.clear()
             menuStack.add(null to initialItems)
         }
