@@ -580,48 +580,6 @@ object ViewHelper {
         }
     }
 
-    fun View?.getExpandableView(): Any? {
-        if (this == null) {
-            log("getExpandableView", "View is null")
-            return null
-        }
-
-        val expandableClass = findClass("$SYSTEMUI_PACKAGE.animation.Expandable")
-        val expandableCompanionFromViewClass = findClass(
-            $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView",
-            $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView$1",
-            $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView$2",
-            $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView$3",
-            suppressError = true
-        )
-
-        return if (expandableClass.isMethodAvailable("fromView", View::class.java)) {
-            expandableClass!!.callStaticMethod("fromView", this)
-        } else {
-            try {
-                expandableCompanionFromViewClass!!
-                    .getConstructor(View::class.java)
-                    .newInstance(this)
-            } catch (_: Throwable) {
-                val refObjectRefClass = findClass($$"kotlin.jvm.internal.Ref$ObjectRef")
-
-                val refObject = refObjectRefClass!!
-                    .getConstructor()
-                    .newInstance()
-
-                try {
-                    refObject.setField("element", callMethod("getAnimatedView"))
-                } catch (_: Throwable) {
-                    refObject.setField("element", this)
-                }
-
-                expandableCompanionFromViewClass!!
-                    .getConstructor(refObjectRefClass)
-                    .newInstance(refObject)
-            }
-        }
-    }
-
     fun Drawable.getColored(context: Context, color: Int): Drawable {
 
         val colorDrawable = this.getColoredBitmap(color)

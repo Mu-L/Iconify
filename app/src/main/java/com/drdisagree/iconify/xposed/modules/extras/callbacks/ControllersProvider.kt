@@ -5,7 +5,7 @@ import android.provider.Settings
 import android.view.View
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getExpandableView
+import com.drdisagree.iconify.xposed.modules.extras.ExpandableViews.Companion.getExpandableView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField

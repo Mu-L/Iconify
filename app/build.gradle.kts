@@ -309,6 +309,9 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
+
+    // Class initializer
+    implementation (libs.objenesis)
 }
 
 tasks.register("printVersionName") {
