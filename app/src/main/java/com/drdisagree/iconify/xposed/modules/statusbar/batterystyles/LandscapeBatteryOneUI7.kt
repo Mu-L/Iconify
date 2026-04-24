@@ -33,7 +33,6 @@ import android.os.SystemClock
 import android.util.TypedValue
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.graphics.PathParser
-import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import kotlin.math.floor
@@ -238,26 +237,20 @@ open class LandscapeBatteryOneUI7(private val context: Context, frameColor: Int)
         intrinsicWidth = (WIDTH * density).toInt()
 
         val res = context.resources
+        val levels: TypedArray
+        val colors: TypedArray
 
         val levelsId = res.getIdentifier("batterymeter_color_levels", "array", context.packageName)
             .takeIf { it != 0 }
         val colorsId = res.getIdentifier("batterymeter_color_values", "array", context.packageName)
             .takeIf { it != 0 }
 
-        val (levels, colors) = if (levelsId != null && colorsId != null) {
-            res.obtainTypedArray(levelsId) to res.obtainTypedArray(colorsId)
+        if (levelsId != null && colorsId != null) {
+            levels = res.obtainTypedArray(levelsId)
+            colors = res.obtainTypedArray(colorsId)
         } else {
-            val modLevelsId = modRes.getIdentifier(
-                "batterymeter_color_levels",
-                "array",
-                BuildConfig.APPLICATION_ID
-            )
-            val modColorsId = modRes.getIdentifier(
-                "batterymeter_color_values",
-                "array",
-                BuildConfig.APPLICATION_ID
-            )
-            modRes.obtainTypedArray(modLevelsId) to modRes.obtainTypedArray(modColorsId)
+            levels = modRes.obtainTypedArray(R.array.batterymeter_color_levels)
+            colors = modRes.obtainTypedArray(R.array.batterymeter_color_values)
         }
 
         val n = levels.length()
