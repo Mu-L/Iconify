@@ -41,6 +41,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Com
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.CurrentWeatherView
+import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgets.Companion.getAvailableSmartSpaceViews
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -67,6 +68,7 @@ class LockscreenWeather(context: Context) : ModPack(context) {
     private var mLockscreenClockInflated = false
     private var mWidgetsEnabled = false
     private var dateSmartSpaceViewAvailable = false
+    private var bcSmartSpaceViewAvailable = false
     private lateinit var mWeatherContainer: LinearLayout
     private var aodBurnInProtection: AodBurnInProtection? = null
     private var mCustomFontEnabled = false
@@ -173,14 +175,10 @@ class LockscreenWeather(context: Context) : ModPack(context) {
                         )
                     ) ?: return@postDelayed
 
-                dateSmartSpaceViewAvailable = rootView.findViewById<View?>(
-                    mContext.resources.getIdentifier(
-                        "date_smartspace_view",
-                        "id",
-                        mContext.packageName
-                    )
-                ) != null
+                val (dateSmartSpace, bcSmartSpace) = getAvailableSmartSpaceViews(rootView)
 
+                dateSmartSpaceViewAvailable = dateSmartSpace
+                bcSmartSpaceViewAvailable = bcSmartSpace
                 mLockscreenRootView = rootView
 
                 mWeatherContainer.removeViewFromParent()
@@ -270,6 +268,11 @@ class LockscreenWeather(context: Context) : ModPack(context) {
             "id",
             mContext.packageName
         )
+        val smartSpaceBarrierBottomId = mContext.resources.getIdentifier(
+            "smart_space_barrier_bottom",
+            "id",
+            mContext.packageName
+        )
 
         smartspaceSectionClass
             .hookMethod("applyConstraints")
@@ -280,9 +283,10 @@ class LockscreenWeather(context: Context) : ModPack(context) {
 
                 val smartSpaceViewId = if (dateSmartSpaceViewAvailable) {
                     dateSmartSpaceViewId
-                } else {
-                    // Some ROMs don't have date smartspace view
+                } else if (bcSmartSpaceViewAvailable) {
                     bcSmartSpaceViewId
+                } else {
+                    smartSpaceBarrierBottomId
                 }
 
                 // Connect weather view to bottom of date smartspace
@@ -426,10 +430,15 @@ class LockscreenWeather(context: Context) : ModPack(context) {
                         "id",
                         mContext.packageName
                     )
-                } else {
-                    // Some ROMs don't have date smartspace view
+                } else if (bcSmartSpaceViewAvailable) {
                     mContext.resources.getIdentifier(
                         "bc_smartspace_view",
+                        "id",
+                        mContext.packageName
+                    )
+                } else {
+                    mContext.resources.getIdentifier(
+                        "smart_space_barrier_bottom",
                         "id",
                         mContext.packageName
                     )

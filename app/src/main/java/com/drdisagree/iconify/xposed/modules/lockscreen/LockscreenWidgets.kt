@@ -49,9 +49,6 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
     // Widgets Container
     private lateinit var mWidgetsContainer: LinearLayout
 
-    // Activity Starter
-    private var mActivityStarter: Any? = null
-
     // Ls custom clock
     private var mLockscreenClockEnabled = false
     private var mLockscreenClockInflated = false
@@ -86,6 +83,7 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
     private var mWidgetsScale = 1.0f
     private var mDeviceWidgetStyle = 0
     private var dateSmartSpaceViewAvailable = false
+    private var bcSmartSpaceViewAvailable = false
     private var aodBurnInProtection: AodBurnInProtection? = null
 
     private var mBroadcastRegistered = false
@@ -235,14 +233,10 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
                         )
                     ) ?: return@postDelayed
 
-                dateSmartSpaceViewAvailable = rootView.findViewById<View?>(
-                    mContext.resources.getIdentifier(
-                        "date_smartspace_view",
-                        "id",
-                        mContext.packageName
-                    )
-                ) != null
+                val (dateSmartSpace, bcSmartSpace) = getAvailableSmartSpaceViews(rootView)
 
+                dateSmartSpaceViewAvailable = dateSmartSpace
+                bcSmartSpaceViewAvailable = bcSmartSpace
                 mLockscreenRootView = rootView
 
                 (mWidgetsContainer.parent as? ViewGroup)?.removeView(mWidgetsContainer)
@@ -329,6 +323,11 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
             "id",
             mContext.packageName
         )
+        val smartSpaceBarrierBottomId = mContext.resources.getIdentifier(
+            "smart_space_barrier_bottom",
+            "id",
+            mContext.packageName
+        )
 
         smartspaceSectionClass
             .hookMethod("applyConstraints")
@@ -339,9 +338,10 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
 
                 val smartSpaceViewId = if (dateSmartSpaceViewAvailable) {
                     dateSmartSpaceViewId
-                } else {
-                    // Some ROMs don't have date smartspace view
+                } else if (bcSmartSpaceViewAvailable) {
                     bcSmartSpaceViewId
+                } else {
+                    smartSpaceBarrierBottomId
                 }
 
                 // Connect widget view to bottom of date smartspace
@@ -492,16 +492,21 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
             if ((widgetView == mWidgetsContainer && !mLockscreenClockEnabled && !mWeatherEnabled) ||
                 (widgetView == mLsItemsContainer && !mLockscreenClockEnabled && mWeatherEnabled)
             ) {
-                val dateSmartspaceViewId = if (dateSmartSpaceViewAvailable) {
+                val smartspaceViewId = if (dateSmartSpaceViewAvailable) {
                     mContext.resources.getIdentifier(
                         "date_smartspace_view",
                         "id",
                         mContext.packageName
                     )
-                } else {
-                    // Some ROMs don't have date smartspace view
+                } else if (bcSmartSpaceViewAvailable) {
                     mContext.resources.getIdentifier(
                         "bc_smartspace_view",
+                        "id",
+                        mContext.packageName
+                    )
+                } else {
+                    mContext.resources.getIdentifier(
+                        "smart_space_barrier_bottom",
                         "id",
                         mContext.packageName
                     )
@@ -511,7 +516,7 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
                 constraintSet.connect(
                     widgetView.id,
                     ConstraintSet.TOP,
-                    dateSmartspaceViewId,
+                    smartspaceViewId,
                     ConstraintSet.BOTTOM
                 )
             } else if (widgetView == mLsItemsContainer && mLockscreenClockEnabled) {
@@ -637,6 +642,29 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
             proxy.runCommand(
                 if (mWidgetsEnabled) DISABLE_DYNAMIC_CLOCK_COMMAND else ENABLE_DYNAMIC_CLOCK_COMMAND
             )
+        }
+    }
+
+    companion object {
+
+        @SuppressLint("DiscouragedApi")
+        fun getAvailableSmartSpaceViews(rootView: ViewGroup): Pair<Boolean, Boolean> {
+            val dateSmartSpaceViewAvailable = rootView.findViewById<View?>(
+                rootView.context.resources.getIdentifier(
+                    "date_smartspace_view",
+                    "id",
+                    rootView.context.packageName
+                )
+            ) != null
+            val bcSmartSpaceViewAvailable = rootView.findViewById<View?>(
+                rootView.context.resources.getIdentifier(
+                    "bc_smartspace_view",
+                    "id",
+                    rootView.context.packageName
+                )
+            ) != null
+
+            return dateSmartSpaceViewAvailable to bcSmartSpaceViewAvailable
         }
     }
 }

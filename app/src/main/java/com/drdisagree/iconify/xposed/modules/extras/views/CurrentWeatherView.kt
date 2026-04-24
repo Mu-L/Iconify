@@ -16,9 +16,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.utils.OmniJawsClient
 import com.drdisagree.iconify.core.utils.ViewHelper.applyTextSizeRecursively
 import com.drdisagree.iconify.core.utils.ViewHelper.setTextRecursively
-import com.drdisagree.iconify.core.utils.OmniJawsClient
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainsTag
@@ -195,7 +195,17 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
 
     override fun weatherError(errorReason: Int) {
         // Show only Disabled and Permission errors
-        log(this@CurrentWeatherView, "weatherError: $errorReason")
+        log(
+            this@CurrentWeatherView, "Weather Error: ${
+                when (errorReason) {
+                    OmniJawsClient.EXTRA_ERROR_NETWORK -> "No network"
+                    OmniJawsClient.EXTRA_ERROR_LOCATION -> "No location found"
+                    OmniJawsClient.EXTRA_ERROR_DISABLED -> "Location disabled"
+                    OmniJawsClient.EXTRA_ERROR_NO_PERMISSIONS -> "No permission"
+                    else -> errorReason
+                }
+            }"
+        )
         if (errorReason == OmniJawsClient.EXTRA_ERROR_DISABLED) {
             mWeatherInfo = null
         }
