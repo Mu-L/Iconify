@@ -4,6 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +31,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -41,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
+import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.utils.rememberXmlPainter
 import com.drdisagree.iconify.data.models.NotificationPreview
@@ -56,12 +60,16 @@ fun NotificationCard(
     onActionClick: (NotificationPreview) -> Unit
 ) {
     Card(
-        onClick = onClick,
         modifier = Modifier
             .widthIn(max = 480.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+            .fillMaxWidth()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onClick
+            ),
+        shape = RoundedCornerShape(0.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
     ) {
         Column(
             modifier = Modifier
@@ -226,14 +234,16 @@ private fun NotificationCardPreview() {
         )
     )
 
-    LazyColumn {
-        items(notifications) { pack ->
-            NotificationCard(
-                notification = pack,
-                isSelected = pack.id == "1",
-                onClick = {},
-                onActionClick = {}
-            )
+    PreviewComposable {
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            items(notifications) { pack ->
+                NotificationCard(
+                    notification = pack,
+                    isSelected = pack.id == "1",
+                    onClick = {},
+                    onActionClick = {}
+                )
+            }
         }
     }
 }
