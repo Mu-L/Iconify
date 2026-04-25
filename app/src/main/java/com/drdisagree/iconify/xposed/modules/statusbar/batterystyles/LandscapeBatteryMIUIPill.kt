@@ -107,7 +107,6 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
 
     override fun setPowerSavingEnabled(powerSaveEnabled: Boolean) {
         this.powerSaveEnabled = powerSaveEnabled
-        postInvalidate()
     }
 
     var showPercent = false

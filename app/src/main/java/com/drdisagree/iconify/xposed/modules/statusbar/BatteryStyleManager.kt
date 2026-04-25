@@ -2,11 +2,9 @@ package com.drdisagree.iconify.xposed.modules.statusbar
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.os.PowerManager
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -278,57 +276,43 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         val darkIconDispatcherClass = findClass("$SYSTEMUI_PACKAGE.plugins.DarkIconDispatcher")
 
         batteryControllerImplClass
-            .hookMethod("onReceive")
+            .hookMethod(
+                "onReceive",
+                "dispatchSafeChange",
+                "fireWirelessChargingChanged",
+                "fireBatteryLevelChanged",
+                "fireBatteryUnknownStateChanged",
+                "firePowerSaveChanged",
+                "fireIsBatteryDefenderChanged",
+                "fireIsIncompatibleChargingChanged",
+                "updatePowerSave",
+            )
             .runAfter { param ->
-                val intent = param.args[1] as Intent
-                val action = intent.action
+                val mLevel = param.thisObject.getField("mLevel") as Int
+                val isPluggedIn = param.thisObject.getField("mPluggedIn") as Boolean
+                val isCharging = param.thisObject.getFieldSilently("mCharging") as? Boolean
+                    ?: false
+                val isWirelessCharging =
+                    param.thisObject.getField("mWirelessCharging") as Boolean
+                val isBatteryDefenderEnabled =
+                    param.thisObject.getField("mIsBatteryDefender") as Boolean
+                val isStateUnknown = param.thisObject.getField("mStateUnknown") as Boolean
+                val isPowerSaveEnabled = param.thisObject.getField("mPowerSave") as Boolean
+                val isExtremePowerSaveEnabled =
+                    param.thisObject.getFieldSilently("mAodPowerSave") as? Boolean
+                        ?: false
+                val isIncompatibleCharging =
+                    param.thisObject.getField("mIsIncompatibleCharging") as Boolean
 
-                when (action) {
-                    Intent.ACTION_BATTERY_CHANGED -> {
-                        val mLevel = param.thisObject.getField("mLevel") as Int
-                        val isPluggedIn = param.thisObject.getField("mPluggedIn") as Boolean
-                        val isWirelessCharging =
-                            param.thisObject.getField("mWirelessCharging") as Boolean
-                        val isBatteryDefenderEnabled =
-                            param.thisObject.getField("mIsBatteryDefender") as Boolean
-                        val isStateUnknown = param.thisObject.getField("mStateUnknown") as Boolean
-                        val isPowerSaveEnabled = param.thisObject.getField("mPowerSave") as Boolean
-                        val isExtremePowerSaveEnabled =
-                            param.thisObject.getFieldSilently("mAodPowerSave") as? Boolean
-                                ?: false
-
-                        batteryCallbackState = batteryCallbackState.copy(
-                            level = mLevel,
-                            isPluggedIn = isPluggedIn || isWirelessCharging,
-                            isBatteryDefenderEnabled = isBatteryDefenderEnabled,
-                            isStateUnknown = isStateUnknown,
-                            isPowerSaveEnabled = isPowerSaveEnabled,
-                            isExtremePowerSaveEnabled = isExtremePowerSaveEnabled
-                        )
-                    }
-
-                    PowerManager.ACTION_POWER_SAVE_MODE_CHANGED -> {
-                        val isPowerSaveEnabled = param.thisObject.getField("mPowerSave") as Boolean
-                        val isExtremePowerSaveEnabled =
-                            param.thisObject.getFieldSilently("mAodPowerSave") as? Boolean
-                                ?: false
-
-                        batteryCallbackState = batteryCallbackState.copy(
-                            isPowerSaveEnabled = isPowerSaveEnabled,
-                            isExtremePowerSaveEnabled = isExtremePowerSaveEnabled
-                        )
-                    }
-
-                    // UsbManager.ACTION_USB_PORT_COMPLIANCE_CHANGED
-                    "android.hardware.usb.action.USB_PORT_COMPLIANCE_CHANGED" -> {
-                        val isIncompatibleCharging =
-                            param.thisObject.getField("mIsIncompatibleCharging") as Boolean
-
-                        batteryCallbackState = batteryCallbackState.copy(
-                            isIncompatibleCharging = isIncompatibleCharging
-                        )
-                    }
-                }
+                batteryCallbackState = batteryCallbackState.copy(
+                    level = mLevel,
+                    isPluggedIn = isPluggedIn || isCharging || isWirelessCharging,
+                    isPowerSaveEnabled = isPowerSaveEnabled,
+                    isExtremePowerSaveEnabled = isExtremePowerSaveEnabled,
+                    isBatteryDefenderEnabled = isBatteryDefenderEnabled,
+                    isStateUnknown = isStateUnknown,
+                    isIncompatibleCharging = isIncompatibleCharging
+                )
 
                 refreshBatteryData()
             }
@@ -960,7 +944,6 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
     companion object {
         private val batteryViews = mutableSetOf<ViewGroup>()
-        private var batteryCurrentPercentage = 0
         private var batteryCallbackState = BatteryCallbackState()
         private const val BATTERY_ICON_TAG = "battery_icon"
         private const val CHARGING_ICON_TAG = "charging_con"
