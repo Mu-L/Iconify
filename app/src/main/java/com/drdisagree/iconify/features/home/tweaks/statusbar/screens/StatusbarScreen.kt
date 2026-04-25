@@ -81,6 +81,13 @@ val statusbarPreferences = preferenceScreen {
             showResetButton = true,
         )
     }
+
+    category {
+        info(
+            key = "statusbar_custom_color",
+            text = stringRes("Switch between light and dark themes to update the status bar color."),
+        )
+    }
 }
 
 @Composable

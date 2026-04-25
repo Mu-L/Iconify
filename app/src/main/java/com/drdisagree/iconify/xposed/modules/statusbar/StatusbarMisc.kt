@@ -520,6 +520,39 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 updateStatusbarColor(param)
             }
 
+        updateBatteryColors()
+        applyIconTint()
+    }
+
+    private fun applyIconTint() {
+        if (darkIconDispatcherImplInstance == null) return
+
+        val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
+
+        val mDarkIntensity = darkIconDispatcherImplInstance.getField("mDarkIntensity") as Float
+        val argbEvaluator = ArgbEvaluator::class.java.callStaticMethod("getInstance")
+
+        val mIconTint = argbEvaluator.callMethod(
+            "evaluate",
+            mDarkIntensity,
+            statusbarColorLight,
+            statusbarColorDark
+        ).callMethod("intValue")
+        val mContrastTint = argbEvaluator.callMethod(
+            "evaluate",
+            mDarkIntensity,
+            statusbarColorLight,
+            statusbarColorDark
+        ).callMethod("intValue")
+
+        darkIconDispatcherImplInstance.apply {
+            setField("mIconTint", mIconTint)
+            setField("mContrastTint", mContrastTint)
+            callMethod("applyIconTint")
+        }
+    }
+
+    private fun updateBatteryColors() {
         if (!linkToCustomColor) return
 
         val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
@@ -579,34 +612,6 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             "fill",
             GraphicsColorKt.colorOf(statusbarColorDark)
         )
-    }
-
-    private fun applyIconTint() {
-        if (darkIconDispatcherImplInstance == null) return
-
-        val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
-
-        val mDarkIntensity = darkIconDispatcherImplInstance.getField("mDarkIntensity") as Float
-        val argbEvaluator = ArgbEvaluator::class.java.callStaticMethod("getInstance")
-
-        val mIconTint = argbEvaluator.callMethod(
-            "evaluate",
-            mDarkIntensity,
-            statusbarColorLight,
-            statusbarColorDark
-        ).callMethod("intValue")
-        val mContrastTint = argbEvaluator.callMethod(
-            "evaluate",
-            mDarkIntensity,
-            statusbarColorLight,
-            statusbarColorDark
-        ).callMethod("intValue")
-
-        darkIconDispatcherImplInstance.apply {
-            setField("mIconTint", mIconTint)
-            setField("mContrastTint", mContrastTint)
-            callMethod("applyIconTint")
-        }
     }
 
     companion object {
