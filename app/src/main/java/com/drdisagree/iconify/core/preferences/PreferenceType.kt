@@ -33,7 +33,9 @@ sealed class PreferenceType {
 
     object EditText : PreferenceType()
 
-    object ColorPicker : PreferenceType()
+    data class ColorPicker(
+        val showAlphaSlider: Boolean,
+    ) : PreferenceType()
 
     data class FilePicker(
         val pickerType: FilePickerType,

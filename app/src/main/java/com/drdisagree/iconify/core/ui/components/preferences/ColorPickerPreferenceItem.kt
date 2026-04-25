@@ -51,6 +51,7 @@ import com.drdisagree.iconify.core.preferences.PrefParam
 import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceDefinition
+import com.drdisagree.iconify.core.preferences.PreferenceType
 import com.drdisagree.iconify.core.preferences.resolveOrNull
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.helpers.fromHex
@@ -70,6 +71,7 @@ fun ColorPickerPreferenceItem(
     prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
+    type: PreferenceType.ColorPicker,
     modifier: Modifier,
 ) {
     val context = LocalContext.current
@@ -206,14 +208,16 @@ fun ColorPickerPreferenceItem(
                             hexInput = draft.removePrefix("#")
                         }
                     )
-                    AlphaSlider(
-                        modifier = Modifier
-                            .padding(bottom = 16.dp)
-                            .height(28.dp)
-                            .widthIn(max = 280.dp)
-                            .fillMaxWidth(),
-                        controller = colorPickerController,
-                    )
+                    if (type.showAlphaSlider) {
+                        AlphaSlider(
+                            modifier = Modifier
+                                .padding(bottom = 16.dp)
+                                .height(28.dp)
+                                .widthIn(max = 280.dp)
+                                .fillMaxWidth(),
+                            controller = colorPickerController,
+                        )
+                    }
                     BrightnessSlider(
                         modifier = Modifier
                             .padding(bottom = 16.dp)
@@ -275,7 +279,14 @@ fun ColorPickerPreferenceItem(
                                     draft != storedValue -> draft
                                     else -> storedValue
                                 }
-                                prefController.setString(prefDefinition.key, toSave)
+                                if (type.showAlphaSlider) {
+                                    prefController.setString(prefDefinition.key, toSave)
+                                } else {
+                                    prefController.setString(
+                                        prefDefinition.key,
+                                        "#" + toSave.removePrefix("#").takeLast(6)
+                                    )
+                                }
                                 showDialog = false
                             }
                         ) { Text(stringResource(R.string.btn_select)) }

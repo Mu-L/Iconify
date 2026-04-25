@@ -41,6 +41,7 @@ val statusbarPreferences = preferenceScreen {
         colorPicker(
             key = TweaksKey.STATUSBAR_TINT_CUSTOM_COLOR_CODE,
             title = stringRes("Choose Custom Color"),
+            showAlphaSlider = false,
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR) },
             isVisible = { it.getString(TweaksKey.STATUSBAR_TINT_MODE) == "2" }
         )

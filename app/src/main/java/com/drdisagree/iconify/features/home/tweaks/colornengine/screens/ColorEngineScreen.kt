@@ -41,6 +41,7 @@ fun colorEnginePreferences(
             key = TweaksKey.BASIC_COLOR_PRIMARY,
             title = stringRes(R.string.primary_color),
             summary = { stringRes(R.string.primary_color_desc) },
+            showAlphaSlider = false,
             isEnabled = {
                 !it.getBoolean(TweaksKey.MONET_ACCENT) &&
                         !it.getBoolean(TweaksKey.MONET_GRADIENT)
@@ -51,6 +52,7 @@ fun colorEnginePreferences(
             key = TweaksKey.BASIC_COLOR_SECONDARY,
             title = stringRes(R.string.secondary_color),
             summary = { stringRes(R.string.secondary_color_desc) },
+            showAlphaSlider = false,
             isEnabled = {
                 !it.getBoolean(TweaksKey.MONET_ACCENT) &&
                         !it.getBoolean(TweaksKey.MONET_GRADIENT)

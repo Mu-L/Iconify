@@ -90,6 +90,7 @@ fun PreferenceItem(
             prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
+            type = type,
             modifier = modifier
         )
 
