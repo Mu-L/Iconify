@@ -484,6 +484,131 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             }
     }
 
+    private fun setStatusbarColor() {
+        val darkIconDispatcherImplClass =
+            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.DarkIconDispatcherImpl")
+
+        fun updateStatusbarColor(param: XC_MethodHook.MethodHookParam) {
+            if (!linkToCustomColor) return
+
+            val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
+
+            param.thisObject.apply {
+                setField("mLightModeIconColorSingleTone", statusbarColorLight)
+                setField("mDarkModeIconColorSingleTone", statusbarColorDark)
+                setField("mLightModeContrastColor", statusbarColorLight)
+                setField("mDarkModeContrastColor", statusbarColorDark)
+            }
+        }
+
+        darkIconDispatcherImplClass
+            .hookConstructor()
+            .runAfter { param ->
+                darkIconDispatcherImplInstance = param.thisObject
+                updateStatusbarColor(param)
+            }
+
+        darkIconDispatcherImplClass
+            .hookMethod(
+                "addDarkReceiver",
+                "applyDark",
+                "applyDarkIntensity",
+                "applyIconTint"
+            )
+            .runBefore { param ->
+                darkIconDispatcherImplInstance = param.thisObject
+                updateStatusbarColor(param)
+            }
+
+        if (!linkToCustomColor) return
+
+        val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
+
+        val batteryLightThemeClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$LightTheme")
+        val batteryDarkThemeClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$DarkTheme")
+
+        batteryLightThemeClass.setStaticField(
+            "lowAlphaBg",
+            GraphicsColorKt.colorOf(
+                ColorUtils.setAlphaComponent(
+                    statusbarColorLight,
+                    (255 * 0.20f).roundToInt()
+                )
+            )
+        )
+        batteryLightThemeClass.setStaticField(
+            "highAlphaBg",
+            GraphicsColorKt.colorOf(
+                ColorUtils.setAlphaComponent(
+                    statusbarColorLight,
+                    (255 * 0.55f).roundToInt()
+                )
+            )
+        )
+        batteryDarkThemeClass.setStaticField(
+            "lowAlphaBg",
+            GraphicsColorKt.colorOf(
+                ColorUtils.setAlphaComponent(
+                    statusbarColorLight,
+                    (255 * 0.45f).roundToInt()
+                )
+            )
+        )
+        batteryDarkThemeClass.setStaticField(
+            "highAlphaBg",
+            GraphicsColorKt.colorOf(
+                ColorUtils.setAlphaComponent(
+                    statusbarColorLight,
+                    (255 * 0.55f).roundToInt()
+                )
+            )
+        )
+
+        val batteryLightThemeDefaultClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$LightTheme$Default")
+        val batteryDarkThemeDefaultClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$DarkTheme$Default")
+
+        batteryLightThemeDefaultClass.setStaticField(
+            "fill",
+            GraphicsColorKt.colorOf(statusbarColorLight)
+        )
+        batteryDarkThemeDefaultClass.setStaticField(
+            "fill",
+            GraphicsColorKt.colorOf(statusbarColorDark)
+        )
+    }
+
+    private fun applyIconTint() {
+        if (darkIconDispatcherImplInstance == null) return
+
+        val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
+
+        val mDarkIntensity = darkIconDispatcherImplInstance.getField("mDarkIntensity") as Float
+        val argbEvaluator = ArgbEvaluator::class.java.callStaticMethod("getInstance")
+
+        val mIconTint = argbEvaluator.callMethod(
+            "evaluate",
+            mDarkIntensity,
+            statusbarColorLight,
+            statusbarColorDark
+        ).callMethod("intValue")
+        val mContrastTint = argbEvaluator.callMethod(
+            "evaluate",
+            mDarkIntensity,
+            statusbarColorLight,
+            statusbarColorDark
+        ).callMethod("intValue")
+
+        darkIconDispatcherImplInstance.apply {
+            setField("mIconTint", mIconTint)
+            setField("mContrastTint", mContrastTint)
+            callMethod("applyIconTint")
+        }
+    }
+
     companion object {
 
         private var mClockClickable = false
@@ -556,151 +681,26 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 clockView.stateListAnimator = stateListAnimator
             }
         }
-    }
 
-    private fun setStatusbarColor() {
-        val darkIconDispatcherImplClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.DarkIconDispatcherImpl")
+        fun getStatusbarColors(context: Context): Pair<Int, Int> {
+            val statusbarColorLight = SettingsLibUtils.getColorStateListDefaultColor(
+                context,
+                context.resources.getIdentifier(
+                    "light_mode_icon_color_single_tone",
+                    "color",
+                    SYSTEMUI_PACKAGE
+                )
+            )
+            val statusbarColorDark = SettingsLibUtils.getColorStateListDefaultColor(
+                context,
+                context.resources.getIdentifier(
+                    "dark_mode_icon_color_single_tone",
+                    "color",
+                    SYSTEMUI_PACKAGE
+                )
+            )
 
-        fun updateStatusbarColor(param: XC_MethodHook.MethodHookParam) {
-            if (!linkToCustomColor) return
-
-            val (statusbarColorLight, statusbarColorDark) = getStatusbarColors()
-
-            param.thisObject.apply {
-                setField("mLightModeIconColorSingleTone", statusbarColorLight)
-                setField("mDarkModeIconColorSingleTone", statusbarColorDark)
-                setField("mLightModeContrastColor", statusbarColorLight)
-                setField("mDarkModeContrastColor", statusbarColorDark)
-            }
+            return Pair(statusbarColorLight, statusbarColorDark)
         }
-
-        darkIconDispatcherImplClass
-            .hookConstructor()
-            .runAfter { param ->
-                darkIconDispatcherImplInstance = param.thisObject
-                updateStatusbarColor(param)
-            }
-
-        darkIconDispatcherImplClass
-            .hookMethod(
-                "addDarkReceiver",
-                "applyDark",
-                "applyDarkIntensity",
-                "applyIconTint"
-            )
-            .runBefore { param ->
-                darkIconDispatcherImplInstance = param.thisObject
-                updateStatusbarColor(param)
-            }
-
-        if (!linkToCustomColor) return
-
-        val (statusbarColorLight, statusbarColorDark) = getStatusbarColors()
-
-        val batteryLightThemeClass =
-            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$LightTheme")
-        val batteryDarkThemeClass =
-            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$DarkTheme")
-
-        batteryLightThemeClass.setStaticField(
-            "lowAlphaBg",
-            GraphicsColorKt.colorOf(
-                ColorUtils.setAlphaComponent(
-                    statusbarColorLight,
-                    (255 * 0.20f).roundToInt()
-                )
-            )
-        )
-        batteryLightThemeClass.setStaticField(
-            "highAlphaBg",
-            GraphicsColorKt.colorOf(
-                ColorUtils.setAlphaComponent(
-                    statusbarColorLight,
-                    (255 * 0.55f).roundToInt()
-                )
-            )
-        )
-        batteryDarkThemeClass.setStaticField(
-            "lowAlphaBg",
-            GraphicsColorKt.colorOf(
-                ColorUtils.setAlphaComponent(
-                    statusbarColorLight,
-                    (255 * 0.45f).roundToInt()
-                )
-            )
-        )
-        batteryDarkThemeClass.setStaticField(
-            "highAlphaBg",
-            GraphicsColorKt.colorOf(
-                ColorUtils.setAlphaComponent(
-                    statusbarColorLight,
-                    (255 * 0.55f).roundToInt()
-                )
-            )
-        )
-
-        val batteryLightThemeDefaultClass =
-            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$LightTheme$Default")
-        val batteryDarkThemeDefaultClass =
-            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$DarkTheme$Default")
-
-        batteryLightThemeDefaultClass.setStaticField(
-            "fill",
-            GraphicsColorKt.colorOf(statusbarColorLight)
-        )
-        batteryDarkThemeDefaultClass.setStaticField(
-            "fill",
-            GraphicsColorKt.colorOf(statusbarColorDark)
-        )
-    }
-
-    private fun applyIconTint() {
-        if (darkIconDispatcherImplInstance == null) return
-
-        val (statusbarColorLight, statusbarColorDark) = getStatusbarColors()
-
-        val mDarkIntensity = darkIconDispatcherImplInstance.getField("mDarkIntensity") as Float
-        val argbEvaluator = ArgbEvaluator::class.java.callStaticMethod("getInstance")
-
-        val mIconTint = argbEvaluator.callMethod(
-            "evaluate",
-            mDarkIntensity,
-            statusbarColorLight,
-            statusbarColorDark
-        ).callMethod("intValue")
-        val mContrastTint = argbEvaluator.callMethod(
-            "evaluate",
-            mDarkIntensity,
-            statusbarColorLight,
-            statusbarColorDark
-        ).callMethod("intValue")
-
-        darkIconDispatcherImplInstance.apply {
-            setField("mIconTint", mIconTint)
-            setField("mContrastTint", mContrastTint)
-            callMethod("applyIconTint")
-        }
-    }
-
-    private fun getStatusbarColors(): Pair<Int, Int> {
-        val statusbarColorLight = SettingsLibUtils.getColorStateListDefaultColor(
-            mContext,
-            mContext.resources.getIdentifier(
-                "light_mode_icon_color_single_tone",
-                "color",
-                SYSTEMUI_PACKAGE
-            )
-        )
-        val statusbarColorDark = SettingsLibUtils.getColorStateListDefaultColor(
-            mContext,
-            mContext.resources.getIdentifier(
-                "dark_mode_icon_color_single_tone",
-                "color",
-                SYSTEMUI_PACKAGE
-            )
-        )
-
-        return Pair(statusbarColorLight, statusbarColorDark)
     }
 }

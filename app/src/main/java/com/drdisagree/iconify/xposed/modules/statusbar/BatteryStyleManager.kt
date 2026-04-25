@@ -2,8 +2,8 @@ package com.drdisagree.iconify.xposed.modules.statusbar
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
@@ -65,6 +65,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DualToneHandler
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
@@ -73,6 +74,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructo
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.statusbar.BatteryStyleManager.BatteryView.Companion.getBatteryView
+import com.drdisagree.iconify.xposed.modules.statusbar.StatusbarMisc.Companion.getStatusbarColors
 import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.BatteryDrawable
 import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.CircleBattery
 import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.CircleFilledBattery
@@ -146,6 +148,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var mChargingIconWH = 14
     private var hideDefaultBattery = false
     private var dualStatusbarEnabled = false
+    private var linkToCustomColor = false
 
     private data class BatteryCallbackState(
         val level: Int = 0,
@@ -217,6 +220,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             mChargingIconWH = getInt(XposedKey.CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT)
             hideDefaultBattery = getBoolean(XposedKey.HIDE_DEFAULT_BATTERY_VIEW)
             dualStatusbarEnabled = getBoolean(XposedKey.DUAL_STATUSBAR)
+            linkToCustomColor = getBoolean(XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR)
         }
 
         updateBatteryDrawableIfRequired(batteryIconStyle)
@@ -385,6 +389,11 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 refreshBatteryData()
 
                 mView.hideStockBatteryIcon()
+
+                mView.callMethod(
+                    "onThemeChanged",
+                    param.thisObject.getField("mTintedIconManager")
+                )
             }
 
         keyguardStatusBarViewControllerClass
@@ -392,7 +401,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             .runAfter { param ->
                 val mView = param.thisObject.getField("mView") as View
 
-                mView.findViewWithTag<ViewGroup?>(ICONIFY_SB_BATTERY_ICON_TAG)?.let {
+                mView.findViewWithTag<ViewGroup?>(ICONIFY_LS_BATTERY_ICON_TAG)?.let {
                     batteryViews.remove(it)
                 }
             }
@@ -465,9 +474,28 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                     tint
                 ) as Int
 
-                val nonAdaptedSingleToneColor = DualToneHandler.getSingleColor(newTint)
-                val nonAdaptedForegroundColor = DualToneHandler.getFillColor(newTint)
-                val nonAdaptedBackgroundColor = DualToneHandler.getBackgroundColor(newTint)
+                val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
+                val statusbarColor =
+                    if (ColorUtils.calculateLuminance(newTint) > 0.5)
+                        statusbarColorLight
+                    else
+                        statusbarColorDark
+
+                val nonAdaptedSingleToneColor =
+                    if (linkToCustomColor)
+                        DualToneHandler.getSingleColorWithTint(statusbarColor)
+                    else
+                        DualToneHandler.getSingleColorWithTint(newTint)
+                val nonAdaptedForegroundColor =
+                    if (linkToCustomColor)
+                        DualToneHandler.getFillColorWithTint(statusbarColor)
+                    else
+                        DualToneHandler.getFillColorWithTint(newTint)
+                val nonAdaptedBackgroundColor =
+                    if (linkToCustomColor)
+                        DualToneHandler.getBackgroundColorWithTint(statusbarColor)
+                    else
+                        DualToneHandler.getBackgroundColorWithTint(newTint)
 
                 applyBatteryColors(
                     tag = ICONIFY_SB_BATTERY_ICON_TAG,
@@ -498,10 +526,27 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                     param.thisObject
                 ) as Boolean
 
-                val intensity = if (isInAreas) lockscreenIntensity else 0f
-                val nonAdaptedSingleToneColor = DualToneHandler.getSingleColor(intensity)
-                val nonAdaptedForegroundColor = DualToneHandler.getFillColor(intensity)
-                val nonAdaptedBackgroundColor = DualToneHandler.getBackgroundColor(intensity)
+                val darkIntensity = if (isInAreas) lockscreenIntensity else 0f
+
+                val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
+                val statusbarColor =
+                    if (darkIntensity > 0.5) statusbarColorLight else statusbarColorDark
+
+                val nonAdaptedSingleToneColor =
+                    if (linkToCustomColor)
+                        DualToneHandler.getSingleColorWithTint(darkIntensity, statusbarColor)
+                    else
+                        DualToneHandler.getSingleColor(darkIntensity)
+                val nonAdaptedForegroundColor =
+                    if (linkToCustomColor)
+                        DualToneHandler.getFillColorWithTint(darkIntensity, statusbarColor)
+                    else
+                        DualToneHandler.getFillColor(darkIntensity)
+                val nonAdaptedBackgroundColor =
+                    if (linkToCustomColor)
+                        DualToneHandler.getBackgroundColorWithTint(darkIntensity, statusbarColor)
+                    else
+                        DualToneHandler.getBackgroundColor(darkIntensity)
 
                 applyBatteryColors(
                     tag = ICONIFY_LS_BATTERY_ICON_TAG,
@@ -733,7 +778,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                     bgColor,
                     singleToneColor
                 )
-                mChargingIconView.imageTintList = ColorStateList.valueOf(singleToneColor)
+                mChargingIconView.setColorFilter(singleToneColor, PorterDuff.Mode.SRC_IN)
                 mPercentageView.setTextColor(singleToneColor)
             }
     }
