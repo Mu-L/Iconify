@@ -345,11 +345,11 @@
     <string name="qs_panel_top_margin_info">Gire o dispositivo para ver as alterações. Se isso não funcionar, reinicie a Interface do sistema.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Espaçamento</string>
-    <string name="sb_start_padding">Start Padding</string>
-    <string name="sb_end_padding">End Padding</string>
+    <string name="sb_start_padding">Preenchimento inicial</string>
+    <string name="sb_end_padding">Preenchimento final</string>
     <string name="sb_height">Altura</string>
     <string name="section_title_color">Cor</string>
-    <string name="sb_color_tint_title">Statusbar Icon Color</string>
+    <string name="sb_color_tint_title">Cor do ícone da barra de status</string>
     <string name="sb_color_tint_desc">Tinge ícones e textos da barra de status</string>
     <string name="sb_tint_system">Tonalidade padrão do sistema</string>
     <string name="sb_tint_monet">Monet/Tonalidade de destaque</string>
@@ -1239,7 +1239,7 @@
     <string name="learn_more">Saiba mais</string>
     <string name="custom_tiles_footer_info">Para garantir que os blocos personalizados funcionem corretamente, primeiro use os blocos padrão de Internet e Bluetooth uma vez antes de usar os personalizados.</string>
     <string name="hig_res_image_footer_info">Evite usar imagens de alta resolução, pois elas podem causar falha na Interface do sistema.</string>
-    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
+    <string name="qs_grid_footer_info">Ative/desative o modo escuro ou reinicie a interface do sistema para aplicar as alterações.</string>
     <string name="more">Mais</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
