@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.doOnAttach
+import androidx.core.view.doOnDetach
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
@@ -59,8 +60,8 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
     @SuppressLint("DiscouragedApi")
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         val headsUpManagerClass = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.policy.BaseHeadsUpManager",
             "$SYSTEMUI_PACKAGE.statusbar.notification.headsup.HeadsUpManagerImpl",
+            "$SYSTEMUI_PACKAGE.statusbar.policy.BaseHeadsUpManager",
             "$SYSTEMUI_PACKAGE.statusbar.policy.HeadsUpManager"
         )
 
@@ -125,8 +126,10 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
             this.isQsExpanded = isQsExpanded
 
-            notificationViews.forEach { view ->
-                view.updateNotificationBackground(!isQsExpanded)
+            if (isQsExpanded) {
+                notificationViews.forEach { view ->
+                    view.updateNotificationBackground(shouldApplyBlur = false)
+                }
             }
         }
 
@@ -291,7 +294,25 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
             }
         }
 
-        if (shouldApplyBlur) {
+        fun setDefaultNotificationBackground() {
+            val mutatedDrawable = notificationBgDrawable.mutate() as LayerDrawable
+
+            if (shouldApplyTint) {
+                DrawableCompat.setTint(mutatedDrawable, notificationColor)
+            }
+
+            mBackgroundNormal.setExtraField("mBackgroundDrawable", mutatedDrawable)
+            mBackgroundNormal.setExtraField("mBlurApplied", false)
+
+            setNotificationBackground(mBackgroundNormal, mutatedDrawable)
+
+            updateColorAndOutline()
+        }
+
+        val mBlurApplied =
+            mBackgroundNormal.getExtraFieldSilently("mBlurApplied") as? Boolean == true
+
+        if (shouldApplyBlur && !mBlurApplied) {
             mBackgroundNormal.doOnAttach {
                 val blurDrawable = mBackgroundNormal
                     .callMethod("getViewRootImpl")
@@ -318,10 +339,10 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
                 )
 
                 val mutatedDrawable = notificationBgDrawable.mutate() as LayerDrawable
-                val baseLayer = mutatedDrawable.getDrawable(0).apply {
+                val baseLayer = mutatedDrawable.getDrawable(0).mutate().apply {
                     setTint(Color.TRANSPARENT)
                 }
-                val statefulLayer = mutatedDrawable.getDrawable(1).apply {
+                val statefulLayer = mutatedDrawable.getDrawable(1).mutate().apply {
                     setTint(Color.TRANSPARENT)
                 }
 
@@ -334,23 +355,18 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
                 )
 
                 mBackgroundNormal.setExtraField("mBackgroundDrawable", layerDrawable)
+                mBackgroundNormal.setExtraField("mBlurApplied", true)
 
                 setNotificationBackground(mBackgroundNormal, layerDrawable)
 
                 updateColorAndOutline()
+
+                mBackgroundNormal.doOnDetach {
+                    setDefaultNotificationBackground()
+                }
             }
-        } else {
-            val mutatedDrawable = notificationBgDrawable.mutate() as LayerDrawable
-
-            if (shouldApplyTint) {
-                DrawableCompat.setTint(mutatedDrawable, notificationColor)
-            }
-
-            mBackgroundNormal.setExtraField("mBackgroundDrawable", mutatedDrawable)
-
-            setNotificationBackground(mBackgroundNormal, mutatedDrawable)
-
-            updateColorAndOutline()
+        } else if (!shouldApplyBlur && mBlurApplied) {
+            setDefaultNotificationBackground()
         }
     }
 
