@@ -97,3 +97,8 @@
 # Keep all drawable resources
 -keep class androidx.compose.ui.res.** { *; }
 -keepclassmembers class **.R$drawable { <fields>; }
+
+# Preference keys
+-keepclassmembers enum com.drdisagree.iconify.data.keys.** {
+    <fields>;
+}
