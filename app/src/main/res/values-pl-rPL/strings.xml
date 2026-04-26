@@ -852,7 +852,7 @@
     <string name="border_color_title">Border Color</string>
     <string name="border_color_accent">Accent Color</string>
     <string name="border_color_custom">Custom Color</string>
-    <string name="border_color_custom_title">Custom Border Color</string>
+    <string name="border_color_custom_title">Własny kolor obramowania</string>
     <string name="dashed_border">Obramowanie przerywane</string>
     <string name="dash_width">Szerokość kreski</string>
     <string name="dash_gap">Odstęp między kreskami</string>
