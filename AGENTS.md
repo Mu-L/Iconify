@@ -1,34 +1,74 @@
 # AGENTS.md
 
-## Architecture
-- Single-module Android app (`app/`), root package `com.drdisagree.iconify`, targets **SDK 36 (Android 16)** on rooted Pixel/AOSP devices.
-- Three runtime surfaces: **Compose UI** (`features/**`), **root/service glue** (`services/**`, `core/utils/**`), and **Xposed hooks** (`xposed/**`).
-- `MainActivity` boots a libsu root shell, runs `AppProviders` which wires composition locals (`LocalNavController`, `LocalSettings`, `LocalColorScheme`, haptics, haze, scaled `Density`), then `NavGraph` renders screens. Most screens read state from locals, not passed parameters.
-- `MainScreen` redirects to `NavRoutes.Home.Root` or `NavRoutes.Xposed.Root` based on `SettingsKey.XPOSED_ONLY_MODE`.
-- DI is Hilt (`core/di/`). `PreferenceModule` provides `PreferenceController` backed by `SharedPreferencesStorage` (device-protected storage, cross-process via `RemotePrefProvider`). A `DataStoreStorage` alternative exists but is not the default.
+This document provides essential information for AI agents working on the Iconify project.
 
-## Preference / data flow
-- Preference keys are enums implementing `Key` interface (`data/keys/`): `SettingsKey`, `XposedKey`, `TweaksKey`, `CustomizationKey`. Each entry carries a typed `default` value.
-- `PreferenceController` (`core/preferences/`) manages in-memory state backed by `PreferenceStorage`; exposes typed flows consumed by `SettingsViewModel`.
-- Values are wrapped in `PrefValue` sealed class (`BoolValue`, `IntValue`, `FloatValue`, `StringValue`, etc.). Color prefs are stored as **hex strings** (e.g. `"#8a51f5"`), not ints — parse with `Color.parseColor()` or `.toLong()`.
-- Dynamic overlays persist in Room (`data/database/ResourceDatabase.kt`, DAOs under `data/dao/`).
+## 1. Project Overview
+Iconify is a free and open-source Android customization application designed for rooted Pixel and AOSP-based devices. It allows users to modify various aspects of the system UI (colors, shapes, icons, status bar, etc.) using a combination of **Android Overlays (RRO)** and **Xposed Hooks**.
 
-## Xposed hooks
-- Entry point: `InitHook` → `HookEntry.handleLoadPackage()`. Hooks target **`android` (framework)** and **`com.android.systemui`** packages only; child processes are skipped.
-- All hook modules extend `ModPack` (`xposed/ModPack.kt`): implement `updatePrefs()` and `handleLoadPackage()`.
-- `EntryList.kt` is the authoritative hook registry. `topPriorityCommonModPacks` (callbacks, utilities) run first; `systemUIModPacks` run after. Adding a hook = add class to the appropriate list + register in `EntryList`.
-- Xposed reads prefs via `XPrefs` (SharedPreferences from `RemotePrefProvider`), NOT DataStore. Resource files (fonts, images) are shared via `XposedConst.XPOSED_RESOURCE_DIR` → `Downloads/Iconify/`.
-- `RootProviderProxy` is a bound AIDL service (`IRootProviderProxy.aidl`) called from Xposed via `HookEntry.enqueueProxyCommand()`. The caller allowlist is in `R.array.root_requirement`.
+## 2. Architecture Summary
+The project is a single-module Android application (`app/`) with three main runtime surfaces:
 
-## UI patterns
-- Most screens use the `PreferenceScreen` / `preferenceScreen { ... }` DSL (`core/preferences/`), not plain Compose layouts.
-- Activity-scoped VMs: use `sharedHiltViewModel()` (`core/ui/utils/ComposeUtils.kt`) for state that must survive navigation (e.g. `BottomNavViewModel`).
-- Navigation is typed: routes in `app/navigation/NavRoutes.kt`, screens in `app/navigation/NavGraph.kt`.
-- Feature packages follow `features/{home,xposed,settings,onboarding,main}/` with `screens/`, `components/`, `viewmodels/` sub-packages.
+-   **Compose UI (`features/**`)**: The frontend built with Jetpack Compose. It uses a custom `PreferenceScreen` DSL for building settings pages.
+-   **Root/Service Glue (`services/**`, `core/utils/**`)**: Logic that interacts with the system using `libsu` for root shell access and AIDL services for cross-process communication.
+-   **Xposed Hooks (`xposed/**`)**: Runtime hooks that target the `android` (framework) and `com.android.systemui` packages.
 
-## Build & CI
-- Debug: `.\gradlew.bat assembleDebug` · Release: `.\gradlew.bat assembleRelease` then `.\gradlew.bat renameApks`
-- Debug build appends `.debug` to applicationId; `ModuleBase/customize.sh` references this as `PKGNAME`. If you change package IDs or the launcher activity, update `customize.sh`.
-- CI (`.github/workflows/build_debug.yml`): JDK 21, sets `CI=true` (enables minify/shrink on debug), bumps version, zips APK + `ModuleBase/` for Magisk flashing, posts to Telegram.
-- No checked-in test sources; validation = successful build + tracing root/Xposed flows.
-- Translations: Crowdin (`crowdin.yml`); user-facing strings go in `res/values/strings.xml`.
+### Key Components:
+-   **`MainActivity`**: Boots a `libsu` root shell and sets up `AppProviders`.
+-   **`AppProviders`**: Wires `CompositionLocal`s (NavController, Settings, ColorScheme, Haptics, Density, etc.) consumed by screens.
+-   **Preference System**: Managed by `PreferenceController` (`core/preferences/`). Keys are enums (`data/keys/`) implementing the `Key` interface.
+-   **Remote Preferences**: `RemotePrefProvider` allows the Xposed process (SystemUI/Framework) to read preferences from the app's device-protected storage.
+-   **Xposed Registry**: `EntryList.kt` is the authoritative list of all active Xposed mod packs.
+
+## 3. Setup Instructions
+-   **Environment**: Requires JDK 21 and Android SDK (Compile SDK 36).
+-   **Root Requirement**: Testing requires a rooted device (Magisk/KernelSU/APatch) or an emulator with root.
+-   **Signing**: Create a `keystore.properties` in the root directory (see `app/build.gradle.kts` for expected fields: `keyAlias`, `keyPassword`, `storeFile`, `storePassword`).
+-   **Dependencies**: Uses Hilt for DI, Room for database, and KSP for annotation processing.
+
+## 4. Common Commands
+-   **Build Debug**: `.\gradlew.bat assembleDebug` (Appends `.debug` to application ID).
+-   **Build Release**: `.\gradlew.bat assembleRelease`.
+-   **Rename APKs**: `.\gradlew.bat renameApks` (Renames build outputs to a standardized format).
+-   **Clean Project**: `.\gradlew.bat clean`.
+
+## 5. Testing Strategy
+-   **Automated Tests**: There are currently no unit or instrumentation tests checked into the repository.
+-   **Validation**: Must be performed manually by:
+    1.  Successful build (`assembleDebug`).
+    2.  Installing on a rooted device.
+    3.  Granting root permissions.
+    4.  Enabling Xposed module (if testing hooks).
+    5.  Tracing logs via `logcat` (look for `Iconify` or `Xposed` tags).
+
+## 6. Code Style / Conventions
+-   **UI State**: Prefer reading state from `LocalSettings`, `LocalColorScheme`, or `LocalPreferenceController` rather than passing parameters down through multiple levels.
+-   **DI**: Use Hilt for all dependency injection. ViewModels should be `HiltViewModel`.
+-   **Preferences**:
+    -   All preference keys must be added to the appropriate enum in `data/keys/`.
+    -   Color preferences must be stored as **hex strings** (e.g., `"#8a51f5"`), not integers.
+-   **Xposed Hooks**:
+    -   Extend `ModPack` (`xposed/ModPack.kt`).
+    -   Register new hooks in `EntryList.kt`.
+    -   Always check `HookEntry.isChildProcess` to avoid hooking child processes if not needed.
+
+## 7. Agent Rules (IMPORTANT)
+
+### What NOT to change:
+-   **`RemotePrefProvider` and `XPrefs` logic**: These are critical for cross-process communication between the app and Xposed.
+-   **Package ID logic in `customize.sh`**: The Magisk module depends on specific package naming conventions.
+-   **Child Process Checks**: Do not remove `!HookEntry.isChildProcess` checks in `EntryList` unless you specifically intend to hook child processes (high risk of performance issues).
+
+### Safe Modifications:
+-   Adding new UI screens or components using the `PreferenceScreen` DSL.
+-   Adding new preference keys to existing enums.
+-   Improving styling and micro-animations in the Compose UI.
+
+### High-Risk Modifications:
+-   **Xposed Hooks**: Incorrect hooks in `android` or `com.android.systemui` can cause **bootloops**. Always verify hook logic carefully.
+-   **Root Commands**: Be extremely careful with `Shell.cmd(...)` as it runs with elevated privileges.
+
+## 8. Known Pitfalls / Warnings
+-   **ProGuard/R8**: Preference key enums (`data/keys/`) must be protected from obfuscation to ensure stored values remain accessible. Check `proguard-rules.pro` if adding new key classes.
+-   **SDK 36**: The project targets Android 16 (SDK 36). Some APIs might be unstable or require specific platform signatures.
+-   **Magisk Module**: The app generates a ROM-specific Magisk module. Changes to the directory structure in `ModuleBase/` must be reflected in the generation logic.
+-   **Hex Colors**: Storing colors as hex strings is a legacy choice; parsing them incorrectly (e.g., as `Int`) will fail. Use `Color.parseColor()` or `toLong()`.
