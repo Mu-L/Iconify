@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.toPrefValue
+import com.drdisagree.iconify.data.keys.KeyRegistry
 import com.drdisagree.iconify.data.keys.SettingsKey
-import com.drdisagree.iconify.data.keys.XposedKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
@@ -22,24 +22,13 @@ class SettingsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            loadSettingsKeys()
-        }
-        viewModelScope.launch {
-            loadXposedKeys()
+            loadAllKeys()
         }
     }
 
-    private fun loadSettingsKeys() {
+    private fun loadAllKeys() {
         prefController.initAll(
-            SettingsKey.entries.associate { key ->
-                key.name to key.default.toPrefValue()
-            }
-        )
-    }
-
-    private fun loadXposedKeys() {
-        prefController.initAll(
-            XposedKey.entries.associate { key ->
+            KeyRegistry.allKeys.associate { key ->
                 key.name to key.default.toPrefValue()
             }
         )
