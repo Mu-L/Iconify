@@ -41,7 +41,7 @@ import com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold
 import com.drdisagree.iconify.core.ui.utils.CARD_ITEM_SPACING
 import com.drdisagree.iconify.core.ui.utils.ItemPosition
 import com.drdisagree.iconify.data.models.SettingsIconsPreview
-import com.drdisagree.iconify.data.states.UiText
+import com.drdisagree.iconify.features.common.models.UiText
 import com.drdisagree.iconify.features.home.settingsicons.components.SettingsIconsCard
 import com.drdisagree.iconify.features.home.settingsicons.components.SettingsOptionsCard
 import com.drdisagree.iconify.features.home.settingsicons.viewmodels.SettingsIconsViewModel

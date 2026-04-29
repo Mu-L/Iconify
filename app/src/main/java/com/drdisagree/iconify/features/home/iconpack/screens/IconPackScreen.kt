@@ -27,7 +27,7 @@ import com.drdisagree.iconify.core.ui.utils.CARD_ITEM_SPACING
 import com.drdisagree.iconify.core.ui.utils.cardCorners
 import com.drdisagree.iconify.core.ui.utils.resolvePosition
 import com.drdisagree.iconify.data.models.IconPackPreview
-import com.drdisagree.iconify.data.states.UiText
+import com.drdisagree.iconify.features.common.models.UiText
 import com.drdisagree.iconify.features.home.iconpack.components.IconPackCard
 import com.drdisagree.iconify.features.home.iconpack.viewmodels.IconPackViewModel
 

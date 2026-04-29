@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.data.states
+package com.drdisagree.iconify.features.common.models
 
 import android.os.Parcelable
 import androidx.annotation.StringRes

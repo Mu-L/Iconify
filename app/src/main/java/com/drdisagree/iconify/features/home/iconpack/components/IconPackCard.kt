@@ -27,8 +27,8 @@ import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.IconPreviewGrid
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.data.models.IconPackPreview
-import com.drdisagree.iconify.data.states.UiText
-import com.drdisagree.iconify.data.states.asString
+import com.drdisagree.iconify.features.common.models.UiText
+import com.drdisagree.iconify.features.common.models.asString
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable

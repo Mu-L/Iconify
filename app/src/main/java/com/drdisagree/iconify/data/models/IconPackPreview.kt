@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.data.models
 
 import android.os.Parcelable
-import com.drdisagree.iconify.data.states.UiText
+import com.drdisagree.iconify.features.common.models.UiText
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

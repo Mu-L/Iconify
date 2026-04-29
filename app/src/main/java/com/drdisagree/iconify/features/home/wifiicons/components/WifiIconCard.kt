@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.cards.IconPreviewCard
 import com.drdisagree.iconify.data.models.SignalIconPreview
-import com.drdisagree.iconify.data.states.UiText
-import com.drdisagree.iconify.data.states.asString
+import com.drdisagree.iconify.features.common.models.UiText
+import com.drdisagree.iconify.features.common.models.asString
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable

@@ -48,8 +48,8 @@ import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.utils.rememberXmlPainter
 import com.drdisagree.iconify.data.models.NotificationPreview
-import com.drdisagree.iconify.data.states.UiText
-import com.drdisagree.iconify.data.states.asString
+import com.drdisagree.iconify.features.common.models.UiText
+import com.drdisagree.iconify.features.common.models.asString
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable

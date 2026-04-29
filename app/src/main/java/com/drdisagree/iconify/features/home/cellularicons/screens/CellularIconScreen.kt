@@ -29,7 +29,7 @@ import com.drdisagree.iconify.core.ui.components.others.ToastAppliedEvent
 import com.drdisagree.iconify.core.ui.components.others.innerPaddingValues
 import com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold
 import com.drdisagree.iconify.data.models.SignalIconPreview
-import com.drdisagree.iconify.data.states.UiText
+import com.drdisagree.iconify.features.common.models.UiText
 import com.drdisagree.iconify.features.home.cellularicons.components.CellularIconCard
 import com.drdisagree.iconify.features.home.cellularicons.viewmodels.CellularIconViewModel
 
