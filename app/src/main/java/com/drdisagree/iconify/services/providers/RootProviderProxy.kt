@@ -72,7 +72,7 @@ class RootProviderProxy : Service() {
                                 outputStream.close()
                                 result.recycle()
 
-                                val isSuccess = FileUtils.moveToIconifyDir(
+                                val isSuccess = FileUtils.copyToIconifyDir(
                                     tempFile,
                                     resultPath
                                 )

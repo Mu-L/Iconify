@@ -10,9 +10,9 @@ import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
+import com.drdisagree.iconify.core.utils.FileUtils.copyToXposedSharedPath
 import com.drdisagree.iconify.data.common.XposedConst.HEADER_IMAGE_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.helpers.toXposedSharedPath
 import kotlin.math.roundToInt
 
 val headerImagePreferences = preferenceScreen {
@@ -33,7 +33,7 @@ val headerImagePreferences = preferenceScreen {
             onFileSelected = {
                 val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
-                    uriString.toUri().toXposedSharedPath(HEADER_IMAGE_FILE.name)
+                    uriString.toUri().copyToXposedSharedPath(HEADER_IMAGE_FILE.name)
                 }
             },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) }

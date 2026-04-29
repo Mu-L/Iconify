@@ -21,6 +21,7 @@ import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
+import com.drdisagree.iconify.core.utils.FileUtils.copyToXposedSharedPath
 import com.drdisagree.iconify.data.common.XposedConst.LOCKSCREEN_WEATHER_FONT_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
@@ -28,7 +29,6 @@ import com.drdisagree.iconify.features.xposed.lockscreen.common.components.Weath
 import com.drdisagree.iconify.features.xposed.lockscreen.common.components.WeatherIconPackBottomSheet
 import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.WeatherViewModel
 import com.drdisagree.iconify.helpers.maskKey
-import com.drdisagree.iconify.helpers.toXposedSharedPath
 import kotlin.math.roundToInt
 
 fun lsWeatherPreferences(
@@ -214,7 +214,7 @@ fun lsWeatherPreferences(
             onFileSelected = {
                 val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
-                    uriString.toUri().toXposedSharedPath(LOCKSCREEN_WEATHER_FONT_FILE.name)
+                    uriString.toUri().copyToXposedSharedPath(LOCKSCREEN_WEATHER_FONT_FILE.name)
                 }
             },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }

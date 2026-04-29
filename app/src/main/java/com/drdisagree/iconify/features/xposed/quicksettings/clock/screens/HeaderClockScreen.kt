@@ -12,11 +12,11 @@ import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
+import com.drdisagree.iconify.core.utils.FileUtils.copyToXposedSharedPath
 import com.drdisagree.iconify.data.common.XposedConst.HEADER_CLOCK_FONT_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.quicksettings.clock.components.HeaderClockPreview
-import com.drdisagree.iconify.helpers.toXposedSharedPath
 import kotlin.math.roundToInt
 
 val headerClockPreferences = preferenceScreen {
@@ -42,7 +42,7 @@ val headerClockPreferences = preferenceScreen {
             onFileSelected = {
                 val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
-                    uriString.toUri().toXposedSharedPath(HEADER_CLOCK_FONT_FILE.name)
+                    uriString.toUri().copyToXposedSharedPath(HEADER_CLOCK_FONT_FILE.name)
                 }
             },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_CLOCK) }

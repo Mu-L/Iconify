@@ -32,6 +32,7 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
 import com.drdisagree.iconify.core.utils.AppUtils
+import com.drdisagree.iconify.core.utils.FileUtils.copyToXposedSharedPath
 import com.drdisagree.iconify.data.common.Const.AI_PLUGIN_PACKAGE
 import com.drdisagree.iconify.data.common.Const.AI_PLUGIN_URL
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_BG_FILE
@@ -39,7 +40,6 @@ import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.lockscreen.depthwallpaper.components.DepthWallpaperExample
-import com.drdisagree.iconify.helpers.toXposedSharedPath
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.BitmapSubjectSegmenter
 import kotlin.math.roundToInt
 
@@ -153,7 +153,7 @@ fun depthWallpaperPreferences(
             onFileSelected = {
                 val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
-                    uriString.toUri().toXposedSharedPath(DEPTH_WALL_BG_FILE.name)
+                    uriString.toUri().copyToXposedSharedPath(DEPTH_WALL_BG_FILE.name)
                 }
             },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_DEPTH_WALLPAPER) },
@@ -169,7 +169,7 @@ fun depthWallpaperPreferences(
             onFileSelected = {
                 val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
-                    uriString.toUri().toXposedSharedPath(DEPTH_WALL_FG_FILE.name)
+                    uriString.toUri().copyToXposedSharedPath(DEPTH_WALL_FG_FILE.name)
                 }
             },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_DEPTH_WALLPAPER) },

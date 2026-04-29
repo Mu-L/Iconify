@@ -26,12 +26,12 @@ import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
+import com.drdisagree.iconify.core.utils.FileUtils.copyToXposedSharedPath
 import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.statusbar.logo.components.StatusbarLogoBottomSheet
 import com.drdisagree.iconify.features.xposed.statusbar.logo.components.rememberStatusbarLogoItems
-import com.drdisagree.iconify.helpers.toXposedSharedPath
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -73,7 +73,7 @@ fun statusbarLogoPreferences(
             onFileSelected = {
                 val uriString = it.newValue
                 if (uriString.isNotEmpty()) {
-                    uriString.toUri().toXposedSharedPath(STATUSBAR_LOGO_FILE.name)
+                    uriString.toUri().copyToXposedSharedPath(STATUSBAR_LOGO_FILE.name)
                 }
             },
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_LOGO) },
