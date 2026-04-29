@@ -226,7 +226,7 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean = false) = preference
             key = "xposed_lockscreen_widget_weather_settings",
             title = stringRes(R.string.weather_settings),
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Widgets.Weather) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Lockscreen.Widgets.Weather) {
                     launchSingleTop = true
                 }
             },

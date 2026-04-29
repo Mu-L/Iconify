@@ -24,7 +24,7 @@ val quickSettingsPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_transparency_blur),
             summary = { stringRes(R.string.activity_desc_transparency_blur) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Transparency) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.QuickSettings.Transparency) {
                     launchSingleTop = true
                 }
             }
@@ -36,7 +36,7 @@ val quickSettingsPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_header_image),
             summary = { stringRes(R.string.activity_desc_header_image) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.QuickSettings.HeaderImage) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.QuickSettings.HeaderImage) {
                     launchSingleTop = true
                 }
             }
@@ -48,7 +48,7 @@ val quickSettingsPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_header_clock),
             summary = { stringRes(R.string.activity_desc_header_clock) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Clock) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.QuickSettings.Clock) {
                     launchSingleTop = true
                 }
             }
@@ -60,7 +60,7 @@ val quickSettingsPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_qs_row_column),
             summary = { stringRes(R.string.activity_desc_qs_row_column) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Grid) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.QuickSettings.Grid) {
                     launchSingleTop = true
                 }
             }
@@ -72,7 +72,7 @@ val quickSettingsPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_themes),
             summary = { stringRes(R.string.activity_desc_themes) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Themes) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.QuickSettings.Themes) {
                     launchSingleTop = true
                 }
             }
@@ -85,7 +85,7 @@ val quickSettingsPreferences = preferenceScreen {
             title = stringRes(R.string.custom_qs_margin_title),
             summary = { stringRes(R.string.custom_qs_margin_desc) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Margins) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.QuickSettings.Margins) {
                     launchSingleTop = true
                 }
             }

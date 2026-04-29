@@ -13,13 +13,13 @@ fun MainScreen() {
 
     LaunchedEffect(settings.isXposedOnlyMode) {
         val destination = if (settings.isXposedOnlyMode) {
-            NavRoutes.Xposed.Root
+            NavRoutes.MainGraph.Xposed.Root
         } else {
-            NavRoutes.Home.Root
+            NavRoutes.MainGraph.Home.Root
         }
 
         navController.navigate(destination) {
-            popUpTo(NavRoutes.Root) { inclusive = true }
+            popUpTo(NavRoutes.MainGraph.Root) { inclusive = true }
             launchSingleTop = true
         }
     }

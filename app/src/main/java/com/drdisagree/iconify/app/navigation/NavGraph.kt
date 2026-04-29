@@ -86,7 +86,7 @@ fun NavGraph(
         )
     ) {
         if (!previewMode && skipOnboarding) {
-            NavRoutes.Main
+            NavRoutes.MainGraph.Main
         } else {
             NavRoutes.Onboarding
         }
@@ -194,72 +194,74 @@ fun NavGraph(
             composable<NavRoutes.Onboarding> {
                 OnboardingScreen(navController = navController)
             }
-            navigation<NavRoutes.Main>(startDestination = NavRoutes.Root) {
-                composable<NavRoutes.Root> { MainScreen() }
+            navigation<NavRoutes.MainGraph.Main>(startDestination = NavRoutes.MainGraph.Root) {
+                composable<NavRoutes.MainGraph.Root> { MainScreen() }
 
-                navigation<NavRoutes.Home.Root>(startDestination = NavRoutes.Home.Tab) {
-                    composable<NavRoutes.Home.Tab> { HomeScreen() }
-                    composable<NavRoutes.Home.IconPack> { IconPackScreen() }
-                    composable<NavRoutes.Home.CellularIcons> { CellularIconScreen() }
-                    composable<NavRoutes.Home.WifiIcons> { WifiIconScreen() }
-                    composable<NavRoutes.Home.SettingsIcons> { SettingsIconsScreen() }
-                    composable<NavRoutes.Home.Notification> { NotificationScreen() }
-                    composable<NavRoutes.Home.IconShape> { IconShapeScreen() }
-                    composable<NavRoutes.Home.ToastFrame> { ToastFrameScreen() }
+                navigation<NavRoutes.MainGraph.Home.Root>(startDestination = NavRoutes.MainGraph.Home.Tab) {
+                    composable<NavRoutes.MainGraph.Home.Tab> { HomeScreen() }
+                    composable<NavRoutes.MainGraph.Home.IconPack> { IconPackScreen() }
+                    composable<NavRoutes.MainGraph.Home.CellularIcons> { CellularIconScreen() }
+                    composable<NavRoutes.MainGraph.Home.WifiIcons> { WifiIconScreen() }
+                    composable<NavRoutes.MainGraph.Home.SettingsIcons> { SettingsIconsScreen() }
+                    composable<NavRoutes.MainGraph.Home.Notification> { NotificationScreen() }
+                    composable<NavRoutes.MainGraph.Home.IconShape> { IconShapeScreen() }
+                    composable<NavRoutes.MainGraph.Home.ToastFrame> { ToastFrameScreen() }
 
-                    navigation<NavRoutes.Home.More.Root>(startDestination = NavRoutes.Home.More.Main) {
-                        composable<NavRoutes.Home.More.Main> { TweaksScreen() }
-                        composable<NavRoutes.Home.More.ColorEngine> { ColorEngineScreen() }
-                        composable<NavRoutes.Home.More.UIRoundness> { CornerRadiusScreen() }
-                        composable<NavRoutes.Home.More.StatusBar> { TweaksStatusbarScreen() }
-                        composable<NavRoutes.Home.More.NavigationBar> { NavigationBarScreen() }
-                        composable<NavRoutes.Home.More.MediaPlayer> { MediaPlayerScreen() }
-                        composable<NavRoutes.Home.More.Miscellaneous> { MiscellaneousScreen() }
+                    navigation<NavRoutes.MainGraph.Home.More.Root>(startDestination = NavRoutes.MainGraph.Home.More.Main) {
+                        composable<NavRoutes.MainGraph.Home.More.Main> { TweaksScreen() }
+                        composable<NavRoutes.MainGraph.Home.More.ColorEngine> { ColorEngineScreen() }
+                        composable<NavRoutes.MainGraph.Home.More.UIRoundness> { CornerRadiusScreen() }
+                        composable<NavRoutes.MainGraph.Home.More.StatusBar> { TweaksStatusbarScreen() }
+                        composable<NavRoutes.MainGraph.Home.More.NavigationBar> { NavigationBarScreen() }
+                        composable<NavRoutes.MainGraph.Home.More.MediaPlayer> { MediaPlayerScreen() }
+                        composable<NavRoutes.MainGraph.Home.More.Miscellaneous> { MiscellaneousScreen() }
                     }
                 }
 
-                navigation<NavRoutes.Xposed.Root>(startDestination = NavRoutes.Xposed.Tab) {
-                    composable<NavRoutes.Xposed.Tab> { XposedScreen() }
+                navigation<NavRoutes.MainGraph.Xposed.Root>(startDestination = NavRoutes.MainGraph.Xposed.Tab) {
+                    composable<NavRoutes.MainGraph.Xposed.Tab> { XposedScreen() }
 
-                    navigation<NavRoutes.Xposed.Statusbar.Root>(startDestination = NavRoutes.Xposed.Statusbar.Main) {
-                        composable<NavRoutes.Xposed.Statusbar.Main> { XposedStatusbarScreen() }
-                        composable<NavRoutes.Xposed.Statusbar.ClockChip> { ClockChipScreen() }
-                        composable<NavRoutes.Xposed.Statusbar.BatteryStyle> { BatteryStyleScreen() }
-                        composable<NavRoutes.Xposed.Statusbar.Logo> { StatusbarLogoScreen() }
-                        composable<NavRoutes.Xposed.Statusbar.DualStatusbar> { DualStatusbarScreen() }
+                    navigation<NavRoutes.MainGraph.Xposed.Statusbar.Root>(startDestination = NavRoutes.MainGraph.Xposed.Statusbar.Main) {
+                        composable<NavRoutes.MainGraph.Xposed.Statusbar.Main> { XposedStatusbarScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.Statusbar.ClockChip> { ClockChipScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.Statusbar.BatteryStyle> { BatteryStyleScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.Statusbar.Logo> { StatusbarLogoScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.Statusbar.DualStatusbar> { DualStatusbarScreen() }
                     }
 
-                    navigation<NavRoutes.Xposed.QuickSettings.Root>(startDestination = NavRoutes.Xposed.QuickSettings.Main) {
-                        composable<NavRoutes.Xposed.QuickSettings.Main> { QuickSettingsScreen() }
-                        composable<NavRoutes.Xposed.QuickSettings.Transparency> { QsTransparencyScreen() }
-                        composable<NavRoutes.Xposed.QuickSettings.HeaderImage> { HeaderImageScreen() }
-                        composable<NavRoutes.Xposed.QuickSettings.Clock> { HeaderClockScreen() }
-                        composable<NavRoutes.Xposed.QuickSettings.Grid> { QsGridScreen() }
-                        composable<NavRoutes.Xposed.QuickSettings.Themes> { QsThemesScreen() }
-                        composable<NavRoutes.Xposed.QuickSettings.Margins> { QsMarginsScreen() }
+                    navigation<NavRoutes.MainGraph.Xposed.QuickSettings.Root>(startDestination = NavRoutes.MainGraph.Xposed.QuickSettings.Main) {
+                        composable<NavRoutes.MainGraph.Xposed.QuickSettings.Main> { QuickSettingsScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.QuickSettings.Transparency> { QsTransparencyScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.QuickSettings.HeaderImage> { HeaderImageScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.QuickSettings.Clock> { HeaderClockScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.QuickSettings.Grid> { QsGridScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.QuickSettings.Themes> { QsThemesScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.QuickSettings.Margins> { QsMarginsScreen() }
                     }
 
-                    navigation<NavRoutes.Xposed.Lockscreen.Root>(startDestination = NavRoutes.Xposed.Lockscreen.Main) {
-                        composable<NavRoutes.Xposed.Lockscreen.Main> { LockscreenScreen() }
-                        composable<NavRoutes.Xposed.Lockscreen.Clock> { LockscreenClockScreen() }
-                        composable<NavRoutes.Xposed.Lockscreen.Weather> { LockscreenWeatherScreen() }
+                    navigation<NavRoutes.MainGraph.Xposed.Lockscreen.Root>(startDestination = NavRoutes.MainGraph.Xposed.Lockscreen.Main) {
+                        composable<NavRoutes.MainGraph.Xposed.Lockscreen.Main> { LockscreenScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.Lockscreen.Clock> { LockscreenClockScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.Lockscreen.Weather> { LockscreenWeatherScreen() }
 
-                        navigation<NavRoutes.Xposed.Lockscreen.Widgets.Root>(startDestination = NavRoutes.Xposed.Lockscreen.Widgets.Main) {
-                            composable<NavRoutes.Xposed.Lockscreen.Widgets.Main> { LockscreenWidgetsScreen() }
-                            composable<NavRoutes.Xposed.Lockscreen.Widgets.Weather> { LockscreenWidgetsWeatherScreen() }
+                        navigation<NavRoutes.MainGraph.Xposed.Lockscreen.Widgets.Root>(
+                            startDestination = NavRoutes.MainGraph.Xposed.Lockscreen.Widgets.Main
+                        ) {
+                            composable<NavRoutes.MainGraph.Xposed.Lockscreen.Widgets.Main> { LockscreenWidgetsScreen() }
+                            composable<NavRoutes.MainGraph.Xposed.Lockscreen.Widgets.Weather> { LockscreenWidgetsWeatherScreen() }
                         }
 
-                        composable<NavRoutes.Xposed.Lockscreen.DepthWallpaper> { DepthWallpaperScreen() }
-                        composable<NavRoutes.Xposed.Lockscreen.MediaAlbumArt> { LockscreenAlbumArtScreen() }
-                        composable<NavRoutes.Xposed.Lockscreen.Location> { LocationBrowseScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.Lockscreen.DepthWallpaper> { DepthWallpaperScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.Lockscreen.MediaAlbumArt> { LockscreenAlbumArtScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.Lockscreen.Location> { LocationBrowseScreen() }
                     }
 
-                    composable<NavRoutes.Xposed.VolumePanel> { VolumePanelScreen() }
+                    composable<NavRoutes.MainGraph.Xposed.VolumePanel> { VolumePanelScreen() }
                 }
 
-                navigation<NavRoutes.Settings.Root>(startDestination = NavRoutes.Settings.Tab) {
-                    composable<NavRoutes.Settings.Tab> { SettingsScreen() }
-                    composable<NavRoutes.Settings.LookAndFeel> { LookAndFeelScreen() }
+                navigation<NavRoutes.MainGraph.Settings.Root>(startDestination = NavRoutes.MainGraph.Settings.Tab) {
+                    composable<NavRoutes.MainGraph.Settings.Tab> { SettingsScreen() }
+                    composable<NavRoutes.MainGraph.Settings.LookAndFeel> { LookAndFeelScreen() }
                 }
             }
         }

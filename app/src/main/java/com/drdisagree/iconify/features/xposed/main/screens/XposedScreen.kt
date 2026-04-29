@@ -44,7 +44,7 @@ fun xposedPreferences(
             title = stringRes(R.string.activity_title_statusbar),
             summary = { stringRes(R.string.activity_desc_statusbar) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Statusbar.Root) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Statusbar.Root) {
                     launchSingleTop = true
                 }
             }
@@ -56,7 +56,7 @@ fun xposedPreferences(
             title = stringRes(R.string.activity_title_quick_settings),
             summary = { stringRes(R.string.activity_desc_quick_settings) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.QuickSettings.Root) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.QuickSettings.Root) {
                     launchSingleTop = true
                 }
             }
@@ -68,7 +68,7 @@ fun xposedPreferences(
             title = stringRes(R.string.activity_title_lockscreen),
             summary = { stringRes(R.string.activity_desc_lockscreen) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Root) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Lockscreen.Root) {
                     launchSingleTop = true
                 }
             }
@@ -80,7 +80,7 @@ fun xposedPreferences(
             title = stringRes(R.string.activity_title_volume_panel),
             summary = { stringRes(R.string.activity_desc_volume_panel) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.VolumePanel) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.VolumePanel) {
                     launchSingleTop = true
                 }
             }

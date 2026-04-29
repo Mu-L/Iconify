@@ -94,7 +94,7 @@ fun lsWidgetsWeatherPreferences(
                 else stringRes(R.string.general_off)
             },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Location) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Lockscreen.Location) {
                     launchSingleTop = true
                 }
             },

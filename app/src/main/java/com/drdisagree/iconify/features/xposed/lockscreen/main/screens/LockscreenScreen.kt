@@ -24,7 +24,7 @@ val lockscreenPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_lockscreen_clock),
             summary = { stringRes(R.string.activity_desc_lockscreen_clock) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Clock) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Lockscreen.Clock) {
                     launchSingleTop = true
                 }
             }
@@ -36,7 +36,7 @@ val lockscreenPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_lockscreen_weather),
             summary = { stringRes(R.string.activity_desc_lockscreen_weather) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Weather) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Lockscreen.Weather) {
                     launchSingleTop = true
                 }
             }
@@ -48,7 +48,7 @@ val lockscreenPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_lockscreen_widget),
             summary = { stringRes(R.string.activity_desc_lockscreen_widget) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Lockscreen.Widgets.Root) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Lockscreen.Widgets.Root) {
                     launchSingleTop = true
                 }
             }
@@ -60,7 +60,7 @@ val lockscreenPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_depth_wallpaper),
             summary = { stringRes(R.string.activity_desc_depth_wallpaper) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Lockscreen.DepthWallpaper) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Lockscreen.DepthWallpaper) {
                     launchSingleTop = true
                 }
             }
@@ -72,7 +72,7 @@ val lockscreenPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_lockscreen_album_art),
             summary = { stringRes(R.string.media_art_summary) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Lockscreen.MediaAlbumArt) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Lockscreen.MediaAlbumArt) {
                     launchSingleTop = true
                 }
             }

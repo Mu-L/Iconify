@@ -94,7 +94,7 @@ fun BottomNavigation(bottomNavViewModel: BottomNavViewModel = sharedHiltViewMode
             else NavigationBarDefaults.containerColor,
         ) {
             BOTTOM_BAR_TABS.forEachIndexed { index, tab ->
-                val isEnabled = !settings.isXposedOnlyMode || tab.route != NavRoutes.Home.Tab.route
+                val isEnabled = !settings.isXposedOnlyMode || tab.route != NavRoutes.MainGraph.Home.Tab.route
 
                 NavigationBarItem(
                     selected = selectedTabIndex == index,
@@ -199,7 +199,7 @@ fun BottomNavigation(bottomNavViewModel: BottomNavViewModel = sharedHiltViewMode
                 tabs = BOTTOM_BAR_TABS,
                 selectedTab = selectedTabIndex,
                 isTabEnabled = { tab ->
-                    !settings.isXposedOnlyMode || tab.route != NavRoutes.Home.Tab.route
+                    !settings.isXposedOnlyMode || tab.route != NavRoutes.MainGraph.Home.Tab.route
                 },
                 onTabSelected = { tab ->
                     val newIndex = BOTTOM_BAR_TABS.indexOf(tab)

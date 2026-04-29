@@ -19,7 +19,7 @@ val tweaksPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_color_engine),
             summary = { stringRes(R.string.activity_desc_color_engine) },
             onClick = {
-                it.navController.navigate(NavRoutes.Home.More.ColorEngine) {
+                it.navController.navigate(NavRoutes.MainGraph.Home.More.ColorEngine) {
                     launchSingleTop = true
                 }
             }
@@ -31,7 +31,7 @@ val tweaksPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_ui_roundness),
             summary = { stringRes(R.string.activity_desc_ui_roundness) },
             onClick = {
-                it.navController.navigate(NavRoutes.Home.More.UIRoundness) {
+                it.navController.navigate(NavRoutes.MainGraph.Home.More.UIRoundness) {
                     launchSingleTop = true
                 }
             }
@@ -67,7 +67,7 @@ val tweaksPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_statusbar),
             summary = { stringRes(R.string.activity_desc_statusbar) },
             onClick = {
-                it.navController.navigate(NavRoutes.Home.More.StatusBar) {
+                it.navController.navigate(NavRoutes.MainGraph.Home.More.StatusBar) {
                     launchSingleTop = true
                 }
             }
@@ -79,7 +79,7 @@ val tweaksPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_navigation_bar),
             summary = { stringRes(R.string.activity_desc_navigation_bar) },
             onClick = {
-                it.navController.navigate(NavRoutes.Home.More.NavigationBar) {
+                it.navController.navigate(NavRoutes.MainGraph.Home.More.NavigationBar) {
                     launchSingleTop = true
                 }
             }
@@ -91,7 +91,7 @@ val tweaksPreferences = preferenceScreen {
             icon = iconRes(R.drawable.ic_tweaks_media),
             summary = { stringRes(R.string.activity_desc_media_player) },
             onClick = {
-                it.navController.navigate(NavRoutes.Home.More.MediaPlayer) {
+                it.navController.navigate(NavRoutes.MainGraph.Home.More.MediaPlayer) {
                     launchSingleTop = true
                 }
             }
@@ -111,7 +111,7 @@ val tweaksPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_miscellaneous),
             summary = { stringRes(R.string.activity_desc_miscellaneous) },
             onClick = {
-                it.navController.navigate(NavRoutes.Home.More.Miscellaneous) {
+                it.navController.navigate(NavRoutes.MainGraph.Home.More.Miscellaneous) {
                     launchSingleTop = true
                 }
             }

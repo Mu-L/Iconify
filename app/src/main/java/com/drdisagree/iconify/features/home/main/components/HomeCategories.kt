@@ -21,7 +21,7 @@ private data class CategoryItem(
     val subtitle: Int? = null,
     val icon: Int,
     val smallVariant: Boolean = false,
-    val route: NavRoutes.Home
+    val route: NavRoutes.MainGraph.Home
 )
 
 @Composable
@@ -33,49 +33,49 @@ fun HomeCategories(modifier: Modifier = Modifier) {
             title = R.string.activity_title_icon_pack,
             subtitle = R.string.activity_desc_icon_pack,
             icon = R.drawable.ic_styles_iconpack,
-            route = NavRoutes.Home.IconPack
+            route = NavRoutes.MainGraph.Home.IconPack
         ),
         CategoryItem(
             title = R.string.more,
             icon = R.drawable.ic_arrow_end_long,
             smallVariant = true,
-            route = NavRoutes.Home.More.Root
+            route = NavRoutes.MainGraph.Home.More.Root
         ),
         CategoryItem(
             title = R.string.activity_title_cellular_icons,
             subtitle = R.string.activity_desc_cellular_icons,
             icon = R.drawable.ic_styles_signal_icons,
-            route = NavRoutes.Home.CellularIcons
+            route = NavRoutes.MainGraph.Home.CellularIcons
         ),
         CategoryItem(
             title = R.string.activity_title_wifi_icons,
             subtitle = R.string.activity_desc_wifi_icons,
             icon = R.drawable.ic_styles_wifi_icons,
-            route = NavRoutes.Home.WifiIcons
+            route = NavRoutes.MainGraph.Home.WifiIcons
         ),
         CategoryItem(
             title = R.string.activity_title_settings_icons,
             subtitle = R.string.activity_desc_settings_icons,
             icon = R.drawable.ic_settings_icon_pack,
-            route = NavRoutes.Home.SettingsIcons
+            route = NavRoutes.MainGraph.Home.SettingsIcons
         ),
         CategoryItem(
             title = R.string.activity_title_notification,
             subtitle = R.string.activity_desc_notification,
             icon = R.drawable.ic_styles_notification,
-            route = NavRoutes.Home.Notification
+            route = NavRoutes.MainGraph.Home.Notification
         ),
         CategoryItem(
             title = R.string.activity_title_toast_frame,
             subtitle = R.string.activity_desc_toast_frame,
             icon = R.drawable.ic_styles_toast_frame,
-            route = NavRoutes.Home.ToastFrame
+            route = NavRoutes.MainGraph.Home.ToastFrame
         ),
         CategoryItem(
             title = R.string.activity_title_icon_shape,
             subtitle = R.string.activity_desc_icon_shape,
             icon = R.drawable.ic_styles_icon_shape,
-            route = NavRoutes.Home.IconShape
+            route = NavRoutes.MainGraph.Home.IconShape
         )
     )
 

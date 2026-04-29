@@ -62,7 +62,7 @@ fun settingsPreferences(
             title = stringRes("Look & Feel"),
             summary = { stringRes("Theme, contrast and colors") },
             onClick = {
-                it.navController.navigate(NavRoutes.Settings.LookAndFeel) {
+                it.navController.navigate(NavRoutes.MainGraph.Settings.LookAndFeel) {
                     launchSingleTop = true
                 }
             }

@@ -26,7 +26,7 @@ val statusbarPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_battery_style),
             summary = { stringRes(R.string.activity_desc_battery_style) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Statusbar.BatteryStyle) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Statusbar.BatteryStyle) {
                     launchSingleTop = true
                 }
             }
@@ -39,7 +39,7 @@ val statusbarPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_background_chip),
             summary = { stringRes(R.string.activity_desc_background_chip) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Statusbar.ClockChip) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Statusbar.ClockChip) {
                     launchSingleTop = true
                 }
             }
@@ -81,7 +81,7 @@ val statusbarPreferences = preferenceScreen {
             title = stringRes(R.string.status_bar_logo_title),
             summary = { stringRes(R.string.status_bar_logo_desc) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Statusbar.Logo) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Statusbar.Logo) {
                     launchSingleTop = true
                 }
             }
@@ -130,7 +130,7 @@ val statusbarPreferences = preferenceScreen {
             title = stringRes(R.string.dual_status_bar_title),
             summary = { stringRes(R.string.dual_status_bar_desc) },
             onClick = {
-                it.navController.navigate(NavRoutes.Xposed.Statusbar.DualStatusbar) {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Statusbar.DualStatusbar) {
                     launchSingleTop = true
                 }
             }
