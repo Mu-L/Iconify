@@ -45,6 +45,7 @@ fun ChangelogScreen(
     ) { innerPadding, _ ->
         val padding = innerPaddingValues(
             innerPadding = innerPadding,
+            top = 16.dp,
             start = 16.dp,
             end = 16.dp,
         )

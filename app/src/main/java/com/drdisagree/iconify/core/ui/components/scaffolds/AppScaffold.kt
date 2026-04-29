@@ -178,10 +178,9 @@ fun AppScaffold(
     ) { innerPadding ->
         val layoutDirection = LocalLayoutDirection.current
         val adjustedPadding = PaddingValues(
-            top = innerPadding.calculateTopPadding() + safeInsets.calculateTopPadding(),
+            top = innerPadding.calculateTopPadding(),
             bottom = innerPadding.calculateBottomPadding() +
-                    parentInnerPadding.calculateBottomPadding() +
-                    safeInsets.calculateBottomPadding(),
+                    parentInnerPadding.calculateBottomPadding(),
             start = innerPadding.calculateStartPadding(layoutDirection) +
                     safeInsets.calculateStartPadding(layoutDirection),
             end = innerPadding.calculateEndPadding(layoutDirection) +
