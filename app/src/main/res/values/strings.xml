@@ -1030,6 +1030,8 @@
     <string name="no_internet_connection">Couldn\'t connect to server!\nThere might be an issue with your internet connection or the server might be down at this moment. Please try again later.</string>
     <string name="changelog_not_found">Changelog not found!\nThis might be an issue with your internet connection or the server might be down at this moment. Please try again later.</string>
     <string name="individual_changelog_not_found">Something went wrong.\nThis changelog might not be available on the server.</string>
+    <string name="changelog_changes_in">Changes in %1$s</string>
+    <string name="changelog_changes_since">Changes since %1$s</string>
 
     <!-- App Updates -->
     <string name="checking_for_update">Checking For Update</string>

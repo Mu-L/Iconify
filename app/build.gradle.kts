@@ -312,6 +312,9 @@ dependencies {
 
     // Class initializer
     implementation (libs.objenesis)
+
+    // Compose Markdown
+    implementation(libs.compose.markdown)
 }
 
 tasks.register("printVersionName") {

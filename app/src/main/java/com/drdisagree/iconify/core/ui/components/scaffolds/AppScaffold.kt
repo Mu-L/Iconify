@@ -8,8 +8,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -32,9 +34,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.common.LocalInnerPadding
+import com.drdisagree.iconify.core.common.LocalNavController
 import com.drdisagree.iconify.core.ui.components.dialogs.LoadingDialog
-import com.drdisagree.iconify.core.ui.components.others.showComingSoonToast
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.components.topappbar.ActionItem
 import com.drdisagree.iconify.core.ui.components.topappbar.CollapsingTopAppBar
@@ -65,6 +68,7 @@ fun AppScaffold(
     val activity = LocalActivity.current
     val previewMode = LocalInspectionMode.current
     val parentInnerPadding = LocalInnerPadding.current
+    val safeInsets = WindowInsets.safeDrawing.asPaddingValues()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val importExportState by importExportViewModel.state.collectAsStateWithLifecycle()
 
@@ -174,10 +178,14 @@ fun AppScaffold(
     ) { innerPadding ->
         val layoutDirection = LocalLayoutDirection.current
         val adjustedPadding = PaddingValues(
-            top = innerPadding.calculateTopPadding(),
-            bottom = innerPadding.calculateBottomPadding() + parentInnerPadding.calculateBottomPadding(),
-            start = innerPadding.calculateStartPadding(layoutDirection),
-            end = innerPadding.calculateEndPadding(layoutDirection)
+            top = innerPadding.calculateTopPadding() + safeInsets.calculateTopPadding(),
+            bottom = innerPadding.calculateBottomPadding() +
+                    parentInnerPadding.calculateBottomPadding() +
+                    safeInsets.calculateBottomPadding(),
+            start = innerPadding.calculateStartPadding(layoutDirection) +
+                    safeInsets.calculateStartPadding(layoutDirection),
+            end = innerPadding.calculateEndPadding(layoutDirection) +
+                    safeInsets.calculateEndPadding(layoutDirection)
         )
         content(adjustedPadding, scrollBehavior)
     }
@@ -189,7 +197,7 @@ private fun defaultActions(
     onExport: () -> Unit = {},
     systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
 ): List<TopAppBarAction> {
-    val context = LocalContext.current
+    val navController = LocalNavController.current
 
     return listOf(
         TopAppBarAction(
@@ -199,7 +207,11 @@ private fun defaultActions(
                 TopAppBarAction(
                     icon = R.drawable.ic_changelog,
                     label = stringResource(R.string.changelog),
-                    onClick = { showComingSoonToast(context) }
+                    onClick = {
+                        navController.navigate(NavRoutes.MainGraph.Changelog) {
+                            launchSingleTop = true
+                        }
+                    }
                 ),
                 TopAppBarAction(
                     icon = R.drawable.ic_upload_file,

@@ -26,6 +26,9 @@ sealed class NavRoutes {
         data object Root : MainGraph()
 
         @Serializable
+        data object Changelog : MainGraph()
+
+        @Serializable
         sealed class Home : MainGraph() {
 
             @Serializable

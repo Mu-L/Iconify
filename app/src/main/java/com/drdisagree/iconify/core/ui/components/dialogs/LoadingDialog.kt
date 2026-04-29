@@ -47,22 +47,32 @@ fun LoadingDialog(onDismiss: () -> Unit = {}) {
                 shape = RoundedCornerShape(CARD_CORNER_LARGE - borderWidth),
                 tonalElevation = 8.dp
             ) {
-                Column(
-                    modifier = Modifier.padding(horizontal = 36.dp, vertical = 24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    ContainedLoadingIndicator(modifier = Modifier.size(60.dp))
-                    Text(
-                        text = stringResource(R.string.loading_dialog_wait),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.wrapContentWidth()
+                LoadingDialogContent(
+                    modifier = Modifier.padding(
+                        horizontal = 36.dp,
+                        vertical = 24.dp
                     )
-                }
+                )
             }
         }
+    }
+}
+
+@Composable
+fun LoadingDialogContent(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        ContainedLoadingIndicator(modifier = Modifier.size(60.dp))
+        Text(
+            text = stringResource(R.string.loading_dialog_wait),
+            color = MaterialTheme.colorScheme.onSurface,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.wrapContentWidth()
+        )
     }
 }
 

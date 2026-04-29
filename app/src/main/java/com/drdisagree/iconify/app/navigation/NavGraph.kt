@@ -25,6 +25,7 @@ import com.drdisagree.iconify.core.common.LocalNavController
 import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.scaffolds.MainScaffold
 import com.drdisagree.iconify.core.ui.utils.sharedHiltViewModel
+import com.drdisagree.iconify.features.changelog.screens.ChangelogScreen
 import com.drdisagree.iconify.features.common.viewmodels.BottomNavViewModel
 import com.drdisagree.iconify.features.home.cellularicons.screens.CellularIconScreen
 import com.drdisagree.iconify.features.home.iconpack.screens.IconPackScreen
@@ -196,6 +197,7 @@ fun NavGraph(
             }
             navigation<NavRoutes.MainGraph.Main>(startDestination = NavRoutes.MainGraph.Root) {
                 composable<NavRoutes.MainGraph.Root> { MainScreen() }
+                composable<NavRoutes.MainGraph.Changelog> { ChangelogScreen() }
 
                 navigation<NavRoutes.MainGraph.Home.Root>(startDestination = NavRoutes.MainGraph.Home.Tab) {
                     composable<NavRoutes.MainGraph.Home.Tab> { HomeScreen() }
@@ -270,11 +272,9 @@ fun NavGraph(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     LaunchedEffect(navBackStackEntry) {
-        val currentDestination = navBackStackEntry?.destination
-        val selectedIndex = currentDestination.bottomTabIndex()
-            ?: if (settings.isXposedOnlyMode) 0 else bottomNavViewModel.defaultTabIndex
-
-        bottomNavViewModel.selectTab(selectedIndex)
+        navBackStackEntry?.destination
+            ?.bottomTabIndex()
+            ?.let(bottomNavViewModel::selectTab)
     }
 }
 
