@@ -28,11 +28,13 @@ import com.drdisagree.iconify.core.ui.utils.CARD_CORNER_LARGE
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LoadingDialog(onDismiss: () -> Unit = {}) {
+    val borderWidth = 3.dp
+
     Dialog(onDismissRequest = onDismiss) {
         BlurBehindDialog()
 
         AnimatedGradientBorder(
-            borderWidth = 2.dp,
+            borderWidth = borderWidth,
             shape = RoundedCornerShape(CARD_CORNER_LARGE),
             gradientColors = listOf(
                 MaterialTheme.colorScheme.primaryFixedDim,
@@ -42,7 +44,7 @@ fun LoadingDialog(onDismiss: () -> Unit = {}) {
             )
         ) {
             Surface(
-                shape = RoundedCornerShape(CARD_CORNER_LARGE - 2.dp),
+                shape = RoundedCornerShape(CARD_CORNER_LARGE - borderWidth),
                 tonalElevation = 8.dp
             ) {
                 Column(
