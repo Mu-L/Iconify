@@ -80,7 +80,7 @@ object ModuleUtils {
         FileUtils.ensureDirs("$TEMP_MODULE_DIR/system/product/overlay")
 
         createMETAINF()
-        writePostExec(skippedInstallation)
+        writePostExec()
 
         Log.i(TAG, "Module successfully created.")
     }
@@ -96,7 +96,7 @@ object ModuleUtils {
         }
     }
 
-    private suspend fun writePostExec(skippedInstallation: Boolean) {
+    private suspend fun writePostExec() {
         val postExec = StringBuilder()
 
         FabricatedUtils.getAllLatestResources().forEach { resource ->
@@ -110,7 +110,7 @@ object ModuleUtils {
                 )
             )
 
-            postExec.append(commands[0]).append('\n').append(commands[1]).append('\n')
+            postExec.append(commands.first).append('\n').append(commands.second).append('\n')
         }
 
         File("$TEMP_MODULE_DIR/post-exec.sh").writeText(postExec.toString())
