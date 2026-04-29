@@ -27,7 +27,7 @@ val qsMarginsPreferences = preferenceScreen {
         slider(
             key = XposedKey.QQS_TOP_MARGIN_PORTRAIT,
             title = stringRes(R.string.qqs_panel_top_margin_title),
-            min = 20f,
+            min = 0f,
             max = 300f,
             valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_MARGINS) }
@@ -36,7 +36,7 @@ val qsMarginsPreferences = preferenceScreen {
         slider(
             key = XposedKey.QS_TOP_MARGIN_PORTRAIT,
             title = stringRes(R.string.qs_panel_top_margin_title),
-            min = 20f,
+            min = 0f,
             max = 300f,
             valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_MARGINS) }
