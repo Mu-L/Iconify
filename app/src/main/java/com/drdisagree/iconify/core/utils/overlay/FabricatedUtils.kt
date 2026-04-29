@@ -85,7 +85,7 @@ object FabricatedUtils {
         val commands = buildCommands(overlay)
         saveInDatabase(overlay)
         updateModuleScript(overlay.overlayName, commands)
-        Shell.cmd(commands[0], commands[1]).submit()
+        Shell.cmd(commands.first, commands.second).submit()
     }
 
     fun buildAndEnableOverlay(
@@ -116,8 +116,9 @@ object FabricatedUtils {
             val commands = buildCommands(overlay)
             saveInDatabase(overlay)
             moduleCommands += moduleCleanupCommand(overlay.overlayName)
-            moduleCommands += "echo -e \"${commands[0]}\n${commands[1]}\" >> ${Resources.MODULE_DIR}/post-exec.sh"
-            shellCommands += commands
+            moduleCommands += "echo -e \"${commands.first}\n${commands.second}\" >> ${Resources.MODULE_DIR}/post-exec.sh"
+            shellCommands += commands.first
+            shellCommands += commands.second
         }
 
         Shell.cmd(
@@ -152,7 +153,7 @@ object FabricatedUtils {
         $$"[[ $(cmd overlay list | grep -o '\\[ \\] $$OVERLAY_NAME_PREFIX$$name') ]] && echo 1 || echo 0"
     ).exec().out[0] == "1"
 
-    fun buildCommands(overlay: FabricatedOverlay): List<String> = buildCommands(
+    fun buildCommands(overlay: FabricatedOverlay): Pair<String, String> = buildCommands(
         overlay.targetPackageName,
         overlay.overlayName,
         overlay.resourceType.typeString,
@@ -166,15 +167,17 @@ object FabricatedUtils {
         resourceType: String,
         resourceName: String,
         resourceValue: String,
-    ): List<String> {
+    ): Pair<String, String> {
+        val resolvedResourceType = FabricatedResourceType.from(resourceType)
         val resolvedVal =
-            if (FabricatedResourceType.from(resourceType) == FabricatedResourceType.DIMEN) resolveDimenValue(
+            if (FabricatedResourceType.from(resourceType) == FabricatedResourceType.DIMEN)
+                resolveDimenValue(resourceValue)
+            else
                 resourceValue
-            ) else resourceValue
 
-        return listOf(
+        return Pair(
             "cmd overlay fabricate --target $targetPackageName --name IconifyComponent$overlayName" +
-                    " $targetPackageName:$resourceType/$resourceName $resourceType $resolvedVal",
+                    " $targetPackageName:${resolvedResourceType.typeString}/$resourceName ${resolvedResourceType.hex} $resolvedVal",
             "cmd overlay enable --user current $OVERLAY_NAME_PREFIX$overlayName",
         )
     }
@@ -227,10 +230,10 @@ object FabricatedUtils {
         }
     }
 
-    private fun updateModuleScript(name: String, commands: List<String>) {
+    private fun updateModuleScript(name: String, commands: Pair<String, String>) {
         Shell.cmd(
             moduleCleanupCommand(name),
-            "echo -e \"${commands[0]}\n${commands[1]}\" >> ${Resources.MODULE_DIR}/post-exec.sh"
+            "echo -e \"${commands.first}\n${commands.second}\" >> ${Resources.MODULE_DIR}/post-exec.sh"
         ).exec()
     }
 }

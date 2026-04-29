@@ -7,17 +7,13 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
-import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import android.view.WindowInsets
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.data.common.Const
-import com.drdisagree.iconify.data.common.Preferences
-import com.drdisagree.iconify.data.common.References
 import com.drdisagree.iconify.data.common.Resources
 import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector
@@ -26,9 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 
 object SystemUtils {
 
@@ -174,14 +168,6 @@ object SystemUtils {
         ).exec().out[0] == "yes"
     }
 
-    val saveBootId: Unit // Save unique id of each boot
-        get() {
-            val bootId = Shell.cmd(References.DEVICE_BOOT_ID_CMD).exec().out.toString()
-            if (RPrefs.getString(Preferences.BOOT_ID) != bootId) {
-                RPrefs.putString(Preferences.BOOT_ID, bootId)
-            }
-        }
-
     fun hasNotificationPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             appContext,
@@ -217,23 +203,6 @@ object SystemUtils {
         Shell.cmd(
             "grep -v \"killall ${Const.SYSTEMUI_PACKAGE}\" ${Resources.MODULE_DIR}/service.sh > ${Resources.MODULE_DIR}/service.sh.tmp && mv ${Resources.MODULE_DIR}/service.sh.tmp ${Resources.MODULE_DIR}/service.sh"
         ).submit()
-    }
-
-    fun isSecurityPatchBeforeJune2024(): Boolean {
-        val securityPatch = Build.VERSION.SECURITY_PATCH
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-
-        return try {
-            val securityPatchDate = dateFormat.parse(securityPatch)
-
-            val june2024 = Calendar.getInstance()
-            june2024.set(2024, Calendar.JUNE, 1)
-
-            (securityPatchDate != null && (securityPatchDate < june2024.time))
-        } catch (e: Exception) {
-            Log.e("SECURITY_PATCH_CHECK", "Error parsing security patch date", e)
-            false
-        }
     }
 
     fun getScreenWidth(activity: Activity): Int {

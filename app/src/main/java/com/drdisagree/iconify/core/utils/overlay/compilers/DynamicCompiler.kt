@@ -7,7 +7,7 @@ import com.drdisagree.iconify.core.utils.Logger
 import com.drdisagree.iconify.core.utils.RootUtils
 import com.drdisagree.iconify.core.utils.SystemUtils
 import com.drdisagree.iconify.core.utils.overlay.OverlayUtils
-import com.drdisagree.iconify.core.utils.overlay.resource.ResourceManager.generateXmlStructureForAllResources
+import com.drdisagree.iconify.core.utils.overlay.resource.ResourceManager
 import com.drdisagree.iconify.core.utils.overlay.resource.ResourceType
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.LAUNCHER3_PACKAGE
@@ -44,13 +44,23 @@ object DynamicCompiler {
 
     @Throws(IOException::class)
     suspend fun buildDynamicOverlay(
-        packagesToUpdate: List<String>,
+        packagesToUpdate: List<String> = emptyList(),
         force: Boolean = true,
     ): Boolean {
         mForce = force
 
         try {
-            val resourcesMap = generateXmlStructureForAllResources(packagesToUpdate)
+            val resourcesMap = ResourceManager.generateXmlStructureForAllResources(
+                packagesToUpdate.ifEmpty {
+                    listOf(
+                        FRAMEWORK_PACKAGE,
+                        SYSTEMUI_PACKAGE,
+                        PIXEL_LAUNCHER_PACKAGE,
+                        LAUNCHER3_PACKAGE,
+                        SETTINGS_PACKAGE
+                    )
+                }
+            )
 
             // Create overlay for each package
             for (packageName in resourcesMap.keys) {

@@ -39,7 +39,6 @@ import com.drdisagree.iconify.core.utils.AppUtils.openUrl
 import com.drdisagree.iconify.core.utils.CacheUtils
 import com.drdisagree.iconify.core.utils.SystemUtils
 import com.drdisagree.iconify.core.utils.SystemUtils.disableBlur
-import com.drdisagree.iconify.core.utils.SystemUtils.saveBootId
 import com.drdisagree.iconify.core.utils.weather.WeatherConfig
 import com.drdisagree.iconify.data.common.Const.GITHUB_REPO
 import com.drdisagree.iconify.data.common.Const.ICONIFY_CROWDIN
@@ -205,7 +204,6 @@ fun SettingsScreen(
                             // Clear dynamic resource database
                             dynamicResourceViewModel?.clearAllResources()
 
-                            saveBootId
                             disableBlur(false)
 
                             prefController.setInt(
@@ -248,7 +246,7 @@ fun SettingsScreen(
     PreferenceScreen(
         items = settingsPreferences(onDisableEverything = { showDialog = true }),
         title = stringResource(R.string.activity_title_settings),
-        showActionIcon = false
+        showActionIcon = true
     )
 }
 

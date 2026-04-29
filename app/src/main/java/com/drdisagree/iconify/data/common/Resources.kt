@@ -70,7 +70,7 @@ object Resources {
     const val LOCKSCREEN_CLOCK_LAYOUT = "preview_lockscreen_clock_"
 
     // Database
-    const val DYNAMIC_RESOURCE_DATABASE_NAME = "dynamic_resource_database"
+    const val RESOURCE_DATABASE_NAME = "dynamic_resource_database"
     const val DYNAMIC_RESOURCE_TABLE = "dynamic_resource_table"
     const val FABRICATED_RESOURCE_TABLE = "fabricated_resource_table"
 }
