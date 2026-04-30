@@ -141,7 +141,7 @@ object DualToneHandler {
      * @return The tinted background color with adjusted alpha.
      */
     fun getBackgroundColorWithTint(color: Int): Int {
-        val baseColor = getSingleColor(color)
+        val baseColor = getBackgroundColor(color)
         val alpha = Color.alpha(baseColor)
         return ColorUtils.setAlphaComponent(color, alpha)
     }
@@ -197,7 +197,7 @@ object DualToneHandler {
      * @return The tinted fill color with adjusted alpha.
      */
     fun getFillColorWithTint(color: Int): Int {
-        val baseColor = getSingleColor(color)
+        val baseColor = getFillColor(color)
         val alpha = Color.alpha(baseColor)
         return ColorUtils.setAlphaComponent(color, alpha)
     }
