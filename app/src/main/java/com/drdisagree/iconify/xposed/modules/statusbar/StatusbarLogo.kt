@@ -38,6 +38,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
     private var customLogo = false
     private var customLogoUri = ""
     private var tintCustomLogo = false
+    private var requiresTint = false
     private var logoImageView: LogoImageView? = null
     private var logoImageViewRight: LogoImageViewRight? = null
     private var darkIconDispatcherClass: Class<*>? = null
@@ -53,6 +54,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             )[logoStyle] == modRes.getString(R.string.status_bar_logo_style_custom)
             customLogoUri = getString(XposedKey.STATUSBAR_LOGO_FILE_URI)
             tintCustomLogo = customLogo && getBoolean(XposedKey.STATUSBAR_LOGO_TINT)
+            requiresTint = !customLogo || tintCustomLogo
         }
 
         when (key.firstOrNull()) {
@@ -66,13 +68,13 @@ class StatusbarLogo(context: Context) : ModPack(context) {
                     showLogo,
                     logoPosition,
                     logoStyle,
-                    !customLogo || tintCustomLogo
+                    requiresTint
                 )
                 logoImageViewRight?.updateSettings(
                     showLogo,
                     logoPosition,
                     logoStyle,
-                    !customLogo || tintCustomLogo
+                    requiresTint
                 )
             }
 
@@ -113,9 +115,9 @@ class StatusbarLogo(context: Context) : ModPack(context) {
                     )
                 )
 
-                val systemIcons = phoneStatusBarView.findViewById<ViewGroup>(
+                val systemIconsParent = phoneStatusBarView.findViewById<ViewGroup>(
                     mContext.resources.getIdentifier(
-                        "system_icons",
+                        "status_bar_end_side_content",
                         "id",
                         mContext.packageName
                     )
@@ -123,19 +125,13 @@ class StatusbarLogo(context: Context) : ModPack(context) {
 
                 if (logoImageView == null) {
                     logoImageView = LogoImageView(mContext).apply {
-                        setupLogo(
-                            "status_bar_left_clock_starting_padding",
-                            "status_bar_left_clock_end_padding"
-                        )
+                        setupLeftLogo()
                     }
                 }
 
                 if (logoImageViewRight == null) {
                     logoImageViewRight = LogoImageViewRight(mContext).apply {
-                        setupLogo(
-                            "status_bar_clock_starting_padding",
-                            "status_bar_clock_end_padding"
-                        )
+                        setupRightLogo()
                     }
                 }
 
@@ -143,20 +139,20 @@ class StatusbarLogo(context: Context) : ModPack(context) {
                     showLogo,
                     logoPosition,
                     logoStyle,
-                    !customLogo || tintCustomLogo
+                    requiresTint
                 )
                 logoImageViewRight!!.updateSettings(
                     showLogo,
                     logoPosition,
                     logoStyle,
-                    !customLogo || tintCustomLogo
+                    requiresTint
                 )
 
                 logoImageView!!.loadCustomLogo()
                 logoImageViewRight!!.loadCustomLogo()
 
                 startSideExceptHeadsUp.reAddView(logoImageView, 1)
-                systemIcons.reAddView(logoImageViewRight)
+                systemIconsParent.reAddView(logoImageViewRight, systemIconsParent.childCount)
             }
 
         KeyguardShowingCallback.getInstance().registerKeyguardShowingListener(
@@ -195,7 +191,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
 
             if (!showLogo) return
 
-            if (!customLogo || tintCustomLogo) {
+            if (requiresTint) {
                 if (logoImageView.isLogoVisible) {
                     logoImageView.updateLogo(force = false)
                 }
@@ -233,19 +229,27 @@ class StatusbarLogo(context: Context) : ModPack(context) {
     }
 
     private fun LogoImage.updateLeftLogo() {
+        setupLeftLogo()
+        updateSettings(showLogo, logoPosition, logoStyle, requiresTint)
+    }
+
+    private fun LogoImage.updateRightLogo() {
+        setupRightLogo()
+        updateSettings(showLogo, logoPosition, logoStyle, requiresTint)
+    }
+
+    private fun LogoImage.setupLeftLogo() {
         setupLogo(
             "status_bar_left_clock_starting_padding",
             "status_bar_left_clock_end_padding"
         )
-        updateSettings(showLogo, logoPosition, logoStyle, !customLogo || tintCustomLogo)
     }
 
-    private fun LogoImage.updateRightLogo() {
+    private fun LogoImage.setupRightLogo() {
         setupLogo(
             "status_bar_clock_starting_padding",
             "status_bar_clock_end_padding"
         )
-        updateSettings(showLogo, logoPosition, logoStyle, !customLogo || tintCustomLogo)
     }
 
     private fun LogoImage.setupLogo(startPaddingRes: String, endPaddingRes: String) {
