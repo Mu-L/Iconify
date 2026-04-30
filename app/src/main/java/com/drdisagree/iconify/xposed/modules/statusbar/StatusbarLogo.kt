@@ -69,13 +69,13 @@ class StatusbarLogo(context: Context) : ModPack(context) {
                     showLogo,
                     logoPosition,
                     logoStyle,
-                    tintCustomLogo
+                    !customLogo || tintCustomLogo
                 )
                 logoImageViewRight?.updateSettings(
                     showLogo,
                     logoPosition,
                     logoStyle,
-                    tintCustomLogo
+                    !customLogo || tintCustomLogo
                 )
             }
 
@@ -108,7 +108,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
                         "id",
                         mContext.packageName
                     )
-                ) ?: phoneStatusBarView.findViewById<ViewGroup?>(
+                ) ?: phoneStatusBarView.findViewById(
                     mContext.resources.getIdentifier(
                         "status_bar_left_side",
                         "id",
@@ -146,13 +146,13 @@ class StatusbarLogo(context: Context) : ModPack(context) {
                     showLogo,
                     logoPosition,
                     logoStyle,
-                    tintCustomLogo
+                    !customLogo || tintCustomLogo
                 )
                 logoImageViewRight!!.updateSettings(
                     showLogo,
                     logoPosition,
                     logoStyle,
-                    tintCustomLogo
+                    !customLogo || tintCustomLogo
                 )
 
                 logoImageView!!.loadCustomLogo()
