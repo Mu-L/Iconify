@@ -134,7 +134,7 @@ fun CollapsingTopAppBar(
                     shapes = IconButtonDefaults.shapes(),
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = if (isDarkTheme) MaterialTheme.colorScheme.surfaceBright
-                        else MaterialTheme.colorScheme.surface,
+                        else MaterialTheme.colorScheme.surfaceContainerHighest,
                         contentColor = MaterialTheme.colorScheme.onSurface
                     ),
                 ) {
@@ -185,7 +185,7 @@ fun ActionItem(action: TopAppBarAction, showActionIcon: Boolean) {
                 },
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = if (isDarkTheme) MaterialTheme.colorScheme.surfaceBright
-                    else MaterialTheme.colorScheme.surface,
+                    else MaterialTheme.colorScheme.surfaceContainerHighest,
                     contentColor = MaterialTheme.colorScheme.onSurface
                 ),
                 shapes = IconButtonDefaults.shapes(),
