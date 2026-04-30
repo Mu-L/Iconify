@@ -3,7 +3,6 @@ package com.drdisagree.iconify.xposed.modules.statusbar
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.graphics.ImageDecoder
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
@@ -12,14 +11,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toCircularDrawable
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
@@ -200,10 +197,10 @@ class StatusbarLogo(context: Context) : ModPack(context) {
 
             if (!customLogo || tintCustomLogo) {
                 if (logoImageView.isLogoVisible) {
-                    logoImageView.updateLogo()
+                    logoImageView.updateLogo(force = false)
                 }
                 if (logoImageViewRight.isLogoVisible) {
-                    logoImageViewRight.updateLogo()
+                    logoImageViewRight.updateLogo(force = false)
                 }
             }
         }
@@ -240,7 +237,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             "status_bar_left_clock_starting_padding",
             "status_bar_left_clock_end_padding"
         )
-        updateSettings(showLogo, logoPosition, logoStyle, tintCustomLogo)
+        updateSettings(showLogo, logoPosition, logoStyle, !customLogo || tintCustomLogo)
     }
 
     private fun LogoImage.updateRightLogo() {
@@ -248,7 +245,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             "status_bar_clock_starting_padding",
             "status_bar_clock_end_padding"
         )
-        updateSettings(showLogo, logoPosition, logoStyle, tintCustomLogo)
+        updateSettings(showLogo, logoPosition, logoStyle, !customLogo || tintCustomLogo)
     }
 
     private fun LogoImage.setupLogo(startPaddingRes: String, endPaddingRes: String) {
@@ -292,15 +289,6 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             return
         }
 
-        try {
-            val drawable = ImageDecoder.decodeDrawable(
-                ImageDecoder.createSource(STATUSBAR_LOGO_FILE)
-            ).toCircularDrawable(mContext)
-
-            setImageDrawable(drawable)
-        } catch (_: Throwable) {
-            @Suppress("DEPRECATION")
-            modRes.getDrawable(R.drawable.ic_statusbar_logo_android)
-        }
+        updateLogo()
     }
 }

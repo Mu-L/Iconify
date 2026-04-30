@@ -21,6 +21,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.ImageDecoder
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.ImageView
 import com.drdisagree.iconify.R
@@ -70,13 +71,13 @@ abstract class LogoImage @JvmOverloads constructor(
 
     @Suppress("deprecation")
     @SuppressLint("UseCompatLoadingForDrawables")
-    fun updateLogo() {
-        if (mLogoStyle == 33) {
-            loadCustomLogoAsync()
+    fun updateLogo(force: Boolean = true) {
+        if (!force) {
+            drawable?.let { applyTint(it) }
             return
         }
 
-        val drawable = when (mLogoStyle) {
+        val newDrawable = when (mLogoStyle) {
             0 -> modRes.getDrawable(R.drawable.ic_statusbar_logo_android)
             1 -> modRes.getDrawable(R.drawable.ic_statusbar_logo_adidas)
             2 -> modRes.getDrawable(R.drawable.ic_statusbar_logo_alien)
@@ -110,16 +111,15 @@ abstract class LogoImage @JvmOverloads constructor(
             30 -> modRes.getDrawable(R.drawable.ic_statusbar_logo_ubuntu)
             31 -> modRes.getDrawable(R.drawable.ic_statusbar_logo_mint)
             32 -> modRes.getDrawable(R.drawable.ic_statusbar_logo_amogus)
+            33 -> {
+                loadCustomLogoAsync()
+                return
+            }
             else -> modRes.getDrawable(R.drawable.ic_statusbar_logo_android)
         }
 
-        if (forceApplyTint) {
-            drawable.setTint(mTintColor)
-        } else {
-            drawable.clearColorFilter()
-        }
-
-        setImageDrawable(drawable)
+        applyTint(newDrawable)
+        setImageDrawable(newDrawable)
     }
 
     @Suppress("deprecation")
@@ -135,9 +135,17 @@ abstract class LogoImage @JvmOverloads constructor(
             }
 
             withContext(Dispatchers.Main) {
-                drawable.clearColorFilter()
+                applyTint(drawable)
                 setImageDrawable(drawable)
             }
+        }
+    }
+
+    private fun applyTint(drawable: Drawable) {
+        if (forceApplyTint) {
+            drawable.setTint(mTintColor)
+        } else {
+            drawable.clearColorFilter()
         }
     }
 
