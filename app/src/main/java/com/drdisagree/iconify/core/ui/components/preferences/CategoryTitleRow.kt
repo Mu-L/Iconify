@@ -18,13 +18,14 @@ import com.drdisagree.iconify.core.preferences.resolve
 
 @Composable
 fun CategoryTitleRow(
+    modifier: Modifier = Modifier,
     title: PrefStringRes,
     icon: PrefIconRes? = null,
 ) {
     if (title.resolve().isEmpty()) return
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp)
             .padding(bottom = 12.dp),

@@ -97,9 +97,9 @@ object AssetsUtils {
         }
     }
 
-    fun readJson(fileName: String): String {
+    fun readJson(context: Context, fileName: String): String {
         val stringBuilder = StringBuilder()
-        val inputStream = appContext.assets.open(fileName)
+        val inputStream = context.assets.open(fileName)
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         var line: String?
         while (bufferedReader.readLine().also { line = it } != null) {

@@ -22,7 +22,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navigation
 import com.drdisagree.iconify.core.common.LocalNavController
-import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.scaffolds.MainScaffold
 import com.drdisagree.iconify.core.ui.utils.sharedHiltViewModel
 import com.drdisagree.iconify.features.changelog.screens.ChangelogScreen
@@ -44,6 +43,7 @@ import com.drdisagree.iconify.features.home.tweaks.statusbar.screens.TweaksStatu
 import com.drdisagree.iconify.features.home.wifiicons.screens.WifiIconScreen
 import com.drdisagree.iconify.features.main.screens.MainScreen
 import com.drdisagree.iconify.features.onboarding.screens.OnboardingScreen
+import com.drdisagree.iconify.features.settings.credits.screens.CreditsScreen
 import com.drdisagree.iconify.features.settings.lookandfeel.screens.LookAndFeelScreen
 import com.drdisagree.iconify.features.settings.main.screens.SettingsScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.albumart.screens.LockscreenAlbumArtScreen
@@ -75,7 +75,6 @@ fun NavGraph(
     skipOnboarding: Boolean,
     bottomNavViewModel: BottomNavViewModel = sharedHiltViewModel()
 ) {
-    val settings = LocalSettings.current
     val previewMode = LocalInspectionMode.current
     val navController = LocalNavController.current
     val layoutDirection = LocalLayoutDirection.current
@@ -264,6 +263,7 @@ fun NavGraph(
                 navigation<NavRoutes.MainGraph.Settings.Root>(startDestination = NavRoutes.MainGraph.Settings.Tab) {
                     composable<NavRoutes.MainGraph.Settings.Tab> { SettingsScreen() }
                     composable<NavRoutes.MainGraph.Settings.LookAndFeel> { LookAndFeelScreen() }
+                    composable<NavRoutes.MainGraph.Settings.Credits> { CreditsScreen() }
                 }
             }
         }

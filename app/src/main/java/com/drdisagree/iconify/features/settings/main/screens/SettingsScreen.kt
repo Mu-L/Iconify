@@ -148,6 +148,18 @@ fun settingsPreferences(
             summary = { stringRes(R.string.settings_translate_desc) },
             onClick = { openUrl(it.context, ICONIFY_CROWDIN) }
         )
+
+        action(
+            key = "iconifyCredits",
+            icon = iconRes(R.drawable.ic_credits),
+            title = stringRes(R.string.settings_credits_title),
+            summary = { stringRes(R.string.settings_credits_desc) },
+            onClick = {
+                it.navController.navigate(NavRoutes.MainGraph.Settings.Credits) {
+                    launchSingleTop = true
+                }
+            }
+        )
     }
 }
 
