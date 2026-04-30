@@ -74,7 +74,7 @@ class RootProviderProxy : Service() {
 
                                 val isSuccess = FileUtils.copyToIconifyDir(
                                     tempFile,
-                                    resultPath
+                                    File(resultPath).name
                                 )
 
                                 tempFile.delete()
