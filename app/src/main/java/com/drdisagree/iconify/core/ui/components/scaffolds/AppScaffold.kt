@@ -25,6 +25,8 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
@@ -58,7 +60,7 @@ fun AppScaffold(
     onBackClick: (() -> Unit)? = null,
     showActionIcon: Boolean = true,
     actions: List<TopAppBarAction> = emptyList(),
-    importExportViewModel: ImportExportViewModel = hiltViewModel(),
+    importExportViewModel: ImportExportViewModel? = if (LocalInspectionMode.current) null else hiltViewModel(),
     content: @Composable (
         innerPadding: PaddingValues,
         scrollBehavior: TopAppBarScrollBehavior
@@ -70,13 +72,14 @@ fun AppScaffold(
     val parentInnerPadding = LocalInnerPadding.current
     val safeInsets = WindowInsets.safeDrawing.asPaddingValues()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    val importExportState by importExportViewModel.state.collectAsStateWithLifecycle()
+    val importExportState by (importExportViewModel?.state?.collectAsStateWithLifecycle()
+        ?: remember { mutableStateOf(ImportExportState.Idle) })
 
     val exportLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.data?.let { importExportViewModel.onExportUriReceived(it) }
+            result.data?.data?.let { importExportViewModel?.onExportUriReceived(it) }
         }
     }
 
@@ -84,7 +87,7 @@ fun AppScaffold(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.data?.let { importExportViewModel.onImportUriReceived(it) }
+            result.data?.data?.let { importExportViewModel?.onImportUriReceived(it) }
         }
     }
 
@@ -92,19 +95,19 @@ fun AppScaffold(
         val uri = (importExportState as ImportExportState.AwaitingConfirmation).uri
 
         AlertDialog(
-            onDismissRequest = { importExportViewModel.cancelImport() },
+            onDismissRequest = { importExportViewModel?.cancelImport() },
             title = { Text(stringResource(R.string.import_settings_confirmation_title)) },
             text = { Text(stringResource(R.string.import_settings_confirmation_desc)) },
             confirmButton = {
                 Button(
                     shapes = ButtonDefaults.shapes(),
-                    onClick = withHaptic { importExportViewModel.confirmImport(uri) }
+                    onClick = withHaptic { importExportViewModel?.confirmImport(uri) }
                 ) { Text(stringResource(R.string.btn_positive)) }
             },
             dismissButton = {
                 OutlinedButton(
                     shapes = ButtonDefaults.shapes(),
-                    onClick = withHaptic { importExportViewModel.cancelImport() }
+                    onClick = withHaptic { importExportViewModel?.cancelImport() }
                 ) { Text(stringResource(R.string.btn_negative)) }
             }
         )
@@ -123,7 +126,7 @@ fun AppScaffold(
                     Toast.LENGTH_SHORT
                 ).show()
 
-                importExportViewModel.resetState()
+                importExportViewModel?.resetState()
 
                 activity?.let { AppUtils.restartApplication(it) }
             }
@@ -135,7 +138,7 @@ fun AppScaffold(
                     Toast.LENGTH_SHORT
                 ).show()
 
-                importExportViewModel.resetState()
+                importExportViewModel?.resetState()
             }
 
             else -> Unit
@@ -158,10 +161,12 @@ fun AppScaffold(
                     else
                         defaultActions(
                             onImport = {
-                                importLauncher.launch(importExportViewModel.createImportIntent())
+                                importExportViewModel?.createImportIntent()
+                                    ?.let { importLauncher.launch(it) }
                             },
                             onExport = {
-                                exportLauncher.launch(importExportViewModel.createExportIntent())
+                                importExportViewModel?.createExportIntent()
+                                    ?.let { exportLauncher.launch(it) }
                             }
                         ) + actions
 
