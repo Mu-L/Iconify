@@ -24,7 +24,7 @@
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
             android:singleLine="true"
-            android:tag="clock"
+            android:tag="clock|text1"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -38,7 +38,7 @@
             android:format12Hour="EEE, MMM dd"
             android:format24Hour="EEE, dd MMM"
             android:singleLine="true"
-            android:tag="date"
+            android:tag="date|text1"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
