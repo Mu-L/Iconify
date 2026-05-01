@@ -203,8 +203,8 @@ val quickSettingsPreferences = preferenceScreen {
 
         switch(
             key = XposedKey.FIX_NOTIFICATION_EXPAND_BUTTON_COLOR,
-            title = stringRes("Fix Notification Expand Button Color"),
-            summary = { stringRes("Fix expand button background color on Android 16 QPR3 beta") },
+            title = stringRes(R.string.fix_notification_expand_button_color_title),
+            summary = { stringRes(R.string.fix_notification_expand_button_color_desc) },
         )
     }
 }

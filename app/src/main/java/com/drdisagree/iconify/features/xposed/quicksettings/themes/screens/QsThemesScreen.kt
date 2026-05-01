@@ -18,102 +18,102 @@ val qsThemesPreferences = preferenceScreen {
         switch(
             key = XposedKey.CUSTOM_QS_THEME,
             isMasterSwitch = true,
-            title = stringRes("Quick settings theme"),
+            title = stringRes(R.string.quick_settings_theme),
         )
     }
 
-    category(title = "Active Tile Colors") {
+    category(title = stringRes(R.string.section_title_active_tile_colors)) {
         colorPicker(
             key = XposedKey.ACTIVE_QS_TILE_BACKGROUND_COLOR,
-            title = stringRes("Tile background color"),
+            title = stringRes(R.string.tile_background_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.ACTIVE_QS_TILE_ICON_COLOR,
-            title = stringRes("Icon color"),
+            title = stringRes(R.string.icon_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.ACTIVE_QS_TILE_ICON_BACKGROUND_COLOR,
-            title = stringRes("Icon background color"),
+            title = stringRes(R.string.icon_background_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.ACTIVE_QS_TILE_LABEL_COLOR,
-            title = stringRes("Label color"),
+            title = stringRes(R.string.label_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.ACTIVE_QS_TILE_SECONDARY_LABEL_COLOR,
-            title = stringRes("Secondary label color"),
+            title = stringRes(R.string.secondary_label_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
     }
 
-    category(title = "Inactive Tile Colors") {
+    category(title = stringRes(R.string.section_title_inactive_tile_colors)) {
         colorPicker(
             key = XposedKey.INACTIVE_QS_TILE_BACKGROUND_COLOR,
-            title = stringRes("Tile background color"),
+            title = stringRes(R.string.tile_background_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.INACTIVE_QS_TILE_ICON_COLOR,
-            title = stringRes("Icon color"),
+            title = stringRes(R.string.icon_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.INACTIVE_QS_TILE_ICON_BACKGROUND_COLOR,
-            title = stringRes("Icon background color"),
+            title = stringRes(R.string.icon_background_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.INACTIVE_QS_TILE_LABEL_COLOR,
-            title = stringRes("Label color"),
+            title = stringRes(R.string.label_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.INACTIVE_QS_TILE_SECONDARY_LABEL_COLOR,
-            title = stringRes("Secondary label color"),
+            title = stringRes(R.string.secondary_label_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
     }
 
-    category(title = "Disabled Tile Colors") {
+    category(title = stringRes(R.string.section_title_disabled_tile_colors)) {
         colorPicker(
             key = XposedKey.UNAVAILABLE_QS_TILE_BACKGROUND_COLOR,
-            title = stringRes("Tile background color"),
+            title = stringRes(R.string.tile_background_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.UNAVAILABLE_QS_TILE_ICON_COLOR,
-            title = stringRes("Icon color"),
+            title = stringRes(R.string.icon_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.UNAVAILABLE_QS_TILE_ICON_BACKGROUND_COLOR,
-            title = stringRes("Icon background color"),
+            title = stringRes(R.string.icon_background_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.UNAVAILABLE_QS_TILE_LABEL_COLOR,
-            title = stringRes("Label color"),
+            title = stringRes(R.string.label_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
 
         colorPicker(
             key = XposedKey.UNAVAILABLE_QS_TILE_SECONDARY_LABEL_COLOR,
-            title = stringRes("Secondary label color"),
+            title = stringRes(R.string.secondary_label_color),
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_THEME) }
         )
     }

@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -112,7 +113,7 @@ fun DeveloperIntroCard() {
                     .padding(horizontal = 14.dp, vertical = 4.dp),
             ) {
                 Text(
-                    text = "Lead Developer",
+                    text = stringResource(R.string.lead_developer),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold,
@@ -120,7 +121,7 @@ fun DeveloperIntroCard() {
             }
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "Crafting beautiful Android customisation experiences. If Iconify brings you joy, a coffee goes a long way! ☕",
+                text = stringResource(R.string.developer_intro_desc),
                 style = MaterialTheme.typography.bodyMedium,
                 color = onContainer.copy(alpha = 0.75f),
                 textAlign = TextAlign.Center,
@@ -146,7 +147,7 @@ fun DeveloperIntroCard() {
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        text = "Buy a coffee",
+                        text = stringResource(R.string.buy_a_coffee),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),
@@ -171,7 +172,7 @@ fun DeveloperIntroCard() {
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        text = "GitHub",
+                        text = stringResource(R.string.info_github_title),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.basicMarquee(iterations = Int.MAX_VALUE),

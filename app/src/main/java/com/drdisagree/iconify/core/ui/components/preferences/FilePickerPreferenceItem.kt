@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.common.LocalNavController
 import com.drdisagree.iconify.core.preferences.PrefParam
 import com.drdisagree.iconify.core.preferences.PrefStringRes
@@ -66,22 +67,22 @@ sealed class FilePickerType {
 
     object Image : FilePickerType() {
         override val mimeTypes = listOf("image/*")
-        override val label = stringRes("Pick image")
+        override val label = stringRes(R.string.btn_pick_image)
     }
 
     object Video : FilePickerType() {
         override val mimeTypes = listOf("video/*")
-        override val label = stringRes("Pick video")
+        override val label = stringRes(R.string.btn_pick_video)
     }
 
     object Audio : FilePickerType() {
         override val mimeTypes = listOf("audio/*")
-        override val label = stringRes("Pick audio")
+        override val label = stringRes(R.string.btn_pick_audio)
     }
 
     object Pdf : FilePickerType() {
         override val mimeTypes = listOf("application/pdf")
-        override val label = stringRes("Pick PDF")
+        override val label = stringRes(R.string.btn_pick_pdf)
     }
 
     object Document : FilePickerType() {
@@ -91,7 +92,7 @@ sealed class FilePickerType {
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             "text/plain",
         )
-        override val label = stringRes("Pick document")
+        override val label = stringRes(R.string.btn_pick_document)
     }
 
     object Font : FilePickerType() {
@@ -105,17 +106,17 @@ sealed class FilePickerType {
             "application/font-woff",
             "application/vnd.ms-fontobject"
         )
-        override val label = stringRes("Pick font")
+        override val label = stringRes(R.string.btn_pick_font)
     }
 
     object Any : FilePickerType() {
         override val mimeTypes = listOf("*/*")
-        override val label = stringRes("Pick file")
+        override val label = stringRes(R.string.btn_pick_file)
     }
 
     data class Custom(
         override val mimeTypes: List<String>,
-        override val label: PrefStringRes = stringRes("Pick file"),
+        override val label: PrefStringRes = stringRes(R.string.btn_pick_file),
     ) : FilePickerType()
 }
 

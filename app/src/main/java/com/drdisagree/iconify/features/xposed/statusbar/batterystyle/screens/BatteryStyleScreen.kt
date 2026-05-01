@@ -2,7 +2,6 @@ package com.drdisagree.iconify.features.xposed.statusbar.batterystyle.screens
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -142,7 +141,7 @@ fun batteryStylePreferences(
         switch(
             key = XposedKey.HIDE_DEFAULT_BATTERY_VIEW,
             title = stringRes(R.string.hide_battery_title),
-            summary = { stringRes("Hide default battery icon from statusbar") },
+            summary = { stringRes(R.string.hide_default_battery_desc) },
             isVisible = { it.isPrefVisible(XposedKey.HIDE_DEFAULT_BATTERY_VIEW) }
         )
 

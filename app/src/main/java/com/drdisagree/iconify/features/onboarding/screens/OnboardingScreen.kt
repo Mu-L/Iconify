@@ -272,7 +272,7 @@ fun OnboardingScreen(
                         modifier = Modifier.padding(start = 24.dp)
                     ) {
                         Text(
-                            text = "Back",
+                            text = stringResource(R.string.btn_back),
                             modifier = Modifier.padding(horizontal = 10.dp)
                         )
                     }

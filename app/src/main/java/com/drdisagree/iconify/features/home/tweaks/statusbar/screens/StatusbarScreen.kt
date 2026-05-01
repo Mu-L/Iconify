@@ -31,7 +31,7 @@ val statusbarPreferences = preferenceScreen {
                 if (it.prefController.getString(TweaksKey.STATUSBAR_TINT_MODE) != "0" &&
                     !it.prefController.getBoolean(XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR)
                 ) {
-                    stringRes("Requires ‘Link to Custom Color’ to be enabled in Xposed > Statusbar")
+                    stringRes(R.string.requires_link_to_custom_color)
                 } else null
             },
             entries = arrayRes(R.array.statusbar_tint_entries),
@@ -40,7 +40,7 @@ val statusbarPreferences = preferenceScreen {
 
         colorPicker(
             key = TweaksKey.STATUSBAR_TINT_CUSTOM_COLOR_CODE,
-            title = stringRes("Choose Custom Color"),
+            title = stringRes(R.string.choose_custom_color),
             showAlphaSlider = false,
             isEnabled = { it.getBoolean(XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR) },
             isVisible = { it.getString(TweaksKey.STATUSBAR_TINT_MODE) == "2" }
@@ -85,7 +85,7 @@ val statusbarPreferences = preferenceScreen {
     category {
         info(
             key = "statusbar_custom_color",
-            text = stringRes("Switch between light and dark themes to update the status bar color."),
+            text = stringRes(R.string.statusbar_switch_between_light_and_dark),
         )
     }
 }

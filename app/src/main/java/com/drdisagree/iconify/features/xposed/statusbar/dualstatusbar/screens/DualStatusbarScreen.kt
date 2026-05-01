@@ -27,7 +27,7 @@ val dualStatusbarPreferences = preferenceScreen {
         switch(
             key = XposedKey.DUAL_STATUSBAR_PORTRAIT_ONLY,
             title = stringRes(R.string.dsb_portrait_only_title),
-            summary = { stringRes("Display dual rows in portrait mode only") },
+            summary = { stringRes(R.string.dsb_portrait_only_desc) },
             isEnabled = { it.getBoolean(XposedKey.DUAL_STATUSBAR) }
         )
 

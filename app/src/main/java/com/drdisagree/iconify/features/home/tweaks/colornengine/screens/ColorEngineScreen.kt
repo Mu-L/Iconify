@@ -77,8 +77,8 @@ fun colorEnginePreferences(
     category {
         action(
             key = "advancedColorCustomization",
-            title = stringRes("Advanced Settings"),
-            summary = { stringRes("Get advanced color customizations") },
+            title = stringRes(R.string.advanced_color_settings_title),
+            summary = { stringRes(R.string.advanced_color_settings_desc) },
             onClick = { onAdvancedClick() }
         )
     }

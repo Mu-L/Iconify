@@ -150,7 +150,7 @@ fun ColorPickerPreferenceItem(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Pick a color",
+                        text = stringResource(R.string.pick_a_color),
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
@@ -247,11 +247,11 @@ fun ColorPickerPreferenceItem(
                                 )
                             }
                         },
-                        label = { Text("Hex color") },
-                        prefix = { Text("#") },
+                        label = { Text(stringResource(R.string.hex_color)) },
+                        prefix = { Text(stringResource(R.string.hex_color_prefix)) },
                         isError = hexInput.isNotEmpty() && !isValidHex,
                         supportingText = if (hexInput.isNotEmpty() && !isValidHex) {
-                            { Text("Enter 6 (RRGGBB) or 8 (AARRGGBB) hex digits") }
+                            { Text(stringResource(R.string.enter_6_or_8_hex_digits)) }
                         } else null,
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(

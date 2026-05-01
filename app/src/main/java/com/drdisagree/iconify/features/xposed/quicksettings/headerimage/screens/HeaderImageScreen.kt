@@ -41,8 +41,8 @@ val headerImagePreferences = preferenceScreen {
 
         switch(
             key = XposedKey.HEADER_IMAGE_MAXIMUM_HEIGHT,
-            title = stringRes("Maximum Height"),
-            summary = { stringRes("Show header image on full QS panel") },
+            title = stringRes(R.string.header_image_maximum_height_title),
+            summary = { stringRes(R.string.header_image_maximum_height_desc) },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) }
         )
 

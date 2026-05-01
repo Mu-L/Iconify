@@ -34,10 +34,10 @@ import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.innerPaddingValues
 import com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold
+import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.WeatherViewModel
 import com.drdisagree.iconify.features.xposed.lockscreen.location.models.LocationBrowseItem
 import com.drdisagree.iconify.features.xposed.lockscreen.location.states.LocationBrowseUiState
 import com.drdisagree.iconify.features.xposed.lockscreen.location.viewmodels.LocationBrowseViewModel
-import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.WeatherViewModel
 
 @Composable
 fun LocationBrowseScreen(
@@ -108,7 +108,7 @@ private fun LocationBrowseScreenContent(
                         contentDescription = null
                     )
                 },
-                label = { Text("Search for a location") }
+                label = { Text(stringResource(R.string.location_query_hint)) }
             )
 
             if (uiState.isLoading) {

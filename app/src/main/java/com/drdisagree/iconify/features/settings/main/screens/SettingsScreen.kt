@@ -55,12 +55,12 @@ import kotlinx.coroutines.withContext
 fun settingsPreferences(
     onDisableEverything: () -> Unit = {},
 ) = preferenceScreen {
-    category(title = "Appearance") {
+    category(title = stringRes(R.string.section_title_appearance)) {
         action(
             key = "look_and_feel",
             icon = iconRes(R.drawable.ic_app_icon),
-            title = stringRes("Look & Feel"),
-            summary = { stringRes("Theme, contrast and colors") },
+            title = stringRes(R.string.look_and_feel_title),
+            summary = { stringRes(R.string.look_and_feel_desc) },
             onClick = {
                 it.navController.navigate(NavRoutes.MainGraph.Settings.LookAndFeel) {
                     launchSingleTop = true
@@ -72,7 +72,7 @@ fun settingsPreferences(
             key = "app_language",
             icon = iconRes(R.drawable.ic_language),
             title = stringRes(R.string.settings_app_language),
-            summary = { stringRes("Choose your app language") },
+            summary = { stringRes(R.string.settings_app_language_desc) },
             onClick = {
                 it.context.startActivity(
                     Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
@@ -242,7 +242,7 @@ fun SettingsScreen(
                             activity?.let { AppUtils.restartApplication(it) }
                         }
                     }
-                }) { Text("OK") }
+                    }) { Text(stringResource(R.string.ok)) }
             }
         )
     }

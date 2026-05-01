@@ -19,6 +19,7 @@ import androidx.compose.material.icons.rounded.WaterDrop
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
@@ -65,10 +66,10 @@ private data class ContrastLevel(
 )
 
 private val contrastLevels = listOf(
-    ContrastLevel(Contrast.Default, stringRes("Default")),
-    ContrastLevel(Contrast.Medium, stringRes("Medium")),
-    ContrastLevel(Contrast.High, stringRes("High")),
-    ContrastLevel(Contrast.Reduced, stringRes("Reduced"))
+    ContrastLevel(Contrast.Default, stringRes(R.string.contrast_default)),
+    ContrastLevel(Contrast.Medium, stringRes(R.string.contrast_medium)),
+    ContrastLevel(Contrast.High, stringRes(R.string.contrast_high)),
+    ContrastLevel(Contrast.Reduced, stringRes(R.string.contrast_reduced))
 )
 
 private data class PaletteStyleOption(
@@ -77,15 +78,15 @@ private data class PaletteStyleOption(
 )
 
 private val paletteStyles = listOf(
-    PaletteStyleOption(PaletteStyle.TonalSpot, stringRes("Tonal Spot")),
-    PaletteStyleOption(PaletteStyle.Neutral, stringRes("Neutral")),
-    PaletteStyleOption(PaletteStyle.Vibrant, stringRes("Vibrant")),
-    PaletteStyleOption(PaletteStyle.Expressive, stringRes("Expressive")),
-    PaletteStyleOption(PaletteStyle.Rainbow, stringRes("Rainbow")),
-    PaletteStyleOption(PaletteStyle.FruitSalad, stringRes("FruitSalad")),
-    PaletteStyleOption(PaletteStyle.Monochrome, stringRes("Monochrome")),
-    PaletteStyleOption(PaletteStyle.Fidelity, stringRes("Fidelity")),
-    PaletteStyleOption(PaletteStyle.Content, stringRes("Content")),
+    PaletteStyleOption(PaletteStyle.TonalSpot, stringRes(R.string.monet_tonalspot)),
+    PaletteStyleOption(PaletteStyle.Neutral, stringRes(R.string.monet_neutral)),
+    PaletteStyleOption(PaletteStyle.Vibrant, stringRes(R.string.monet_vibrant)),
+    PaletteStyleOption(PaletteStyle.Expressive, stringRes(R.string.monet_expressive)),
+    PaletteStyleOption(PaletteStyle.Rainbow, stringRes(R.string.monet_rainbow)),
+    PaletteStyleOption(PaletteStyle.FruitSalad, stringRes(R.string.monet_fruitsalad)),
+    PaletteStyleOption(PaletteStyle.Monochrome, stringRes(R.string.monet_monochrome)),
+    PaletteStyleOption(PaletteStyle.Fidelity, stringRes(R.string.monet_fidelity)),
+    PaletteStyleOption(PaletteStyle.Content, stringRes(R.string.monet_content)),
 )
 
 val lookAndFeelPreferences = preferenceScreen {
@@ -120,9 +121,9 @@ val lookAndFeelPreferences = preferenceScreen {
         listPref(
             key = "theme_color",
             icon = iconRes(Icons.Rounded.FormatColorFill),
-            title = stringRes("Theme Color"),
+            title = stringRes(R.string.theme_color),
             defaultValue = "dynamic",
-            entries = arrayRes(listOf(stringRes("Dynamic")) + allSeedColors.map {
+            entries = arrayRes(listOf(stringRes(R.string.theme_color_dynamic)) + allSeedColors.map {
                 stringRes(it.seedColor.name)
             }.toList()),
             entryValues = arrayRes(listOf("dynamic") + allSeedColors.map {
@@ -139,7 +140,7 @@ val lookAndFeelPreferences = preferenceScreen {
         listPref(
             key = SettingsKey.PALETTE_STYLE,
             icon = iconRes(Icons.Rounded.Palette),
-            title = stringRes("Palette Style"),
+            title = stringRes(R.string.palette_style),
             entries = arrayRes(paletteStyles.map { it.name }.toList()),
             entryValues = arrayRes(paletteStyles.map { it.paletteStyle.name }.toList()),
             summary = {
@@ -152,16 +153,16 @@ val lookAndFeelPreferences = preferenceScreen {
         switch(
             key = SettingsKey.AMOLED_THEME,
             icon = iconRes(Icons.Rounded.NightsStay),
-            title = stringRes("Amoled Mode"),
-            summary = { stringRes("Black background in dark mode") },
+            title = stringRes(R.string.amoled_mode_title),
+            summary = { stringRes(R.string.amoled_mode_desc) },
             isVisible = { ctrl -> ctrl.getString("theme_color", "dynamic") != "dynamic" }
         )
 
         switch(
             key = SettingsKey.EXPRESSIVE_COLORS,
             icon = iconRes(Icons.Rounded.WaterDrop),
-            title = stringRes("Expressive Colors"),
-            summary = { stringRes("Use colors that are more chromatic") },
+            title = stringRes(R.string.expressive_colors_title),
+            summary = { stringRes(R.string.expressive_colors_desc) },
             isVisible = { ctrl ->
                 ctrl.getString("theme_color", "dynamic") != "dynamic" &&
                         ctrl.getString(SettingsKey.PALETTE_STYLE) in listOf(
@@ -176,7 +177,7 @@ val lookAndFeelPreferences = preferenceScreen {
         listPref(
             key = SettingsKey.CONTRAST_LEVEL,
             icon = iconRes(Icons.Rounded.Contrast),
-            title = stringRes("Contrast Level"),
+            title = stringRes(R.string.contrast_level),
             entries = arrayRes(contrastLevels.map { it.name }),
             entryValues = arrayRes(contrastLevels.map { it.contrast.value.toString() }),
             summary = {
@@ -188,26 +189,26 @@ val lookAndFeelPreferences = preferenceScreen {
         )
     }
 
-    category(title = "Additional Settings") {
+    category(title = stringRes(R.string.section_title_additional_settings)) {
         switch(
             key = SettingsKey.BLUR_EFFECT,
             icon = iconRes(Icons.Rounded.BlurOn),
-            title = stringRes("Blur Effect"),
-            summary = { stringRes("Apply a blur effect to backgrounds and UI elements") },
+            title = stringRes(R.string.blur_effect_title),
+            summary = { stringRes(R.string.blur_effect_desc) },
         )
 
         switch(
             key = SettingsKey.FLOATING_BOTTOM_BAR,
             icon = iconRes(Icons.Rounded.SpaceBar),
-            title = stringRes("Floating Bottom Bar"),
-            summary = { stringRes("Make the bottom bar float over content") },
+            title = stringRes(R.string.floating_bottom_bar_title),
+            summary = { stringRes(R.string.floating_bottom_bar_desc) },
         )
 
         slider(
             key = SettingsKey.UI_SCALE,
             icon = iconRes(Icons.Rounded.PhotoSizeSelectLarge),
-            title = stringRes("Display Scale"),
-            summary = { stringRes("Change the size of UI elements") },
+            title = stringRes(R.string.display_scale_title),
+            summary = { stringRes(R.string.display_scale_desc) },
             min = 0.5f,
             max = 1.2f,
             steps = 6,
@@ -220,8 +221,8 @@ val lookAndFeelPreferences = preferenceScreen {
         slider(
             key = SettingsKey.TEXT_SCALE,
             icon = iconRes(Icons.Rounded.FormatSize),
-            title = stringRes("Text Scale"),
-            summary = { stringRes("Change the size of text") },
+            title = stringRes(R.string.text_scale_title),
+            summary = { stringRes(R.string.text_scale_desc) },
             min = 0.5f,
             max = 2f,
             steps = 14,
@@ -259,7 +260,7 @@ fun LookAndFeelScreen() {
 
     PreferenceScreen(
         items = lookAndFeelPreferences,
-        title = "Look & Feel",
+        title = stringResource(R.string.look_and_feel_title),
         showBackIcon = true
     )
 }

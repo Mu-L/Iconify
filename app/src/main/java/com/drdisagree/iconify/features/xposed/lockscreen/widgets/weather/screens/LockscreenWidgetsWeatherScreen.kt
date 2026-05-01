@@ -61,7 +61,7 @@ fun lsWidgetsWeatherPreferences(
             title = stringRes(R.string.weather_api_key),
             summary = {
                 val currentVal = it.newValue
-                if (currentVal.isEmpty()) stringRes("No key provided")
+                if (currentVal.isEmpty()) stringRes(R.string.no_key_provided)
                 else stringRes(currentVal.maskKey())
             },
             isVisible = { it.getString(XposedKey.WEATHER_PROVIDER) in setOf("1") },
@@ -72,7 +72,7 @@ fun lsWidgetsWeatherPreferences(
             title = stringRes(R.string.yandex_api_key),
             summary = {
                 val currentVal = it.newValue
-                if (currentVal.isEmpty()) stringRes("No key provided")
+                if (currentVal.isEmpty()) stringRes(R.string.no_key_provided)
                 else stringRes(currentVal.maskKey())
             },
             isVisible = { it.getString(XposedKey.WEATHER_PROVIDER) in setOf("2") },

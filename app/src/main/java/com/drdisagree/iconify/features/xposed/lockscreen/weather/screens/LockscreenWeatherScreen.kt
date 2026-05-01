@@ -80,7 +80,7 @@ fun lsWeatherPreferences(
             title = stringRes(R.string.weather_api_key),
             summary = {
                 val currentVal = it.newValue
-                if (currentVal.isEmpty()) stringRes("No key provided")
+                if (currentVal.isEmpty()) stringRes(R.string.no_key_provided)
                 else stringRes(currentVal.maskKey())
             },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
@@ -92,7 +92,7 @@ fun lsWeatherPreferences(
             title = stringRes(R.string.yandex_api_key),
             summary = {
                 val currentVal = it.newValue
-                if (currentVal.isEmpty()) stringRes("No key provided")
+                if (currentVal.isEmpty()) stringRes(R.string.no_key_provided)
                 else stringRes(currentVal.maskKey())
             },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
