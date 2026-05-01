@@ -734,7 +734,7 @@ class LockscreenWidgetsView(private val context: Context) :
                     imageView = iv,
                     extendedFAB = efab,
                     clickListener = { toggleRingerMode() },
-                    icon = getDrawable(RING_VOLUME, SYSTEMUI_PACKAGE)
+                    icon = getDrawable(RING_VOLUME, SYSTEMUI_PACKAGE, true)
                         ?: ResourcesCompat.getDrawable(
                             modRes,
                             R.drawable.ic_ringer_normal,
@@ -849,7 +849,7 @@ class LockscreenWidgetsView(private val context: Context) :
                 setUpWidgetResources(
                     imageView = iv, extendedFAB = efab,
                     clickListener = { toggleMediaPlaybackState() },
-                    icon = getDrawable(MEDIA_PLAY, SYSTEMUI_PACKAGE)
+                    icon = getDrawable(MEDIA_PLAY, SYSTEMUI_PACKAGE, true)
                         ?: ResourcesCompat.getDrawable(
                             modRes,
                             R.drawable.ic_play,
@@ -1085,7 +1085,8 @@ class LockscreenWidgetsView(private val context: Context) :
         val isPlaying = isMediaPlaying
         val icon = getDrawable(
             if (isPlaying) MEDIA_PAUSE else MEDIA_PLAY,
-            SYSTEMUI_PACKAGE
+            SYSTEMUI_PACKAGE,
+            true
         ) ?: ResourcesCompat.getDrawable(
             modRes,
             if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play,
@@ -1772,15 +1773,19 @@ class LockscreenWidgetsView(private val context: Context) :
     }
 
     @Suppress("DiscouragedApi")
-    private fun getDrawable(drawableRes: String, pkg: String): Drawable? {
-        try {
-            return ContextCompat.getDrawable(
+    private fun getDrawable(
+        drawableRes: String,
+        pkg: String,
+        suppressError: Boolean = false
+    ): Drawable? {
+        return try {
+            ContextCompat.getDrawable(
                 mContext,
                 mContext.resources.getIdentifier(drawableRes, "drawable", pkg)
             )
         } catch (t: Throwable) {
-            // We have a calculator icon, so if SystemUI doesn't just return ours
-            return when (drawableRes) {
+            when (drawableRes) {
+                // We have a calculator icon, so if SystemUI doesn't just return ours
                 CALCULATOR_ICON -> ResourcesCompat.getDrawable(
                     modRes,
                     R.drawable.ic_calculator,
@@ -1794,8 +1799,13 @@ class LockscreenWidgetsView(private val context: Context) :
                 TORCH_INACTIVE -> getDrawable(TORCH_A12, FRAMEWORK_PACKAGE)
 
                 else -> {
-                    log(this@LockscreenWidgetsView, "getDrawable $drawableRes from $pkg error $t")
-                    return null
+                    if (!suppressError) {
+                        log(
+                            this@LockscreenWidgetsView,
+                            "getDrawable $drawableRes from $pkg error $t"
+                        )
+                    }
+                    null
                 }
             }
         }
@@ -1831,7 +1841,9 @@ class LockscreenWidgetsView(private val context: Context) :
                     AudioManager.RINGER_MODE_VIBRATE -> RING_VOLUME_VIBRATE
                     AudioManager.RINGER_MODE_SILENT -> RING_VOLUME_MUTE
                     else -> throw IllegalStateException("Unexpected value: " + mAudioManager.ringerMode)
-                }, SYSTEMUI_PACKAGE
+                },
+                SYSTEMUI_PACKAGE,
+                true
             ) ?: ResourcesCompat.getDrawable(
                 modRes,
                 when (mAudioManager.ringerMode) {
