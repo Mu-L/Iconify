@@ -46,7 +46,7 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findChildIndexContainsTag
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainsTag
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainingTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -698,7 +698,7 @@ class DepthWallpaper(context: Context) : ModPack(context) {
 
         if (mWallpaperForeground.parent != null) {
             lsItemTags
-                .map { (mWallpaperForeground.parent as ViewGroup).findViewContainsTag(it) }
+                .map { (mWallpaperForeground.parent as ViewGroup).findViewContainingTag(it) }
                 .forEach { view -> view?.z = -1f }
         }
 

@@ -21,7 +21,7 @@ import com.drdisagree.iconify.core.utils.ViewHelper.applyTextSizeRecursively
 import com.drdisagree.iconify.core.utils.ViewHelper.setTextRecursively
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainsTag
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainingTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewWithTagAndChangeColor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import java.util.Locale
@@ -92,16 +92,16 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     }
 
     private fun setupViews() {
-        mLeftText = findViewContainsTag("leftText") as TextView
-        mCurrentImage = findViewContainsTag("currentImage") as ImageView
-        mRightText = findViewContainsTag("rightText") as TextView
-        mWeatherText = findViewContainsTag("weatherText") as TextView
-        mHumLayout = findViewContainsTag("humLayout") as LinearLayout
-        mHumImage = findViewContainsTag("humImage") as ImageView
-        mHumText = findViewContainsTag("humText") as TextView
-        mWindLayout = findViewContainsTag("windLayout") as LinearLayout
-        mWindImage = findViewContainsTag("windImage") as ImageView
-        mWindText = findViewContainsTag("windText") as TextView
+        mLeftText = findViewContainingTag("leftText") as TextView
+        mCurrentImage = findViewContainingTag("currentImage") as ImageView
+        mRightText = findViewContainingTag("rightText") as TextView
+        mWeatherText = findViewContainingTag("weatherText") as TextView
+        mHumLayout = findViewContainingTag("humLayout") as LinearLayout
+        mHumImage = findViewContainingTag("humImage") as ImageView
+        mHumText = findViewContainingTag("humText") as TextView
+        mWindLayout = findViewContainingTag("windLayout") as LinearLayout
+        mWindImage = findViewContainingTag("windImage") as ImageView
+        mWindText = findViewContainingTag("windText") as TextView
 
         mWindDrawable = ContextCompat.getDrawable(
             appContext!!,

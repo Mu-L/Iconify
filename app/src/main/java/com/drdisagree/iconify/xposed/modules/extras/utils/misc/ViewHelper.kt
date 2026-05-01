@@ -41,20 +41,20 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
-import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CONTAINER_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 
 @Suppress("unused")
 object ViewHelper {
+
+    fun Context.toPx(dp: Int): Int = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        dp.toFloat(),
+        resources.displayMetrics
+    ).toInt()
 
     fun setMargins(viewGroup: Any, context: Context, left: Int, top: Int, right: Int, bottom: Int) {
         when (viewGroup) {
@@ -119,15 +119,13 @@ object ViewHelper {
         }
     }
 
-    fun setPaddings(
-        viewGroup: ViewGroup,
-        context: Context,
+    fun View.setPaddingDp(
         left: Int,
         top: Int,
         right: Int,
         bottom: Int
     ) {
-        viewGroup.setPadding(
+        setPadding(
             context.toPx(left),
             context.toPx(top),
             context.toPx(right),
@@ -135,14 +133,55 @@ object ViewHelper {
         )
     }
 
-    fun Context.toPx(dp: Int): Int = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        dp.toFloat(),
-        resources.displayMetrics
-    ).toInt()
-
     fun findViewWithTagAndChangeColor(view: View?, tagContains: String, color: Int) {
         if (view == null) return
+
+        fun checkTagAndChangeColor(view: View, tag: String, color: Int) {
+            if (view.containsTag(tag)) {
+                when (view) {
+                    is TextView -> {
+                        view.setTextColor(color)
+
+                        val drawablesRelative: Array<Drawable?> = view.compoundDrawablesRelative
+                        for (drawable in drawablesRelative) {
+                            drawable?.let {
+                                it.mutate()
+                                it.setTint(color)
+                                it.colorFilter =
+                                    PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+                            }
+                        }
+
+                        val drawables: Array<Drawable?> = view.compoundDrawables
+                        for (drawable in drawables) {
+                            drawable?.let {
+                                it.mutate()
+                                it.setTint(color)
+                                it.colorFilter =
+                                    PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+                            }
+                        }
+                    }
+
+                    is ImageView -> {
+                        view.setColorFilter(color)
+                    }
+
+                    is ViewGroup -> {
+                        view.backgroundTintList = ColorStateList.valueOf(color)
+                    }
+
+                    is ProgressBar -> {
+                        view.progressTintList = ColorStateList.valueOf(color)
+                        view.progressBackgroundTintList = ColorStateList.valueOf(color)
+                    }
+
+                    else -> {
+                        view.background.mutate().setTint(color)
+                    }
+                }
+            }
+        }
 
         if (view is ViewGroup) {
             for (i in 0 until view.childCount) {
@@ -160,12 +199,18 @@ object ViewHelper {
 
     fun findViewWithTagAndChangeColor(
         view: View?,
-        tagContains: String,
+        targetTag: String,
         color1: Int,
         color2: Int,
         cornerRadius: Int
     ) {
         if (view == null) return
+
+        fun checkTagAndChangeBackgroundColor(view: View, tag: String, drawable: Drawable) {
+            if (view.containsTag(tag)) {
+                view.background = drawable
+            }
+        }
 
         val drawable = GradientDrawable()
         drawable.colors = intArrayOf(color1, color2)
@@ -175,75 +220,16 @@ object ViewHelper {
         if (view is ViewGroup) {
             for (i in 0 until view.childCount) {
                 val child: View = view.getChildAt(i)
-                checkTagAndChangeBackgroundColor(child, tagContains, drawable)
+                checkTagAndChangeBackgroundColor(child, targetTag, drawable)
 
                 if (child is ViewGroup) {
-                    checkTagAndChangeBackgroundColor(child, tagContains, drawable)
+                    checkTagAndChangeBackgroundColor(child, targetTag, drawable)
                 }
             }
         } else {
-            checkTagAndChangeBackgroundColor(view, tagContains, drawable)
+            checkTagAndChangeBackgroundColor(view, targetTag, drawable)
         }
 
-    }
-
-    private fun checkTagAndChangeColor(view: View, tag: String, color: Int) {
-        if (view.tag?.toString()?.let { isTagMatch(tag, it) } == true) {
-            changeViewColor(view, color)
-        }
-    }
-
-    private fun checkTagAndChangeBackgroundColor(view: View, tag: String, bkg: Drawable) {
-        if (view.tag?.toString()?.let { isTagMatch(tag, it) } == true) {
-            changeViewBackgroundColor(view, bkg)
-        }
-    }
-
-    private fun changeViewColor(view: View, color: Int) {
-        when (view) {
-            is TextView -> {
-                view.setTextColor(color)
-
-                val drawablesRelative: Array<Drawable?> = view.compoundDrawablesRelative
-                for (drawable in drawablesRelative) {
-                    drawable?.let {
-                        it.mutate()
-                        it.setTint(color)
-                        it.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
-                    }
-                }
-
-                val drawables: Array<Drawable?> = view.compoundDrawables
-                for (drawable in drawables) {
-                    drawable?.let {
-                        it.mutate()
-                        it.setTint(color)
-                        it.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
-                    }
-                }
-            }
-
-            is ImageView -> {
-                view.setColorFilter(color)
-            }
-
-            is ViewGroup -> {
-                view.backgroundTintList = ColorStateList.valueOf(color)
-            }
-
-            is ProgressBar -> {
-                view.progressTintList = ColorStateList.valueOf(color)
-                view.progressBackgroundTintList = ColorStateList.valueOf(color)
-            }
-
-            else -> {
-                view.background.mutate().setTint(color)
-            }
-        }
-    }
-
-    private fun changeViewBackgroundColor(view: View, bkg: Drawable) {
-        view.background = bkg
     }
 
     fun applyFontRecursively(view: View?, typeface: Typeface?) {
@@ -265,6 +251,33 @@ object ViewHelper {
     fun applyTextMarginRecursively(context: Context, view: View?, topMargin: Int) {
         if (view == null) return
 
+        fun setTextMargins(child: View, topMarginInDp: Int) {
+            if (child.containsTag("nolineheight")) {
+                return
+            }
+
+            when (val params = child.layoutParams) {
+                is LinearLayout.LayoutParams -> {
+                    params.topMargin += topMarginInDp
+                    child.layoutParams = params
+                }
+
+                is FrameLayout.LayoutParams -> {
+                    params.topMargin += topMarginInDp
+                    child.layoutParams = params
+                }
+
+                is RelativeLayout.LayoutParams -> {
+                    params.topMargin += topMarginInDp
+                    child.layoutParams = params
+                }
+
+                else -> {
+                    log(this@ViewHelper, "Invalid params: $params")
+                }
+            }
+        }
+
         val topMarginInDp = context.toPx(topMargin)
 
         if (view is ViewGroup) {
@@ -284,35 +297,14 @@ object ViewHelper {
         }
     }
 
-    private fun setTextMargins(child: View, topMarginInDp: Int) {
-        if (child.tag?.toString()?.let { isTagMatch("nolineheight", it) } == true) {
-            return
-        }
-
-        when (val params = child.layoutParams) {
-            is LinearLayout.LayoutParams -> {
-                params.topMargin += topMarginInDp
-                child.layoutParams = params
-            }
-
-            is FrameLayout.LayoutParams -> {
-                params.topMargin += topMarginInDp
-                child.layoutParams = params
-            }
-
-            is RelativeLayout.LayoutParams -> {
-                params.topMargin += topMarginInDp
-                child.layoutParams = params
-            }
-
-            else -> {
-                log(this@ViewHelper, "Invalid params: $params")
-            }
-        }
-    }
-
     fun applyTextScalingRecursively(view: View?, scaleFactor: Float) {
         if (view == null) return
+
+        fun setTextScaling(view: View, scaleFactor: Float) {
+            val originalSize = (view as TextView).textSize
+            val newSize = originalSize * scaleFactor
+            view.setTextSize(TypedValue.COMPLEX_UNIT_PX, newSize)
+        }
 
         if (view is ViewGroup) {
             for (i in 0 until view.childCount) {
@@ -329,41 +321,53 @@ object ViewHelper {
         }
     }
 
-    private fun setTextScaling(view: View, scaleFactor: Float) {
-        val originalSize = (view as TextView).textSize
-        val newSize = originalSize * scaleFactor
-        view.setTextSize(TypedValue.COMPLEX_UNIT_PX, newSize)
-    }
+    fun View.findViewContainingTag(tag: String): View? {
+        val queue = ArrayDeque<View>()
+        queue.add(this)
 
-    fun View.findViewContainsTag(tag: String): View? {
-        if (this is ViewGroup) {
-            for (i in 0 until childCount) {
-                val child = getChildAt(i)
+        while (queue.isNotEmpty()) {
+            val view = queue.removeFirst()
 
-                if (child.tag?.toString()?.let { isTagMatch(tag, it) } == true) {
-                    return child
-                }
-
-                if (child is ViewGroup) {
-                    val result = child.findViewContainsTag(tag)
-                    if (result != null) {
-                        return result
-                    }
-                }
+            if (view.containsTag(tag)) {
+                return view
             }
-        } else {
-            if (getTag()?.toString()?.let { isTagMatch(tag, it) } == true) {
-                return this
+
+            if (view is ViewGroup) {
+                for (i in 0 until view.childCount) {
+                    queue.add(view.getChildAt(i))
+                }
             }
         }
 
         return null
     }
 
+    fun View.findViewsContainingTag(tag: String): List<View> {
+        val result = mutableListOf<View>()
+        val queue = ArrayDeque<View>()
+        queue.add(this)
+
+        while (queue.isNotEmpty()) {
+            val view = queue.removeFirst()
+
+            if (view.containsTag(tag)) {
+                result.add(view)
+            }
+
+            if (view is ViewGroup) {
+                for (i in 0 until view.childCount) {
+                    queue.add(view.getChildAt(i))
+                }
+            }
+        }
+
+        return result
+    }
+
     fun View.findChildIndexContainsTag(tag: String): Int {
         if (this is ViewGroup) {
             for (i in 0 until childCount) {
-                if (getChildAt(i).tag?.toString()?.let { isTagMatch(tag, it) } == true) {
+                if (getChildAt(i).containsTag(tag)) {
                     return i
                 }
             }
@@ -371,9 +375,8 @@ object ViewHelper {
         return -1
     }
 
-    private fun isTagMatch(tagToCheck: String, targetTag: String): Boolean {
-        val parts = targetTag.split("|")
-        return parts.any { it.trim() == tagToCheck }
+    private fun View.containsTag(targetTag: String): Boolean {
+        return tag?.toString()?.split("|")?.any { it.trim() == targetTag } == true
     }
 
     fun Drawable.applyBlur(context: Context, radius: Float): Drawable {
@@ -402,9 +405,7 @@ object ViewHelper {
 
     @Suppress("deprecation")
     fun Bitmap.applyBlur(context: Context, radius: Float): Bitmap {
-        if (radius == 0f) {
-            return this
-        }
+        if (radius == 0f) return this
 
         var tempImage = this
 
@@ -581,15 +582,6 @@ object ViewHelper {
     }
 
     fun Drawable.getColored(context: Context, color: Int): Drawable {
-
-        val colorDrawable = this.getColoredBitmap(color)
-
-        return colorDrawable?.toDrawable(context.resources) ?: this
-    }
-
-    private fun Drawable?.getColoredBitmap(color: Int): Bitmap? {
-        if (this == null) return null
-
         val colorBitmap = (this as BitmapDrawable).bitmap
         val grayscaleBitmap = colorBitmap.toGrayscale()
         val paint = Paint().apply {
@@ -598,9 +590,10 @@ object ViewHelper {
         }
         val canvas = Canvas(grayscaleBitmap)
         val rect = Rect(0, 0, grayscaleBitmap.width, grayscaleBitmap.height)
+
         canvas.drawBitmap(grayscaleBitmap, rect, rect, paint)
 
-        return grayscaleBitmap
+        return grayscaleBitmap.toDrawable(context.resources)
     }
 
     fun Drawable?.getColoredBitmap(color: Int, intensity: Int): Bitmap? {

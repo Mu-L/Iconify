@@ -62,7 +62,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyF
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyTextMarginRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyTextScalingRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainsTag
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainingTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewWithTagAndChangeColor
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
@@ -746,7 +746,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
                 "custom_image2" to LSCLOCK_IMAGE2_FILE.absolutePath
             ).forEach { (tag, path) ->
                 if (File(path).exists()) {
-                    clockView.findViewContainsTag(tag)?.let { view ->
+                    clockView.findViewContainingTag(tag)?.let { view ->
                         val bitmap = BitmapFactory.decodeFile(path)
 
                         val isRoundedImage = (clockStyle == 26 && tag.contains("1")) ||
@@ -792,16 +792,16 @@ class LockscreenClock(context: Context) : ModPack(context) {
         clockView.apply {
             when (clockStyle) {
                 5 -> {
-                    mBatteryStatusView = findViewContainsTag("battery_status") as TextView?
-                    mBatteryLevelView = findViewContainsTag("battery_percentage") as TextView?
-                    mVolumeLevelView = findViewContainsTag("volume_level") as TextView?
-                    mBatteryProgress = findViewContainsTag("battery_progressbar") as ProgressBar?
-                    mVolumeProgress = findViewContainsTag("volume_progressbar") as ProgressBar?
+                    mBatteryStatusView = findViewContainingTag("battery_status") as TextView?
+                    mBatteryLevelView = findViewContainingTag("battery_percentage") as TextView?
+                    mVolumeLevelView = findViewContainingTag("volume_level") as TextView?
+                    mBatteryProgress = findViewContainingTag("battery_progressbar") as ProgressBar?
+                    mVolumeProgress = findViewContainingTag("volume_progressbar") as ProgressBar?
                 }
 
                 19 -> {
-                    mBatteryLevelView = findViewContainsTag("battery_percentage") as TextView?
-                    mBatteryProgress = findViewContainsTag("battery_progressbar") as ProgressBar?
+                    mBatteryLevelView = findViewContainingTag("battery_percentage") as TextView?
+                    mBatteryProgress = findViewContainingTag("battery_progressbar") as ProgressBar?
                     addArcProgressView("volume_progress")
                     addArcProgressView("ram_usage_info")
                 }
@@ -828,13 +828,13 @@ class LockscreenClock(context: Context) : ModPack(context) {
             }
         }
 
-        val deviceName = clockView.findViewContainsTag("device_name") as TextView?
+        val deviceName = clockView.findViewContainingTag("device_name") as TextView?
         deviceName?.text = customDeviceName.ifEmpty { Build.MODEL }
 
-        val usernameView = clockView.findViewContainsTag("username") as TextView?
+        val usernameView = clockView.findViewContainingTag("username") as TextView?
         usernameView?.text = customUserName.ifEmpty { userName }
 
-        val imageView = clockView.findViewContainsTag("profile_picture") as ImageView?
+        val imageView = clockView.findViewContainingTag("profile_picture") as ImageView?
         userImage?.let { imageView?.setImageDrawable(it) }
     }
 
@@ -848,8 +848,8 @@ class LockscreenClock(context: Context) : ModPack(context) {
 
             when (clockStyle) {
                 2, 20 -> {
-                    val tickIndicator = findViewContainsTag("tickIndicator") as TextClock
-                    val hourView = findViewContainsTag("hours") as TextView
+                    val tickIndicator = findViewContainingTag("tickIndicator") as TextClock
+                    val hourView = findViewContainingTag("hours") as TextView
 
                     tickIndicator.setTextColor(Color.TRANSPARENT)
                     hourView.visibility = View.VISIBLE
@@ -862,9 +862,9 @@ class LockscreenClock(context: Context) : ModPack(context) {
                 }
 
                 22 -> {
-                    val hourView = findViewContainsTag("textHour") as TextView
-                    val minuteView = findViewContainsTag("textMinute") as TextView
-                    val tickIndicator = findViewContainsTag("tickIndicator") as TextClock
+                    val hourView = findViewContainingTag("textHour") as TextView
+                    val minuteView = findViewContainingTag("textMinute") as TextView
+                    val tickIndicator = findViewContainingTag("tickIndicator") as TextClock
 
                     TimeUtils.setCurrentTimeTextClock(
                         context = mContext,
@@ -903,7 +903,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
     }
 
     private fun View.addArcProgressView(parentTag: String) {
-        val container = findViewContainsTag(parentTag) as LinearLayout?
+        val container = findViewContainingTag(parentTag) as LinearLayout?
         container?.setBackgroundResource(0)
         container?.removeAllViews()
 

@@ -45,7 +45,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.TouchAnimator
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyTextScalingRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findChildIndexContainsTag
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainsTag
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainingTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewWithTagAndChangeColor
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
@@ -678,7 +678,7 @@ class HeaderClock(context: Context) : ModPack(context) {
 
         when (clockStyle) {
             6 -> {
-                val imageView = clockView.findViewContainsTag("profile_picture") as? ImageView
+                val imageView = clockView.findViewContainingTag("profile_picture") as? ImageView
                 userImage?.let { imageView?.setImageDrawable(it) }
             }
         }
