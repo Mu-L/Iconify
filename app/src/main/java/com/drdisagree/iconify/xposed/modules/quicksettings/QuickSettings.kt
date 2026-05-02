@@ -1,16 +1,19 @@
 package com.drdisagree.iconify.xposed.modules.quicksettings
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.app.Notification
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.graphics.ColorUtils
+import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
@@ -75,7 +78,7 @@ class QuickSettings(context: Context) : ModPack(context) {
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         setQsMargin()
-        fixNotificationColorA14()
+        fixNotificationColor()
         manageQsElementVisibility()
         compactMediaPlayer()
         blurMediaPlayerArtwork()
@@ -94,7 +97,7 @@ class QuickSettings(context: Context) : ModPack(context) {
             .apply()
     }
 
-    private fun fixNotificationColorA14() {
+    private fun fixNotificationColor() {
         val activatableNotificationViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.ActivatableNotificationView")
         val notificationBackgroundViewClass =
@@ -129,9 +132,11 @@ class QuickSettings(context: Context) : ModPack(context) {
 
                 notificationBackgroundView?.callMethodSilently("setColorFilter", 0)
 
-                (notificationBackgroundView?.getFieldSilently(
-                    "mBackground"
-                ) as? Drawable)?.colorFilter = null
+                try {
+                    (notificationBackgroundView.getFieldSilently("mBackground") as? Drawable)
+                        ?.colorFilter = null
+                } catch (_: Throwable) {
+                }
 
                 notificationBackgroundView?.setFieldSilently("mTintColor", 0)
 
@@ -213,6 +218,38 @@ class QuickSettings(context: Context) : ModPack(context) {
                     "mProtectionColor",
                     ColorUtils.blendARGB(mPrimaryTextColor, mBackgroundColor, 0.9f)
                 )
+            }
+
+        val actionsDialogLiteClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.globalactions.GlobalActionsDialogLite$ActionsDialogLite")
+        val singlePressActionClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.globalactions.GlobalActionsDialogLite$SinglePressAction")
+
+        actionsDialogLiteClass
+            .hookMethod("onCreate")
+            .parameters(Bundle::class.java)
+            .runAfter { param ->
+                if (!fixNotificationColor) return@runAfter
+
+                val dialog = param.thisObject as Dialog
+
+                val listView = dialog.findViewById<View>(
+                    mContext.resources.getIdentifier(
+                        "list",
+                        "id",
+                        FRAMEWORK_PACKAGE
+                    )
+                )
+                listView.backgroundTintList = null
+            }
+
+        singlePressActionClass
+            .hookMethod("create")
+            .runAfter { param ->
+                if (!fixNotificationColor) return@runAfter
+
+                val mIconView = param.thisObject.getField("mIconView") as View
+                mIconView.backgroundTintList = null
             }
     }
 
