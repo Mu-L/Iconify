@@ -17,29 +17,29 @@ object XposedConst {
         )
 
     val LSCLOCK_FONT_FILE: File
-        get() = File(XPOSED_RESOURCE_DIR, "lsclock_font.ttf")
+        get() = File(XPOSED_RESOURCE_DIR, "lsclock_font.iconify")
 
     val LSCLOCK_IMAGE1_FILE: File
-        get() = File(XPOSED_RESOURCE_DIR, "lsclock_image1.png")
+        get() = File(XPOSED_RESOURCE_DIR, "lsclock_image1.iconify")
 
     val LSCLOCK_IMAGE2_FILE: File
-        get() = File(XPOSED_RESOURCE_DIR, "lsclock_image2.png")
+        get() = File(XPOSED_RESOURCE_DIR, "lsclock_image2.iconify")
 
     val HEADER_CLOCK_FONT_FILE: File
-        get() = File(XPOSED_RESOURCE_DIR, "headerclock_font.ttf")
+        get() = File(XPOSED_RESOURCE_DIR, "headerclock_font.iconify")
 
     val HEADER_IMAGE_FILE: File
-        get() = File(XPOSED_RESOURCE_DIR, "header_image.png")
+        get() = File(XPOSED_RESOURCE_DIR, "header_image.iconify")
 
     val DEPTH_WALL_FG_FILE: File
-        get() = File(XPOSED_RESOURCE_DIR, "depth_wallpaper_fg.png")
+        get() = File(XPOSED_RESOURCE_DIR, "depth_wallpaper_fg.iconify")
 
     val DEPTH_WALL_BG_FILE: File
-        get() = File(XPOSED_RESOURCE_DIR, "depth_wallpaper_bg.png")
+        get() = File(XPOSED_RESOURCE_DIR, "depth_wallpaper_bg.iconify")
 
     val LOCKSCREEN_WEATHER_FONT_FILE: File
-        get() = File(XPOSED_RESOURCE_DIR, "lockscreen_weather_font.ttf")
+        get() = File(XPOSED_RESOURCE_DIR, "lockscreen_weather_font.iconify")
 
     val STATUSBAR_LOGO_FILE: File
-        get() = File(XPOSED_RESOURCE_DIR, "statusbar_logo.png")
+        get() = File(XPOSED_RESOURCE_DIR, "statusbar_logo.iconify")
 }
