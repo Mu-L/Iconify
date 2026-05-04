@@ -29,7 +29,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.changedToUp
@@ -223,7 +225,11 @@ fun HomeBannerCard(modifier: Modifier = Modifier) {
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.TopCenter,
-                modifier = Modifier.matchParentSize()
+                modifier = Modifier.matchParentSize(),
+                colorFilter = ColorFilter.tint(
+                    color = MaterialTheme.colorScheme.primary,
+                    blendMode = BlendMode.Softlight
+                )
             )
 
             Column(
