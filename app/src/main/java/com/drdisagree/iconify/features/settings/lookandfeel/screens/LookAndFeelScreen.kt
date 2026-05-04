@@ -34,7 +34,7 @@ import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.svg.DynamicColorImageVectors
-import com.drdisagree.iconify.core.ui.components.svg.themePicker
+import com.drdisagree.iconify.core.ui.components.svg.undrawThemePicker
 import com.drdisagree.iconify.data.keys.SettingsKey
 import com.drdisagree.iconify.data.models.allSeedColors
 import com.materialkolor.Contrast
@@ -99,7 +99,7 @@ val lookAndFeelPreferences = preferenceScreen {
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
                     .padding(vertical = 16.dp),
-                imageVector = DynamicColorImageVectors.themePicker(),
+                imageVector = DynamicColorImageVectors.undrawThemePicker(),
                 contentDescription = null
             )
         }

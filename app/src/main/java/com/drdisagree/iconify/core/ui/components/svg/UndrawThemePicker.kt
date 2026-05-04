@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.core.ui.components.svg
 
+import androidx.compose.foundation.Image
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -7,10 +8,12 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.PathParser
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DynamicColorImageVectors.themePicker(): ImageVector {
+fun DynamicColorImageVectors.undrawThemePicker(): ImageVector {
     return Builder(
         name = "themePicker",
         defaultWidth = 524.9256.dp,
@@ -213,4 +216,15 @@ fun DynamicColorImageVectors.themePicker(): ImageVector {
             fill = SolidColor(MaterialTheme.colorScheme.secondary),
         )
     }.build()
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    val painter = rememberVectorPainter(DynamicColorImageVectors.undrawThemePicker())
+
+    Image(
+        painter = painter,
+        contentDescription = null
+    )
 }
