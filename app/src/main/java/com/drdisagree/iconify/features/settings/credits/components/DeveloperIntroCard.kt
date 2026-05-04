@@ -26,6 +26,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,6 +50,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import coil3.compose.AsyncImagePainter
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.utils.CARD_CORNER_LARGE
@@ -89,6 +92,8 @@ fun DeveloperIntroCard() {
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.18f)),
             ) {
+                val showFallbackImage = remember { mutableStateOf(true) }
+
                 AsyncImage(
                     model = "https://avatars.githubusercontent.com/u/29881338",
                     contentDescription = "Developer avatar",
@@ -96,9 +101,20 @@ fun DeveloperIntroCard() {
                     modifier = Modifier
                         .size(80.dp)
                         .clip(CircleShape),
-                    error = painterResource(R.drawable.ic_user),
-                    placeholder = painterResource(R.drawable.ic_user),
+                    onState = { state ->
+                        showFallbackImage.value = state is AsyncImagePainter.State.Error ||
+                                state is AsyncImagePainter.State.Loading
+                    }
                 )
+
+                if (showFallbackImage.value) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_user),
+                        contentDescription = null,
+                        modifier = Modifier.size(56.dp),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    )
+                }
             }
             Spacer(Modifier.height(8.dp))
             Text(
