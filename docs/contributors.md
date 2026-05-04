@@ -35,10 +35,10 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/xenoZ0x">
-                    <img src="https://avatars.githubusercontent.com/u/90919499?v=4" width="100;" alt="xenoZ0x"/>
+                <a href="https://github.com/0xNullGun">
+                    <img src="https://avatars.githubusercontent.com/u/90919499?v=4" width="100;" alt="0xNullGun"/>
                     <br />
-                    <sub><b>xenoZ0x</b></sub>
+                    <sub><b>0xNullGun</b></sub>
                 </a>
             </td>
             <td align="center">
