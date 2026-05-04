@@ -65,7 +65,7 @@ fun ChangelogScreen(
             when (val state = changelogViewModel?.uiState ?: return@LazyColumn) {
                 is ChangelogState.Loading -> {
                     item {
-                        LoadingDialogContent()
+                        LoadingDialogContent(showText = false)
                     }
                 }
 

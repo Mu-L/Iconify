@@ -59,20 +59,25 @@ fun LoadingDialog(onDismiss: () -> Unit = {}) {
 }
 
 @Composable
-fun LoadingDialogContent(modifier: Modifier = Modifier) {
+fun LoadingDialogContent(
+    modifier: Modifier = Modifier,
+    showText: Boolean = true
+) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         ContainedLoadingIndicator(modifier = Modifier.size(60.dp))
-        Text(
-            text = stringResource(R.string.loading_dialog_wait),
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.wrapContentWidth()
-        )
+        if (showText) {
+            Text(
+                text = stringResource(R.string.loading_dialog_wait),
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.wrapContentWidth()
+            )
+        }
     }
 }
 

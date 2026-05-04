@@ -24,7 +24,7 @@ class ChangelogViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 if (BuildConfig.DEBUG) {
-                    loadCompareChangelog()
+                    loadDebugChangelog()
                 } else {
                     loadReleaseChangelog()
                 }
@@ -44,7 +44,7 @@ class ChangelogViewModel : ViewModel() {
         uiState = ChangelogState.Success(parsed)
     }
 
-    private fun loadCompareChangelog() {
+    private fun loadDebugChangelog() {
         val releaseJson = URL(
             "https://api.github.com/repos/Mahmud0808/Iconify/releases/latest"
         ).readText()
@@ -57,7 +57,7 @@ class ChangelogViewModel : ViewModel() {
         val compareJson = URL(compareUrl).readText()
         val commits = JSONObject(compareJson).getJSONArray("commits")
 
-        val changes = mutableListOf<String>()
+        val changes = mutableSetOf<String>()
 
         for (i in 0 until commits.length()) {
             val commit = commits.getJSONObject(i)
@@ -76,7 +76,7 @@ class ChangelogViewModel : ViewModel() {
             ChangelogData(
                 titleRes = R.string.changelog_changes_since,
                 titleArg = baseTag,
-                contents = changes
+                contents = changes.toList()
             )
         )
     }
