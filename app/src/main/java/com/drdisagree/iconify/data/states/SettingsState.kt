@@ -15,5 +15,6 @@ data class SettingsState(
     val blurEffect: Boolean,
     val overlayVersionCode: Int,
     val isXposedOnlyMode: Boolean,
+    val isPlaygroundUnlocked: Boolean,
     val isLoaded: Boolean,
 )

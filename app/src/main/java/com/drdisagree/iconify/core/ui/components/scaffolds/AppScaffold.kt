@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.DeveloperMode
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -39,6 +41,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.common.LocalInnerPadding
 import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.dialogs.LoadingDialog
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.components.topappbar.ActionItem
@@ -201,44 +204,64 @@ private fun defaultActions(
     onExport: () -> Unit = {},
     systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
 ): List<TopAppBarAction> {
+    val settings = LocalSettings.current
     val navController = LocalNavController.current
 
     return listOf(
         TopAppBarAction(
             icon = R.drawable.ic_menu,
             label = "Menu",
-            subItems = listOf(
-                TopAppBarAction(
-                    icon = R.drawable.ic_changelog,
-                    label = stringResource(R.string.changelog),
-                    onClick = {
-                        navController.navigate(NavRoutes.MainGraph.Changelog) {
-                            launchSingleTop = true
+            subItems = buildList {
+                add(
+                    TopAppBarAction(
+                        icon = R.drawable.ic_changelog,
+                        label = stringResource(R.string.changelog),
+                        onClick = {
+                            navController.navigate(NavRoutes.MainGraph.Changelog) {
+                                launchSingleTop = true
+                            }
                         }
-                    }
-                ),
-                TopAppBarAction(
-                    icon = R.drawable.ic_upload_file,
-                    label = stringResource(R.string.import_export),
-                    subItems = listOf(
-                        TopAppBarAction(
-                            R.drawable.ic_file_import,
-                            stringResource(R.string.import_settings),
-                            onClick = onImport
-                        ),
-                        TopAppBarAction(
-                            R.drawable.ic_file_export,
-                            stringResource(R.string.export_settings),
-                            onClick = onExport
-                        ),
-                    ),
-                ),
-                TopAppBarAction(
-                    icon = R.drawable.ic_xposed_restart_systemui,
-                    label = stringResource(R.string.btn_restart_systemui),
-                    onClick = { systemActionViewModel?.triggerRestartSystemUI() }
+                    )
                 )
-            )
+                add(
+                    TopAppBarAction(
+                        icon = R.drawable.ic_upload_file,
+                        label = stringResource(R.string.import_export),
+                        subItems = listOf(
+                            TopAppBarAction(
+                                R.drawable.ic_file_import,
+                                stringResource(R.string.import_settings),
+                                onClick = onImport
+                            ),
+                            TopAppBarAction(
+                                R.drawable.ic_file_export,
+                                stringResource(R.string.export_settings),
+                                onClick = onExport
+                            ),
+                        ),
+                    )
+                )
+                if (settings.isPlaygroundUnlocked) {
+                    add(
+                        TopAppBarAction(
+                            icon = Icons.Rounded.DeveloperMode,
+                            label = "Playground",
+                            onClick = {
+                                navController.navigate(NavRoutes.MainGraph.Playground) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        )
+                    )
+                }
+                add(
+                    TopAppBarAction(
+                        icon = R.drawable.ic_xposed_restart_systemui,
+                        label = stringResource(R.string.btn_restart_systemui),
+                        onClick = { systemActionViewModel?.triggerRestartSystemUI() }
+                    )
+                )
+            }
         ),
     )
 }

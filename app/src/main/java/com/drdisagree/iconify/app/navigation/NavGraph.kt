@@ -43,6 +43,7 @@ import com.drdisagree.iconify.features.home.tweaks.statusbar.screens.TweaksStatu
 import com.drdisagree.iconify.features.home.wifiicons.screens.WifiIconScreen
 import com.drdisagree.iconify.features.main.screens.MainScreen
 import com.drdisagree.iconify.features.onboarding.screens.OnboardingScreen
+import com.drdisagree.iconify.features.playground.screens.PlaygroundScreen
 import com.drdisagree.iconify.features.settings.credits.screens.CreditsScreen
 import com.drdisagree.iconify.features.settings.lookandfeel.screens.LookAndFeelScreen
 import com.drdisagree.iconify.features.settings.main.screens.SettingsScreen
@@ -197,6 +198,7 @@ fun NavGraph(
             navigation<NavRoutes.MainGraph.Main>(startDestination = NavRoutes.MainGraph.Root) {
                 composable<NavRoutes.MainGraph.Root> { MainScreen() }
                 composable<NavRoutes.MainGraph.Changelog> { ChangelogScreen() }
+                composable<NavRoutes.MainGraph.Playground> { PlaygroundScreen() }
 
                 navigation<NavRoutes.MainGraph.Home.Root>(startDestination = NavRoutes.MainGraph.Home.Tab) {
                     composable<NavRoutes.MainGraph.Home.Tab> { HomeScreen() }

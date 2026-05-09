@@ -1,8 +1,11 @@
 package com.drdisagree.iconify.features.settings.credits.components
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +29,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,6 +43,7 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -52,8 +58,11 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.common.LocalPreferenceController
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.utils.CARD_CORNER_LARGE
+import com.drdisagree.iconify.data.keys.SettingsKey
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
@@ -62,7 +71,12 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DeveloperIntroCard() {
+    val context = LocalContext.current
+    val settings = LocalSettings.current
     val uriHandler = LocalUriHandler.current
+    val preferenceController = LocalPreferenceController.current
+    val clickCount = remember { mutableIntStateOf(0) }
+    val lastClickTime = remember { mutableLongStateOf(0L) }
 
     val gradient = Brush.linearGradient(
         colorStops = arrayOf(
@@ -100,7 +114,36 @@ fun DeveloperIntroCard() {
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(80.dp)
-                        .clip(CircleShape),
+                        .clip(CircleShape)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) {
+                            if (settings.isPlaygroundUnlocked) return@clickable
+
+                            val currentTime = System.currentTimeMillis()
+                            if (currentTime - lastClickTime.longValue < 500) {
+                                clickCount.intValue++
+                            } else {
+                                clickCount.intValue = 1
+                            }
+                            lastClickTime.longValue = currentTime
+
+                            if (clickCount.intValue >= 7) {
+                                preferenceController.setBoolean(
+                                    SettingsKey.PLAYGROUND_UNLOCKED,
+                                    true
+                                )
+
+                                Toast.makeText(
+                                    context,
+                                    "Unlocked playground",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                clickCount.intValue = 0
+                            }
+                        },
                     onState = { state ->
                         showFallbackImage.value = state is AsyncImagePainter.State.Error ||
                                 state is AsyncImagePainter.State.Loading

@@ -67,6 +67,7 @@ fun AppProviders(
     val blurEffect by settingsViewModel.booleanState(SettingsKey.BLUR_EFFECT)
     val overlayVersionCode by settingsViewModel.intState(SettingsKey.OVERLAY_VERSION_CODE)
     val isXposedOnlyMode by settingsViewModel.booleanState(SettingsKey.XPOSED_ONLY_MODE)
+    val isPlaygroundUnlocked by settingsViewModel.booleanState(SettingsKey.PLAYGROUND_UNLOCKED)
     val uiScale by settingsViewModel.floatState(SettingsKey.UI_SCALE)
     val textScale by settingsViewModel.floatState(SettingsKey.TEXT_SCALE)
 
@@ -85,6 +86,7 @@ fun AppProviders(
                 blurEffect = blurEffect,
                 overlayVersionCode = overlayVersionCode,
                 isXposedOnlyMode = isXposedOnlyMode,
+                isPlaygroundUnlocked = isPlaygroundUnlocked,
                 isLoaded = true,
             )
         }

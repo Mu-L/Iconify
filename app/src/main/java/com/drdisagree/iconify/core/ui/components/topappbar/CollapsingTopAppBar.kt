@@ -48,6 +48,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -61,7 +62,7 @@ import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import kotlinx.coroutines.delay
 
 data class TopAppBarAction(
-    val icon: Int,
+    val icon: Any,
     val label: String,
     val onClick: () -> Unit = {},
     val subItems: List<TopAppBarAction> = emptyList()
@@ -193,7 +194,21 @@ fun ActionItem(action: TopAppBarAction, showActionIcon: Boolean) {
                     .width(36.dp)
                     .height(40.dp)
             ) {
-                Icon(painterResource(action.icon), action.label)
+                when (action.icon) {
+                    is Int -> {
+                        Icon(
+                            painter = painterResource(id = action.icon),
+                            contentDescription = action.label
+                        )
+                    }
+
+                    is ImageVector -> {
+                        Icon(
+                            imageVector = action.icon,
+                            contentDescription = action.label
+                        )
+                    }
+                }
             }
         }
 
@@ -279,12 +294,25 @@ private fun ActionDropdownMenu(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
-                                    Icon(
-                                        painter = painterResource(item.icon),
-                                        contentDescription = null,
-                                        modifier = Modifier.size(20.dp),
-                                        tint = MaterialTheme.colorScheme.onSurface
-                                    )
+                                    when (item.icon) {
+                                        is Int -> {
+                                            Icon(
+                                                painter = painterResource(id = item.icon),
+                                                contentDescription = null,
+                                                modifier = Modifier.size(20.dp),
+                                                tint = MaterialTheme.colorScheme.onSurface
+                                            )
+                                        }
+
+                                        is ImageVector -> {
+                                            Icon(
+                                                imageVector = item.icon,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(20.dp),
+                                                tint = MaterialTheme.colorScheme.onSurface
+                                            )
+                                        }
+                                    }
                                     Text(item.label, style = MaterialTheme.typography.bodyMedium)
                                 }
                             },

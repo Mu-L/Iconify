@@ -20,6 +20,7 @@ val defaultSettings = SettingsState(
     blurEffect = true,
     overlayVersionCode = 0,
     isXposedOnlyMode = false,
+    isPlaygroundUnlocked = false,
     isLoaded = false,
 )
 

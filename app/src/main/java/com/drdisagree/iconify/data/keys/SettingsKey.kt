@@ -24,4 +24,5 @@ enum class SettingsKey(override val default: Any?) : Key {
     FIRST_INSTALL(true),
     UPDATE_DETECTED(false),
     XPOSED_ONLY_MODE(false),
+    PLAYGROUND_UNLOCKED(false),
 }

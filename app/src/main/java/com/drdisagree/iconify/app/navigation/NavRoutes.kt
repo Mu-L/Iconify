@@ -29,6 +29,9 @@ sealed class NavRoutes {
         data object Changelog : MainGraph()
 
         @Serializable
+        data object Playground : MainGraph()
+
+        @Serializable
         sealed class Home : MainGraph() {
 
             @Serializable
