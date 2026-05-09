@@ -37,7 +37,6 @@ import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -82,7 +81,6 @@ class MainActivity : ComponentActivity() {
                                 "Model availability: ${response.areModulesAvailable()}"
                             )
                         }
-                        delay(300)
                         isInitializing = false
                     }
                 }

@@ -30,7 +30,7 @@ val homePreferences = preferenceScreen {
 @Composable
 fun HomeScreen(bottomNavViewModel: BottomNavViewModel = sharedHiltViewModel()) {
     LaunchedEffect(Unit) {
-        delay(600)
+        delay(300)
         bottomNavViewModel.showBottomBar(true)
     }
 

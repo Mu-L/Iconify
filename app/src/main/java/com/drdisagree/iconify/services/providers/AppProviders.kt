@@ -70,6 +70,7 @@ fun AppProviders(
     val isPlaygroundUnlocked by settingsViewModel.booleanState(SettingsKey.PLAYGROUND_UNLOCKED)
     val uiScale by settingsViewModel.floatState(SettingsKey.UI_SCALE)
     val textScale by settingsViewModel.floatState(SettingsKey.TEXT_SCALE)
+    val isSettingsLoaded by settingsViewModel.isLoaded.collectAsState()
 
     val state by remember {
         derivedStateOf {
@@ -87,7 +88,7 @@ fun AppProviders(
                 overlayVersionCode = overlayVersionCode,
                 isXposedOnlyMode = isXposedOnlyMode,
                 isPlaygroundUnlocked = isPlaygroundUnlocked,
-                isLoaded = true,
+                isLoaded = isSettingsLoaded,
             )
         }
     }
