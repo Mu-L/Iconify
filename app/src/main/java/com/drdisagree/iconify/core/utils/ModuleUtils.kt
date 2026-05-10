@@ -58,6 +58,7 @@ object ModuleUtils {
             "{{PACKAGE_NAME}}" to BuildConfig.APPLICATION_ID,
             "{{CLASS_PATH}}" to MainActivity::class.qualifiedName!!
         )
+        val uninstallSh = readRawResource(R.raw.module_uninstall)
         val serviceSh = if (!skippedInstallation) {
             readRawResource(R.raw.module_service).replaceAll(
                 "{{RESTART_SYSUI_AFTER_BOOT}}" to ("killall $SYSTEMUI_PACKAGE\n"
@@ -73,6 +74,7 @@ object ModuleUtils {
             resolve("post-fs-data.sh").writeText(postFsDataSh)
             resolve("service.sh").writeText(serviceSh)
             resolve("action.sh").writeText(actionSh)
+            resolve("uninstall.sh").writeText(uninstallSh)
             resolve("system.prop").createNewFile()
             resolve("auto_mount").createNewFile()
         }
