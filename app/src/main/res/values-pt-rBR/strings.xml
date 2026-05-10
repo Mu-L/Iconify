@@ -1064,7 +1064,7 @@
     <!-- Bottom Navigation -->
     <string name="navbar_home">Início</string>
     <string name="navbar_tweaks">Ajustes</string>
-    <string name="navbar_xposed">Exposto</string>
+    <string name="navbar_xposed">Xposed</string>
     <string name="navbar_settings">Configurações</string>
     <!-- Settings 3 dot menu -->
     <string name="changelog">Registro de alterações</string>
