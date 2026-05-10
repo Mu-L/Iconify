@@ -39,7 +39,7 @@
     <string name="logs">Günlükler</string>
     <!-- Disclaimer -->
     <string name="disclaimer">Sorumluluk Reddi</string>
-    <string name="disclaimer_1_title">Root Erişimi &amp; Ortamı</string>
+    <string name="disclaimer_1_title">Süper Kullanıcı Erişimi &amp; Ortamı</string>
     <string name="disclaimer_1_description">Bu uygulama, sistem kaynaklarını değiştirmek için Magisk, KernelSU veya APatch aracılığıyla Root yetkileri gerektirir.\nLSPosed isteğe bağlı olsa da, en iyi uyumluluk ve gelişmiş özellik desteği için şiddetle tavsiye edilir.\nUygulama, Süper Kullanıcı izni isteyecektir; bu izinler olmadan sisteminizde hiçbir değişiklik yapılamaz.</string>
     <string name="disclaimer_2_title">Sistem Katmanları &amp; Modifikasyonları</string>
     <string name="disclaimer_2_description">Iconify, dinamik Çalışma Zamanı Kaynak Katmanları (RRO) oluşturup bunları doğrudan sisteminize enjekte ederek çalışır.\nBu modifikasyonlar AOSP tabanlı ROM\'lar için tasarlanmıştır ve yoğun şekilde modifiye edilmiş OEM arayüzleriyle (HyperOS, Realme UI veya OneUI gibi) çakışabilir.\nBelirli sistem değerlerini değiştirmek, Android sürümünüze bağlı olarak arayüz donmalarına veya \"Sistem arayüzü durdu\" hatalarına neden olabilir.</string>
