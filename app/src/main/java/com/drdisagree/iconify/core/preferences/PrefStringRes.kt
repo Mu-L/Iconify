@@ -7,7 +7,7 @@ import androidx.compose.ui.res.stringResource
 sealed class PrefStringRes {
     data class Hardcoded(val value: String) : PrefStringRes()
 
-    data class Resource(@StringRes val resId: Int) : PrefStringRes()
+    data class Resource(@param:StringRes val resId: Int) : PrefStringRes()
 
     class Composable(val producer: @androidx.compose.runtime.Composable () -> String) :
         PrefStringRes()
