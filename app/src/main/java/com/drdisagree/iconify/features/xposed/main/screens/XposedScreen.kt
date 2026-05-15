@@ -122,7 +122,7 @@ private fun XposedScreenContent() {
             }
         ),
         title = stringResource(R.string.navbar_xposed),
-        showActionIcon = false
+        showActionIcon = true
     )
 }
 

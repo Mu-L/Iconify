@@ -7,6 +7,8 @@ import androidx.compose.ui.res.stringResource
 sealed class PrefStringRes {
     data class Hardcoded(val value: String) : PrefStringRes()
 
+    data class Resource(@StringRes val resId: Int) : PrefStringRes()
+
     class Composable(val producer: @androidx.compose.runtime.Composable () -> String) :
         PrefStringRes()
 }
@@ -14,7 +16,7 @@ sealed class PrefStringRes {
 fun stringRes(value: String): PrefStringRes = PrefStringRes.Hardcoded(value)
 
 fun stringRes(@StringRes id: Int): PrefStringRes =
-    PrefStringRes.Composable { stringResource(id) }
+    PrefStringRes.Resource(id)
 
 fun stringRes(@StringRes id: Int, vararg formatArgs: Any): PrefStringRes =
     PrefStringRes.Composable { stringResource(id, *formatArgs) }
@@ -25,6 +27,7 @@ fun stringRes(producer: @Composable () -> String): PrefStringRes =
 @Composable
 fun PrefStringRes.resolve(): String = when (this) {
     is PrefStringRes.Hardcoded -> value
+    is PrefStringRes.Resource -> stringResource(resId)
     is PrefStringRes.Composable -> producer()
 }
 

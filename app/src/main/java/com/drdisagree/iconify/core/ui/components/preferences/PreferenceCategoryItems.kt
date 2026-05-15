@@ -26,6 +26,7 @@ fun LazyListScope.preferenceCategoryItems(
     addTopSpacer: Boolean = true,
     firstLoadMap: Map<String, Boolean>,
     visibleIndices: List<Int>,
+    highlightKey: String? = null,
 ) {
     item(
         key = "header_${System.identityHashCode(category)}",
@@ -45,6 +46,7 @@ fun LazyListScope.preferenceCategoryItems(
         val position = resolvePosition(visibleIndices, index)
         val shape = animatedPreferenceShape(position)
         val firstLoad = firstLoadMap[prefDefinition.key] ?: false
+        val isHighlighted = highlightKey == prefDefinition.key
 
         AnimatedVisibility(
             visible = isVisible,
@@ -59,6 +61,7 @@ fun LazyListScope.preferenceCategoryItems(
                 prefController = prefController,
                 shape = shape,
                 isEnabled = isEnabled,
+                isHighlighted = isHighlighted,
                 modifier = Modifier.padding(top = topPad),
             )
         }

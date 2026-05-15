@@ -159,7 +159,7 @@ fun CollapsingTopAppBar(
 }
 
 @Composable
-fun ActionItem(action: TopAppBarAction, showActionIcon: Boolean) {
+fun ActionItem(action: TopAppBarAction, showActionIcon: Boolean, isLastItem: Boolean) {
     val isDarkTheme = LocalDarkMode.current
     val expanded = rememberSaveable { mutableStateOf(false) }
 
@@ -191,7 +191,7 @@ fun ActionItem(action: TopAppBarAction, showActionIcon: Boolean) {
                 ),
                 shapes = IconButtonDefaults.shapes(),
                 modifier = Modifier
-                    .width(36.dp)
+                    .width(if (isLastItem) 36.dp else 40.dp)
                     .height(40.dp)
             ) {
                 when (action.icon) {

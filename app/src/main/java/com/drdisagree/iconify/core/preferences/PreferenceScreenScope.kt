@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.core.preferences
 
 import androidx.compose.runtime.Composable
-import com.drdisagree.iconify.core.preferences.PreferenceScreenItem
 import com.drdisagree.iconify.core.ui.components.extensions.toStringRes
 
 /** Builds a list of [PreferenceCategoryDefinition]s using a concise DSL. */

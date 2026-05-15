@@ -3,21 +3,31 @@ package com.drdisagree.iconify.core.preferences
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.core.common.LocalPreferenceController
+import com.drdisagree.iconify.core.search.SearchHighlightState
 import com.drdisagree.iconify.core.ui.components.others.innerPaddingValues
 import com.drdisagree.iconify.core.ui.components.preferences.preferenceCategoryItems
 import com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold
 import com.drdisagree.iconify.core.ui.components.topappbar.TopAppBarAction
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 
 fun preferenceScreen(
     block: PreferenceScreenScope.() -> Unit
@@ -37,6 +47,11 @@ fun PreferenceScreen(
     actions: List<TopAppBarAction> = emptyList(),
 ) {
     val prefController = LocalPreferenceController.current
+    val listState = rememberLazyListState()
+
+    // ── Highlight support ──────────────────────────────────────────
+    val highlightKey by SearchHighlightState.highlightKey.collectAsStateWithLifecycle()
+    var activeHighlightKey by remember { mutableStateOf<String?>(null) }
 
     val categories = remember(items) {
         items.filterIsInstance<PreferenceScreenItem.Category>().map { it.definition }
@@ -75,7 +90,70 @@ fun PreferenceScreen(
         onBackClick = onBackClick,
         showActionIcon = showActionIcon,
         actions = actions
-    ) { innerPadding, _ ->
+    ) { innerPadding, scrollBehavior ->
+        // ── Scroll to + highlight the target preference ────────────────
+        LaunchedEffect(highlightKey, items) {
+            val key = highlightKey ?: return@LaunchedEffect
+
+            // Compute the flat index by iterating through categories
+            var flatIndex = 0
+            var found = false
+            for (screenItem in items) {
+                if (found) break
+                when (screenItem) {
+                    is PreferenceScreenItem.Category -> {
+                        flatIndex++ // header
+                        val cat = screenItem.definition
+                        for (pref in cat.preferences) {
+                            if (pref.key == key) {
+                                found = true
+                                break
+                            }
+                            flatIndex++
+                        }
+                    }
+
+                    is PreferenceScreenItem.Custom -> {
+                        flatIndex++
+                    }
+                }
+            }
+
+            if (found) {
+                // Wait for the list to be populated with enough items
+                snapshotFlow { listState.layoutInfo.totalItemsCount }
+                    .filter { it > flatIndex }
+                    .first()
+
+                // Try to find it among visible items first
+                val layoutInfo = listState.layoutInfo
+                val allKeys = layoutInfo.visibleItemsInfo.map { it.key }
+                val visibleIndex = allKeys.indexOfFirst { it == key }
+
+                if (visibleIndex >= 0) {
+                    val itemInfo = layoutInfo.visibleItemsInfo[visibleIndex]
+                    listState.animateScrollToItem(itemInfo.index)
+                } else {
+                    listState.animateScrollToItem(flatIndex)
+                }
+
+                // Adjust top app bar based on scroll target
+                if (flatIndex > 0) {
+                    scrollBehavior.state.heightOffset = scrollBehavior.state.heightOffsetLimit
+                } else {
+                    scrollBehavior.state.heightOffset = 0f
+                }
+            }
+
+            // Trigger highlight animation
+            activeHighlightKey = key
+
+            // Auto-clear highlight after animation
+            delay(1500)
+            activeHighlightKey = null
+            SearchHighlightState.clearHighlight()
+        }
+
         val padding = innerPaddingValues(
             innerPadding = innerPadding,
             horizontal = 16.dp,
@@ -83,7 +161,10 @@ fun PreferenceScreen(
         )
 
         LazyColumn(
-            modifier = modifier.fillMaxSize(),
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
             contentPadding = padding,
         ) {
             var firstVisibleCategoryAdded = false
@@ -102,6 +183,7 @@ fun PreferenceScreen(
                             addTopSpacer = !isFirstVisible,
                             firstLoadMap = firstLoadMap,
                             visibleIndices = visibleIndices,
+                            highlightKey = activeHighlightKey,
                         )
 
                         if (visibleIndices.isNotEmpty()) {

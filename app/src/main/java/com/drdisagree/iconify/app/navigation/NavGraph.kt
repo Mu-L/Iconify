@@ -69,6 +69,7 @@ import com.drdisagree.iconify.features.xposed.statusbar.dualstatusbar.screens.Du
 import com.drdisagree.iconify.features.xposed.statusbar.logo.screens.StatusbarLogoScreen
 import com.drdisagree.iconify.features.xposed.statusbar.main.screens.XposedStatusbarScreen
 import com.drdisagree.iconify.features.xposed.volumepanel.screens.VolumePanelScreen
+import com.drdisagree.iconify.features.search.SearchScreen
 import kotlinx.serialization.json.Json
 
 @Composable
@@ -197,6 +198,7 @@ fun NavGraph(
             }
             navigation<NavRoutes.MainGraph.Main>(startDestination = NavRoutes.MainGraph.Root) {
                 composable<NavRoutes.MainGraph.Root> { MainScreen() }
+                composable<NavRoutes.MainGraph.Search> { SearchScreen() }
                 composable<NavRoutes.MainGraph.Changelog> { ChangelogScreen() }
                 composable<NavRoutes.MainGraph.Playground> { PlaygroundScreen() }
 

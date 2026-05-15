@@ -159,10 +159,11 @@ fun AppScaffold(
                 showBackIcon = showBackIcon,
                 onBackClick = onBackClick,
                 actions = {
+                    val searchAction = searchAction()
                     val allActions = if (previewMode)
-                        defaultActions(systemActionViewModel = null) + actions
+                        listOf(searchAction) + defaultActions(systemActionViewModel = null) + actions
                     else
-                        defaultActions(
+                        listOf(searchAction) + defaultActions(
                             onImport = {
                                 importExportViewModel?.createImportIntent()
                                     ?.let { importLauncher.launch(it) }
@@ -173,10 +174,11 @@ fun AppScaffold(
                             }
                         ) + actions
 
-                    allActions.forEach { action ->
+                    allActions.forEachIndexed { index, action ->
                         ActionItem(
                             action = action,
-                            showActionIcon = showActionIcon
+                            showActionIcon = showActionIcon,
+                            isLastItem = index == allActions.lastIndex
                         )
                     }
                 },
@@ -196,6 +198,24 @@ fun AppScaffold(
         )
         content(adjustedPadding, scrollBehavior)
     }
+}
+
+@Composable
+private fun searchAction(): TopAppBarAction {
+    val navController = LocalNavController.current
+
+    return TopAppBarAction(
+        icon = R.drawable.ic_search,
+        label = "Search",
+        onClick = {
+            val popped = navController.popBackStack<NavRoutes.MainGraph.Search>(inclusive = false)
+            if (!popped) {
+                navController.navigate(NavRoutes.MainGraph.Search) {
+                    launchSingleTop = true
+                }
+            }
+        }
+    )
 }
 
 @Composable

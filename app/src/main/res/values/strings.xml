@@ -60,6 +60,7 @@
     <string name="searchpreference_more">More</string>
     <string name="searchpreference_clear_history">Clear history</string>
     <string name="searchpreference_no_result">No result</string>
+    <string name="recent_searches">Recent searches</string>
 
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
@@ -1544,5 +1545,9 @@
     <string name="section_title_active_tile_colors">Active Tile Colors</string>
     <string name="section_title_inactive_tile_colors">Inactive Tile Colors</string>
     <string name="section_title_disabled_tile_colors">Disabled Tile Colors</string>
+
+    <!-- Search -->
+    <string name="search_settings_hint">Search settings…</string>
+    <string name="search_no_results">No results found</string>
 
 </resources>
