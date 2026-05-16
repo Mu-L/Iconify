@@ -22,7 +22,7 @@ import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.home.tweaks.statusbar.viewmodels.StatusbarViewModel
 import kotlin.math.roundToInt
 
-val statusbarPreferences = preferenceScreen {
+val tweaksStatusbarPreferences = preferenceScreen {
     category(title = stringRes(R.string.section_title_color)) {
         listPref(
             key = TweaksKey.STATUSBAR_TINT_MODE,
@@ -139,7 +139,7 @@ fun TweaksStatusbarScreen(
 @Composable
 private fun StatusbarScreenContent() {
     PreferenceScreen(
-        items = statusbarPreferences,
+        items = tweaksStatusbarPreferences,
         title = stringResource(R.string.activity_title_statusbar),
         showBackIcon = true
     )

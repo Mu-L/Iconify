@@ -10,7 +10,6 @@ import com.drdisagree.iconify.core.preferences.PreferenceController
  *
  * @property key The unique preference key (used for highlight on navigation).
  * @property title The title of the preference item.
- * @property summary Optional summary text for additional search matching.
  * @property screenTitleResId The R.string ID of the parent screen's title.
  * @property breadcrumbs Ordered list of breadcrumb labels (e.g. ["Xposed", "Status Bar", "Clock Chip"]).
  * @property route The NavRoutes destination that hosts this preference.
@@ -19,7 +18,6 @@ import com.drdisagree.iconify.core.preferences.PreferenceController
 data class SearchablePreference(
     val key: String,
     val title: PrefStringRes,
-    val summary: PrefStringRes? = null,
     @param:StringRes val screenTitleResId: Int,
     val breadcrumbs: List<PrefStringRes>,
     val route: NavRoutes,

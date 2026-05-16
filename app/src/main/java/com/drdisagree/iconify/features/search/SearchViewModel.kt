@@ -100,10 +100,6 @@ class SearchViewModel @Inject constructor(
         val titleText = resolveText(pref.title)
         if (titleText != null && titleText.lowercase().contains(q)) return true
 
-        // Match summary
-        val summaryText = pref.summary?.let { resolveText(it) }
-        if (summaryText != null && summaryText.lowercase().contains(q)) return true
-
         // Match breadcrumbs
         pref.breadcrumbs.forEach { bc ->
             val bcText = resolveText(bc)

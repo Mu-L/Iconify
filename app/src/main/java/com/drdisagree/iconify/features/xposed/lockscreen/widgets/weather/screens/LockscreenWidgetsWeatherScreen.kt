@@ -26,10 +26,10 @@ import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.Weath
 import com.drdisagree.iconify.helpers.maskKey
 
 fun lsWidgetsWeatherPreferences(
-    weatherViewModel: WeatherViewModel?,
-    updateStatusSummary: String?,
-    selectedPackLabel: String,
-    onIconPackClick: () -> Unit
+    weatherViewModel: WeatherViewModel? = null,
+    updateStatusSummary: String? = null,
+    selectedPackLabel: String = "",
+    onIconPackClick: () -> Unit = {}
 ) = preferenceScreen {
     category {
         listPref(
@@ -155,10 +155,10 @@ fun LockscreenWidgetsWeatherScreen(weatherViewModel: WeatherViewModel = hiltView
 
 @Composable
 private fun LockscreenWidgetsWeatherScreenContent(
-    weatherViewModel: WeatherViewModel?,
-    updateStatusSummary: String?,
-    selectedPackLabel: String,
-    onIconPackClick: () -> Unit
+    weatherViewModel: WeatherViewModel? = null,
+    updateStatusSummary: String? = null,
+    selectedPackLabel: String = "",
+    onIconPackClick: () -> Unit = {}
 ) {
     PreferenceScreen(
         items = lsWidgetsWeatherPreferences(
@@ -176,10 +176,6 @@ private fun LockscreenWidgetsWeatherScreenContent(
 @Composable
 private fun LockscreenWidgetsWeatherScreenPreview() {
     PreviewComposable {
-        LockscreenWidgetsWeatherScreenContent(
-            null,
-            null,
-            ""
-        ) {}
+        LockscreenWidgetsWeatherScreenContent()
     }
 }

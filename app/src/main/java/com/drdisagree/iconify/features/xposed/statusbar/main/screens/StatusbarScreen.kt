@@ -18,7 +18,7 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import kotlin.math.roundToInt
 
-val statusbarPreferences = preferenceScreen {
+val xposedStatusbarPreferences = preferenceScreen {
     category {
         action(
             key = "battery_style",
@@ -184,7 +184,7 @@ fun XposedStatusbarScreen(
     }
 
     PreferenceScreen(
-        items = statusbarPreferences,
+        items = xposedStatusbarPreferences,
         title = stringResource(R.string.activity_title_statusbar),
         showBackIcon = true
     )
