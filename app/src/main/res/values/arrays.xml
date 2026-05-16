@@ -138,11 +138,18 @@
         <item>1</item>
     </string-array>
 
-    <string-array name="update_schedule" translatable="false">
+    <string-array name="update_schedule_entries" translatable="false">
         <item>@string/update_schedule1</item>
         <item>@string/update_schedule2</item>
         <item>@string/update_schedule3</item>
         <item>@string/update_schedule4</item>
+    </string-array>
+
+    <string-array name="update_schedule_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
     <!-- Lockscreen Weather Units -->

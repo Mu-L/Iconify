@@ -27,7 +27,10 @@ import com.drdisagree.iconify.core.ui.utils.CARD_CORNER_LARGE
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun LoadingDialog(onDismiss: () -> Unit = {}) {
+fun LoadingDialog(
+    text: String? = null,
+    onDismiss: () -> Unit = {}
+) {
     val borderWidth = 3.dp
 
     Dialog(onDismissRequest = onDismiss) {
@@ -48,6 +51,7 @@ fun LoadingDialog(onDismiss: () -> Unit = {}) {
                 tonalElevation = 8.dp
             ) {
                 LoadingDialogContent(
+                    text = text,
                     modifier = Modifier.padding(
                         horizontal = 36.dp,
                         vertical = 24.dp
@@ -58,9 +62,11 @@ fun LoadingDialog(onDismiss: () -> Unit = {}) {
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LoadingDialogContent(
     modifier: Modifier = Modifier,
+    text: String? = null,
     showText: Boolean = true
 ) {
     Column(
@@ -71,7 +77,7 @@ fun LoadingDialogContent(
         ContainedLoadingIndicator(modifier = Modifier.size(60.dp))
         if (showText) {
             Text(
-                text = stringResource(R.string.loading_dialog_wait),
+                text = text ?: stringResource(R.string.loading_dialog_wait),
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleMedium,

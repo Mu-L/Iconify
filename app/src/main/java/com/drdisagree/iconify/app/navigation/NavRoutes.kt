@@ -214,6 +214,9 @@ sealed class NavRoutes {
             data object LookAndFeel : Settings()
 
             @Serializable
+            data object AppUpdates : Settings()
+
+            @Serializable
             data object Credits : Settings()
 
             @Serializable

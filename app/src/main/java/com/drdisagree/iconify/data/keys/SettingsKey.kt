@@ -25,4 +25,7 @@ enum class SettingsKey(override val default: Any?) : Key {
     UPDATE_DETECTED(false),
     XPOSED_ONLY_MODE(false),
     PLAYGROUND_UNLOCKED(false),
+    AUTO_UPDATE(true),
+    UPDATE_OVER_WIFI(false),
+    UPDATE_SCHEDULE("3"),
 }

@@ -44,6 +44,8 @@ import com.drdisagree.iconify.features.home.wifiicons.screens.WifiIconScreen
 import com.drdisagree.iconify.features.main.screens.MainScreen
 import com.drdisagree.iconify.features.onboarding.screens.OnboardingScreen
 import com.drdisagree.iconify.features.playground.screens.PlaygroundScreen
+import androidx.activity.compose.LocalActivity
+import com.drdisagree.iconify.features.settings.appupdates.screens.AppUpdatesScreen
 import com.drdisagree.iconify.features.settings.credits.screens.CreditsScreen
 import com.drdisagree.iconify.features.settings.lookandfeel.screens.LookAndFeelScreen
 import com.drdisagree.iconify.features.settings.main.screens.SettingsScreen
@@ -80,6 +82,32 @@ fun NavGraph(
     val previewMode = LocalInspectionMode.current
     val navController = LocalNavController.current
     val layoutDirection = LocalLayoutDirection.current
+    val activity = LocalActivity.current
+
+    LaunchedEffect(activity) {
+        if (activity?.intent?.getBooleanExtra("open_app_updates", false) == true) {
+            activity.intent?.removeExtra("open_app_updates")
+            navController.navigate(NavRoutes.MainGraph.Settings.AppUpdates) {
+                launchSingleTop = true
+            }
+        }
+    }
+
+    androidx.compose.runtime.DisposableEffect(activity) {
+        val listener = androidx.core.util.Consumer<android.content.Intent> { intent ->
+            if (intent.getBooleanExtra("open_app_updates", false)) {
+                intent.removeExtra("open_app_updates")
+                navController.navigate(NavRoutes.MainGraph.Settings.AppUpdates) {
+                    launchSingleTop = true
+                }
+            }
+        }
+        val componentActivity = activity as? androidx.activity.ComponentActivity
+        componentActivity?.addOnNewIntentListener(listener)
+        onDispose {
+            componentActivity?.removeOnNewIntentListener(listener)
+        }
+    }
 
     val startDestination = rememberSaveable(
         saver = Saver(
@@ -267,6 +295,7 @@ fun NavGraph(
                 navigation<NavRoutes.MainGraph.Settings.Root>(startDestination = NavRoutes.MainGraph.Settings.Tab) {
                     composable<NavRoutes.MainGraph.Settings.Tab> { SettingsScreen() }
                     composable<NavRoutes.MainGraph.Settings.LookAndFeel> { LookAndFeelScreen() }
+                    composable<NavRoutes.MainGraph.Settings.AppUpdates> { AppUpdatesScreen() }
                     composable<NavRoutes.MainGraph.Settings.Credits> { CreditsScreen() }
                 }
             }

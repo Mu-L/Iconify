@@ -98,6 +98,24 @@
             android:exported="true"
             tools:ignore="ExportedContentProvider" />
 
+        <!-- Boot Receiver -->
+        <receiver
+            android:name=".services.receivers.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Package Install Receiver -->
+        <receiver
+            android:name=".services.receivers.PackageInstallReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
         <!-- Weather Content Provider -->
         <provider
             android:name=".core.utils.weather.WeatherContentProvider"

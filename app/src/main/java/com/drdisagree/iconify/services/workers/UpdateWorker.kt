@@ -14,9 +14,8 @@ import androidx.work.WorkerParameters
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.MainActivity
-import com.drdisagree.iconify.data.common.Const.LATEST_VERSION_URL
-import com.drdisagree.iconify.data.common.Preferences.UPDATE_OVER_WIFI
 import com.drdisagree.iconify.data.config.RPrefs
+import com.drdisagree.iconify.data.keys.SettingsKey
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,43 +33,63 @@ class UpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker
         val isGoodNetwork = isGoodNetworkAvailable()
 
         if (isGoodNetwork) {
-            val jsonStr = fetchLatestVersion()
+            val jsonStr = fetchLatestRelease()
 
             if (jsonStr != null) {
                 try {
-                    val latestVersion = JSONObject(jsonStr)
-                    val latestVersionCode = latestVersion.getInt("versionCode")
+                    val latestRelease = JSONObject(jsonStr)
+                    val tagName = latestRelease.getString("tag_name")
 
-                    if (latestVersionCode > BuildConfig.VERSION_CODE) {
-                        showUpdateNotification()
+                    if (compareVersions(tagName, BuildConfig.VERSION_NAME)) {
+                        showUpdateNotification(tagName)
                     }
+                    return Result.success()
                 } catch (e: Exception) {
                     Log.e(tag, "Error: ${e.message}")
+                    return Result.retry()
                 }
+            } else {
+                return Result.retry()
             }
         }
 
-        return if (isGoodNetwork) Result.success() else Result.retry()
+        return Result.retry()
+    }
+
+    private fun compareVersions(latestTag: String, currentVersion: String): Boolean {
+        val regex = "v?(\\d+\\.\\d+\\.\\d+)".toRegex()
+        val latestMatch = regex.find(latestTag)?.groupValues?.get(1) ?: return false
+        val currentMatch = regex.find(currentVersion)?.groupValues?.get(1) ?: return false
+
+        val latestParts = latestMatch.split(".").map { it.toIntOrNull() ?: 0 }
+        val currentParts = currentMatch.split(".").map { it.toIntOrNull() ?: 0 }
+
+        for (i in 0 until maxOf(latestParts.size, currentParts.size)) {
+            val l = latestParts.getOrNull(i) ?: 0
+            val c = currentParts.getOrNull(i) ?: 0
+            if (l > c) return true
+            if (l < c) return false
+        }
+        return false
     }
 
     private fun isGoodNetworkAvailable(): Boolean {
-        val updateOverWifiOnly = RPrefs.getBoolean(UPDATE_OVER_WIFI, true)
+        val updateOverWifiOnly = RPrefs.getBoolean(SettingsKey.UPDATE_OVER_WIFI)
         val connectivityManager =
             applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities =
             connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         return capabilities != null && (capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                && !updateOverWifiOnly
-                || capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED))
+                && (!updateOverWifiOnly || capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)))
     }
 
-    private suspend fun fetchLatestVersion(): String? {
+    private suspend fun fetchLatestRelease(): String? {
         return withContext(Dispatchers.IO) {
             var urlConnection: HttpURLConnection? = null
             var bufferedReader: BufferedReader? = null
 
             try {
-                val url = URL(LATEST_VERSION_URL)
+                val url = URL("https://api.github.com/repos/Mahmud0808/Iconify/releases/latest")
                 urlConnection = url.openConnection() as HttpURLConnection
                 urlConnection.connect()
 
@@ -98,14 +117,12 @@ class UpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker
         }
     }
 
-    private fun showUpdateNotification() {
-        // Grant permission for notifications
+    private fun showUpdateNotification(version: String) {
         Shell.cmd("pm grant ${BuildConfig.APPLICATION_ID} android.permission.POST_NOTIFICATIONS")
             .exec()
 
         val notificationIntent = Intent(applicationContext, MainActivity::class.java).apply {
-            // TODO: Add in-app updater
-            //            putExtra(AppUpdates.KEY_NEW_UPDATE, true)
+            putExtra("open_app_updates", true)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
@@ -113,7 +130,7 @@ class UpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker
             applicationContext,
             0,
             notificationIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         val notificationBuilder = NotificationCompat.Builder(
@@ -122,7 +139,7 @@ class UpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker
         )
             .setSmallIcon(R.drawable.ic_launcher_fg)
             .setContentTitle(applicationContext.getString(R.string.new_update_title))
-            .setContentText(applicationContext.getString(R.string.new_update_desc))
+            .setContentText(applicationContext.getString(R.string.update_dialog_desc, version))
             .setContentIntent(pendingIntent)
             .setOnlyAlertOnce(true)
             .setAutoCancel(true)

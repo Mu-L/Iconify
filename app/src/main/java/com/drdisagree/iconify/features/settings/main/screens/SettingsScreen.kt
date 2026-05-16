@@ -124,6 +124,27 @@ fun settingsPreferences(
         )
     }
 
+    category(title = stringRes(R.string.settings_section_title_updates)) {
+        action(
+            key = "app_update_checker",
+            icon = iconRes(R.drawable.ic_check_update),
+            title = stringRes(R.string.settings_check_for_update),
+            summary = { stringRes(BuildConfig.VERSION_NAME.removePrefix("v")) },
+            onClick = {
+                it.navController.navigate(NavRoutes.MainGraph.Settings.AppUpdates) {
+                    launchSingleTop = true
+                }
+            }
+        )
+
+        switch(
+            key = SettingsKey.AUTO_UPDATE,
+            icon = iconRes(R.drawable.ic_auto_update),
+            title = stringRes(R.string.settings_auto_update_title),
+            summary = { stringRes(R.string.settings_auto_update_desc) },
+        )
+    }
+
     category(title = stringRes(R.string.settings_section_title_about)) {
         action(
             key = "iconifyGitHub",
