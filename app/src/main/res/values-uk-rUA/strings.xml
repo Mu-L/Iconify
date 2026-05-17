@@ -57,6 +57,7 @@
     <string name="searchpreference_more">Більше</string>
     <string name="searchpreference_clear_history">Очистити історію</string>
     <string name="searchpreference_no_result">Нічого не знайдено</string>
+    <string name="recent_searches">Recent searches</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Набір значків</string>
@@ -131,7 +132,7 @@
     <string name="settings_auto_update_title">Автооновлення</string>
     <string name="settings_auto_update_desc">Перевіряти наявність нових версій у фоновому режимі.</string>
     <string name="settings_auto_update_title_wifi_only">Перевіряти лише по Wi-Fi</string>
-    <string name="settings_auto_update_desc_wifi_only">Перевіряти оновлення лише через Wi-Fi.</string>
+    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Показувати попередження</string>
     <string name="settings_show_warning_desc">Показувати попередження про повторну оптимізацію модуля в меню Xposed.</string>
@@ -981,7 +982,13 @@
     <string name="changelog_changes_in">Changes in %1$s</string>
     <string name="changelog_changes_since">Changes since %1$s</string>
     <!-- App Updates -->
+    <string name="settings_section_title_updates">Updates</string>
+    <string name="settings_app_update_checker_title">App Update</string>
+    <string name="check_for_updates_button">Check for updates</string>
+    <string name="download_update_button">Download Update</string>
     <string name="checking_for_update">Перевірка наявності оновлень</string>
+    <string name="downloading_update">Downloading Update\n(%d%%)</string>
+    <string name="installing_update">Prompting for Installation…</string>
     <string name="update_available">Доступне обновлення!</string>
     <string name="update_dialog_desc">Оновлення %s доступне для завантаження.</string>
     <string name="view_changelog">Переглянути журнал змін</string>
@@ -1258,8 +1265,6 @@
     <string name="settings_title">Налаштування</string>
     <string name="auto_update_title">Автоматичні оновлення</string>
     <string name="auto_update_summary">Перевіряти наявність нових версій</string>
-    <string name="update_over_wifi_title">Перевіряти оновлення тільки по Wi-Fi</string>
-    <string name="update_over_wifi_summary">Перевіряти оновлення лише у фоновому режимі при під\'єднанні до Wi-Fi</string>
     <string name="unit_metric">Метрична (\u00b0C)</string>
     <string name="unit_imperial">Англійська (\u00b0F)</string>
     <string name="update">Оновлення</string>
@@ -1462,4 +1467,7 @@
     <string name="section_title_active_tile_colors">Active Tile Colors</string>
     <string name="section_title_inactive_tile_colors">Inactive Tile Colors</string>
     <string name="section_title_disabled_tile_colors">Disabled Tile Colors</string>
+    <!-- Search -->
+    <string name="search_settings_hint">Search settings…</string>
+    <string name="search_no_results">No results found</string>
 </resources>

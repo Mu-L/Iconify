@@ -57,6 +57,7 @@
     <string name="searchpreference_more">Więcej</string>
     <string name="searchpreference_clear_history">Wyczyść historię</string>
     <string name="searchpreference_no_result">Brak wyników</string>
+    <string name="recent_searches">Recent searches</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Paczka ikon</string>
@@ -131,7 +132,7 @@
     <string name="settings_auto_update_title">Automatyczna aktualizacja</string>
     <string name="settings_auto_update_desc">Sprawdzaj nowe wersje w tle</string>
     <string name="settings_auto_update_title_wifi_only">Sprawdzaj tylko przez Wi-Fi</string>
-    <string name="settings_auto_update_desc_wifi_only">Sprawdzaj aktualizacje tylko przez Wi-Fi</string>
+    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Pokazuj ostrzeżenie</string>
     <string name="settings_show_warning_desc">Pokazuj ostrzeżenie o tym, jak zoptymalizować moduł w menu Xposed</string>
@@ -981,7 +982,13 @@
     <string name="changelog_changes_in">Changes in %1$s</string>
     <string name="changelog_changes_since">Changes since %1$s</string>
     <!-- App Updates -->
+    <string name="settings_section_title_updates">Updates</string>
+    <string name="settings_app_update_checker_title">App Update</string>
+    <string name="check_for_updates_button">Check for updates</string>
+    <string name="download_update_button">Download Update</string>
     <string name="checking_for_update">Sprawdzanie aktualizacji</string>
+    <string name="downloading_update">Downloading Update\n(%d%%)</string>
+    <string name="installing_update">Prompting for Installation…</string>
     <string name="update_available">Dostępna aktualizacja!</string>
     <string name="update_dialog_desc">Aktualizacja %s jest dostępna do pobrania</string>
     <string name="view_changelog">Wyświetl listę zmian</string>
@@ -1258,8 +1265,6 @@
     <string name="settings_title">Ustawienia</string>
     <string name="auto_update_title">Automatyczne aktualizacje</string>
     <string name="auto_update_summary">Sprawdza, czy są nowe wersje raz na jakiś czas</string>
-    <string name="update_over_wifi_title">Sprawdzaj aktualizacje tylko przez Wi-Fi</string>
-    <string name="update_over_wifi_summary">Sprawdzaj aktualizacje w tle tylko przy połączeniu z Wi-Fi</string>
     <string name="unit_metric">Metryczna (\u00b0C)</string>
     <string name="unit_imperial">Imperialna (\u00b0F)</string>
     <string name="update">Aktualizacja</string>
@@ -1462,4 +1467,7 @@
     <string name="section_title_active_tile_colors">Active Tile Colors</string>
     <string name="section_title_inactive_tile_colors">Inactive Tile Colors</string>
     <string name="section_title_disabled_tile_colors">Disabled Tile Colors</string>
+    <!-- Search -->
+    <string name="search_settings_hint">Search settings…</string>
+    <string name="search_no_results">No results found</string>
 </resources>
