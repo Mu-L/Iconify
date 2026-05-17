@@ -57,6 +57,7 @@
     <string name="searchpreference_more">Daha Fazla</string>
     <string name="searchpreference_clear_history">Geçmişi temizle</string>
     <string name="searchpreference_no_result">Sonuç bulunamadı</string>
+    <string name="recent_searches">Recent searches</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Simge Paketi</string>
@@ -131,7 +132,7 @@
     <string name="settings_auto_update_title">Otomatik Güncelleme</string>
     <string name="settings_auto_update_desc">Arka planda yeni sürümleri kontrol et.</string>
     <string name="settings_auto_update_title_wifi_only">Sadece Wi-Fi Üzerinden Kontrol Et</string>
-    <string name="settings_auto_update_desc_wifi_only">Güncellemeleri sadece Wi-Fi bağlantısı varken kontrol et.</string>
+    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Uyarıyı Göster</string>
     <string name="settings_show_warning_desc">Xposed menüsünde modülün nasıl yeniden optimize edileceğine dair uyarıyı göster.</string>
@@ -981,7 +982,13 @@
     <string name="changelog_changes_in">%1$s sürümündeki değişiklikler</string>
     <string name="changelog_changes_since">%1$s tarihinden bu yana gerçekleşen değişiklikler</string>
     <!-- App Updates -->
+    <string name="settings_section_title_updates">Updates</string>
+    <string name="settings_app_update_checker_title">App Update</string>
+    <string name="check_for_updates_button">Check for updates</string>
+    <string name="download_update_button">Download Update</string>
     <string name="checking_for_update">Güncelleme Kontrol Ediliyor</string>
+    <string name="downloading_update">Downloading Update\n(%d%%)</string>
+    <string name="installing_update">Prompting for Installation…</string>
     <string name="update_available">Güncelleme mevcut!</string>
     <string name="update_dialog_desc">%s sürümü indirilmeye hazır.</string>
     <string name="view_changelog">Sürüm Notlarını Görüntüle</string>
@@ -1258,8 +1265,6 @@
     <string name="settings_title">Ayarlar</string>
     <string name="auto_update_title">Otomatik güncellemeler</string>
     <string name="auto_update_summary">Zaman zaman yeni sürümleri kontrol et</string>
-    <string name="update_over_wifi_title">Güncellemeleri sadece Wi-Fi üzerinden kontrol et</string>
-    <string name="update_over_wifi_summary">Güncellemeleri yalnızca Wi-Fi bağlantısı varken arka planda kontrol et</string>
     <string name="unit_metric">Metrik (\u00b0C)</string>
     <string name="unit_imperial">İngiliz Ölçü Birimi (\u00b0F)</string>
     <string name="update">Güncelle</string>
@@ -1462,4 +1467,7 @@
     <string name="section_title_active_tile_colors">Aktif Kutucuk Renkleri</string>
     <string name="section_title_inactive_tile_colors">Pasif Kutucuk Renkleri</string>
     <string name="section_title_disabled_tile_colors">Devre Dışı Kutucuk Renkleri</string>
+    <!-- Search -->
+    <string name="search_settings_hint">Search settings…</string>
+    <string name="search_no_results">No results found</string>
 </resources>

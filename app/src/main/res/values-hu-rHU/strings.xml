@@ -57,6 +57,7 @@
     <string name="searchpreference_more">Továbbiak</string>
     <string name="searchpreference_clear_history">Az Előzmények törlése</string>
     <string name="searchpreference_no_result">Nincs eredmény</string>
+    <string name="recent_searches">Recent searches</string>
     <!-- Home -->
     <string name="activity_title_home_page">Ikonizáló (Iconify)</string>
     <string name="activity_title_icon_pack">Ikoncsomag</string>
@@ -131,7 +132,7 @@
     <string name="settings_auto_update_title">Automatikus frissítés</string>
     <string name="settings_auto_update_desc">A háttérben futtatja le a frissítéskeresést.</string>
     <string name="settings_auto_update_title_wifi_only">Csak Wi-Fi kapcsolaton folytatja le a keresést</string>
-    <string name="settings_auto_update_desc_wifi_only">Frissítéseket csak akkor fog keresni, ha Wi-Fi-hez csatlakozik.</string>
+    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Figyelmeztető felirat</string>
     <string name="settings_show_warning_desc">Figyelmeztetést jelenít meg az Xposed menüben a modul újraoptimalizálására.</string>
@@ -981,7 +982,13 @@
     <string name="changelog_changes_in">Changes in %1$s</string>
     <string name="changelog_changes_since">Changes since %1$s</string>
     <!-- App Updates -->
+    <string name="settings_section_title_updates">Updates</string>
+    <string name="settings_app_update_checker_title">App Update</string>
+    <string name="check_for_updates_button">Check for updates</string>
+    <string name="download_update_button">Download Update</string>
     <string name="checking_for_update">Frissítés keresése</string>
+    <string name="downloading_update">Downloading Update\n(%d%%)</string>
+    <string name="installing_update">Prompting for Installation…</string>
     <string name="update_available">Frissítés érhető el!</string>
     <string name="update_dialog_desc">%s-frissítés rendelkezésre áll, letölthető.</string>
     <string name="view_changelog">Tekintse meg a változások listáját</string>
@@ -1258,8 +1265,6 @@
     <string name="settings_title">Beállítások</string>
     <string name="auto_update_title">Automatikus frissítések</string>
     <string name="auto_update_summary">Időközönként ellenőrizze az új verziókat</string>
-    <string name="update_over_wifi_title">Csak Wi-Fi-n ellenőrizze a frissítéseket</string>
-    <string name="update_over_wifi_summary">Ha Wi-Fi-hez csatlakozik, a háttérben ellenőrzi a frissítéseket</string>
     <string name="unit_metric">Metrikus (\u00b0C)</string>
     <string name="unit_imperial">Angolszász (\u00b0F)</string>
     <string name="update">Frissítés</string>
@@ -1462,4 +1467,7 @@
     <string name="section_title_active_tile_colors">Active Tile Colors</string>
     <string name="section_title_inactive_tile_colors">Inactive Tile Colors</string>
     <string name="section_title_disabled_tile_colors">Disabled Tile Colors</string>
+    <!-- Search -->
+    <string name="search_settings_hint">Search settings…</string>
+    <string name="search_no_results">No results found</string>
 </resources>

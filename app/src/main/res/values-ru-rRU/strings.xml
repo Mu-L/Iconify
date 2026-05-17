@@ -57,6 +57,7 @@
     <string name="searchpreference_more">Ещё</string>
     <string name="searchpreference_clear_history">Очистить историю</string>
     <string name="searchpreference_no_result">Ничего не найденo</string>
+    <string name="recent_searches">Recent searches</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Набор иконок</string>
@@ -131,7 +132,7 @@
     <string name="settings_auto_update_title">Обновлять автоматически</string>
     <string name="settings_auto_update_desc">Проверять наличие новых версий в фоновом режиме.</string>
     <string name="settings_auto_update_title_wifi_only">Проверять только по Wi-Fi</string>
-    <string name="settings_auto_update_desc_wifi_only">Проверять наличие обновлений только при подключённом Wi-Fi.</string>
+    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Показывать предупреждение</string>
     <string name="settings_show_warning_desc">Показывать предупреждение о том, как оптимизировать модуль в меню LSPosed.</string>
@@ -981,7 +982,13 @@
     <string name="changelog_changes_in">Changes in %1$s</string>
     <string name="changelog_changes_since">Changes since %1$s</string>
     <!-- App Updates -->
+    <string name="settings_section_title_updates">Updates</string>
+    <string name="settings_app_update_checker_title">App Update</string>
+    <string name="check_for_updates_button">Check for updates</string>
+    <string name="download_update_button">Download Update</string>
     <string name="checking_for_update">Проверка обновлений</string>
+    <string name="downloading_update">Downloading Update\n(%d%%)</string>
+    <string name="installing_update">Prompting for Installation…</string>
     <string name="update_available">Доступно обновление</string>
     <string name="update_dialog_desc">Обновление %s доступно для загрузки</string>
     <string name="view_changelog">Показать Журнал Изменений</string>
@@ -1258,8 +1265,6 @@
     <string name="settings_title">Настройки</string>
     <string name="auto_update_title">Автоматические обновления</string>
     <string name="auto_update_summary">Проверять наличие новых версий</string>
-    <string name="update_over_wifi_title">Проверять обновления только по WiFi</string>
-    <string name="update_over_wifi_summary">Проверять наличие обновлений в фоновом режиме только при подключенном Wi-Fi</string>
     <string name="unit_metric">Цельсий (\u00b0C)</string>
     <string name="unit_imperial">По Фаренгейту (\u00b0F)</string>
     <string name="update">Обновление</string>
@@ -1462,4 +1467,7 @@
     <string name="section_title_active_tile_colors">Active Tile Colors</string>
     <string name="section_title_inactive_tile_colors">Inactive Tile Colors</string>
     <string name="section_title_disabled_tile_colors">Disabled Tile Colors</string>
+    <!-- Search -->
+    <string name="search_settings_hint">Search settings…</string>
+    <string name="search_no_results">No results found</string>
 </resources>

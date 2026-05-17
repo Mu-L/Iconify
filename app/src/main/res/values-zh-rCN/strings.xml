@@ -58,6 +58,7 @@
     <string name="searchpreference_more">更多</string>
     <string name="searchpreference_clear_history">清除历史记录</string>
     <string name="searchpreference_no_result">无结果</string>
+    <string name="recent_searches">Recent searches</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">图标包</string>
@@ -132,7 +133,7 @@
     <string name="settings_auto_update_title">自动更新</string>
     <string name="settings_auto_update_desc">在后台检查新版本。</string>
     <string name="settings_auto_update_title_wifi_only">仅通过 WiFi 进行检查</string>
-    <string name="settings_auto_update_desc_wifi_only">只能通过无线网络检查更新。</string>
+    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">显示警告</string>
     <string name="settings_show_warning_desc">在 Xposed 菜单中显示关于如何重新优化模块的警告</string>
@@ -982,7 +983,13 @@
     <string name="changelog_changes_in">Changes in %1$s</string>
     <string name="changelog_changes_since">Changes since %1$s</string>
     <!-- App Updates -->
+    <string name="settings_section_title_updates">Updates</string>
+    <string name="settings_app_update_checker_title">App Update</string>
+    <string name="check_for_updates_button">Check for updates</string>
+    <string name="download_update_button">Download Update</string>
     <string name="checking_for_update">检查更新</string>
+    <string name="downloading_update">Downloading Update\n(%d%%)</string>
+    <string name="installing_update">Prompting for Installation…</string>
     <string name="update_available">新的更新可用！</string>
     <string name="update_dialog_desc">更新 %s 可供下载。</string>
     <string name="view_changelog">查看更新日志</string>
@@ -1259,8 +1266,6 @@
     <string name="settings_title">设置</string>
     <string name="auto_update_title">自动更新</string>
     <string name="auto_update_summary">每隔一段时间检查新版本</string>
-    <string name="update_over_wifi_title">仅通过 WiFi 检查更新</string>
-    <string name="update_over_wifi_summary">仅当连接到 wifi 时才检查后台更新</string>
     <string name="unit_metric">公制 (\u00b0C)</string>
     <string name="unit_imperial">英制 - (\u00b0F)</string>
     <string name="update">更新</string>
@@ -1463,4 +1468,7 @@
     <string name="section_title_active_tile_colors">Active Tile Colors</string>
     <string name="section_title_inactive_tile_colors">Inactive Tile Colors</string>
     <string name="section_title_disabled_tile_colors">Disabled Tile Colors</string>
+    <!-- Search -->
+    <string name="search_settings_hint">Search settings…</string>
+    <string name="search_no_results">No results found</string>
 </resources>

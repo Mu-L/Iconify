@@ -57,6 +57,7 @@
     <string name="searchpreference_more">Mai multe</string>
     <string name="searchpreference_clear_history">Șterge istoricul</string>
     <string name="searchpreference_no_result">Niciun rezultat</string>
+    <string name="recent_searches">Recent searches</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Set de pictograme</string>
@@ -131,7 +132,7 @@
     <string name="settings_auto_update_title">Actualizare automată</string>
     <string name="settings_auto_update_desc">Verifică dacă există versiuni noi în fundal.</string>
     <string name="settings_auto_update_title_wifi_only">Verifică doar prin WiFi</string>
-    <string name="settings_auto_update_desc_wifi_only">Verifică dacă există actualizări doar prin Wi-Fi.</string>
+    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Afișare avertizare</string>
     <string name="settings_show_warning_desc">Arată avertisment despre cum să reoptimizezi modulul în meniul Xposed.</string>
@@ -981,7 +982,13 @@
     <string name="changelog_changes_in">Changes in %1$s</string>
     <string name="changelog_changes_since">Changes since %1$s</string>
     <!-- App Updates -->
+    <string name="settings_section_title_updates">Updates</string>
+    <string name="settings_app_update_checker_title">App Update</string>
+    <string name="check_for_updates_button">Check for updates</string>
+    <string name="download_update_button">Download Update</string>
     <string name="checking_for_update">Checking For Update</string>
+    <string name="downloading_update">Downloading Update\n(%d%%)</string>
+    <string name="installing_update">Prompting for Installation…</string>
     <string name="update_available">Actualizare disponibilă!</string>
     <string name="update_dialog_desc">Actualizarea %s este disponibilă pentru descărcare.</string>
     <string name="view_changelog">Vizualizează jurnalul de modificări</string>
@@ -1258,8 +1265,6 @@
     <string name="settings_title">Setări</string>
     <string name="auto_update_title">Actualizări automate</string>
     <string name="auto_update_summary">Verifică din când în când versiunile noi</string>
-    <string name="update_over_wifi_title">Verifică actualizările doar prin WiFi</string>
-    <string name="update_over_wifi_summary">Verifică dacă există actualizări în fundal doar când ești conectat la WiFi</string>
     <string name="unit_metric">Metric (\u00b0C)</string>
     <string name="unit_imperial">Imperial (\u00b0F)</string>
     <string name="update">Actualizare</string>
@@ -1462,4 +1467,7 @@
     <string name="section_title_active_tile_colors">Active Tile Colors</string>
     <string name="section_title_inactive_tile_colors">Inactive Tile Colors</string>
     <string name="section_title_disabled_tile_colors">Disabled Tile Colors</string>
+    <!-- Search -->
+    <string name="search_settings_hint">Search settings…</string>
+    <string name="search_no_results">No results found</string>
 </resources>
