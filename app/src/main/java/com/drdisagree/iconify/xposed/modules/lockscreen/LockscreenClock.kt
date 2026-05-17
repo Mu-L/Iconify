@@ -70,6 +70,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddV
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
@@ -492,7 +493,6 @@ class LockscreenClock(context: Context) : ModPack(context) {
             }
 
         val keyguardUpdateMonitor = findClass("com.android.keyguard.KeyguardUpdateMonitor")
-        val hookedCallbackClasses = mutableSetOf<Class<*>>()
 
         keyguardUpdateMonitor
             .hookMethod("registerCallback")
@@ -502,7 +502,9 @@ class LockscreenClock(context: Context) : ModPack(context) {
 
                 val callback = param.args[0]
 
-                if (!hookedCallbackClasses.add(callback.javaClass)) return@runAfter
+                if (callback.getExtraField("hooked") == true) return@runAfter
+
+                callback.setExtraField("hooked", true)
 
                 callback.javaClass
                     .hookMethod(
@@ -515,8 +517,6 @@ class LockscreenClock(context: Context) : ModPack(context) {
 
                         Handler(Looper.getMainLooper()).post { updateClockView() }
                     }
-
-                callback.setExtraField("hooked", true)
             }
 
         val dozeTriggersClass = findClass("$SYSTEMUI_PACKAGE.doze.DozeTriggers")
