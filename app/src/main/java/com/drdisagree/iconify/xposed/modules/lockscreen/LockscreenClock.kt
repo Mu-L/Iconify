@@ -71,6 +71,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.remove
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
@@ -502,7 +503,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
 
                 val callback = param.args[0]
 
-                if (callback.getExtraField("hooked") == true) return@runAfter
+                if (callback.getExtraFieldSilently("hooked") == true) return@runAfter
 
                 callback.setExtraField("hooked", true)
 
