@@ -35,7 +35,7 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
 - **Android 12+ Pixel / AOSP based custom ROM**:
     - **Android 12 to Android 16 (non-QPR)**: Use [v7.3.0](https://github.com/Mahmud0808/Iconify/releases/tag/v7.3.0)
-    - **Android 16 QPR1 and later**: Use [v8.0.0](https://github.com/Mahmud0808/Iconify/releases/tag/v8.0.0) and later
+    - **Android 16 QPR1 and later**: Use [v8.0.0](https://github.com/Mahmud0808/Iconify/releases/latest) and later
 
 - [Magisk](https://github.com/topjohnwu/Magisk) / [KernelSU](https://github.com/tiann/KernelSU) / [APatch](https://github.com/bmax121/APatch)
     - **KernelSU v3.0+** users must install [Mountify](https://github.com/backslashxx/mountify/releases/latest) (or another metamodule of choice), otherwise some features will be missing in the app.
