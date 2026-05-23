@@ -2,7 +2,7 @@
 accompanistDrawablepainter = "0.37.3"
 accompanistNavigationAnimation = "0.36.0"
 activityCompose = "1.13.0"
-agp = "9.2.0"
+agp = "9.2.1"
 appcompat = "1.7.1"
 asynclayoutinflater = "1.1.0"
 backdrop = "1.0.6"

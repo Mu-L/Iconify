@@ -26,7 +26,7 @@ android {
         applicationId = "com.drdisagree.iconify"
         minSdk = 36
         targetSdk = 36
-        versionCode = 25
+        versionCode = 26
         versionName = "8.0.0"
         multiDexEnabled = true
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
@@ -142,7 +142,7 @@ android {
 }
 
 base {
-    archivesName = "Iconify A16 v${android.defaultConfig.versionName}"
+    archivesName = "Iconify v${android.defaultConfig.versionName}"
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -173,7 +173,7 @@ tasks.register("renameApks") {
                 ?: return@forEach
 
             val versionName = android.defaultConfig.versionName
-            val newName = "Iconify A16 v${versionName}.apk"
+            val newName = "Iconify v${versionName}.apk"
 
             val renamed = File(apkDir, newName)
 
