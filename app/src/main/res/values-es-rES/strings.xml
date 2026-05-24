@@ -57,7 +57,7 @@
     <string name="searchpreference_more">Más</string>
     <string name="searchpreference_clear_history">Borrar historial</string>
     <string name="searchpreference_no_result">Sin resultados</string>
-    <string name="recent_searches">Recent searches</string>
+    <string name="recent_searches">Búsquedas recientes</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Paquete de iconos</string>
@@ -132,7 +132,7 @@
     <string name="settings_auto_update_title">Actualizaciones automáticas</string>
     <string name="settings_auto_update_desc">Buscar nuevas versiones en segundo plano.</string>
     <string name="settings_auto_update_title_wifi_only">Buscar solo con WiFi</string>
-    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
+    <string name="settings_auto_update_desc_wifi_only">Buscar actualizaciones en segundo plano solo cuando se está conectado a WiFi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Mostrar Advertencia</string>
     <string name="settings_show_warning_desc">Mostrar advertencia sobre cómo reoptimizar el módulo en el menú de Xposed</string>
@@ -240,7 +240,7 @@
     <string name="icon_mask_style_scroll">Pergamino</string>
     <string name="icon_mask_style_square">Cuadrado</string>
     <string name="icon_mask_style_teardrop">Lágrima</string>
-    <string name="icon_mask_style_rounded_rectangle">Rounded Rectangle</string>
+    <string name="icon_mask_style_rounded_rectangle">Rectángulo redondeado</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Nube</string>
     <string name="icon_mask_style_cylinder">Cilindro</string>
@@ -251,7 +251,7 @@
     <string name="icon_mask_style_tapered_rectangle">Tapered Rectangle</string>
     <string name="icon_mask_style_vessel">Vaso</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_round">Round</string>
+    <string name="icon_mask_style_round">Redondo</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Colores básicos</string>
     <string name="activity_desc_basic_colors">Cambia el color primario y el secundado</string>
@@ -347,8 +347,8 @@
     <string name="qs_panel_top_margin_info">Gira el dispositivo para ver los cambios. Si eso no funciona, reinicia la interfaz del sistema.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Espaciado</string>
-    <string name="sb_start_padding">Start Padding</string>
-    <string name="sb_end_padding">End Padding</string>
+    <string name="sb_start_padding">Margen inicial</string>
+    <string name="sb_end_padding">Margen final</string>
     <string name="sb_height">Altura</string>
     <string name="section_title_color">Color</string>
     <string name="sb_color_tint_title">Statusbar Icon Color</string>
@@ -742,7 +742,7 @@
     <string name="header_clock_center_clock_title">Reloj en el Centro</string>
     <string name="header_clock_center_clock_desc">Mover el reloj al centro de la vista</string>
     <string name="header_clock_half_width_in_landscape_title">Half Width in Landscape</string>
-    <string name="header_clock_half_width_in_landscape_desc">Set layout width to half of screen in landscape mode</string>
+    <string name="header_clock_half_width_in_landscape_desc">Establecer el ancho del diseño a la mitad de la pantalla en modo horizontal</string>
     <string name="header_clock_hide_landscape_title">Ocultar en Paisaje</string>
     <string name="header_clock_hide_landscape_desc">Ocultar el reloj en modo apaisado</string>
     <!-- Xposed Lockscreen Clock -->
@@ -755,8 +755,8 @@
     <string name="lockscreen_clock_move_notification_icon_desc">Mover los iconos AOD debajo del reloj personalizado, puede ser problemático en ROMs antiguas</string>
     <string name="lockscreen_clock_font_title">Fuente del reloj</string>
     <string name="lockscreen_clock_font_desc">Usar fuente personalizada para el reloj de pantalla de bloqueo</string>
-    <string name="lockscreen_clock_image1_title">Custom Image 1</string>
-    <string name="lockscreen_clock_image2_title">Custom Image 2</string>
+    <string name="lockscreen_clock_image1_title">Imagen personalizada 1</string>
+    <string name="lockscreen_clock_image2_title">Imagen personalizada 2</string>
     <string name="lockscreen_clock_image_title">Imagen personalizada</string>
     <string name="lockscreen_clock_image_desc">Usar imagen personalizada para el reloj de la pantalla de bloqueo</string>
     <string name="lsclock_custom_color_title">Color Personalizado del Reloj</string>
@@ -810,7 +810,7 @@
     <string name="wallpaper_background_sensitivity_title">Sensibilidad del fondo</string>
     <string name="depth_wallpaper_model_ready">El modelo de IA está descargado en el dispositivo</string>
     <string name="depth_wallpaper_model_not_available">El modelo de IA no está disponible en el dispositivo (aún)</string>
-    <string name="depth_wallpaper_model_checking">Checking for AI model availability…</string>
+    <string name="depth_wallpaper_model_checking">Comprobando la disponibilidad del modelo IA…</string>
     <string name="depth_wallpaper_subject_extraction_started">Extrayendo el tema del fondo de pantalla…</string>
     <string name="depth_wallpaper_subject_extraction_success">Tema de fondo de pantalla extraído!</string>
     <string name="depth_wallpaper_subject_extraction_failed">¡No se pudo extraer el tema del fondo de pantalla!</string>
@@ -825,11 +825,11 @@
     <string name="statusbar_clock_clickable_title">Reloj Cliqueable</string>
     <string name="statusbar_clock_clickable_desc">Clic para abrir la aplicación del reloj</string>
     <string name="section_title_text">Texto</string>
-    <string name="statusbar_clock_text_color_title">Clock Text Color</string>
-    <string name="sbclock_text_color_follow_system">Follow System</string>
-    <string name="sbclock_text_color_transparent_text">Transparent Text</string>
-    <string name="sbclock_text_color_custom_color">Custom Color</string>
-    <string name="statusbar_clock_fill_color_title">Clock Fill Color</string>
+    <string name="statusbar_clock_text_color_title">Color del texto del reloj</string>
+    <string name="sbclock_text_color_follow_system">Mismo que el Sistema</string>
+    <string name="sbclock_text_color_transparent_text">Texto Transparente</string>
+    <string name="sbclock_text_color_custom_color">Color Personalizado</string>
+    <string name="statusbar_clock_fill_color_title">Color de relleno del reloj</string>
     <string name="sbclock_fill_color_accent">@string/apply_monet_accent_title</string>
     <string name="sbclock_fill_color_gradient">@string/apply_monet_gradient_title</string>
     <string name="sbclock_fill_color_custom">@string/sbclock_text_color_custom_color</string>
@@ -982,13 +982,13 @@
     <string name="changelog_changes_in">Changes in %1$s</string>
     <string name="changelog_changes_since">Changes since %1$s</string>
     <!-- App Updates -->
-    <string name="settings_section_title_updates">Updates</string>
-    <string name="settings_app_update_checker_title">App Update</string>
-    <string name="check_for_updates_button">Check for updates</string>
-    <string name="download_update_button">Download Update</string>
+    <string name="settings_section_title_updates">Actualizaciones</string>
+    <string name="settings_app_update_checker_title">Actualizaciones de la aplicación</string>
+    <string name="check_for_updates_button">Buscar actualizaciones</string>
+    <string name="download_update_button">Descargar actualización</string>
     <string name="checking_for_update">Verificando actualización</string>
-    <string name="downloading_update">Downloading Update\n(%d%%)</string>
-    <string name="installing_update">Prompting for Installation…</string>
+    <string name="downloading_update">Descargando actualización\n(%d%%)</string>
+    <string name="installing_update">Preparando la actualización…</string>
     <string name="update_available">¡Nueva actualización disponible!</string>
     <string name="update_dialog_desc">Hay una actualización de %s disponible para descargar.</string>
     <string name="view_changelog">Ver registro de cambios</string>
@@ -1107,7 +1107,7 @@
     <string name="btn_skip">Omitir</string>
     <string name="btn_next">Siguiente</string>
     <string name="btn_back">Atrás</string>
-    <string name="btn_agree">I Agree</string>
+    <string name="btn_agree">Acepto</string>
     <string name="btn_lets_go">¡Vamos!</string>
     <string name="btn_close">Cerrar</string>
     <string name="btn_positive">Sí</string>
@@ -1209,7 +1209,7 @@
     <string name="force_enable_blur_desc">Forzar habilitación de desenfoque para ROMs no soportadas</string>
     <string name="choose_header_image">Selecciona imagen de encabezado</string>
     <string name="choose_clock_font">Selecciona fuente del reloj</string>
-    <string name="choose_weather_font">Choose Weather Font</string>
+    <string name="choose_weather_font">Elegir fuente del clima</string>
     <string name="pick_style">Elige un estilo de tu preferencia</string>
     <string name="attention">¡Atención!</string>
     <string name="method_toggle_dark_mode">Alternar Modo Oscuro Doble</string>

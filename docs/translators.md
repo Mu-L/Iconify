@@ -197,6 +197,13 @@ Thanks to these translators and proofreaders, this project exists:
         <sub><b>446 words</b></sub>
       </td>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/luchomodzzz"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16356648/medium/9bc0ba9c0cba73429ea58aa72375c29b.png" />
+          <br />
+          <sub><b>Luchoooo (luchomodzzz)</b></sub></a>
+        <br />
+        <sub><b>430 words</b></sub>
+      </td>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Mertc"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14646194/medium/836230e09a2177e82d24e4387652d360_default.png" />
           <br />
           <sub><b>Mertcan T. (Mertc)</b></sub></a>
@@ -217,21 +224,14 @@ Thanks to these translators and proofreaders, this project exists:
         <br />
         <sub><b>367 words</b></sub>
       </td>
+    </tr>
+    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/apawel.jankowski"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13681009/medium/a790b492c7f45a0ab2187e68e518dc25.jpg" />
           <br />
           <sub><b>Paweł Jankowski (apawel.jankowski)</b></sub></a>
         <br />
         <sub><b>365 words</b></sub>
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/luchomodzzz"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16356648/medium/9bc0ba9c0cba73429ea58aa72375c29b.png" />
-          <br />
-          <sub><b>Luchoooo (luchomodzzz)</b></sub></a>
-        <br />
-        <sub><b>358 words</b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/danys.n"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17622344/medium/e83a4b36baf5ac75cd0d6cb46a1a29d9.jpeg" />
