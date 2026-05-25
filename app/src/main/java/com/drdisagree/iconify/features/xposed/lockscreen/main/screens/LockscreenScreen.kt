@@ -77,6 +77,18 @@ val lockscreenPreferences = preferenceScreen {
                 }
             }
         )
+
+        action(
+            key = "xposedLockscreenVisualizer",
+            icon = iconRes(R.drawable.ic_volume_eq),
+            title = stringRes(R.string.activity_title_lockscreen_visualizer),
+            summary = { stringRes(R.string.activity_desc_lockscreen_visualizer) },
+            onClick = {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Lockscreen.Visualizer) {
+                    launchSingleTop = true
+                }
+            }
+        )
     }
 
     category(title = stringRes(R.string.settings_section_title_general)) {
@@ -112,6 +124,7 @@ val lockscreenPreferences = preferenceScreen {
             title = stringRes(R.string.hide_ls_statusbar_title),
             summary = { stringRes(R.string.hide_ls_statusbar_desc) },
         )
+
     }
 }
 
