@@ -974,6 +974,18 @@
     <string name="ls_wallpaper_blur_title">Làm mờ hình nền</string>
     <string name="ls_wallpaper_blur_desc">Áp dụng hiệu ứng làm mờ trên màn hình khóa</string>
     <string name="ls_wallpaper_blur_radius_title">Wallpaper Blur Intensity</string>
+    <string name="activity_title_lockscreen_visualizer">Music Visualizer</string>
+    <string name="activity_desc_lockscreen_visualizer">Show music visualizer on lock screen</string>
+    <string name="lockscreen_visualizer_color_mode_title">Color Mode</string>
+    <string name="lockscreen_visualizer_static_color_title">Color</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Start Color</string>
+    <string name="lockscreen_visualizer_gradient_end_title">End Color</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Flow speed</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Sensitivity</string>
+    <string name="lockscreen_visualizer_height_title">Visualizer height</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Bar thickness</string>
+    <string name="lockscreen_visualizer_smoothness_title">Smoothness</string>
+    <string name="lockscreen_visualizer_fps_title">Visualizer FPS</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">Nhật ký thay đổi</string>
     <string name="no_internet_connection">Không thể kết nối với máy chủ!\nCó thể có sự cố với kết nối internet của bạn hoặc máy chủ có thể ngừng hoạt động vào lúc này. Vui lòng thử lại sau.</string>
@@ -1470,19 +1482,4 @@
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
-
-    <!-- Lockscreen Visualizer -->
-    <string name="lockscreen_visualizer_title">Trình trực quan hóa</string>
-    <string name="lockscreen_visualizer_desc">Hiển thị trình trực quan hóa nhạc trên màn hình khóa</string>
-    <string name="lockscreen_visualizer_color_mode_title">Kiểu màu</string>
-    <string name="lockscreen_visualizer_static_color_title">Màu</string>
-    <string name="lockscreen_visualizer_gradient_start_title">Màu 1</string>
-    <string name="lockscreen_visualizer_gradient_end_title">Màu 2</string>
-    <string name="lockscreen_visualizer_lava_speed_title">Tốc độ dung nham</string>
-    <string name="lockscreen_visualizer_sensitivity_title">Độ nhạy</string>
-    <string name="lockscreen_visualizer_height_title">Chiều cao trình trực quan hóa</string>
-    <string name="lockscreen_visualizer_bar_thickness_title">Độ dày cột</string>
-    <string name="lockscreen_visualizer_smoothness_title">Độ mượt</string>
-    <string name="lockscreen_visualizer_fps_title">FPS trình trực quan hóa</string>
-
 </resources>
