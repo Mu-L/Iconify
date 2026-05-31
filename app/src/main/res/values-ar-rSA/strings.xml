@@ -974,6 +974,18 @@
     <string name="ls_wallpaper_blur_title">Wallpaper Blur</string>
     <string name="ls_wallpaper_blur_desc">Apply blur effect on lockscreen</string>
     <string name="ls_wallpaper_blur_radius_title">Wallpaper Blur Intensity</string>
+    <string name="activity_title_lockscreen_visualizer">Music Visualizer</string>
+    <string name="activity_desc_lockscreen_visualizer">Show music visualizer on lock screen</string>
+    <string name="lockscreen_visualizer_color_mode_title">Color Mode</string>
+    <string name="lockscreen_visualizer_static_color_title">Color</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Start Color</string>
+    <string name="lockscreen_visualizer_gradient_end_title">End Color</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Flow speed</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Sensitivity</string>
+    <string name="lockscreen_visualizer_height_title">Visualizer height</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Bar thickness</string>
+    <string name="lockscreen_visualizer_smoothness_title">Smoothness</string>
+    <string name="lockscreen_visualizer_fps_title">Visualizer FPS</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">التغيير</string>
     <string name="no_internet_connection">تعذر الاتصال بالخادم!\n قد تكون هناك مشكلة في الاتصال بالإنترنت أو ربما يكون الخادم معطلاً في الوقت الحالي. الرجاء معاودة المحاولة في وقت لاحق.</string>
@@ -1470,19 +1482,4 @@
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
-
-    <!-- Lockscreen Visualizer -->
-    <string name="lockscreen_visualizer_title">المؤثر البصري</string>
-    <string name="lockscreen_visualizer_desc">عرض مؤثر موسيقي بصري على شاشة القفل</string>
-    <string name="lockscreen_visualizer_color_mode_title">نمط اللون</string>
-    <string name="lockscreen_visualizer_static_color_title">اللون</string>
-    <string name="lockscreen_visualizer_gradient_start_title">اللون 1</string>
-    <string name="lockscreen_visualizer_gradient_end_title">اللون 2</string>
-    <string name="lockscreen_visualizer_lava_speed_title">سرعة الحمم</string>
-    <string name="lockscreen_visualizer_sensitivity_title">الحساسية</string>
-    <string name="lockscreen_visualizer_height_title">ارتفاع المؤثر البصري</string>
-    <string name="lockscreen_visualizer_bar_thickness_title">سماكة الأشرطة</string>
-    <string name="lockscreen_visualizer_smoothness_title">السلاسة</string>
-    <string name="lockscreen_visualizer_fps_title">FPS المؤثر البصري</string>
-
 </resources>

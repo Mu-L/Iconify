@@ -974,6 +974,18 @@
     <string name="ls_wallpaper_blur_title">Duvar Kağıdı Bulanıklığı</string>
     <string name="ls_wallpaper_blur_desc">Kilit ekranına bulanıklık efekti uygula</string>
     <string name="ls_wallpaper_blur_radius_title">Duvar Kağıdı Bulanıklık Yoğunluğu</string>
+    <string name="activity_title_lockscreen_visualizer">Music Visualizer</string>
+    <string name="activity_desc_lockscreen_visualizer">Show music visualizer on lock screen</string>
+    <string name="lockscreen_visualizer_color_mode_title">Color Mode</string>
+    <string name="lockscreen_visualizer_static_color_title">Color</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Start Color</string>
+    <string name="lockscreen_visualizer_gradient_end_title">End Color</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Flow speed</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Sensitivity</string>
+    <string name="lockscreen_visualizer_height_title">Visualizer height</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Bar thickness</string>
+    <string name="lockscreen_visualizer_smoothness_title">Smoothness</string>
+    <string name="lockscreen_visualizer_fps_title">Visualizer FPS</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">Sürüm Notları (Changelog)</string>
     <string name="no_internet_connection">Sunucuya bağlanılamadı!\nİnternet bağlantınızda bir sorun olabilir veya sunucu şu anda kapalı olabilir. Lütfen daha sonra tekrar deneyin.</string>
@@ -1470,19 +1482,4 @@
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
-
-    <!-- Lockscreen Visualizer -->
-    <string name="lockscreen_visualizer_title">Görselleştirici</string>
-    <string name="lockscreen_visualizer_desc">Kilit ekranında müzik görselleştiricisini göster</string>
-    <string name="lockscreen_visualizer_color_mode_title">Renk stili</string>
-    <string name="lockscreen_visualizer_static_color_title">Renk</string>
-    <string name="lockscreen_visualizer_gradient_start_title">Renk 1</string>
-    <string name="lockscreen_visualizer_gradient_end_title">Renk 2</string>
-    <string name="lockscreen_visualizer_lava_speed_title">Lava hızı</string>
-    <string name="lockscreen_visualizer_sensitivity_title">Hassasiyet</string>
-    <string name="lockscreen_visualizer_height_title">Görselleştirici yüksekliği</string>
-    <string name="lockscreen_visualizer_bar_thickness_title">Çubuk kalınlığı</string>
-    <string name="lockscreen_visualizer_smoothness_title">Yumuşaklık</string>
-    <string name="lockscreen_visualizer_fps_title">Görselleştirici FPS</string>
-
 </resources>

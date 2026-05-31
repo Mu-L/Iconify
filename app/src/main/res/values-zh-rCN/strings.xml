@@ -133,7 +133,7 @@
     <string name="settings_auto_update_title">自动更新</string>
     <string name="settings_auto_update_desc">在后台检查新版本。</string>
     <string name="settings_auto_update_title_wifi_only">仅通过 WiFi 进行检查</string>
-    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
+    <string name="settings_auto_update_desc_wifi_only">仅当连接到 wifi 时才检查后台更新</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">显示警告</string>
     <string name="settings_show_warning_desc">在 Xposed 菜单中显示关于如何重新优化模块的警告</string>
@@ -352,7 +352,7 @@
     <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">高度</string>
     <string name="section_title_color">颜色</string>
-    <string name="sb_color_tint_title">Statusbar Icon Color</string>
+    <string name="sb_color_tint_title">状态栏图标颜色</string>
     <string name="sb_color_tint_desc">着色状态栏的图标和文本</string>
     <string name="sb_tint_system">默认系统色调</string>
     <string name="sb_tint_monet">Monet / 强调色色调</string>
@@ -720,7 +720,7 @@
     <string name="header_image_hide_in_landscape_title">在横屏中隐藏</string>
     <string name="header_image_hide_in_landscape_desc">在横屏模式中隐藏图像</string>
     <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
-    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
+    <string name="header_image_half_width_in_landscape_desc">在横屏模式下将图像宽度设置为屏幕的一半</string>
     <string name="header_image_alpha_gradient_title">透明梯度</string>
     <string name="header_image_alpha_gradient_desc">给标头图像添加淡入淡出效果</string>
     <!-- Xposed Header Clock -->
@@ -975,6 +975,18 @@
     <string name="ls_wallpaper_blur_title">壁纸模糊</string>
     <string name="ls_wallpaper_blur_desc">在锁屏界面应用模糊效果</string>
     <string name="ls_wallpaper_blur_radius_title">壁纸模糊强度</string>
+    <string name="activity_title_lockscreen_visualizer">Music Visualizer</string>
+    <string name="activity_desc_lockscreen_visualizer">Show music visualizer on lock screen</string>
+    <string name="lockscreen_visualizer_color_mode_title">Color Mode</string>
+    <string name="lockscreen_visualizer_static_color_title">Color</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Start Color</string>
+    <string name="lockscreen_visualizer_gradient_end_title">End Color</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Flow speed</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Sensitivity</string>
+    <string name="lockscreen_visualizer_height_title">Visualizer height</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Bar thickness</string>
+    <string name="lockscreen_visualizer_smoothness_title">Smoothness</string>
+    <string name="lockscreen_visualizer_fps_title">Visualizer FPS</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">更新日志</string>
     <string name="no_internet_connection">无法连接至服务器！\n这可能与您的互联网连接有关，或者此刻服务器可能已经宕机。请稍后再试。</string>
@@ -1471,19 +1483,4 @@
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
-
-    <!-- Lockscreen Visualizer -->
-    <string name="lockscreen_visualizer_title">可视化器</string>
-    <string name="lockscreen_visualizer_desc">在锁屏上显示音乐可视化器</string>
-    <string name="lockscreen_visualizer_color_mode_title">颜色样式</string>
-    <string name="lockscreen_visualizer_static_color_title">颜色</string>
-    <string name="lockscreen_visualizer_gradient_start_title">颜色 1</string>
-    <string name="lockscreen_visualizer_gradient_end_title">颜色 2</string>
-    <string name="lockscreen_visualizer_lava_speed_title">熔岩速度</string>
-    <string name="lockscreen_visualizer_sensitivity_title">灵敏度</string>
-    <string name="lockscreen_visualizer_height_title">可视化器高度</string>
-    <string name="lockscreen_visualizer_bar_thickness_title">条形粗细</string>
-    <string name="lockscreen_visualizer_smoothness_title">平滑度</string>
-    <string name="lockscreen_visualizer_fps_title">可视化器 FPS</string>
-
 </resources>
