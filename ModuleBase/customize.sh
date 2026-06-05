@@ -25,6 +25,37 @@ prepareSQL() {
 	SQLITEPATH="$TMPDIR/sqlite3"
 }
 
+checkExistingRelease() {
+  if pm list packages | grep -q "^package:$BASEPKGNAME$"; then
+    ui_print ""
+    ui_print "! ============================================"
+    ui_print "! Release version of Iconify is installed."
+    ui_print "! Debug version cannot be installed over it."
+    ui_print "! ============================================"
+    ui_print ""
+    ui_print "  Choose an option:"
+    ui_print "    Vol+ = Uninstall release & proceed"
+    ui_print "    Vol- = Cancel installation"
+    ui_print ""
+
+    KEY_TIMEOUT=30
+    ui_print "  (Waiting ${KEY_TIMEOUT}s for input...)"
+
+    CHOSEN=$(timeout $KEY_TIMEOUT getevent -l 2>/dev/null | grep -m 1 -o 'KEY_VOLUME[A-Z]*')
+
+    if [ "$CHOSEN" = "KEY_VOLUMEUP" ]; then
+      ui_print "- Uninstalling release version..."
+      if pm uninstall "$BASEPKGNAME" > /dev/null 2>&1; then
+        ui_print "- Release version uninstalled. Proceeding..."
+      else
+        abort "! Failed to uninstall release version. Aborting."
+      fi
+    else
+      abort "! Installation cancelled by user."
+    fi
+  fi
+}
+
 installAPK() {
   ui_print "- Installing Iconify.apk..."
 
@@ -128,6 +159,7 @@ finishInstallation() {
 
 checkAndroidVersion
 prepareAPK
+checkExistingRelease
 installAPK
 prepareSQL
 grantRootApps
