@@ -705,8 +705,16 @@
     <string name="volume_percentage_desc">Показывать проценты выше слайдера громкости</string>
     <string name="safety_warning_title">Предупреждение о безопасности</string>
     <string name="safety_warning_desc">Показывать предупреждение на большой громкости</string>
+    <string name="app_volume_button_title">Per-app volume</string>
+    <string name="app_volume_button_desc">Long press menu button in the volume panel for active audio sources</string>
+    <string name="multi_audio_focus_title">Multiple audio sources</string>
+    <string name="multi_audio_focus_desc">Allow several apps to keep playing audio at the same time. Requires a full device reboot.</string>
     <string name="colored_ringer_icon_title">Цветной значок звонка</string>
     <string name="colored_ringer_icon_desc">Включить, если выбранный значок звонка невидим</string>
+    <string name="volume_sheet_app_volume">App Volume</string>
+    <string name="volume_sheet_no_active_source">No active sources found</string>
+    <string name="volume_sheet_active_sources_count_format">Active sources: %d</string>
+    <string name="volume_sheet_play_music_or_video">Play some music or video and open this panel again.</string>
     <!-- Xposed Header Image -->
     <string name="header_image_title">Выберите изображение заголовка</string>
     <string name="header_image_desc">Добавить изображения на панель быстрых настроек\nНе выбирайте его из вкладки \"Последние\"</string>

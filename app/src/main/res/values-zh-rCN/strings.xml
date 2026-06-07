@@ -706,8 +706,16 @@
     <string name="volume_percentage_desc">在音量滑块之上显示百分比</string>
     <string name="safety_warning_title">安全警告</string>
     <string name="safety_warning_desc">在高音量时显示警告</string>
+    <string name="app_volume_button_title">Per-app volume</string>
+    <string name="app_volume_button_desc">Long press menu button in the volume panel for active audio sources</string>
+    <string name="multi_audio_focus_title">Multiple audio sources</string>
+    <string name="multi_audio_focus_desc">Allow several apps to keep playing audio at the same time. Requires a full device reboot.</string>
     <string name="colored_ringer_icon_title">彩色铃声图标</string>
     <string name="colored_ringer_icon_desc">如果选中的铃声图标不可见则启用</string>
+    <string name="volume_sheet_app_volume">App Volume</string>
+    <string name="volume_sheet_no_active_source">No active sources found</string>
+    <string name="volume_sheet_active_sources_count_format">Active sources: %d</string>
+    <string name="volume_sheet_play_music_or_video">Play some music or video and open this panel again.</string>
     <!-- Xposed Header Image -->
     <string name="header_image_title">选择标头图片</string>
     <string name="header_image_desc">在快速设置面板上添加标头图片\n不要从最近文件中选择文件</string>

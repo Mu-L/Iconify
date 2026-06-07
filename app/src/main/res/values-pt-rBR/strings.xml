@@ -57,7 +57,7 @@
     <string name="searchpreference_more">Mais</string>
     <string name="searchpreference_clear_history">Limpar histórico</string>
     <string name="searchpreference_no_result">Nenhum resultado</string>
-    <string name="recent_searches">Recent searches</string>
+    <string name="recent_searches">Pesquisas recentes</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Pacote de ícones</string>
@@ -132,7 +132,7 @@
     <string name="settings_auto_update_title">Atualização automática</string>
     <string name="settings_auto_update_desc">Verifique se há novas versões em segundo plano.</string>
     <string name="settings_auto_update_title_wifi_only">Verificar apenas por Wi-Fi</string>
-    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
+    <string name="settings_auto_update_desc_wifi_only">Verificar atualizações em segundo plano somente quando conectado ao Wi-Fi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Mostrar aviso</string>
     <string name="settings_show_warning_desc">Mostrar aviso sobre como re-otimizar novamente o módulo no Menu Xposed.</string>
@@ -705,8 +705,16 @@
     <string name="volume_percentage_desc">Mostrar porcentagem acima do controle deslizante de volume</string>
     <string name="safety_warning_title">Aviso de segurança</string>
     <string name="safety_warning_desc">Mostrar aviso de volume alto</string>
+    <string name="app_volume_button_title">Volume por aplicativo</string>
+    <string name="app_volume_button_desc">Pressione e segure o botão de menu no painel de volume para ativar as fontes de áudio</string>
+    <string name="multi_audio_focus_title">Múltiplas fontes de áudio</string>
+    <string name="multi_audio_focus_desc">Permite que vários aplicativos continuem reproduzindo áudio simultaneamente. Requer a reinicialização completa do dispositivo.</string>
     <string name="colored_ringer_icon_title">Ícone de toque colorido</string>
     <string name="colored_ringer_icon_desc">Ative se o ícone de toque selecionado estiver invisível</string>
+    <string name="volume_sheet_app_volume">Volume do aplicativo</string>
+    <string name="volume_sheet_no_active_source">Nenhuma fonte ativa encontrada</string>
+    <string name="volume_sheet_active_sources_count_format">Fontes ativas: %d</string>
+    <string name="volume_sheet_play_music_or_video">Reproduza alguma música ou vídeo e abra este painel novamente.</string>
     <!-- Xposed Header Image -->
     <string name="header_image_title">Escolha a imagem do cabeçalho</string>
     <string name="header_image_desc">Adicione uma imagem de cabeçalho no painel QS.\nNão selecione o arquivo de Recente.</string>
@@ -974,18 +982,18 @@
     <string name="ls_wallpaper_blur_title">Desfoque do plano de fundo</string>
     <string name="ls_wallpaper_blur_desc">Aplique um efeito de desfoque na tela de bloqueio</string>
     <string name="ls_wallpaper_blur_radius_title">Intensidade de desfoque do plano de fundo</string>
-    <string name="activity_title_lockscreen_visualizer">Music Visualizer</string>
-    <string name="activity_desc_lockscreen_visualizer">Show music visualizer on lock screen</string>
-    <string name="lockscreen_visualizer_color_mode_title">Color Mode</string>
-    <string name="lockscreen_visualizer_static_color_title">Color</string>
-    <string name="lockscreen_visualizer_gradient_start_title">Start Color</string>
-    <string name="lockscreen_visualizer_gradient_end_title">End Color</string>
-    <string name="lockscreen_visualizer_lava_speed_title">Flow speed</string>
-    <string name="lockscreen_visualizer_sensitivity_title">Sensitivity</string>
-    <string name="lockscreen_visualizer_height_title">Visualizer height</string>
-    <string name="lockscreen_visualizer_bar_thickness_title">Bar thickness</string>
-    <string name="lockscreen_visualizer_smoothness_title">Smoothness</string>
-    <string name="lockscreen_visualizer_fps_title">Visualizer FPS</string>
+    <string name="activity_title_lockscreen_visualizer">Visualizador de Música</string>
+    <string name="activity_desc_lockscreen_visualizer">Exibir visualizador de música na tela de bloqueio</string>
+    <string name="lockscreen_visualizer_color_mode_title">Modo de cor</string>
+    <string name="lockscreen_visualizer_static_color_title">Cor</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Cor inicial</string>
+    <string name="lockscreen_visualizer_gradient_end_title">Cor final</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Velocidade de fluxo</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Sensibilidade</string>
+    <string name="lockscreen_visualizer_height_title">Altura do visualizador</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Espessura da barra</string>
+    <string name="lockscreen_visualizer_smoothness_title">Suavidade</string>
+    <string name="lockscreen_visualizer_fps_title">Visualizador de FPS</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">Registro de alterações</string>
     <string name="no_internet_connection">Não foi possível conectar ao servidor!\nPode haver um problema com sua conexão com a internet ou o servidor pode estar inativo neste momento. Por favor, tente novamente mais tarde.</string>
@@ -994,13 +1002,13 @@
     <string name="changelog_changes_in">Mudanças em %1$s</string>
     <string name="changelog_changes_since">Alterações desde %1$s</string>
     <!-- App Updates -->
-    <string name="settings_section_title_updates">Updates</string>
-    <string name="settings_app_update_checker_title">App Update</string>
-    <string name="check_for_updates_button">Check for updates</string>
-    <string name="download_update_button">Download Update</string>
+    <string name="settings_section_title_updates">Atualizações</string>
+    <string name="settings_app_update_checker_title">Atualização do aplicativo</string>
+    <string name="check_for_updates_button">Checar atualizações</string>
+    <string name="download_update_button">Baixar atualização</string>
     <string name="checking_for_update">Verificando por atualizações</string>
-    <string name="downloading_update">Downloading Update\n(%d%%)</string>
-    <string name="installing_update">Prompting for Installation…</string>
+    <string name="downloading_update">Baixando atualização\n(%d%%)</string>
+    <string name="installing_update">Solicitando a instalação…</string>
     <string name="update_available">Atualização disponível!</string>
     <string name="update_dialog_desc">A atualização %s está disponível para download.</string>
     <string name="view_changelog">Visualizar registro de alteração</string>
@@ -1480,6 +1488,6 @@
     <string name="section_title_inactive_tile_colors">Cor do bloco inativo</string>
     <string name="section_title_disabled_tile_colors">Cor do bloco desativado</string>
     <!-- Search -->
-    <string name="search_settings_hint">Search settings…</string>
-    <string name="search_no_results">No results found</string>
+    <string name="search_settings_hint">Pesquisar configurações…</string>
+    <string name="search_no_results">Nenhum resultado encontrado</string>
 </resources>

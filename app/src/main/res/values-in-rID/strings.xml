@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_motto">Customize Boring Android UI</string>
+    <string name="app_motto">Kustomisasi UI Android yang Membosankan</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Memulai setup</string>
     <string name="step">Langkah</string>
@@ -20,11 +20,11 @@
     <string name="onboarding_title_3">BIsa Kita Mulai Sekarang?</string>
     <string name="onboarding_subtitle_3">Waktunya Iconify nyiapin.</string>
     <string name="onboarding_desc_3">Mulai persiapan, gasken?</string>
-    <string name="grant_permission">Grant Permission</string>
+    <string name="grant_permission">Berikan Izin</string>
     <string name="need_storage_perm_title">Perlu Izin Penyimpanan</string>
     <string name="need_storage_perm_desc">Izin penyimpanan diperlukan untuk membuat file yang diperlukan.</string>
-    <string name="notification_perm_title">Allow Notifications</string>
-    <string name="notification_perm_desc">Needed to notify you about available updates and to display test notifications.</string>
+    <string name="notification_perm_title">Izinkan Notifikasi</string>
+    <string name="notification_perm_desc">Diperlukan untuk memberi tahu Anda tentang pembaruan yang tersedia dan untuk menampilkan pemberitahuan uji coba.</string>
     <string name="optional_permission">Granting these permissions is optional!</string>
     <string name="compatible_root_not_found_title">Yah, gak nemu metode root yang kompatibel</string>
     <string name="compatible_root_not_found_desc">Pake solusi root popular apapun (contohnya Magisk).</string>
@@ -705,8 +705,16 @@
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
     <string name="safety_warning_title">Safety Warning</string>
     <string name="safety_warning_desc">Show warning on high volume</string>
+    <string name="app_volume_button_title">Per-app volume</string>
+    <string name="app_volume_button_desc">Long press menu button in the volume panel for active audio sources</string>
+    <string name="multi_audio_focus_title">Multiple audio sources</string>
+    <string name="multi_audio_focus_desc">Allow several apps to keep playing audio at the same time. Requires a full device reboot.</string>
     <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
     <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
+    <string name="volume_sheet_app_volume">App Volume</string>
+    <string name="volume_sheet_no_active_source">No active sources found</string>
+    <string name="volume_sheet_active_sources_count_format">Active sources: %d</string>
+    <string name="volume_sheet_play_music_or_video">Play some music or video and open this panel again.</string>
     <!-- Xposed Header Image -->
     <string name="header_image_title">Pilih Gambar Header</string>
     <string name="header_image_desc">Tambahkan gambar header pada panel QS\nJangan pilih file dari Terbaru</string>
