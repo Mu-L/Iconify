@@ -705,8 +705,16 @@
     <string name="volume_percentage_desc">Ses kaydırıcısının üzerinde yüzdeyi göster</string>
     <string name="safety_warning_title">Güvenlik Uyarısı</string>
     <string name="safety_warning_desc">Yüksek ses seviyesinde uyarı göster</string>
+    <string name="app_volume_button_title">Per-app volume</string>
+    <string name="app_volume_button_desc">Long press menu button in the volume panel for active audio sources</string>
+    <string name="multi_audio_focus_title">Multiple audio sources</string>
+    <string name="multi_audio_focus_desc">Allow several apps to keep playing audio at the same time. Requires a full device reboot.</string>
     <string name="colored_ringer_icon_title">Renkli Zil Sesi Simgesi</string>
     <string name="colored_ringer_icon_desc">Seçilen zil sesi simgesi görünmüyorsa etkinleştirin</string>
+    <string name="volume_sheet_app_volume">App Volume</string>
+    <string name="volume_sheet_no_active_source">No active sources found</string>
+    <string name="volume_sheet_active_sources_count_format">Active sources: %d</string>
+    <string name="volume_sheet_play_music_or_video">Play some music or video and open this panel again.</string>
     <!-- Xposed Header Image -->
     <string name="header_image_title">Başlık Resmi Seç</string>
     <string name="header_image_desc">QS paneline başlık resmi ekle\nResmi \"Son Kullanılanlar\"dan seçmeyin</string>
