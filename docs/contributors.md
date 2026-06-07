@@ -35,10 +35,10 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/armond0x">
-                    <img src="https://avatars.githubusercontent.com/u/90919499?v=4" width="100;" alt="armond0x"/>
+                <a href="https://github.com/mrx7014">
+                    <img src="https://avatars.githubusercontent.com/u/90919499?v=4" width="100;" alt="mrx7014"/>
                     <br />
-                    <sub><b>ARMOND</b></sub>
+                    <sub><b>MRX7014</b></sub>
                 </a>
             </td>
             <td align="center">
@@ -130,14 +130,21 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/GAME-OVER-op">
+                    <img src="https://avatars.githubusercontent.com/u/152814129?v=4" width="100;" alt="GAME-OVER-op"/>
+                    <br />
+                    <sub><b>GAME-OVER-op</b></sub>
+                </a>
+            </td>
+		</tr>
+		<tr>
+            <td align="center">
                 <a href="https://github.com/AAGaming00">
                     <img src="https://avatars.githubusercontent.com/u/42613600?v=4" width="100;" alt="AAGaming00"/>
                     <br />
                     <sub><b>AAGaming</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/armv7a">
                     <img src="https://avatars.githubusercontent.com/u/147451408?v=4" width="100;" alt="armv7a"/>
@@ -150,13 +157,6 @@ This project exists thanks to the following contributors:
                     <img src="https://avatars.githubusercontent.com/u/61559082?v=4" width="100;" alt="FlazeIGuess"/>
                     <br />
                     <sub><b>Flaze</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/GAME-OVER-op">
-                    <img src="https://avatars.githubusercontent.com/u/152814129?v=4" width="100;" alt="GAME-OVER-op"/>
-                    <br />
-                    <sub><b>GAME-OVER-op</b></sub>
                 </a>
             </td>
             <td align="center">
