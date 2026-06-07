@@ -19,6 +19,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Com
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getStaticField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
@@ -141,8 +142,8 @@ class ClockChip(context: Context) : ModPack(context) {
             .runAfter { param ->
                 val mView = param.thisObject.getField("mView") as View
                 mClockView = param.thisObject.getField("clock") as TextView
-                mCenterClockView = null
-                mRightClockView = null
+                mCenterClockView = param.thisObject.getFieldSilently("clockCenter") as? TextView
+                mRightClockView = param.thisObject.getFieldSilently("clockRight") as? TextView
 
                 mView.addOnLayoutChangeListener(layoutChangeListener)
 

@@ -43,6 +43,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Com
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
@@ -247,8 +248,8 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             .hookMethod("onViewAttached")
             .runAfter { param ->
                 mClockView = param.thisObject.getField("clock") as TextView
-                mCenterClockView = null
-                mRightClockView = null
+                mCenterClockView = param.thisObject.getFieldSilently("clockCenter") as? TextView
+                mRightClockView = param.thisObject.getFieldSilently("clockRight") as? TextView
 
                 updateClockTextSize()
             }
@@ -426,8 +427,8 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             .hookMethod("onViewAttached")
             .runAfter { param ->
                 mClockView = param.thisObject.getField("clock") as TextView
-                mCenterClockView = null
-                mRightClockView = null
+                mCenterClockView = param.thisObject.getFieldSilently("clockCenter") as? TextView
+                mRightClockView = param.thisObject.getFieldSilently("clockRight") as? TextView
 
                 listOf(
                     mClockView,
