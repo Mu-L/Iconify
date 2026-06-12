@@ -502,13 +502,13 @@ class LockscreenClock(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (!showLockscreenClock) return@runAfter
 
-                val callback = param.args[0]
+                val callbackClass = param.args[0].javaClass
 
-                if (callback.getExtraFieldSilently("hooked") == true) return@runAfter
+                if (callbackClass.getExtraFieldSilently("hooked") == true) return@runAfter
 
-                callback.setExtraField("hooked", true)
+                callbackClass.setExtraField("hooked", true)
 
-                callback.javaClass
+                callbackClass
                     .hookMethod(
                         "onTimeChanged",
                         "onTimeFormatChanged",
