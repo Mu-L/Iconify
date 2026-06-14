@@ -42,20 +42,20 @@ Thanks to these translators and proofreaders, this project exists:
         <sub><b>3936 words</b></sub>
       </td>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/johhnywarner"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13625233/medium/92cf188dd38d6afd7c1f9ba412f4d290.png" />
+          <br />
+          <sub><b>Johnny Warner (johhnywarner)</b></sub></a>
+        <br />
+        <sub><b>3856 words</b></sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/strange977"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/12483545/medium/d7a65be2b31ae56a243c1a5da6740b9d.jpg" />
           <br />
           <sub><b>Andrea Ferrario (strange977)</b></sub></a>
         <br />
         <sub><b>3845 words</b></sub>
-      </td>
-    </tr>
-    <tr>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/johhnywarner"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13625233/medium/92cf188dd38d6afd7c1f9ba412f4d290.png" />
-          <br />
-          <sub><b>Johnny Warner (johhnywarner)</b></sub></a>
-        <br />
-        <sub><b>3215 words</b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/AioiLight"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13172949/medium/1e966b1bc958a68e70686bf4b844b39d.jpg" />
@@ -653,7 +653,7 @@ Thanks to these translators and proofreaders, this project exists:
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/rdclxvi"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14190719/medium/e105ef43a922f0ea67c632308b2405be.jpeg" />
           <br />
-          <sub><b>unkn0wn (rdclxvi)</b></sub></a>
+          <sub><b>roykarem (rdclxvi)</b></sub></a>
         <br />
         <sub><b>20 words</b></sub>
       </td>
