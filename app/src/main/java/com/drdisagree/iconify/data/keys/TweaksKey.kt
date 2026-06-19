@@ -40,4 +40,7 @@ enum class TweaksKey(override val default: Any?) : Key {
     NOTCH_BAR_KILLER(false),
     TABLET_HEADER(false),
     ACCENT_PRIVACY_CHIP(false),
+
+    // Playground
+    KEYGUARD_PIN_ACCENT_BG(false),
 }

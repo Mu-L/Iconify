@@ -112,10 +112,10 @@ object ResourceManager {
 
             val typeGrouped = resources.groupBy {
                 when {
-                    it.isPortrait -> ResourceType.PORTRAIT
+                    it.isLandscape && it.isNightMode -> ResourceType.NIGHT_LANDSCAPE
                     it.isLandscape -> ResourceType.LANDSCAPE
                     it.isNightMode -> ResourceType.NIGHT
-                    else -> throw Exception("Invalid type")
+                    else -> ResourceType.PORTRAIT
                 }
             }
 

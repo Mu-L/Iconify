@@ -78,6 +78,9 @@ object DynamicCompiler {
                 resourcesMap[packageName]!![ResourceType.NIGHT]?.let {
                     mResource[ResourceType.NIGHT] = ArrayList(it)
                 }
+                resourcesMap[packageName]!![ResourceType.NIGHT_LANDSCAPE]?.let {
+                    mResource[ResourceType.NIGHT_LANDSCAPE] = ArrayList(it)
+                }
 
                 mOverlayName = getOverlayName(packageName)
 
@@ -263,7 +266,8 @@ object DynamicCompiler {
         val resourceTypes = arrayOf(
             ResourceType.PORTRAIT to "values",
             ResourceType.LANDSCAPE to "values-land",
-            ResourceType.NIGHT to "values-night"
+            ResourceType.NIGHT to "values-night",
+            ResourceType.NIGHT_LANDSCAPE to "values-night-land"
         )
 
         resourceTypes.forEach { (resourceType, folderName) ->

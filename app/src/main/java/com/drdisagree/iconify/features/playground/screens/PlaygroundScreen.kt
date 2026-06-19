@@ -35,12 +35,20 @@ import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.preferences.PrefValue
+import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
+import com.drdisagree.iconify.core.ui.components.dialogs.LoadingDialog
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
+import com.drdisagree.iconify.core.ui.components.others.ToastAppliedEvent
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
+import com.drdisagree.iconify.data.keys.TweaksKey
+import com.drdisagree.iconify.features.playground.viewmodels.PlaygroundViewModel
 
 fun playgroundPreferences(
     onSendNotification: () -> Unit = {},
@@ -52,17 +60,42 @@ fun playgroundPreferences(
             summary = { stringRes("Send a custom notification") },
             onClick = { onSendNotification() }
         )
+
+        switch(
+            key = TweaksKey.KEYGUARD_PIN_ACCENT_BG,
+            title = stringRes("Accent Keyguard Action Buttons"),
+            summary = { stringRes("Link accent color to keyguard action button background") }
+        )
     }
 }
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun PlaygroundScreen() {
+fun PlaygroundScreen(
+    playgroundViewModel: PlaygroundViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
     val activity = LocalActivity.current
     var showDialog by rememberSaveable { mutableStateOf(false) }
     var notificationTitle by rememberSaveable { mutableStateOf("") }
     var notificationBody by rememberSaveable { mutableStateOf("") }
+
+    val isApplying by playgroundViewModel.isLoading.collectAsStateWithLifecycle()
+
+    if (isApplying) {
+        LoadingDialog()
+    }
+
+    ToastAppliedEvent(playgroundViewModel.uiEvent)
+
+    PreferenceListener { event ->
+        when (event.key) {
+            TweaksKey.KEYGUARD_PIN_ACCENT_BG.name -> {
+                val enable = (event.newValue as PrefValue.BoolValue).v
+                playgroundViewModel.toggleKeyguardPinAccentBg(enable)
+            }
+        }
+    }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
