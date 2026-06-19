@@ -29,13 +29,13 @@ class PlaygroundViewModel @Inject constructor(
             SYSTEMUI_PACKAGE,
             "color",
             "pin_bouncer_action_button_bg",
-            "@color/system_accent1_100"
+            "@*android:color/system_accent1_100"
         ),
         ResourceEntry(
             SYSTEMUI_PACKAGE,
             "color",
             "pin_bouncer_action_button_bg",
-            "@color/system_accent1_600"
+            "@*android:color/system_accent1_600"
         ).apply {
             isNightMode = true
         }
