@@ -175,8 +175,15 @@ fun PlaygroundScreen(
         )
     }
 
+    PlaygroundScreenContent(
+        onSendNotification = { checkAndShowNotificationDialog() }
+    )
+}
+
+@Composable
+private fun PlaygroundScreenContent(onSendNotification: () -> Unit = {}) {
     PreferenceScreen(
-        items = playgroundPreferences(onSendNotification = { checkAndShowNotificationDialog() }),
+        items = playgroundPreferences(onSendNotification = onSendNotification),
         title = "Playground",
         showBackIcon = true,
         showActionIcon = true
@@ -219,6 +226,6 @@ private fun sendNotification(context: Context, title: String, body: String) {
 @Composable
 private fun PlaygroundScreenPreview() {
     PreviewComposable {
-        PlaygroundScreen()
+        PlaygroundScreenContent()
     }
 }
