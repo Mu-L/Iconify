@@ -267,7 +267,7 @@ object DynamicCompiler {
             ResourceType.PORTRAIT to "values",
             ResourceType.LANDSCAPE to "values-land",
             ResourceType.NIGHT to "values-night",
-            ResourceType.NIGHT_LANDSCAPE to "values-night-land"
+            ResourceType.NIGHT_LANDSCAPE to "values-land-night"
         )
 
         resourceTypes.forEach { (resourceType, folderName) ->
