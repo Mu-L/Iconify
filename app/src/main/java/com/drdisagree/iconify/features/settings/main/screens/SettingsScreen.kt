@@ -12,19 +12,18 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
-import com.drdisagree.iconify.core.common.LocalPreferenceController
 import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
@@ -38,19 +37,11 @@ import com.drdisagree.iconify.core.utils.AppUtils
 import com.drdisagree.iconify.core.utils.AppUtils.openUrl
 import com.drdisagree.iconify.core.utils.CacheUtils
 import com.drdisagree.iconify.core.utils.SystemUtils
-import com.drdisagree.iconify.core.utils.SystemUtils.disableBlur
-import com.drdisagree.iconify.core.utils.weather.WeatherConfig
 import com.drdisagree.iconify.data.common.Const.GITHUB_REPO
 import com.drdisagree.iconify.data.common.Const.ICONIFY_CROWDIN
 import com.drdisagree.iconify.data.common.Const.TELEGRAM_GROUP
-import com.drdisagree.iconify.data.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.data.keys.SettingsKey
-import com.drdisagree.iconify.features.common.viewmodels.DynamicResourceViewModel
-import com.topjohnwu.superuser.Shell
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.drdisagree.iconify.features.settings.main.viewmodels.SettingsViewModel
 
 fun settingsPreferences(
     onDisableEverything: () -> Unit = {},
@@ -187,17 +178,22 @@ fun settingsPreferences(
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsScreen(
-    dynamicResourceViewModel: DynamicResourceViewModel? = hiltViewModel()
+    settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
     val activity = LocalActivity.current
-    val prefController = LocalPreferenceController.current
-    val coroutineScope = rememberCoroutineScope()
     var showDialog by rememberSaveable { mutableStateOf(false) }
-    var showLoading by rememberSaveable { mutableStateOf(false) }
+    val isLoading by settingsViewModel.isLoading.collectAsStateWithLifecycle()
 
-    if (showLoading) {
+    if (isLoading) {
         LoadingDialog()
+    }
+
+    // Restart the app once the teardown finishes (SystemUI restart already
+    // happened inside the ViewModel, under NonCancellable).
+    LaunchedEffect(Unit) {
+        settingsViewModel.restartApp.collect {
+            activity?.let { AppUtils.restartApplication(it) }
+        }
     }
 
     if (showDialog) {
@@ -223,46 +219,8 @@ fun SettingsScreen(
                 Button(
                     shapes = ButtonDefaults.shapes(),
                     onClick = withHaptic {
-                    showDialog = false
-                    showLoading = true
-
-                    coroutineScope.launch {
-                        withContext(Dispatchers.IO) {
-                            // Clear weather configs
-                            WeatherConfig.clear(context)
-
-                            // Clear shared preferences
-                            prefController.reset()
-
-                            // Clear dynamic resource database
-                            dynamicResourceViewModel?.clearAllResources()
-
-                            disableBlur(false)
-
-                            prefController.setInt(
-                                SettingsKey.OVERLAY_VERSION_CODE,
-                                BuildConfig.OVERLAY_VERSION_CODE
-                            )
-                            prefController.setBoolean(
-                                SettingsKey.ON_HOME_PAGE,
-                                true
-                            )
-                            prefController.setBoolean(
-                                SettingsKey.FIRST_INSTALL,
-                                false
-                            )
-
-                            Shell.cmd(
-                                $$"> $$MODULE_DIR/system.prop; > $$MODULE_DIR/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done"
-                            ).submit()
-
-                            delay(3000)
-                            showLoading = false
-
-                            SystemUtils.restartSystemUI()
-                            activity?.let { AppUtils.restartApplication(it) }
-                        }
-                    }
+                        showDialog = false
+                        settingsViewModel.disableEverything()
                     }) { Text(stringResource(R.string.ok)) }
             }
         )
@@ -276,8 +234,13 @@ fun SettingsScreen(
         }
     }
 
+    SettingsScreenContent(onDisableEverything = { showDialog = true })
+}
+
+@Composable
+private fun SettingsScreenContent(onDisableEverything: () -> Unit = {}) {
     PreferenceScreen(
-        items = settingsPreferences(onDisableEverything = { showDialog = true }),
+        items = settingsPreferences(onDisableEverything = onDisableEverything),
         title = stringResource(R.string.activity_title_settings),
         showActionIcon = true
     )
@@ -287,6 +250,6 @@ fun SettingsScreen(
 @Composable
 private fun SettingsScreenPreview() {
     PreviewComposable {
-        SettingsScreen(null)
+        SettingsScreenContent()
     }
 }
