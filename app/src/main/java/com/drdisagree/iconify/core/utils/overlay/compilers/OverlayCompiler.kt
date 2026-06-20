@@ -31,11 +31,20 @@ object OverlayCompiler {
             Log.i("$TAG - Manifest", "Successfully created manifest for $overlayName")
             false
         } catch (e: Exception) {
+            val output = listOf(e.message ?: e.cause?.toString() ?: e.toString())
             Log.e("$TAG - Manifest", "Failed to create manifest for $overlayName\n${e.message}")
             writeLog(
                 "$TAG - Manifest",
                 "Failed to create manifest for $overlayName",
-                listOf(e.message ?: e.cause?.toString() ?: e.toString())
+                output
+            )
+            CompilerErrorStore.record(
+                CompilerFailure(
+                    stage = "Manifest",
+                    target = overlayName ?: "overlay",
+                    message = "Failed to create manifest for $overlayName",
+                    output = output
+                )
             )
             true
         }
@@ -50,7 +59,21 @@ object OverlayCompiler {
             aaptCommand.append(" -I ").append(targetApk)
         }
 
-        val command = aaptCommand.toString()
+        return runAaptCommand(aaptCommand.toString(), source, name) != null
+    }
+
+    /**
+     * Runs a single aapt2 compile+link [command] (with the colorSurfaceHeader
+     * self-heal retry), capturing stderr and recording a [CompilerFailure] on
+     * failure. Shared between [runAapt] and OnboardingCompiler so the
+     * stderr-capture / retry / logging logic lives in exactly one place.
+     *
+     * @return null on success, or the [CompilerFailure] describing the error.
+     */
+    internal fun runAaptCommand(command: String, source: String, name: String): CompilerFailure? {
+        // Wrap the whole chain so 2>&1 captures stderr from compile AND link;
+        // libsu does not collect stderr by default and a bare trailing "2>&1"
+        // would only bind to the last command in the chain.
         var result = Shell.cmd("{ $command ; } 2>&1").exec()
 
         if (!result.isSuccess) {
@@ -74,30 +97,35 @@ object OverlayCompiler {
 
         if (result.isSuccess) {
             Log.i("$TAG - AAPT", "Successfully built APK for $name")
-        } else {
-            val errorOutput = result.out.takeIf { lines ->
-                lines.any { !it.isNullOrBlank() }
-            } ?: result.err
-
-            Log.e(
-                "$TAG - AAPT",
-                "Failed to build APK for $name\n${errorOutput.joinToString("\n")}"
-            )
-
-            val fileContents = Shell.cmd(
-                $$"find $$source/res -type f -name '*.xml' -exec sh -c 'echo \"===== $1 =====\"; cat \"$1\"; echo' sh {} \\;"
-            ).exec().out
-
-            writeLog(
-                tag = "$TAG - AAPT",
-                header = "Failed to build APK for $name",
-                command = command,
-                fileContents = fileContents,
-                errorLog = errorOutput
-            )
+            return null
         }
 
-        return !result.isSuccess
+        val errorOutput = errorOutputOf(result)
+
+        Log.e(
+            "$TAG - AAPT",
+            "Failed to build APK for $name\n${errorOutput.joinToString("\n")}"
+        )
+
+        val fileContents = Shell.cmd(
+            $$"find $$source/res -type f -name '*.xml' -exec sh -c 'echo \"===== $1 =====\"; cat \"$1\"; echo' sh {} \\;"
+        ).exec().out
+
+        writeLog(
+            tag = "$TAG - AAPT",
+            header = "Failed to build APK for $name",
+            command = command,
+            fileContents = fileContents,
+            errorLog = errorOutput
+        )
+
+        return CompilerFailure(
+            stage = "AAPT",
+            target = name,
+            message = "Failed to build APK for $name",
+            command = command,
+            output = errorOutput.filterNotNull()
+        ).also { CompilerErrorStore.record(it) }
     }
 
     private fun buildAAPT2Command(source: String, name: String): StringBuilder {
@@ -128,15 +156,21 @@ object OverlayCompiler {
             "$TAG - ZipAlign",
             "Successfully zip aligned $fileName"
         ) else {
-            val errorOutput = result.out.takeIf { lines ->
-                lines.any { !it.isNullOrBlank() }
-            } ?: result.err
+            val errorOutput = errorOutputOf(result)
 
             Log.e(
                 "$TAG - ZipAlign",
                 "Failed to zip align $fileName\n${errorOutput.joinToString("\n")}"
             )
             writeLog("$TAG - ZipAlign", "Failed to zip align $fileName", errorOutput)
+            CompilerErrorStore.record(
+                CompilerFailure(
+                    stage = "ZipAlign",
+                    target = fileName,
+                    message = "Failed to zip align $fileName",
+                    output = errorOutput.filterNotNull()
+                )
+            )
         }
 
         return !result.isSuccess
@@ -170,9 +204,25 @@ object OverlayCompiler {
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
             writeLog("$TAG - APKSigner", "Failed to sign $fileName", e)
+            CompilerErrorStore.record(
+                CompilerFailure(
+                    stage = "Sign",
+                    target = fileName ?: "overlay",
+                    message = "Failed to sign $fileName",
+                    output = listOf(e.message ?: e.toString())
+                )
+            )
             return true
         }
 
         return false
     }
+
+    /**
+     * Picks the meaningful output of a shell result: prefer stdout (which holds
+     * everything once a command is wrapped with `2>&1`), falling back to stderr
+     * only when stdout is entirely blank.
+     */
+    private fun errorOutputOf(result: Shell.Result): List<String?> =
+        result.out.takeIf { lines -> lines.any { !it.isNullOrBlank() } } ?: result.err
 }

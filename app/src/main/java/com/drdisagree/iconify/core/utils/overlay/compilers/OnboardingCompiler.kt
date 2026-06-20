@@ -44,57 +44,26 @@ object OnboardingCompiler {
     }
 
     fun runAapt(source: String, name: String): Boolean {
-        var result: Shell.Result? = null
         var attempt = 3
+        var failure: CompilerFailure? = null
 
         val command: String = getAAPT2Command(source, name)
 
         while (attempt-- != 0) {
-            result = Shell.cmd("{ $command ; } 2>&1").exec()
+            // Delegates the stderr-capture / colorSurfaceHeader retry / logging
+            // to the single shared implementation; this loop only adds the
+            // onboarding-specific "retry the whole build up to 3 times".
+            failure = OverlayCompiler.runAaptCommand(command, source, name)
 
-            if (!result.isSuccess) {
-                val keywords = listOf(
-                    "colorSurfaceHeader"
-                )
+            if (failure == null) break
 
-                val foundKeywords = keywords.filter { keyword ->
-                    result.out.any { it.contains(keyword, ignoreCase = true) }
-                }
-
-                if (foundKeywords.isNotEmpty()) {
-                    foundKeywords.forEach { keyword ->
-                        Shell.cmd(
-                            "find $source/res -type f -name \"*.xml\" -exec sed -i '/$keyword/d' {} +"
-                        ).exec()
-                    }
-                    result = Shell.cmd("{ $command ; } 2>&1").exec()
-                }
-            }
-
-            if (result.isSuccess) {
-                Log.i("$TAG - AAPT", "Successfully built APK for $name")
-                break
-            } else {
-                Log.e(
-                    "$TAG - AAPT",
-                    "Failed to build APK for $name\n${java.lang.String.join("\n", result.out)}"
-                )
-                try {
-                    Thread.sleep(1000)
-                } catch (_: Exception) {
-                }
+            try {
+                Thread.sleep(1000)
+            } catch (_: Exception) {
             }
         }
 
-        if (!result!!.isSuccess) {
-            val errorOutput = result.out.takeIf { lines ->
-                lines.any { !it.isNullOrBlank() }
-            } ?: result.err
-
-            writeLog("$TAG - AAPT", "Failed to build APK for $name", errorOutput)
-        }
-
-        return !result.isSuccess
+        return failure != null
     }
 
     private fun getAAPT2Command(source: String, name: String): String {

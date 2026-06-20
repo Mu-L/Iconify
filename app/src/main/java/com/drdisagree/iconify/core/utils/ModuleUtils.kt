@@ -9,6 +9,8 @@ import com.drdisagree.iconify.app.MainActivity
 import com.drdisagree.iconify.core.utils.AssetsUtils.readRawResource
 import com.drdisagree.iconify.core.utils.RootUtils.setPermissionsRecursively
 import com.drdisagree.iconify.core.utils.overlay.FabricatedUtils
+import com.drdisagree.iconify.core.utils.overlay.compilers.CompilerErrorStore
+import com.drdisagree.iconify.core.utils.overlay.compilers.CompilerFailure
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.RESTART_SYSUI_AFTER_BOOT
 import com.drdisagree.iconify.data.common.Resources
@@ -173,6 +175,14 @@ object ModuleUtils {
             val errorOutput = result.out.takeIf { lines ->
                 lines.any { !it.isNullOrBlank() }
             } ?: result.err
+            CompilerErrorStore.record(
+                CompilerFailure(
+                    stage = "Flash",
+                    target = "module",
+                    message = "Failed to flash module",
+                    output = errorOutput.filterNotNull()
+                )
+            )
             throw Exception(java.lang.String.join("\n", errorOutput))
         }
 

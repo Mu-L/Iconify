@@ -3,9 +3,12 @@ package com.drdisagree.iconify.core.ui.components.dialogs
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -77,12 +80,17 @@ fun ErrorDialog(
                     HtmlCompat.fromHtml(desc, HtmlCompat.FROM_HTML_MODE_COMPACT).toString()
                 }
 
+                // Description can be long (e.g. raw aapt output) — cap the
+                // height and let it scroll so the dialog never grows off-screen.
                 Text(
                     text = descText,
                     color = MaterialTheme.colorScheme.onSurface.secondaryText(),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(top = 8.dp)
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .heightIn(max = 280.dp)
+                        .verticalScroll(rememberScrollState())
                 )
 
                 Button(
