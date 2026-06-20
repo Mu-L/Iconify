@@ -219,6 +219,43 @@ object OverlayCompiler {
     }
 
     /**
+     * Runs the full compile ladder for a single overlay:
+     * manifest -> aapt -> zipalign -> sign.
+     *
+     * This is the sequence every compiler repeated verbatim. Each step already
+     * logs and records its own [CompilerFailure]; this just chains them and
+     * stops at the first failure.
+     *
+     * @param overlayName bare overlay name (e.g. "SIP1", "CR1", "Dynamic2").
+     * @param targetPackage package the overlay targets.
+     * @param source overlay working directory (containing res/ + manifest).
+     * @return true if any step failed (matching the legacy "true == error").
+     */
+    fun buildOverlayApk(overlayName: String, targetPackage: String?, source: String): Boolean {
+        if (createManifest(overlayName, targetPackage, source)) {
+            Log.e(TAG, "Failed to create Manifest for $overlayName! Exiting...")
+            return true
+        }
+
+        if (runAapt(source, targetPackage)) {
+            Log.e(TAG, "Failed to build $overlayName! Exiting...")
+            return true
+        }
+
+        if (zipAlign("${Resources.UNSIGNED_UNALIGNED_DIR}/$overlayName-unsigned-unaligned.apk")) {
+            Log.e(TAG, "Failed to align $overlayName-unsigned-unaligned.apk! Exiting...")
+            return true
+        }
+
+        if (apkSigner("$UNSIGNED_DIR/$overlayName-unsigned.apk")) {
+            Log.e(TAG, "Failed to sign $overlayName-unsigned.apk! Exiting...")
+            return true
+        }
+
+        return false
+    }
+
+    /**
      * Picks the meaningful output of a shell result: prefer stdout (which holds
      * everything once a command is wrapped with `2>&1`), falling back to stderr
      * only when stdout is entirely blank.
