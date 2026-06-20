@@ -156,11 +156,11 @@ object ModuleUtils {
         var result: Shell.Result? = null
 
         if (RootUtils.isMagiskInstalled) {
-            result = Shell.cmd("magisk --install-module $modulePath").exec()
+            result = Shell.cmd("{ magisk --install-module $modulePath ; } 2>&1").exec()
         } else if (RootUtils.isKSUInstalled) {
-            result = Shell.cmd("ksud module install $modulePath").exec()
+            result = Shell.cmd("{ ksud module install $modulePath ; } 2>&1").exec()
         } else if (RootUtils.isApatchInstalled) {
-            result = Shell.cmd("apd module install $modulePath").exec()
+            result = Shell.cmd("{ apd module install $modulePath ; } 2>&1").exec()
             setPermissionsRecursively(MODULE_DIR)
         }
 
@@ -170,7 +170,10 @@ object ModuleUtils {
             Log.i(TAG, "Successfully flashed module")
         } else {
             Log.e(TAG, "Failed to flash module")
-            throw Exception(java.lang.String.join("\n", result.out))
+            val errorOutput = result.out.takeIf { lines ->
+                lines.any { !it.isNullOrBlank() }
+            } ?: result.err
+            throw Exception(java.lang.String.join("\n", errorOutput))
         }
 
         return !result.isSuccess

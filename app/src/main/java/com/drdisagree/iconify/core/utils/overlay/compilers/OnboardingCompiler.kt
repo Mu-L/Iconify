@@ -50,7 +50,7 @@ object OnboardingCompiler {
         val command: String = getAAPT2Command(source, name)
 
         while (attempt-- != 0) {
-            result = Shell.cmd(command).exec()
+            result = Shell.cmd("{ $command ; } 2>&1").exec()
 
             if (!result.isSuccess) {
                 val keywords = listOf(
@@ -67,7 +67,7 @@ object OnboardingCompiler {
                             "find $source/res -type f -name \"*.xml\" -exec sed -i '/$keyword/d' {} +"
                         ).exec()
                     }
-                    result = Shell.cmd(command).exec()
+                    result = Shell.cmd("{ $command ; } 2>&1").exec()
                 }
             }
 
@@ -86,11 +86,13 @@ object OnboardingCompiler {
             }
         }
 
-        if (!result!!.isSuccess) writeLog(
-            "$TAG - AAPT",
-            "Failed to build APK for $name",
-            result.out
-        )
+        if (!result!!.isSuccess) {
+            val errorOutput = result.out.takeIf { lines ->
+                lines.any { !it.isNullOrBlank() }
+            } ?: result.err
+
+            writeLog("$TAG - AAPT", "Failed to build APK for $name", errorOutput)
+        }
 
         return !result.isSuccess
     }
@@ -113,7 +115,7 @@ object OnboardingCompiler {
         while (attempt-- != 0) {
             result =
                 Shell.cmd(
-                    "$zipalign -p -f 4 $source $UNSIGNED_DIR/$name"
+                    "{ $zipalign -p -f 4 $source $UNSIGNED_DIR/$name ; } 2>&1"
                 ).exec()
 
             if (result.isSuccess) {
@@ -139,11 +141,17 @@ object OnboardingCompiler {
             }
         }
 
-        if (!result!!.isSuccess) writeLog(
-            "$TAG - ZipAlign",
-            "Failed to zip align " + name.replace("-unsigned.apk", ""),
-            result.out
-        )
+        if (!result!!.isSuccess) {
+            val errorOutput = result.out.takeIf { lines ->
+                lines.any { !it.isNullOrBlank() }
+            } ?: result.err
+
+            writeLog(
+                "$TAG - ZipAlign",
+                "Failed to zip align " + name.replace("-unsigned.apk", ""),
+                errorOutput
+            )
+        }
 
         return !result.isSuccess
     }

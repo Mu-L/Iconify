@@ -121,18 +121,22 @@ object OverlayCompiler {
         val result =
             Shell.cmd(
                 "rm -rf $UNSIGNED_DIR/$fileName-unsigned.apk",
-                "$zipalign 4 $source $UNSIGNED_DIR/$fileName-unsigned.apk"
+                "{ $zipalign 4 $source $UNSIGNED_DIR/$fileName-unsigned.apk ; } 2>&1"
             ).exec()
 
         if (result.isSuccess) Log.i(
             "$TAG - ZipAlign",
             "Successfully zip aligned $fileName"
         ) else {
+            val errorOutput = result.out.takeIf { lines ->
+                lines.any { !it.isNullOrBlank() }
+            } ?: result.err
+
             Log.e(
                 "$TAG - ZipAlign",
-                "Failed to zip align $fileName\n${java.lang.String.join("\n", result.out)}"
+                "Failed to zip align $fileName\n${errorOutput.joinToString("\n")}"
             )
-            writeLog("$TAG - ZipAlign", "Failed to zip align $fileName", result.out)
+            writeLog("$TAG - ZipAlign", "Failed to zip align $fileName", errorOutput)
         }
 
         return !result.isSuccess
