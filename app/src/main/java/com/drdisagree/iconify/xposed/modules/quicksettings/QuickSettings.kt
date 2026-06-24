@@ -25,12 +25,14 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Com
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
@@ -312,8 +314,14 @@ class QuickSettings(context: Context) : ModPack(context) {
 
                 val mediaHostState = param.args[0] ?: return@runBefore
 
+                val mediaHostStateClass = mediaHostState.javaClass
+
+                if (mediaHostStateClass.getExtraFieldSilently("hooked") == true) return@runBefore
+
+                mediaHostStateClass.setExtraField("hooked", true)
+
                 // For a14 and above
-                mediaHostState.javaClass
+                mediaHostStateClass
                     .hookMethod("getExpansion")
                     .suppressError()
                     .runBefore runBefore2@{ param2 ->
@@ -323,7 +331,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                     }
 
                 // For some a13 and below ROMs
-                mediaHostState.javaClass
+                mediaHostStateClass
                     .hookConstructor()
                     .runAfter { param2 ->
                         if (!compactMediaPlayerEnabled) return@runAfter
