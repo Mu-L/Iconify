@@ -25,6 +25,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -93,7 +94,12 @@ fun MultiListPreferenceItem(
     }
 
     if (showDialog) {
-        var localSelected by remember { mutableStateOf(selectedValues) }
+        var localSelected by rememberSaveable(
+            stateSaver = listSaver(
+                save = { it.toList() },
+                restore = { it.toSet() }
+            )
+        ) { mutableStateOf(selectedValues) }
 
         AlertDialog(
             onDismissRequest = { showDialog = false },

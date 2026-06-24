@@ -1518,6 +1518,9 @@
     <string name="btn_pick_pdf">Pick PDF</string>
     <string name="btn_pick_document">Pick document</string>
     <string name="btn_pick_file">Pick file</string>
+    <string name="btn_replace_file">Replace</string>
+    <string name="file_unknown_name">Unknown file</string>
+    <string name="file_clear">Clear</string>
     <string name="advanced_color_settings_title">Advanced Settings</string>
     <string name="advanced_color_settings_desc">Get advanced color customizations</string>
     <string name="look_and_feel_title">Look &amp; Feel</string>

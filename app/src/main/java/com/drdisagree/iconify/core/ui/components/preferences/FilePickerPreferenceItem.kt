@@ -44,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
@@ -249,7 +250,7 @@ fun FilePickerPreferenceItem(
 
             if (uri != null && type.saveFileUri) {
                 FilenameChip(
-                    name = fileName ?: "Unknown file",
+                    name = fileName ?: stringResource(R.string.file_unknown_name),
                     type = type.pickerType,
                     isEnabled = isEnabled,
                     onClear = withHaptic {
@@ -269,7 +270,10 @@ fun FilePickerPreferenceItem(
                 shapes = ButtonDefaults.shapes(),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             ) {
-                Text(text = if (uri != null) "Replace" else type.pickerType.label.resolve())
+                Text(
+                    text = if (uri != null) stringResource(R.string.btn_replace_file)
+                    else type.pickerType.label.resolve()
+                )
             }
         }
     }
@@ -341,7 +345,7 @@ private fun FilenameChip(
         ) {
             Icon(
                 imageVector = Icons.Outlined.Close,
-                contentDescription = "Clear",
+                contentDescription = stringResource(R.string.file_clear),
                 tint = contentColor,
                 modifier = Modifier.size(14.dp),
             )

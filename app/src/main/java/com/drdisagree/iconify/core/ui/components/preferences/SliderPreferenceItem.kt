@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +40,7 @@ import com.drdisagree.iconify.core.preferences.resolveOrNull
 import com.drdisagree.iconify.core.preferences.toValueOrNull
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.helpers.replaceAll
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -59,9 +61,23 @@ fun SliderPreferenceItem(
     val persistedValue by prefController.observe(prefDefinition.key, defaultValue)
     var sliderValue by remember { mutableFloatStateOf(persistedValue) }
     var previousLabel by remember { mutableStateOf<String?>(null) }
+
+    val defaultEpsilon = if (type.steps > 0) {
+        (type.max - type.min) / (type.steps + 1) / 2f
+    } else {
+        0.0001f
+    }
+    val isAtDefault = abs(sliderValue - defaultValue) <= defaultEpsilon
+
+    LaunchedEffect(persistedValue) {
+        if (sliderValue != persistedValue) {
+            sliderValue = persistedValue
+        }
+    }
+
     val originalValueLabel = type.valueLabel?.invoke(sliderValue)
         ?: sliderValue.roundToInt().toString()
-    val valueLabel = if (type.showDefaultIndicator && sliderValue == defaultValue) {
+    val valueLabel = if (type.showDefaultIndicator && isAtDefault) {
         if (type.hideDefaultValue) {
             stringResource(R.string.opt_default).replaceAll("(" to "", ")" to "")
         } else {
@@ -100,7 +116,12 @@ fun SliderPreferenceItem(
     }
 
     fun persistValue(value: Float) {
-        prefController.setFloat(prefDefinition.key, value)
+        val snapped = if (abs(value - defaultValue) <= defaultEpsilon) {
+            defaultValue
+        } else {
+            value
+        }
+        prefController.setFloat(prefDefinition.key, snapped)
     }
 
     PreferenceContainer(
@@ -153,7 +174,7 @@ fun SliderPreferenceItem(
                 )
                 if (type.showResetButton) {
                     IconButton(
-                        enabled = isEnabled && sliderValue != defaultValue,
+                        enabled = isEnabled && !isAtDefault,
                         shapes = IconButtonDefaults.shapes(),
                         colors = IconButtonDefaults.filledIconButtonColors(),
                         onClick = {
