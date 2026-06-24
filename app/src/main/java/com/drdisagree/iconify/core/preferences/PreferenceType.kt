@@ -14,7 +14,8 @@ sealed class PreferenceType {
         val applyImmediately: Boolean,
         val showResetButton: Boolean = false,
         val showDefaultIndicator: Boolean = false,
-        val hideDefaultValue: Boolean = false
+        val hideDefaultValue: Boolean = false,
+        val showStepButtons: Boolean = true
     ) : PreferenceType()
 
     data class ListPref(

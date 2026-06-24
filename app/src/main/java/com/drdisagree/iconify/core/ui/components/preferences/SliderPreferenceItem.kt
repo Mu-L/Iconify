@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -67,7 +70,16 @@ fun SliderPreferenceItem(
     } else {
         0.0001f
     }
-    val isAtDefault = abs(sliderValue - defaultValue) <= defaultEpsilon
+
+    fun labelOf(value: Float) = type.valueLabel?.invoke(value)
+        ?: value.roundToInt().toString()
+
+    // Treat a value as default when it's within epsilon OR renders the same label as
+    // the default (a continuous slider snaps many raw floats to one rounded "Ndp" label).
+    fun isDefault(value: Float) =
+        abs(value - defaultValue) <= defaultEpsilon || labelOf(value) == labelOf(defaultValue)
+
+    val isAtDefault = isDefault(sliderValue)
 
     LaunchedEffect(persistedValue) {
         if (sliderValue != persistedValue) {
@@ -75,8 +87,7 @@ fun SliderPreferenceItem(
         }
     }
 
-    val originalValueLabel = type.valueLabel?.invoke(sliderValue)
-        ?: sliderValue.roundToInt().toString()
+    val originalValueLabel = labelOf(sliderValue)
     val valueLabel = if (type.showDefaultIndicator && isAtDefault) {
         if (type.hideDefaultValue) {
             stringResource(R.string.opt_default).replaceAll("(" to "", ")" to "")
@@ -104,8 +115,7 @@ fun SliderPreferenceItem(
     fun updateUiValue(newValue: Float) {
         if (!isEnabled || sliderValue == newValue) return
 
-        val newLabel = type.valueLabel?.invoke(newValue)
-            ?: newValue.roundToInt().toString()
+        val newLabel = labelOf(newValue)
 
         if (newLabel != previousLabel) {
             onValueChangeWithHaptic()
@@ -116,12 +126,23 @@ fun SliderPreferenceItem(
     }
 
     fun persistValue(value: Float) {
-        val snapped = if (abs(value - defaultValue) <= defaultEpsilon) {
-            defaultValue
-        } else {
-            value
-        }
+        // Snap to exact default when it reads as default so the stored value stays clean
+        // and matches what the "Default" label and reset button report.
+        val snapped = if (isDefault(value)) defaultValue else value
         prefController.setFloat(prefDefinition.key, snapped)
+    }
+
+    // One discrete step; matches the slider's tick spacing, or 1 for a continuous slider.
+    val stepIncrement = if (type.steps > 0) {
+        (type.max - type.min) / (type.steps + 1)
+    } else {
+        1f
+    }
+
+    fun stepBy(delta: Float) {
+        val newValue = (sliderValue + delta).coerceIn(type.min, type.max)
+        updateUiValue(newValue)
+        persistValue(newValue)
     }
 
     PreferenceContainer(
@@ -148,8 +169,23 @@ fun SliderPreferenceItem(
                     .fillMaxWidth()
                     .padding(top = 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                if (type.showStepButtons) {
+                    IconButton(
+                        enabled = isEnabled && sliderValue > type.min,
+                        shapes = IconButtonDefaults.shapes(),
+                        colors = IconButtonDefaults.filledTonalIconButtonColors(),
+                        onClick = { stepBy(-stepIncrement) },
+                        modifier = Modifier.size(28.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Remove,
+                            contentDescription = stringResource(R.string.btn_decrease),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
                 Slider(
                     value = sliderValue,
                     onValueChange = { newValue ->
@@ -170,8 +206,22 @@ fun SliderPreferenceItem(
                     modifier = Modifier
                         .wrapContentHeight()
                         .weight(1f)
-                        .padding(top = 4.dp)
                 )
+                if (type.showStepButtons) {
+                    IconButton(
+                        enabled = isEnabled && sliderValue < type.max,
+                        shapes = IconButtonDefaults.shapes(),
+                        colors = IconButtonDefaults.filledTonalIconButtonColors(),
+                        onClick = { stepBy(stepIncrement) },
+                        modifier = Modifier.size(28.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Add,
+                            contentDescription = stringResource(R.string.btn_increase),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
                 if (type.showResetButton) {
                     IconButton(
                         enabled = isEnabled && !isAtDefault,

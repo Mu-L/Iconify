@@ -142,6 +142,7 @@ class PreferenceCategoryScope {
         showResetButton: Boolean = false,
         showDefaultIndicator: Boolean = false,
         hideDefaultValue: Boolean = false,
+        showStepButtons: Boolean = true,
         summary: ((PrefParam<Float>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
@@ -152,7 +153,7 @@ class PreferenceCategoryScope {
             defaultValue = defaultValue.toPrefValue(),
             type = PreferenceType.Slider(
                 min, max, steps, valueLabel, applyImmediately,
-                showResetButton, showDefaultIndicator, hideDefaultValue
+                showResetButton, showDefaultIndicator, hideDefaultValue, showStepButtons
             ),
             icon = icon,
             summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,
@@ -174,6 +175,7 @@ class PreferenceCategoryScope {
         showResetButton: Boolean = false,
         showDefaultIndicator: Boolean = false,
         hideDefaultValue: Boolean = false,
+        showStepButtons: Boolean = true,
         summary: ((PrefParam<Float>) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
@@ -184,7 +186,7 @@ class PreferenceCategoryScope {
             defaultValue = defaultValue.toPrefValue(),
             type = PreferenceType.Slider(
                 min, max, steps, valueLabel, applyImmediately,
-                showResetButton, showDefaultIndicator, hideDefaultValue
+                showResetButton, showDefaultIndicator, hideDefaultValue, showStepButtons
             ),
             icon = icon,
             summary = summary as ((PrefParam<Any?>) -> PrefStringRes?)?,

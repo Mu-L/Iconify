@@ -1180,6 +1180,8 @@
     <string name="btn_disable_custom_colors">Disable Custom Colors</string>
     <string name="btn_enable_custom_colors">Apply Colors</string>
     <string name="btn_reset">Reset</string>
+    <string name="btn_decrease">Decrease</string>
+    <string name="btn_increase">Increase</string>
     <string name="btn_reboot_now">Reboot Now</string>
     <string name="btn_download">Download</string>
     <string name="btn_restart_systemui">Restart SystemUI</string>
