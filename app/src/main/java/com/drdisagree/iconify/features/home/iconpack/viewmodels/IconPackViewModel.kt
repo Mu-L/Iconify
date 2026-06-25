@@ -3,6 +3,7 @@ package com.drdisagree.iconify.features.home.iconpack.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drdisagree.iconify.core.utils.overlay.OverlayUtils
+import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.models.IconPackPreview
 import com.drdisagree.iconify.data.repository.SystemActionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,11 +25,21 @@ class IconPackViewModel @Inject constructor(
 
     private val categories = listOf("IPAS", "IPSUI")
 
+    private val bannerDismissKey = "hint_icon_size_iconpack_dismissed"
+
+    private val _isBannerVisible = MutableStateFlow(!RPrefs.getBoolean(bannerDismissKey))
+    val isBannerVisible: StateFlow<Boolean> = _isBannerVisible.asStateFlow()
+
     private val _iconPackStates = MutableStateFlow<Map<String, Boolean>>(emptyMap())
     val iconPackStates: StateFlow<Map<String, Boolean>> = _iconPackStates.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
+    fun dismissBanner() {
+        RPrefs.putBoolean(bannerDismissKey, true)
+        _isBannerVisible.value = false
+    }
 
     fun checkAllStatuses(iconPacks: List<IconPackPreview>) {
         if (!hasCheckedStatus) {

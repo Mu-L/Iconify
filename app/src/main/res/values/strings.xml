@@ -378,6 +378,14 @@
     <string name="sb_start_padding">Start Padding</string>
     <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Height</string>
+    <string name="section_title_icon_sizes">Icon Sizes</string>
+    <string name="sb_signal_icon_size_title">Enlarge Signal Icons</string>
+    <string name="sb_signal_icon_size_desc">Increase signal icon size for custom icon packs</string>
+    <string name="sb_wifi_icon_size_title">Enlarge WiFi Icons</string>
+    <string name="sb_wifi_icon_size_desc">Increase WiFi icon size for custom icon packs</string>
+    <string name="sb_network_type_size_title">Enlarge Network Type Icons</string>
+    <string name="sb_network_type_size_desc">Increase network type indicator size for custom icon packs</string>
+    <string name="hint_icon_size_increase">Icons look too small? Tap here to adjust icon sizes</string>
     <string name="section_title_color">Color</string>
     <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Tint statusbar icons and texts</string>

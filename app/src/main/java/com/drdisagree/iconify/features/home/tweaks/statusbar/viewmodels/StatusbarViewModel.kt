@@ -32,6 +32,9 @@ class StatusbarViewModel @Inject constructor(
     private val statusbarStartPaddingId = "status_bar_padding_start"
     private val statusbarEndPaddingId = "status_bar_padding_end"
     private val statusbarHeightId = "status_bar_height"
+    private val signalIconSizeId = "signal_icon_size_increase"
+    private val wifiIconSizeId = "wifi_icon_size_increase"
+    private val networkTypeSizeId = "network_type_size_increase"
 
     private fun statusbarIconColorResourceEntries(color: String) = listOf(
         ResourceEntry(
@@ -94,6 +97,19 @@ class StatusbarViewModel @Inject constructor(
             "status_bar_padding_end",
             padding.toString() + "dp"
         )
+    )
+
+    private val signalIconSizeResourceEntries = listOf(
+        ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_mobile_signal_size_updated", "15sp"),
+        ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_mobile_container_height_updated", "15sp")
+    )
+
+    private val wifiIconSizeResourceEntries = listOf(
+        ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_wifi_signal_height_updated", "15sp")
+    )
+
+    private val networkTypeSizeResourceEntries = listOf(
+        ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_mobile_type_size_updated", "15sp")
     )
 
     private fun statusbarHeightResourceEntries(height: Int) = listOf(
@@ -262,6 +278,96 @@ class StatusbarViewModel @Inject constructor(
                 ResourceManager.removeResourceFromOverlay(
                     overlayIds = listOf(statusbarHeightId),
                     packagesToUpdate = entries.map { it.packageName }.distinct()
+                )
+            }
+
+            _isLoading.value = false
+
+            if (!error) {
+                _uiEvent.emit(ToastUiEvent.Applied)
+                delay(500)
+                onSuccess()
+            } else {
+                _uiEvent.emit(ToastUiEvent.Error)
+            }
+        }
+    }
+
+    fun applySignalIconSizeIncrease(enabled: Boolean, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (_isLoading.value) return@launch
+
+            _isLoading.value = true
+
+            val error = if (enabled) {
+                ResourceManager.buildOverlayWithResource(
+                    signalIconSizeId,
+                    *signalIconSizeResourceEntries.toTypedArray()
+                )
+            } else {
+                ResourceManager.removeResourceFromOverlay(
+                    overlayIds = listOf(signalIconSizeId),
+                    packagesToUpdate = signalIconSizeResourceEntries.map { it.packageName }.distinct()
+                )
+            }
+
+            _isLoading.value = false
+
+            if (!error) {
+                _uiEvent.emit(ToastUiEvent.Applied)
+                delay(500)
+                onSuccess()
+            } else {
+                _uiEvent.emit(ToastUiEvent.Error)
+            }
+        }
+    }
+
+    fun applyWifiIconSizeIncrease(enabled: Boolean, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (_isLoading.value) return@launch
+
+            _isLoading.value = true
+
+            val error = if (enabled) {
+                ResourceManager.buildOverlayWithResource(
+                    wifiIconSizeId,
+                    *wifiIconSizeResourceEntries.toTypedArray()
+                )
+            } else {
+                ResourceManager.removeResourceFromOverlay(
+                    overlayIds = listOf(wifiIconSizeId),
+                    packagesToUpdate = wifiIconSizeResourceEntries.map { it.packageName }.distinct()
+                )
+            }
+
+            _isLoading.value = false
+
+            if (!error) {
+                _uiEvent.emit(ToastUiEvent.Applied)
+                delay(500)
+                onSuccess()
+            } else {
+                _uiEvent.emit(ToastUiEvent.Error)
+            }
+        }
+    }
+
+    fun applyNetworkTypeSizeIncrease(enabled: Boolean, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (_isLoading.value) return@launch
+
+            _isLoading.value = true
+
+            val error = if (enabled) {
+                ResourceManager.buildOverlayWithResource(
+                    networkTypeSizeId,
+                    *networkTypeSizeResourceEntries.toTypedArray()
+                )
+            } else {
+                ResourceManager.removeResourceFromOverlay(
+                    overlayIds = listOf(networkTypeSizeId),
+                    packagesToUpdate = networkTypeSizeResourceEntries.map { it.packageName }.distinct()
                 )
             }
 

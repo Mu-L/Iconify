@@ -1,14 +1,30 @@
 package com.drdisagree.iconify.features.home.cellularicons.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,6 +36,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.app.navigation.NavRoutes
+import com.drdisagree.iconify.core.common.LocalNavController
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
@@ -32,6 +50,7 @@ import com.drdisagree.iconify.data.models.SignalIconPreview
 import com.drdisagree.iconify.features.common.models.UiText
 import com.drdisagree.iconify.features.home.cellularicons.components.CellularIconCard
 import com.drdisagree.iconify.features.home.cellularicons.viewmodels.CellularIconViewModel
+import com.drdisagree.iconify.features.home.iconpack.components.IconSizeHintBanner
 
 private val cellularIconList = listOf(
     Pair(
@@ -373,6 +392,7 @@ fun CellularIconScreen(cellularIconViewModel: CellularIconViewModel = hiltViewMo
     val cellularIcons by rememberSaveable { mutableStateOf(cellularIconList) }
     val cellularIconStyle by cellularIconViewModel.cellularIconStyle.collectAsStateWithLifecycle()
     val isApplying by cellularIconViewModel.isLoading.collectAsStateWithLifecycle()
+    val isBannerVisible by cellularIconViewModel.isBannerVisible.collectAsStateWithLifecycle()
 
     LaunchedEffect(cellularIcons) {
         cellularIconViewModel.refreshState()
@@ -399,8 +419,21 @@ fun CellularIconScreen(cellularIconViewModel: CellularIconViewModel = hiltViewMo
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(padding)
+                .padding(padding),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            AnimatedVisibility(
+                visible = isBannerVisible,
+                enter = EnterTransition.None,
+                exit = fadeOut(tween(250)) +
+                        scaleOut(tween(250), targetScale = 0.85f) +
+                        shrinkVertically(tween(300))
+            ) {
+                IconSizeHintBanner(
+                    modifier = Modifier.fillMaxWidth(),
+                    onDismiss = { cellularIconViewModel.dismissBanner() }
+                )
+            }
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
