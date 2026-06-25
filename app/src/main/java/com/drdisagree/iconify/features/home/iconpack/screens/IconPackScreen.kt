@@ -1,21 +1,42 @@
 package com.drdisagree.iconify.features.home.iconpack.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.app.navigation.NavRoutes
+import com.drdisagree.iconify.core.common.LocalNavController
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
@@ -29,6 +50,7 @@ import com.drdisagree.iconify.core.ui.utils.resolvePosition
 import com.drdisagree.iconify.data.models.IconPackPreview
 import com.drdisagree.iconify.features.common.models.UiText
 import com.drdisagree.iconify.features.home.iconpack.components.IconPackCard
+import com.drdisagree.iconify.features.home.iconpack.components.IconSizeHintBanner
 import com.drdisagree.iconify.features.home.iconpack.viewmodels.IconPackViewModel
 
 private val iconPackList = listOf(
@@ -188,6 +210,7 @@ fun IconPackScreen(iconPackViewModel: IconPackViewModel = hiltViewModel()) {
     val overlayStates by iconPackViewModel.iconPackStates.collectAsStateWithLifecycle()
     var expandedPackId by rememberSaveable { mutableStateOf<String?>(null) }
     val isApplying by iconPackViewModel.isLoading.collectAsStateWithLifecycle()
+    val isBannerVisible by iconPackViewModel.isBannerVisible.collectAsStateWithLifecycle()
 
     val indices by rememberSaveable(iconPacks) { mutableStateOf(iconPacks.indices.toList()) }
 
@@ -215,6 +238,20 @@ fun IconPackScreen(iconPackViewModel: IconPackViewModel = hiltViewModel()) {
             verticalArrangement = Arrangement.spacedBy(CARD_ITEM_SPACING),
             contentPadding = padding,
         ) {
+            item {
+                AnimatedVisibility(
+                    visible = isBannerVisible,
+                    enter = EnterTransition.None,
+                    exit = fadeOut(tween(250)) +
+                            scaleOut(tween(250), targetScale = 0.85f) +
+                            shrinkVertically(tween(300))
+                ) {
+                    IconSizeHintBanner(
+                        modifier = Modifier.fillMaxWidth(),
+                        onDismiss = { iconPackViewModel.dismissBanner() }
+                    )
+                }
+            }
             itemsIndexed(iconPacks) { index, pack ->
                 val isApplied = overlayStates[pack.id] ?: false
                 val position = resolvePosition(indices, index)

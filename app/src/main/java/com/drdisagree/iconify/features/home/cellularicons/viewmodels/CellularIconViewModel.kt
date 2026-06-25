@@ -38,11 +38,21 @@ class CellularIconViewModel @Inject constructor(
     private val _cellularIconStyle = MutableStateFlow(prefDefaultValue)
     val cellularIconStyle: StateFlow<String> = _cellularIconStyle.asStateFlow()
 
+    private val bannerDismissKey = "hint_icon_size_cellular_dismissed"
+
+    private val _isBannerVisible = MutableStateFlow(!RPrefs.getBoolean(bannerDismissKey))
+    val isBannerVisible: StateFlow<Boolean> = _isBannerVisible.asStateFlow()
+
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private val _uiEvent = MutableSharedFlow<ToastUiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
+
+    fun dismissBanner() {
+        RPrefs.putBoolean(bannerDismissKey, true)
+        _isBannerVisible.value = false
+    }
 
     fun refreshState() {
         _cellularIconStyle.value = RPrefs.getString(prefKey)!!

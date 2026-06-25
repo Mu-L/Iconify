@@ -38,11 +38,21 @@ class WifiIconViewModel @Inject constructor(
     private val _wifiIconStyle = MutableStateFlow(prefDefaultValue)
     val wifiIconStyle: StateFlow<String> = _wifiIconStyle.asStateFlow()
 
+    private val bannerDismissKey = "hint_icon_size_wifi_dismissed"
+
+    private val _isBannerVisible = MutableStateFlow(!RPrefs.getBoolean(bannerDismissKey))
+    val isBannerVisible: StateFlow<Boolean> = _isBannerVisible.asStateFlow()
+
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private val _uiEvent = MutableSharedFlow<ToastUiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
+
+    fun dismissBanner() {
+        RPrefs.putBoolean(bannerDismissKey, true)
+        _isBannerVisible.value = false
+    }
 
     fun refreshState() {
         _wifiIconStyle.value = RPrefs.getString(prefKey)!!

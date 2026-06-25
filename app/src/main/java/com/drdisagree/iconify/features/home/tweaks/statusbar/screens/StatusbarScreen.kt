@@ -82,6 +82,24 @@ val tweaksStatusbarPreferences = preferenceScreen {
         )
     }
 
+    category(title = stringRes(R.string.section_title_icon_sizes)) {
+        switch(
+            key = TweaksKey.STATUSBAR_SIGNAL_ICON_SIZE_INCREASE,
+            title = stringRes(R.string.sb_signal_icon_size_title),
+            summary = { stringRes(R.string.sb_signal_icon_size_desc) },
+        )
+        switch(
+            key = TweaksKey.STATUSBAR_WIFI_ICON_SIZE_INCREASE,
+            title = stringRes(R.string.sb_wifi_icon_size_title),
+            summary = { stringRes(R.string.sb_wifi_icon_size_desc) },
+        )
+        switch(
+            key = TweaksKey.STATUSBAR_NETWORK_TYPE_SIZE_INCREASE,
+            title = stringRes(R.string.sb_network_type_size_title),
+            summary = { stringRes(R.string.sb_network_type_size_desc) },
+        )
+    }
+
     category {
         info(
             key = "statusbar_custom_color",
@@ -127,6 +145,27 @@ fun TweaksStatusbarScreen(
             TweaksKey.STATUSBAR_HEIGHT.name -> {
                 val height = (event.newValue as PrefValue.FloatValue).v.roundToInt()
                 statusbarViewModel.applyStatusbarHeight(height) {
+                    systemActionViewModel.shouldRestartSystemUI()
+                }
+            }
+
+            TweaksKey.STATUSBAR_SIGNAL_ICON_SIZE_INCREASE.name -> {
+                val enabled = (event.newValue as PrefValue.BoolValue).v
+                statusbarViewModel.applySignalIconSizeIncrease(enabled) {
+                    systemActionViewModel.shouldRestartSystemUI()
+                }
+            }
+
+            TweaksKey.STATUSBAR_WIFI_ICON_SIZE_INCREASE.name -> {
+                val enabled = (event.newValue as PrefValue.BoolValue).v
+                statusbarViewModel.applyWifiIconSizeIncrease(enabled) {
+                    systemActionViewModel.shouldRestartSystemUI()
+                }
+            }
+
+            TweaksKey.STATUSBAR_NETWORK_TYPE_SIZE_INCREASE.name -> {
+                val enabled = (event.newValue as PrefValue.BoolValue).v
+                statusbarViewModel.applyNetworkTypeSizeIncrease(enabled) {
                     systemActionViewModel.shouldRestartSystemUI()
                 }
             }

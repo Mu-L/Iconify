@@ -17,6 +17,9 @@ enum class TweaksKey(override val default: Any?) : Key {
     STATUSBAR_START_PADDING(-1f),
     STATUSBAR_END_PADDING(-1f),
     STATUSBAR_HEIGHT(-1f),
+    STATUSBAR_SIGNAL_ICON_SIZE_INCREASE(false),
+    STATUSBAR_WIFI_ICON_SIZE_INCREASE(false),
+    STATUSBAR_NETWORK_TYPE_SIZE_INCREASE(false),
 
     // Navigation bar
     NAVIGATION_BAR_DISPLAY_MODE_FULL_SCREEN(false),
