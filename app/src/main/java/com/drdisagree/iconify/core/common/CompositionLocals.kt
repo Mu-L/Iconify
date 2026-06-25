@@ -10,15 +10,15 @@ import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.kyant.backdrop.backdrops.LayerBackdrop
 import dev.chrisbanes.haze.HazeState
 
-val LocalWeakHaptic = staticCompositionLocalOf { {} }
+val LocalWeakHaptic = compositionLocalOf { {} }
 
-val LocalStrongHaptic = staticCompositionLocalOf { {} }
+val LocalStrongHaptic = compositionLocalOf { {} }
 
-val LocalDarkMode = staticCompositionLocalOf<Boolean> {
+val LocalDarkMode = compositionLocalOf<Boolean> {
     error("No dark mode provided")
 }
 
-val LocalPreferenceController = compositionLocalOf<PreferenceController> {
+val LocalPreferenceController = staticCompositionLocalOf<PreferenceController> {
     error("No PreferenceController provided. Wrap your UI in ProvidePreferenceController { }.")
 }
 
@@ -34,14 +34,14 @@ val LocalNavController = staticCompositionLocalOf<NavHostController> {
     error("No NavController provided")
 }
 
-val LocalInnerPadding = staticCompositionLocalOf<PaddingValues> {
+val LocalInnerPadding = compositionLocalOf<PaddingValues> {
     error("No PaddingValues provided")
 }
 
-val LocalWindowSizeClass = staticCompositionLocalOf<WindowSizeClass> {
+val LocalWindowSizeClass = compositionLocalOf<WindowSizeClass> {
     error("No WindowSizeClass provided")
 }
 
-val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
+val LocalColorScheme = compositionLocalOf<ColorScheme> {
     error("No ColorScheme provided ")
 }
