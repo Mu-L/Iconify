@@ -28,7 +28,7 @@ val tweaksPreferences = preferenceScreen {
 
         action(
             key = "uiRoundness",
-            icon = iconRes(Iconsax.Outline.RulerPen),
+            icon = iconRes(Iconsax.Outline.MouseSquare),
             title = stringRes(R.string.activity_title_ui_roundness),
             summary = { stringRes(R.string.activity_desc_ui_roundness) },
             onClick = {
@@ -64,7 +64,7 @@ val tweaksPreferences = preferenceScreen {
 
         action(
             key = "statusBarTweaks",
-            icon = iconRes(Iconsax.Outline.Notification),
+            icon = iconRes(Iconsax.Outline.SidebarTop),
             title = stringRes(R.string.activity_title_statusbar),
             summary = { stringRes(R.string.activity_desc_statusbar) },
             onClick = {
@@ -76,7 +76,7 @@ val tweaksPreferences = preferenceScreen {
 
         action(
             key = "navBarTweaks",
-            icon = iconRes(Iconsax.Outline.RowHorizontal),
+            icon = iconRes(Iconsax.Outline.SidebarBottom),
             title = stringRes(R.string.activity_title_navigation_bar),
             summary = { stringRes(R.string.activity_desc_navigation_bar) },
             onClick = {

@@ -43,7 +43,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
-import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
@@ -51,6 +50,7 @@ import com.drdisagree.iconify.core.ui.utils.rememberXmlPainter
 import com.drdisagree.iconify.data.models.NotificationPreview
 import com.drdisagree.iconify.features.common.models.UiText
 import com.drdisagree.iconify.features.common.models.asString
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -123,7 +123,7 @@ fun NotificationCard(
                         )
                         if (notification.isApplied) {
                             Icon(
-                                imageVector = Iconsax.Outline.TickSquare,
+                                imageVector = Iconsax.Bold.TickCircle,
                                 contentDescription = "Tick",
                                 tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier
@@ -158,7 +158,7 @@ fun NotificationCard(
                         exit = fadeOut()
                     ) {
                         Icon(
-                            imageVector = Iconsax.Outline.ArrowDown,
+                            imageVector = Iconsax.Outline.ArrowDownTwo,
                             contentDescription = "Collapse",
                             modifier = Modifier
                                 .size(14.dp)
@@ -174,7 +174,7 @@ fun NotificationCard(
                         exit = fadeOut()
                     ) {
                         Icon(
-                            imageVector = Iconsax.Outline.ArrowDown,
+                            imageVector = Iconsax.Outline.ArrowDownTwo,
                             contentDescription = "Expand",
                             modifier = Modifier.size(14.dp),
                             tint = MaterialTheme.colorScheme.onSurface
