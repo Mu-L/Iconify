@@ -33,8 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,7 +51,7 @@ fun HomeCategoryCard(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,
-    icon: Int,
+    icon: Any,
     backgroundColor: Color,
     foregroundColor: Color,
     smallVariant: Boolean = false,
@@ -129,24 +131,45 @@ fun HomeCategoryCard(
                             ),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            painter = painterResource(icon),
-                            contentDescription = null,
-                            tint = foregroundColor,
-                            modifier = Modifier.size(24.dp)
-                        )
+                        if (icon is ImageVector) {
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = null,
+                                tint = foregroundColor,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(icon as Int),
+                                contentDescription = null,
+                                tint = foregroundColor,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
                     }
                 }
             } else {
-                Icon(
-                    painter = painterResource(icon),
-                    contentDescription = null,
-                    tint = foregroundColor.copy(alpha = 0.05f),
-                    modifier = Modifier
-                        .size(160.dp)
-                        .align(Alignment.BottomEnd)
-                        .offset(x = 24.dp, y = 24.dp)
-                )
+                if (icon is ImageVector) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = foregroundColor.copy(alpha = 0.05f),
+                        modifier = Modifier
+                            .size(160.dp)
+                            .align(Alignment.BottomEnd)
+                            .offset(x = 24.dp, y = 24.dp)
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(icon as Int),
+                        contentDescription = null,
+                        tint = foregroundColor.copy(alpha = 0.05f),
+                        modifier = Modifier
+                            .size(160.dp)
+                            .align(Alignment.BottomEnd)
+                            .offset(x = 24.dp, y = 24.dp)
+                    )
+                }
 
                 Column(
                     modifier = Modifier
@@ -163,12 +186,21 @@ fun HomeCategoryCard(
                             ),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            painter = painterResource(icon),
-                            contentDescription = null,
-                            tint = foregroundColor,
-                            modifier = Modifier.size(28.dp)
-                        )
+                        if (icon is ImageVector) {
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = null,
+                                tint = foregroundColor,
+                                modifier = Modifier.size(28.dp)
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(icon as Int),
+                                contentDescription = null,
+                                tint = foregroundColor,
+                                modifier = Modifier.size(28.dp)
+                            )
+                        }
                     }
 
                     Column(
@@ -222,7 +254,7 @@ private fun HomeCategoryGridPreview() {
         HomeCategoryCard(
             title = "More",
             smallVariant = true,
-            icon = R.drawable.ic_arrow_end_long,
+            icon = Iconsax.Outline.ArrowRight,
             backgroundColor = MaterialTheme.colorScheme.tertiaryContainer,
             foregroundColor = MaterialTheme.colorScheme.onTertiaryContainer,
             modifier = Modifier.weight(1f),

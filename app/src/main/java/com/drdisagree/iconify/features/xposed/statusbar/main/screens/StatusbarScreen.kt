@@ -5,6 +5,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.R
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceListener
@@ -22,7 +23,7 @@ val xposedStatusbarPreferences = preferenceScreen {
     category {
         action(
             key = "battery_style",
-            icon = iconRes(R.drawable.ic_colored_battery),
+            icon = iconRes(Iconsax.Outline.BatteryFull),
             title = stringRes(R.string.activity_title_battery_style),
             summary = { stringRes(R.string.activity_desc_battery_style) },
             onClick = {

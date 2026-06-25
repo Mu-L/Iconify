@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.iconRes
@@ -25,6 +26,7 @@ import com.drdisagree.iconify.data.common.Const.PL_ENHANCED_URL
 import com.drdisagree.iconify.features.common.viewmodels.BottomNavViewModel
 import com.drdisagree.iconify.features.xposed.main.components.HookCheckCard
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 fun xposedPreferences(
     onLauncherClick: () -> Unit = {}
@@ -40,7 +42,7 @@ fun xposedPreferences(
     category {
         action(
             key = "xposedBackgroundChip",
-            icon = iconRes(R.drawable.ic_tweaks_statusbar),
+            icon = iconRes(Iconsax.Outline.SidebarTop),
             title = stringRes(R.string.activity_title_statusbar),
             summary = { stringRes(R.string.activity_desc_statusbar) },
             onClick = {
@@ -52,7 +54,7 @@ fun xposedPreferences(
 
         action(
             key = "xposedQuickSettings",
-            icon = iconRes(R.drawable.ic_xposed_quick_settings),
+            icon = iconRes(Iconsax.Outline.Element),
             title = stringRes(R.string.activity_title_quick_settings),
             summary = { stringRes(R.string.activity_desc_quick_settings) },
             onClick = {
@@ -64,7 +66,7 @@ fun xposedPreferences(
 
         action(
             key = "xposedLockscreen",
-            icon = iconRes(R.drawable.ic_xposed_lockscreen),
+            icon = iconRes(Iconsax.Outline.Lock),
             title = stringRes(R.string.activity_title_lockscreen),
             summary = { stringRes(R.string.activity_desc_lockscreen) },
             onClick = {
@@ -76,7 +78,7 @@ fun xposedPreferences(
 
         action(
             key = "xposedVolumePanel",
-            icon = iconRes(R.drawable.ic_tweaks_volume),
+            icon = iconRes(Iconsax.Outline.VolumeHigh),
             title = stringRes(R.string.activity_title_volume_panel),
             summary = { stringRes(R.string.activity_desc_volume_panel) },
             onClick = {
@@ -88,7 +90,7 @@ fun xposedPreferences(
 
         action(
             key = "xposedLauncher",
-            icon = iconRes(R.drawable.ic_launcher),
+            icon = iconRes(Iconsax.Outline.HomeHashtag),
             title = stringRes(R.string.activity_title_xposed_launcher),
             summary = { stringRes(R.string.activity_desc_xposed_launcher) },
             onClick = { onLauncherClick() }
@@ -99,7 +101,7 @@ fun xposedPreferences(
 @Composable
 fun XposedScreen(bottomNavViewModel: BottomNavViewModel = sharedHiltViewModel()) {
     LaunchedEffect(Unit) {
-        delay(600)
+        delay(600.milliseconds)
         bottomNavViewModel.showBottomBar(true)
     }
 

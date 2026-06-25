@@ -18,9 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Code
-import androidx.compose.material.icons.rounded.Coffee
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -45,7 +43,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -152,7 +149,7 @@ fun DeveloperIntroCard() {
 
                 if (showFallbackImage.value) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_user),
+                        imageVector = Iconsax.Bold.User,
                         contentDescription = null,
                         modifier = Modifier.size(56.dp),
                         tint = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -200,7 +197,7 @@ fun DeveloperIntroCard() {
                     ),
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.Coffee,
+                        imageVector = Iconsax.Bold.Coffee,
                         contentDescription = null,
                         modifier = Modifier.size(18.dp),
                     )
@@ -225,7 +222,7 @@ fun DeveloperIntroCard() {
                     )
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.Code,
+                        imageVector = Iconsax.Bold.Code,
                         contentDescription = null,
                         modifier = Modifier.size(18.dp),
                     )

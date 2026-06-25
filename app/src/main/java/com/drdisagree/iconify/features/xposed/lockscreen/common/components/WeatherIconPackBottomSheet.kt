@@ -9,8 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Check
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -82,7 +81,7 @@ fun WeatherIconPackBottomSheet(
                         trailingContent = {
                             if (isSelected) {
                                 Icon(
-                                    imageVector = Icons.Rounded.Check,
+                                    imageVector = Iconsax.Outline.Check,
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.primary
                                 )

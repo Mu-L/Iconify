@@ -3,13 +3,14 @@ package com.drdisagree.iconify.core.utils
 import android.content.Context
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.features.settings.credits.models.CreditInfoModel
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import org.json.JSONArray
 import org.json.JSONException
 
 fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     add(
         CreditInfoModel(
-            R.drawable.ic_link,
+            Iconsax.Outline.Link,
             "Icons8.com",
             context.getString(R.string.info_icons8_desc),
             "https://icons8.com",
@@ -17,7 +18,7 @@ fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     )
     add(
         CreditInfoModel(
-            R.drawable.ic_link,
+            Iconsax.Outline.Link,
             "iconsax.io",
             context.getString(R.string.info_iconsax_desc),
             "http://iconsax.io",
@@ -25,7 +26,7 @@ fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     )
     add(
         CreditInfoModel(
-            R.drawable.ic_user,
+            Iconsax.Outline.User,
             "Siavash",
             context.getString(R.string.info_xposed_desc),
             "https://t.me/siavash7999",
@@ -33,7 +34,7 @@ fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     )
     add(
         CreditInfoModel(
-            R.drawable.ic_user,
+            Iconsax.Outline.User,
             "Jai",
             context.getString(R.string.info_shell_desc),
             "https://t.me/Jai_08",
@@ -41,7 +42,7 @@ fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     )
     add(
         CreditInfoModel(
-            R.drawable.ic_user,
+            Iconsax.Outline.User,
             "1perialf",
             context.getString(R.string.info_rro_desc),
             "https://t.me/Rodolphe06",
@@ -49,7 +50,7 @@ fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     )
     add(
         CreditInfoModel(
-            R.drawable.ic_user,
+            Iconsax.Outline.User,
             "modestCat",
             context.getString(R.string.info_rro_desc),
             "https://t.me/ModestCat03",
@@ -57,7 +58,7 @@ fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     )
     add(
         CreditInfoModel(
-            R.drawable.ic_user,
+            Iconsax.Outline.User,
             "Sanely Insane",
             context.getString(R.string.info_tester_desc),
             "https://t.me/sanely_insane",
@@ -65,7 +66,7 @@ fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     )
     add(
         CreditInfoModel(
-            R.drawable.ic_user,
+            Iconsax.Outline.User,
             "Jaguar",
             context.getString(R.string.info_tester_desc),
             "https://t.me/Jaguar0066",
@@ -73,7 +74,7 @@ fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     )
     add(
         CreditInfoModel(
-            R.drawable.ic_user,
+            Iconsax.Outline.User,
             "hani & TeamFiles",
             context.getString(R.string.info_betterqs_desc),
             "https://github.com/itsHanibee",
@@ -81,7 +82,7 @@ fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     )
     add(
         CreditInfoModel(
-            R.drawable.ic_user,
+            Iconsax.Outline.User,
             "AAGaming",
             context.getString(R.string.info_binaries_desc),
             "https://aagaming.me",
@@ -89,7 +90,7 @@ fun parseSpecialThanks(context: Context): List<CreditInfoModel> = buildList {
     )
     add(
         CreditInfoModel(
-            R.drawable.ic_link,
+            Iconsax.Outline.Link,
             "Buttercup Theme",
             context.getString(R.string.info_buttercup_desc),
             "https://t.me/buttercup_theme",

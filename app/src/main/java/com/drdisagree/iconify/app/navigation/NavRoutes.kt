@@ -1,6 +1,8 @@
 package com.drdisagree.iconify.app.navigation
 
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.drdisagree.iconify.R
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -9,8 +11,8 @@ sealed class NavRoutes {
     interface BottomBarTab {
         val route: NavRoutes
         val title: Int
-        val iconChecked: Int
-        val iconUnchecked: Int
+        val iconChecked: ImageVector
+        val iconUnchecked: ImageVector
     }
 
     @Serializable
@@ -93,8 +95,8 @@ sealed class NavRoutes {
             data object Tab : Home(), BottomBarTab {
                 override val route: NavRoutes = Root
                 override val title: Int = R.string.navbar_home
-                override val iconChecked: Int = R.drawable.ic_navbar_home_checked
-                override val iconUnchecked: Int = R.drawable.ic_navbar_home_unchecked
+                override val iconChecked: ImageVector = Iconsax.Bold.Home
+                override val iconUnchecked: ImageVector = Iconsax.Outline.Home
             }
         }
 
@@ -202,8 +204,8 @@ sealed class NavRoutes {
             data object Tab : Xposed(), BottomBarTab {
                 override val route: NavRoutes = Root
                 override val title: Int = R.string.navbar_xposed
-                override val iconChecked: Int = R.drawable.ic_navbar_xposed_checked
-                override val iconUnchecked: Int = R.drawable.ic_navbar_xposed_unchecked
+                override val iconChecked: ImageVector = Iconsax.Bold.Magicpen
+                override val iconUnchecked: ImageVector = Iconsax.Outline.Magicpen
             }
         }
 
@@ -226,8 +228,8 @@ sealed class NavRoutes {
             data object Tab : Settings(), BottomBarTab {
                 override val route: NavRoutes = Root
                 override val title: Int = R.string.navbar_settings
-                override val iconChecked: Int = R.drawable.ic_navbar_settings_checked
-                override val iconUnchecked: Int = R.drawable.ic_navbar_settings_unchecked
+                override val iconChecked: ImageVector = Iconsax.Bold.Setting
+                override val iconUnchecked: ImageVector = Iconsax.Outline.Setting
             }
         }
     }

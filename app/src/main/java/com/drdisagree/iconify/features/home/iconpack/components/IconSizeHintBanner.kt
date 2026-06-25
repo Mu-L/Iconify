@@ -3,9 +3,7 @@ package com.drdisagree.iconify.features.home.iconpack.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.Info
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -43,7 +41,7 @@ fun IconSizeHintBanner(modifier: Modifier = Modifier, onDismiss: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = Icons.Outlined.Info,
+                imageVector = Iconsax.Outline.InfoCircle,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSecondaryContainer
             )
@@ -55,7 +53,7 @@ fun IconSizeHintBanner(modifier: Modifier = Modifier, onDismiss: () -> Unit) {
             )
             IconButton(onClick = onDismiss) {
                 Icon(
-                    imageVector = Icons.Outlined.Close,
+                    imageVector = Iconsax.Outline.CloseCircle,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )

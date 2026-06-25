@@ -15,12 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
-import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.preferences.PrefStringRes
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.core.ui.components.preferences.PreferenceContainer
 import com.drdisagree.iconify.core.ui.components.preferences.TitleSummaryBlock
 import com.drdisagree.iconify.core.ui.utils.CARD_ITEM_SPACING
@@ -60,6 +61,15 @@ fun CreditsInfoItemRow(
                     )
                 }
 
+                is ImageVector -> {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp),
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                    )
+                }
+
                 is String -> {
                     AsyncImage(
                         model = icon,
@@ -76,7 +86,7 @@ fun CreditsInfoItemRow(
 
                     if (showFallbackImage.value) {
                         Icon(
-                            painter = painterResource(R.drawable.ic_user),
+                            imageVector = Iconsax.Outline.User,
                             contentDescription = null,
                             modifier = Modifier.size(20.dp),
                             tint = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -86,7 +96,7 @@ fun CreditsInfoItemRow(
 
                 else -> {
                     Icon(
-                        painter = painterResource(R.drawable.ic_user),
+                        imageVector = Iconsax.Outline.User,
                         contentDescription = null,
                         modifier = Modifier.size(20.dp),
                         tint = MaterialTheme.colorScheme.onSecondaryContainer,

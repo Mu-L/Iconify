@@ -19,15 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.rounded.AttachFile
-import androidx.compose.material.icons.rounded.AudioFile
-import androidx.compose.material.icons.rounded.Description
-import androidx.compose.material.icons.rounded.FontDownload
-import androidx.compose.material.icons.rounded.Image
-import androidx.compose.material.icons.rounded.PictureAsPdf
-import androidx.compose.material.icons.rounded.VideoFile
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -292,13 +284,13 @@ private fun resolveFileName(context: Context, uri: Uri): String? {
 @Composable
 private fun FileTypeIcon(type: FilePickerType, contentColor: Color) {
     val icon = when (type) {
-        FilePickerType.Image -> Icons.Rounded.Image
-        FilePickerType.Video -> Icons.Rounded.VideoFile
-        FilePickerType.Audio -> Icons.Rounded.AudioFile
-        FilePickerType.Pdf -> Icons.Rounded.PictureAsPdf
-        FilePickerType.Document -> Icons.Rounded.Description
-        FilePickerType.Font -> Icons.Rounded.FontDownload
-        else -> Icons.Rounded.AttachFile
+        FilePickerType.Image -> Iconsax.Outline.Image
+        FilePickerType.Video -> Iconsax.Outline.VideoSquare
+        FilePickerType.Audio -> Iconsax.Outline.AudioSquare
+        FilePickerType.Pdf -> Iconsax.Outline.DocumentText
+        FilePickerType.Document -> Iconsax.Outline.DocumentText
+        FilePickerType.Font -> Iconsax.Outline.Smallcaps
+        else -> Iconsax.Outline.AttachCircle
     }
 
     Icon(
@@ -344,7 +336,7 @@ private fun FilenameChip(
             enabled = isEnabled
         ) {
             Icon(
-                imageVector = Icons.Outlined.Close,
+                imageVector = Iconsax.Outline.CloseCircle,
                 contentDescription = stringResource(R.string.file_clear),
                 tint = contentColor,
                 modifier = Modifier.size(14.dp),

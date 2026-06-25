@@ -39,7 +39,6 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -118,7 +117,7 @@ fun BottomNavigation(bottomNavViewModel: BottomNavViewModel = sharedHiltViewMode
                             tab.iconUnchecked
                         }
                         Icon(
-                            painter = painterResource(iconRes),
+                            imageVector = iconRes,
                             contentDescription = stringResource(tab.title)
                         )
                     },

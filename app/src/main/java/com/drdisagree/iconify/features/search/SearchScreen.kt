@@ -29,12 +29,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.ChevronRight
-import androidx.compose.material.icons.rounded.Clear
-import androidx.compose.material.icons.rounded.DeleteOutline
-import androidx.compose.material.icons.rounded.History
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -54,7 +49,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
@@ -114,7 +108,7 @@ fun SearchScreen(
                     leadingIcon = {
                         IconButton(onClick = withHaptic { navController.popBackStack() }) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                imageVector = Iconsax.Outline.ArrowLeft,
                                 contentDescription = "Back",
                             )
                         }
@@ -127,7 +121,7 @@ fun SearchScreen(
                         ) {
                             IconButton(onClick = withHaptic { viewModel.clearQuery() }) {
                                 Icon(
-                                    imageVector = Icons.Rounded.Clear,
+                                    imageVector = Iconsax.Outline.CloseCircle,
                                     contentDescription = "Clear",
                                 )
                             }
@@ -170,7 +164,7 @@ fun SearchScreen(
                     modifier = Modifier.padding(top = 48.dp)
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_search),
+                        imageVector = Iconsax.Outline.SearchNormal,
                         contentDescription = null,
                         modifier = Modifier.size(48.dp),
                         tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
@@ -220,7 +214,7 @@ fun SearchScreen(
                             )
                             IconButton(onClick = viewModel::clearHistory) {
                                 Icon(
-                                    imageVector = Icons.Rounded.DeleteOutline,
+                                    imageVector = Iconsax.Outline.Trash,
                                     contentDescription = stringResource(R.string.searchpreference_clear_history),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -286,14 +280,14 @@ private fun SearchResultItem(
         // ── Icon ───────────────────────────────────────────────────
         if (isHistory) {
             Icon(
-                imageVector = Icons.Rounded.History,
+                imageVector = Iconsax.Outline.RotateLeft,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         } else {
             Icon(
-                painter = painterResource(R.drawable.ic_search),
+                imageVector = Iconsax.Outline.SearchNormal,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -321,7 +315,7 @@ private fun SearchResultItem(
                     breadcrumbText.forEachIndexed { index, segment ->
                         if (index > 0) {
                             Icon(
-                                imageVector = Icons.Rounded.ChevronRight,
+                                imageVector = Iconsax.Outline.ArrowRight,
                                 contentDescription = null,
                                 modifier = Modifier.size(14.dp),
                                 tint = MaterialTheme.colorScheme.onSurface.secondaryText(),

@@ -217,8 +217,8 @@ dependencies {
     // Core Library Desugaring
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
-    // Material icons
-    implementation(libs.androidx.compose.material.icons.extended)
+    // Iconsax icons
+    implementation("io.github.yohannestz:iconsax-compose:1.0.1")
 
     // Datastore
     implementation(libs.androidx.datastore.preferences)

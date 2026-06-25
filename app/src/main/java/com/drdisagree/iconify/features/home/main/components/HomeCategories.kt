@@ -13,13 +13,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.core.common.LocalNavController
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 
 private data class CategoryItem(
     val title: Int,
     val subtitle: Int? = null,
-    val icon: Int,
+    val icon: Any,
     val smallVariant: Boolean = false,
     val route: NavRoutes.MainGraph.Home
 )
@@ -37,7 +38,7 @@ fun HomeCategories(modifier: Modifier = Modifier) {
         ),
         CategoryItem(
             title = R.string.more,
-            icon = R.drawable.ic_arrow_end_long,
+            icon = Iconsax.Outline.ArrowRight,
             smallVariant = true,
             route = NavRoutes.MainGraph.Home.More.Root
         ),

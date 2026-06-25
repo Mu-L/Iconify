@@ -19,9 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ChevronLeft
-import androidx.compose.material.icons.rounded.ChevronRight
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,6 +47,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -65,7 +64,8 @@ data class TopAppBarAction(
     val icon: Any,
     val label: String,
     val onClick: () -> Unit = {},
-    val subItems: List<TopAppBarAction> = emptyList()
+    val subItems: List<TopAppBarAction> = emptyList(),
+    val iconRotation: Float = 0f
 )
 
 @Composable
@@ -139,15 +139,21 @@ fun CollapsingTopAppBar(
                         contentColor = MaterialTheme.colorScheme.onSurface
                     ),
                 ) {
-                    Icon(
-                        painter = painterResource(
-                            backIcon
-                                ?: R.drawable.ic_home_as_up_indicator
-                        ),
-                        contentDescription = "Navigate back",
-                        modifier = Modifier.size(24.dp),
-                        tint = LocalContentColor.current
-                    )
+                    if (backIcon != null) {
+                        Icon(
+                            painter = painterResource(backIcon),
+                            contentDescription = "Navigate back",
+                            modifier = Modifier.size(24.dp),
+                            tint = LocalContentColor.current
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Iconsax.Outline.ArrowLeft,
+                            contentDescription = "Navigate back",
+                            modifier = Modifier.size(24.dp),
+                            tint = LocalContentColor.current
+                        )
+                    }
                 }
             }
         },
@@ -205,7 +211,8 @@ fun ActionItem(action: TopAppBarAction, showActionIcon: Boolean, isLastItem: Boo
                     is ImageVector -> {
                         Icon(
                             imageVector = action.icon,
-                            contentDescription = action.label
+                            contentDescription = action.label,
+                            modifier = Modifier.rotate(action.iconRotation)
                         )
                     }
                 }
@@ -263,7 +270,7 @@ private fun ActionDropdownMenu(
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Icon(
-                                            Icons.Rounded.ChevronLeft,
+                                            Iconsax.Outline.ArrowLeftTwo,
                                             contentDescription = null,
                                             modifier = Modifier.size(16.dp),
                                             tint = MaterialTheme.colorScheme.onSurface.secondaryText()
@@ -319,7 +326,7 @@ private fun ActionDropdownMenu(
                             trailingIcon = {
                                 if (item.subItems.isNotEmpty()) {
                                     Icon(
-                                        imageVector = Icons.Rounded.ChevronRight,
+                                        imageVector = Iconsax.Outline.ArrowRightTwo,
                                         contentDescription = null,
                                         modifier = Modifier.size(18.dp)
                                     )

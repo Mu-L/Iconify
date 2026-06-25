@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.features.settings.appupdates.screens
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Schedule
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,14 +18,14 @@ val appUpdatesPreferences = preferenceScreen {
     category(title = stringRes(R.string.section_title_schedule)) {
         switch(
             key = SettingsKey.UPDATE_OVER_WIFI,
-            icon = iconRes(R.drawable.ic_auto_update_wifi_only),
+            icon = iconRes(Iconsax.Outline.WifiSquare),
             title = stringRes(R.string.settings_auto_update_title_wifi_only),
             summary = { stringRes(R.string.settings_auto_update_desc_wifi_only) },
         )
 
         listPref(
             key = SettingsKey.UPDATE_SCHEDULE,
-            icon = iconRes(Icons.Rounded.Schedule),
+            icon = iconRes(Iconsax.Outline.Clock),
             title = stringRes(R.string.update_schedule_title),
             entries = arrayRes(R.array.update_schedule_entries),
             entryValues = arrayRes(R.array.update_schedule_values),

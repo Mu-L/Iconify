@@ -46,7 +46,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -55,6 +54,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
@@ -180,7 +180,7 @@ fun HookCheckCard(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Icon(
-                painter = painterResource(R.drawable.ic_xposed_disabled),
+                imageVector = Iconsax.Outline.Danger,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onError,
                 modifier = Modifier.size(24.dp),

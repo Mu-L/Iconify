@@ -15,8 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -178,7 +177,7 @@ fun ColorPickerPreferenceItem(
                             selectedColor = Color.fromHex(storedValue)
                         )
                         Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
+                            imageVector = Iconsax.Outline.ArrowRight,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.size(24.dp)

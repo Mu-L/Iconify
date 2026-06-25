@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.core.ui.components.scaffolds
 
 import androidx.activity.compose.BackHandler
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -17,9 +16,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Pending
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButtonMenu
 import androidx.compose.material3.FloatingActionButtonMenuItem
@@ -49,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -56,7 +54,6 @@ import androidx.compose.ui.input.key.isShiftPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.contentDescription
@@ -87,7 +84,7 @@ import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.haze
 
 private data class FabMenuItem(
-    @param:DrawableRes val icon: Int,
+    val icon: ImageVector,
     @param:StringRes val title: Int,
     val containerColor: Color,
     val contentColor: Color,
@@ -169,7 +166,7 @@ fun MainScaffold(
         if (shouldRestartSystemUI || shouldRebootDevice) {
             add(
                 FabMenuItem(
-                    icon = R.drawable.ic_close,
+                    icon = Iconsax.Outline.Eraser,
                     title = R.string.btn_dismiss,
                     containerColor = materialTertiaryContainer,
                     contentColor = materialOnTertiaryContainer,
@@ -180,7 +177,7 @@ fun MainScaffold(
         if (shouldRebootDevice) {
             add(
                 FabMenuItem(
-                    icon = R.drawable.ic_pixel_device,
+                    icon = Iconsax.Outline.Mobile,
                     title = R.string.btn_restart_device,
                     containerColor = harmonizedColors.errorContainer,
                     contentColor = harmonizedColors.onErrorContainer,
@@ -191,7 +188,7 @@ fun MainScaffold(
         if (shouldRestartSystemUI) {
             add(
                 FabMenuItem(
-                    icon = R.drawable.ic_restart_systemui,
+                    icon = Iconsax.Outline.Refresh,
                     title = R.string.btn_restart_systemui,
                     containerColor = harmonizedColors.warningContainer,
                     contentColor = harmonizedColors.onWarningContainer,
@@ -259,7 +256,7 @@ fun MainScaffold(
                             ) {
                                 val imageVector by remember {
                                     derivedStateOf {
-                                        if (checkedProgress > 0.5f) Icons.Rounded.Close else Icons.Rounded.Pending
+                                        if (checkedProgress > 0.5f) Iconsax.Outline.CloseCircle else Iconsax.Outline.Clock
                                     }
                                 }
                                 Icon(
@@ -307,7 +304,7 @@ fun MainScaffold(
                             },
                             icon = {
                                 Icon(
-                                    painter = painterResource(item.icon),
+                                    imageVector = item.icon,
                                     contentDescription = null,
                                     modifier = Modifier.size(24.dp)
                                 )

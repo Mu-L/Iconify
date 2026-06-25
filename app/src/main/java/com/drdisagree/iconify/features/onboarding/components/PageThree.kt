@@ -20,9 +20,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material.icons.rounded.CheckCircleOutline
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -295,7 +293,7 @@ private fun PermissionCard(
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Icon(
-                imageVector = if (isChecked) Icons.Rounded.CheckCircle else Icons.Rounded.CheckCircleOutline,
+                imageVector = if (isChecked) Iconsax.Bold.TickCircle else Iconsax.Outline.TickCircle,
                 contentDescription = null,
                 tint = if (isChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(
                     alpha = 0.5f

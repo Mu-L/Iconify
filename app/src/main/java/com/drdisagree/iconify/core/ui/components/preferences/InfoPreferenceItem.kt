@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.common.LocalNavController
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.core.preferences.PrefParam
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceDefinition
@@ -63,7 +64,7 @@ fun InfoPreferenceItem(
                 .fillMaxWidth()
                 .padding(vertical = 16.dp)
         ) {
-            LeadingIcon(prefDefinition.icon ?: iconRes(R.drawable.ic_info), isEnabled)
+            LeadingIcon(prefDefinition.icon ?: iconRes(Iconsax.Outline.InfoCircle), isEnabled)
             Spacer(Modifier.height(12.dp))
             Text(
                 text = prefDefinition.title.resolve(),

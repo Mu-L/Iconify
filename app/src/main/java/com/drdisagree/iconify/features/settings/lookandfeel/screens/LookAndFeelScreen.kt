@@ -5,17 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.BlurOn
-import androidx.compose.material.icons.rounded.Contrast
-import androidx.compose.material.icons.rounded.DarkMode
-import androidx.compose.material.icons.rounded.FormatColorFill
-import androidx.compose.material.icons.rounded.FormatSize
-import androidx.compose.material.icons.rounded.NightsStay
-import androidx.compose.material.icons.rounded.Palette
-import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
-import androidx.compose.material.icons.rounded.SpaceBar
-import androidx.compose.material.icons.rounded.WaterDrop
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -108,7 +98,7 @@ val lookAndFeelPreferences = preferenceScreen {
     category {
         listPref(
             key = SettingsKey.THEME_MODE,
-            icon = iconRes(Icons.Rounded.DarkMode),
+            icon = iconRes(Iconsax.Outline.Moon),
             title = stringRes(R.string.settings_app_theme),
             entries = arrayRes(themeModes.map { it.name }),
             entryValues = arrayRes(themeModes.map { it.themeMode.toString() }),
@@ -120,7 +110,7 @@ val lookAndFeelPreferences = preferenceScreen {
 
         listPref(
             key = "theme_color",
-            icon = iconRes(Icons.Rounded.FormatColorFill),
+            icon = iconRes(Iconsax.Outline.Paintbucket),
             title = stringRes(R.string.theme_color),
             defaultValue = "dynamic",
             entries = arrayRes(listOf(stringRes(R.string.theme_color_dynamic)) + allSeedColors.map {
@@ -139,7 +129,7 @@ val lookAndFeelPreferences = preferenceScreen {
 
         listPref(
             key = SettingsKey.PALETTE_STYLE,
-            icon = iconRes(Icons.Rounded.Palette),
+            icon = iconRes(Iconsax.Outline.ColorSwatch),
             title = stringRes(R.string.palette_style),
             entries = arrayRes(paletteStyles.map { it.name }.toList()),
             entryValues = arrayRes(paletteStyles.map { it.paletteStyle.name }.toList()),
@@ -152,7 +142,7 @@ val lookAndFeelPreferences = preferenceScreen {
 
         switch(
             key = SettingsKey.AMOLED_THEME,
-            icon = iconRes(Icons.Rounded.NightsStay),
+            icon = iconRes(Iconsax.Outline.Moon),
             title = stringRes(R.string.amoled_mode_title),
             summary = { stringRes(R.string.amoled_mode_desc) },
             isVisible = { ctrl -> ctrl.getString("theme_color", "dynamic") != "dynamic" }
@@ -160,7 +150,7 @@ val lookAndFeelPreferences = preferenceScreen {
 
         switch(
             key = SettingsKey.EXPRESSIVE_COLORS,
-            icon = iconRes(Icons.Rounded.WaterDrop),
+            icon = iconRes(Iconsax.Outline.Drop),
             title = stringRes(R.string.expressive_colors_title),
             summary = { stringRes(R.string.expressive_colors_desc) },
             isVisible = { ctrl ->
@@ -176,7 +166,7 @@ val lookAndFeelPreferences = preferenceScreen {
 
         listPref(
             key = SettingsKey.CONTRAST_LEVEL,
-            icon = iconRes(Icons.Rounded.Contrast),
+            icon = iconRes(Iconsax.Outline.Colorfilter),
             title = stringRes(R.string.contrast_level),
             entries = arrayRes(contrastLevels.map { it.name }),
             entryValues = arrayRes(contrastLevels.map { it.contrast.value.toString() }),
@@ -192,21 +182,21 @@ val lookAndFeelPreferences = preferenceScreen {
     category(title = stringRes(R.string.section_title_additional_settings)) {
         switch(
             key = SettingsKey.BLUR_EFFECT,
-            icon = iconRes(Icons.Rounded.BlurOn),
+            icon = iconRes(Iconsax.Outline.Blur),
             title = stringRes(R.string.blur_effect_title),
             summary = { stringRes(R.string.blur_effect_desc) },
         )
 
         switch(
             key = SettingsKey.FLOATING_BOTTOM_BAR,
-            icon = iconRes(Icons.Rounded.SpaceBar),
+            icon = iconRes(Iconsax.Outline.RowVertical),
             title = stringRes(R.string.floating_bottom_bar_title),
             summary = { stringRes(R.string.floating_bottom_bar_desc) },
         )
 
         slider(
             key = SettingsKey.UI_SCALE,
-            icon = iconRes(Icons.Rounded.PhotoSizeSelectLarge),
+            icon = iconRes(Iconsax.Outline.Size),
             title = stringRes(R.string.display_scale_title),
             summary = { stringRes(R.string.display_scale_desc) },
             min = 0.5f,
@@ -220,7 +210,7 @@ val lookAndFeelPreferences = preferenceScreen {
 
         slider(
             key = SettingsKey.TEXT_SCALE,
-            icon = iconRes(Icons.Rounded.FormatSize),
+            icon = iconRes(Iconsax.Outline.Text),
             title = stringRes(R.string.text_scale_title),
             summary = { stringRes(R.string.text_scale_desc) },
             min = 0.5f,

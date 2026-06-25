@@ -26,8 +26,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Check
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -327,7 +326,7 @@ fun OnboardingScreen(
                         ) {
                             if (isOnDisclaimerPage) {
                                 Icon(
-                                    imageVector = Icons.Rounded.Check,
+                                    imageVector = Iconsax.Outline.Verify,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .size(20.dp)

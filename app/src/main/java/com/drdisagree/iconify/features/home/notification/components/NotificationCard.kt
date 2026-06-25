@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
@@ -122,7 +123,7 @@ fun NotificationCard(
                         )
                         if (notification.isApplied) {
                             Icon(
-                                painter = painterResource(R.drawable.ic_tick),
+                                imageVector = Iconsax.Outline.TickSquare,
                                 contentDescription = "Tick",
                                 tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier
@@ -157,7 +158,7 @@ fun NotificationCard(
                         exit = fadeOut()
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_expand_arrow),
+                            imageVector = Iconsax.Outline.ArrowDown,
                             contentDescription = "Collapse",
                             modifier = Modifier
                                 .size(14.dp)
@@ -173,7 +174,7 @@ fun NotificationCard(
                         exit = fadeOut()
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_expand_arrow),
+                            imageVector = Iconsax.Outline.ArrowDown,
                             contentDescription = "Expand",
                             modifier = Modifier.size(14.dp),
                             tint = MaterialTheme.colorScheme.onSurface

@@ -11,11 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.CheckCircleOutline
-import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.NewReleases
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -124,7 +120,7 @@ private fun ColumnWrapper(
 @Composable
 private fun ColumnScope.AutoUpdateDisabled() {
     Icon(
-        imageVector = Icons.Rounded.Info,
+        imageVector = Iconsax.Outline.InfoCircle,
         contentDescription = null,
         tint = MaterialTheme.colorScheme.primary,
         modifier = Modifier.size(48.dp)
@@ -158,7 +154,7 @@ private fun ColumnScope.NewUpdateFound(
     var showChangelog by rememberSaveable { mutableStateOf(false) }
 
     Icon(
-        imageVector = Icons.Rounded.NewReleases,
+        imageVector = Iconsax.Outline.Award,
         contentDescription = null,
         tint = MaterialTheme.colorScheme.primary,
         modifier = Modifier.size(48.dp)
@@ -242,7 +238,7 @@ private fun ColumnScope.AlreadyUpToDate(
     onUpdateCheckClick: () -> Unit
 ) {
     Icon(
-        imageVector = Icons.Rounded.CheckCircleOutline,
+        imageVector = Iconsax.Outline.TickCircle,
         contentDescription = null,
         tint = MaterialTheme.colorScheme.primary,
         modifier = Modifier.size(48.dp)
@@ -281,7 +277,7 @@ private fun ColumnScope.UpdateError(
     onUpdateCheckClick: () -> Unit
 ) {
     Icon(
-        imageVector = Icons.Rounded.ErrorOutline,
+        imageVector = Iconsax.Outline.Danger,
         contentDescription = null,
         tint = MaterialTheme.colorScheme.error,
         modifier = Modifier.size(48.dp)

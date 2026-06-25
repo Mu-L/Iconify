@@ -12,8 +12,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DeveloperMode
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -205,7 +204,7 @@ private fun searchAction(): TopAppBarAction {
     val navController = LocalNavController.current
 
     return TopAppBarAction(
-        icon = R.drawable.ic_search,
+        icon = Iconsax.Outline.SearchNormal,
         label = "Search",
         onClick = {
             val popped = navController.popBackStack<NavRoutes.MainGraph.Search>(inclusive = false)
@@ -229,12 +228,13 @@ private fun defaultActions(
 
     return listOf(
         TopAppBarAction(
-            icon = R.drawable.ic_menu,
+            icon = Iconsax.Outline.More,
             label = "Menu",
+            iconRotation = 90f,
             subItems = buildList {
                 add(
                     TopAppBarAction(
-                        icon = R.drawable.ic_changelog,
+                        icon = Iconsax.Outline.ClipboardText,
                         label = stringResource(R.string.changelog),
                         onClick = {
                             navController.navigate(NavRoutes.MainGraph.Changelog) {
@@ -245,16 +245,16 @@ private fun defaultActions(
                 )
                 add(
                     TopAppBarAction(
-                        icon = R.drawable.ic_upload_file,
+                        icon = Iconsax.Outline.DocumentUpload,
                         label = stringResource(R.string.import_export),
                         subItems = listOf(
                             TopAppBarAction(
-                                R.drawable.ic_file_import,
+                                Iconsax.Outline.Import,
                                 stringResource(R.string.import_settings),
                                 onClick = onImport
                             ),
                             TopAppBarAction(
-                                R.drawable.ic_file_export,
+                                Iconsax.Outline.Export,
                                 stringResource(R.string.export_settings),
                                 onClick = onExport
                             ),
@@ -264,7 +264,7 @@ private fun defaultActions(
                 if (settings.isPlaygroundUnlocked) {
                     add(
                         TopAppBarAction(
-                            icon = Icons.Rounded.DeveloperMode,
+                            icon = Iconsax.Outline.MobileProgramming,
                             label = "Playground",
                             onClick = {
                                 navController.navigate(NavRoutes.MainGraph.Playground) {
@@ -276,7 +276,7 @@ private fun defaultActions(
                 }
                 add(
                     TopAppBarAction(
-                        icon = R.drawable.ic_xposed_restart_systemui,
+                        icon = Iconsax.Outline.Refresh,
                         label = stringResource(R.string.btn_restart_systemui),
                         onClick = { systemActionViewModel?.triggerRestartSystemUI() }
                     )

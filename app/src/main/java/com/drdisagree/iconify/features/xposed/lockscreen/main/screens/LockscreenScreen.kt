@@ -5,6 +5,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.R
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
@@ -20,7 +21,7 @@ val lockscreenPreferences = preferenceScreen {
     category {
         action(
             key = "xposedLockscreenClock",
-            icon = iconRes(R.drawable.ic_xposed_clock),
+            icon = iconRes(Iconsax.Outline.Clock),
             title = stringRes(R.string.activity_title_lockscreen_clock),
             summary = { stringRes(R.string.activity_desc_lockscreen_clock) },
             onClick = {
@@ -32,7 +33,7 @@ val lockscreenPreferences = preferenceScreen {
 
         action(
             key = "xposedLockscreenWeather",
-            icon = iconRes(R.drawable.ic_xposed_lockscreen_weather),
+            icon = iconRes(Iconsax.Outline.Cloud),
             title = stringRes(R.string.activity_title_lockscreen_weather),
             summary = { stringRes(R.string.activity_desc_lockscreen_weather) },
             onClick = {
@@ -44,7 +45,7 @@ val lockscreenPreferences = preferenceScreen {
 
         action(
             key = "xposedLockscreenWidgets",
-            icon = iconRes(R.drawable.ic_xposed_lockscreen_widgets),
+            icon = iconRes(Iconsax.Outline.Category),
             title = stringRes(R.string.activity_title_lockscreen_widget),
             summary = { stringRes(R.string.activity_desc_lockscreen_widget) },
             onClick = {
@@ -56,7 +57,7 @@ val lockscreenPreferences = preferenceScreen {
 
         action(
             key = "xposedDepthWallpaper",
-            icon = iconRes(R.drawable.ic_xposed_depth_wallpaper),
+            icon = iconRes(Iconsax.Outline.Layer),
             title = stringRes(R.string.activity_title_depth_wallpaper),
             summary = { stringRes(R.string.activity_desc_depth_wallpaper) },
             onClick = {
@@ -68,7 +69,7 @@ val lockscreenPreferences = preferenceScreen {
 
         action(
             key = "xposedAlbumArt",
-            icon = iconRes(R.drawable.ic_xposed_album_art),
+            icon = iconRes(Iconsax.Outline.Musicnote),
             title = stringRes(R.string.activity_title_lockscreen_album_art),
             summary = { stringRes(R.string.media_art_summary) },
             onClick = {
@@ -80,7 +81,7 @@ val lockscreenPreferences = preferenceScreen {
 
         action(
             key = "xposedLockscreenVisualizer",
-            icon = iconRes(R.drawable.ic_volume_eq),
+            icon = iconRes(Iconsax.Outline.MusicFilter),
             title = stringRes(R.string.activity_title_lockscreen_visualizer),
             summary = { stringRes(R.string.activity_desc_lockscreen_visualizer) },
             onClick = {

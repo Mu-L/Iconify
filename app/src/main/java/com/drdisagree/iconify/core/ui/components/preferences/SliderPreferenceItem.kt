@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Remove
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,7 +27,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
@@ -180,7 +177,7 @@ fun SliderPreferenceItem(
                         modifier = Modifier.size(28.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.Remove,
+                            imageVector = Iconsax.Outline.Minus,
                             contentDescription = stringResource(R.string.btn_decrease),
                             modifier = Modifier.size(16.dp)
                         )
@@ -216,7 +213,7 @@ fun SliderPreferenceItem(
                         modifier = Modifier.size(28.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.Add,
+                            imageVector = Iconsax.Outline.Add,
                             contentDescription = stringResource(R.string.btn_increase),
                             modifier = Modifier.size(16.dp)
                         )
@@ -233,7 +230,7 @@ fun SliderPreferenceItem(
                         }
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.ic_reset),
+                            imageVector = Iconsax.Outline.RefreshTwo,
                             contentDescription = stringResource(R.string.btn_reset),
                             modifier = Modifier.size(20.dp)
                         )

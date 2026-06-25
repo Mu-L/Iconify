@@ -26,7 +26,6 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.platform.LocalWindowInfo
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -146,7 +145,7 @@ private fun TabContent(
     ) {
         val iconRes = if (selected) tab.iconChecked else tab.iconUnchecked
         Icon(
-            painter = painterResource(iconRes),
+            imageVector = iconRes,
             contentDescription = stringResource(tab.title),
             tint = MaterialTheme.colorScheme.onSurface.copy(alpha = if (enabled) 1f else 0.4f)
         )

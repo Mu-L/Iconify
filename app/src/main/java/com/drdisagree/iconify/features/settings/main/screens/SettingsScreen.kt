@@ -42,6 +42,7 @@ import com.drdisagree.iconify.data.common.Const.ICONIFY_CROWDIN
 import com.drdisagree.iconify.data.common.Const.TELEGRAM_GROUP
 import com.drdisagree.iconify.data.keys.SettingsKey
 import com.drdisagree.iconify.features.settings.main.viewmodels.SettingsViewModel
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 
 fun settingsPreferences(
     onDisableEverything: () -> Unit = {},
@@ -61,7 +62,7 @@ fun settingsPreferences(
 
         action(
             key = "app_language",
-            icon = iconRes(R.drawable.ic_language),
+            icon = iconRes(Iconsax.Outline.Global),
             title = stringRes(R.string.settings_app_language),
             summary = { stringRes(R.string.settings_app_language_desc) },
             onClick = {
@@ -75,7 +76,7 @@ fun settingsPreferences(
 
         switch(
             key = SettingsKey.HAPTICS_AND_VIBRATION,
-            icon = iconRes(R.drawable.ic_vibrate),
+            icon = iconRes(Iconsax.Outline.Mobile),
             title = stringRes(R.string.settings_vibrate_ui_card_title),
             summary = { stringRes(R.string.settings_vibrate_ui_page_card_desc) },
             isEnabled = { ctrl -> ctrl.getBoolean("notifications_enabled", true) },
@@ -85,14 +86,14 @@ fun settingsPreferences(
     category(title = stringRes(R.string.settings_section_title_miscellaneous)) {
         switch(
             key = SettingsKey.RESTART_SYSTEMUI_AFTER_BOOT,
-            icon = iconRes(R.drawable.ic_restart_systemui_after_boot),
+            icon = iconRes(Iconsax.Outline.Refresh),
             title = stringRes(R.string.settings_restart_systemui_after_boot_title),
             summary = { stringRes(R.string.settings_restart_systemui_after_boot_desc) },
         )
 
         action(
             key = "clearAppCache",
-            icon = iconRes(R.drawable.ic_clear_cache),
+            icon = iconRes(Iconsax.Outline.Broom),
             title = stringRes(R.string.settings_clear_app_cache_title),
             summary = { stringRes(R.string.settings_clear_app_cache_desc) },
             onClick = {
@@ -108,7 +109,7 @@ fun settingsPreferences(
 
         action(
             key = "disableEverything",
-            icon = iconRes(R.drawable.ic_disable_everything),
+            icon = iconRes(Iconsax.Outline.Slash),
             title = stringRes(R.string.settings_disable_everything_title),
             summary = { stringRes(R.string.settings_disable_everything_desc) },
             onClick = { onDisableEverything() }
@@ -118,7 +119,7 @@ fun settingsPreferences(
     category(title = stringRes(R.string.settings_section_title_updates)) {
         action(
             key = "app_update_checker",
-            icon = iconRes(R.drawable.ic_check_update),
+            icon = iconRes(Iconsax.Outline.CloudChange),
             title = stringRes(R.string.settings_check_for_update),
             summary = { stringRes(BuildConfig.VERSION_NAME.removePrefix("v")) },
             onClick = {
@@ -130,7 +131,7 @@ fun settingsPreferences(
 
         switch(
             key = SettingsKey.AUTO_UPDATE,
-            icon = iconRes(R.drawable.ic_auto_update),
+            icon = iconRes(Iconsax.Outline.RotateLeft),
             title = stringRes(R.string.settings_auto_update_title),
             summary = { stringRes(R.string.settings_auto_update_desc) },
         )
@@ -139,7 +140,7 @@ fun settingsPreferences(
     category(title = stringRes(R.string.settings_section_title_about)) {
         action(
             key = "iconifyGitHub",
-            icon = iconRes(R.drawable.ic_github),
+            icon = iconRes(Iconsax.Outline.CodeOne),
             title = stringRes(R.string.settings_github_repository_title),
             summary = { stringRes(R.string.settings_github_repository_desc) },
             onClick = { openUrl(it.context, GITHUB_REPO) }
@@ -155,7 +156,7 @@ fun settingsPreferences(
 
         action(
             key = "iconifyTranslate",
-            icon = iconRes(R.drawable.ic_translate),
+            icon = iconRes(Iconsax.Outline.Translate),
             title = stringRes(R.string.settings_translate_title),
             summary = { stringRes(R.string.settings_translate_desc) },
             onClick = { openUrl(it.context, ICONIFY_CROWDIN) }
@@ -163,7 +164,7 @@ fun settingsPreferences(
 
         action(
             key = "iconifyCredits",
-            icon = iconRes(R.drawable.ic_credits),
+            icon = iconRes(Iconsax.Outline.Award),
             title = stringRes(R.string.settings_credits_title),
             summary = { stringRes(R.string.settings_credits_desc) },
             onClick = {

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.drdisagree.iconify.R
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.iconRes
@@ -15,7 +16,7 @@ val tweaksPreferences = preferenceScreen {
     category {
         action(
             key = "colorEngine",
-            icon = iconRes(R.drawable.ic_tweaks_color),
+            icon = iconRes(Iconsax.Outline.Paintbucket),
             title = stringRes(R.string.activity_title_color_engine),
             summary = { stringRes(R.string.activity_desc_color_engine) },
             onClick = {
@@ -27,7 +28,7 @@ val tweaksPreferences = preferenceScreen {
 
         action(
             key = "uiRoundness",
-            icon = iconRes(R.drawable.ic_tweaks_roundness),
+            icon = iconRes(Iconsax.Outline.RulerPen),
             title = stringRes(R.string.activity_title_ui_roundness),
             summary = { stringRes(R.string.activity_desc_ui_roundness) },
             onClick = {
@@ -63,7 +64,7 @@ val tweaksPreferences = preferenceScreen {
 
         action(
             key = "statusBarTweaks",
-            icon = iconRes(R.drawable.ic_tweaks_statusbar),
+            icon = iconRes(Iconsax.Outline.Notification),
             title = stringRes(R.string.activity_title_statusbar),
             summary = { stringRes(R.string.activity_desc_statusbar) },
             onClick = {
@@ -75,7 +76,7 @@ val tweaksPreferences = preferenceScreen {
 
         action(
             key = "navBarTweaks",
-            icon = iconRes(R.drawable.ic_tweaks_navbar),
+            icon = iconRes(Iconsax.Outline.RowHorizontal),
             title = stringRes(R.string.activity_title_navigation_bar),
             summary = { stringRes(R.string.activity_desc_navigation_bar) },
             onClick = {
@@ -88,7 +89,7 @@ val tweaksPreferences = preferenceScreen {
         action(
             key = "mediaPlayerTweaks",
             title = stringRes(R.string.activity_title_media_player),
-            icon = iconRes(R.drawable.ic_tweaks_media),
+            icon = iconRes(Iconsax.Outline.MusicPlay),
             summary = { stringRes(R.string.activity_desc_media_player) },
             onClick = {
                 it.navController.navigate(NavRoutes.MainGraph.Home.More.MediaPlayer) {
@@ -107,7 +108,7 @@ val tweaksPreferences = preferenceScreen {
 
         action(
             key = "miscellaneousTweaks",
-            icon = iconRes(R.drawable.ic_tweaks_miscellaneous),
+            icon = iconRes(Iconsax.Outline.Category),
             title = stringRes(R.string.activity_title_miscellaneous),
             summary = { stringRes(R.string.activity_desc_miscellaneous) },
             onClick = {

@@ -40,8 +40,7 @@ import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.SubdirectoryArrowRight
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
@@ -613,7 +612,7 @@ fun DevicePreviewPager(
                     }
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.SubdirectoryArrowRight,
+                        imageVector = Iconsax.Outline.ArrowForwardSquare,
                         contentDescription = "Reset",
                         modifier = Modifier
                             .size(SplitButtonDefaults.TrailingIconSize)

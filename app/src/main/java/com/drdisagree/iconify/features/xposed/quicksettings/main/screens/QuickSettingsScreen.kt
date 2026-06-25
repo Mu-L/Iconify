@@ -9,6 +9,7 @@ import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.iconRes
+import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
@@ -20,7 +21,7 @@ val quickSettingsPreferences = preferenceScreen {
     category {
         action(
             key = "xposedTransparencyBlur",
-            icon = iconRes(R.drawable.ic_xposed_transparency_blur),
+            icon = iconRes(Iconsax.Outline.Blur),
             title = stringRes(R.string.activity_title_transparency_blur),
             summary = { stringRes(R.string.activity_desc_transparency_blur) },
             onClick = {
@@ -32,7 +33,7 @@ val quickSettingsPreferences = preferenceScreen {
 
         action(
             key = "xposedHeaderImage",
-            icon = iconRes(R.drawable.ic_xposed_header_image),
+            icon = iconRes(Iconsax.Outline.Image),
             title = stringRes(R.string.activity_title_header_image),
             summary = { stringRes(R.string.activity_desc_header_image) },
             onClick = {
@@ -44,7 +45,7 @@ val quickSettingsPreferences = preferenceScreen {
 
         action(
             key = "xposedHeaderClock",
-            icon = iconRes(R.drawable.ic_xposed_clock),
+            icon = iconRes(Iconsax.Outline.Clock),
             title = stringRes(R.string.activity_title_header_clock),
             summary = { stringRes(R.string.activity_desc_header_clock) },
             onClick = {
@@ -56,7 +57,7 @@ val quickSettingsPreferences = preferenceScreen {
 
         action(
             key = "xposedQsGrid",
-            icon = iconRes(R.drawable.ic_qs_row_column),
+            icon = iconRes(Iconsax.Outline.GridThree),
             title = stringRes(R.string.activity_title_qs_row_column),
             summary = { stringRes(R.string.activity_desc_qs_row_column) },
             onClick = {
@@ -68,7 +69,7 @@ val quickSettingsPreferences = preferenceScreen {
 
         action(
             key = "xposedThemes",
-            icon = iconRes(R.drawable.ic_xposed_themes),
+            icon = iconRes(Iconsax.Outline.ColorSwatch),
             title = stringRes(R.string.activity_title_themes),
             summary = { stringRes(R.string.activity_desc_themes) },
             onClick = {
