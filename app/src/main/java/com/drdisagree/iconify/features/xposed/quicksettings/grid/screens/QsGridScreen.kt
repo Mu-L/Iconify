@@ -27,9 +27,9 @@ val qsGridPreferences = preferenceScreen {
         slider(
             key = XposedKey.QQS_ROW_PORTRAIT,
             title = stringRes(R.string.quick_qspanel_row_title),
-            min = 1f,
+            min = 0f,
             max = 4f,
-            steps = 2,
+            steps = 3,
             valueLabel = { "${it.roundToInt()}" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_GRID) },
         )
@@ -59,9 +59,9 @@ val qsGridPreferences = preferenceScreen {
         slider(
             key = XposedKey.QQS_ROW_LANDSCAPE,
             title = stringRes(R.string.quick_qspanel_row_title),
-            min = 1f,
+            min = 0f,
             max = 4f,
-            steps = 2,
+            steps = 3,
             valueLabel = { "${it.roundToInt()}" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_QS_GRID) },
         )
