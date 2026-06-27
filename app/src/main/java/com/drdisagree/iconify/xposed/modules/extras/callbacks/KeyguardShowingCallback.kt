@@ -21,6 +21,9 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
     private var keyguardUpdateMonitorInstance: Any? = null
     private val mKeyguardShowingListeners = CopyOnWriteArrayList<KeyguardShowingListener>()
 
+    @Volatile
+    private var stateListenerHooked = false
+
     override fun updatePrefs(vararg key: String) {}
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
@@ -87,11 +90,15 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
             .runAfter { param ->
                 keyguardUpdateMonitorInstance = param.thisObject
 
+                if (stateListenerHooked) return@runAfter
+
                 val mStatusBarStateControllerListener =
                     param.thisObject.getFieldSilently("mStatusBarStateControllerListener")
                         ?: return@runAfter
+                val mStatusBarStateControllerListenerClass =
+                    mStatusBarStateControllerListener.javaClass
 
-                mStatusBarStateControllerListener::class.java
+                mStatusBarStateControllerListenerClass
                     .hookMethod("onStateChanged")
                     .runAfter {
                         val isKeyguardState =
@@ -111,6 +118,8 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
                             }
                         }
                     }
+
+                stateListenerHooked = true
             }
     }
 
