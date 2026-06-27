@@ -6,6 +6,7 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
@@ -87,7 +88,8 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
                 keyguardUpdateMonitorInstance = param.thisObject
 
                 val mStatusBarStateControllerListener =
-                    param.thisObject.getField("mStatusBarStateControllerListener")
+                    param.thisObject.getFieldSilently("mStatusBarStateControllerListener")
+                        ?: return@runAfter
 
                 mStatusBarStateControllerListener::class.java
                     .hookMethod("onStateChanged")
