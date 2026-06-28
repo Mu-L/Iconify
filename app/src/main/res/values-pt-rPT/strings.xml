@@ -350,6 +350,14 @@
     <string name="sb_start_padding">Start Padding</string>
     <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Height</string>
+    <string name="section_title_icon_sizes">Icon Sizes</string>
+    <string name="sb_signal_icon_size_title">Enlarge Signal Icons</string>
+    <string name="sb_signal_icon_size_desc">Increase signal icon size for custom icon packs</string>
+    <string name="sb_wifi_icon_size_title">Enlarge WiFi Icons</string>
+    <string name="sb_wifi_icon_size_desc">Increase WiFi icon size for custom icon packs</string>
+    <string name="sb_network_type_size_title">Enlarge Network Type Icons</string>
+    <string name="sb_network_type_size_desc">Increase network type indicator size for custom icon packs</string>
+    <string name="hint_icon_size_increase">Icons look too small? Tap here to adjust icon sizes</string>
     <string name="section_title_color">Cor</string>
     <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Colorir ícones e texto na barra de estado</string>
@@ -1118,6 +1126,8 @@
     <string name="btn_disable_custom_colors">Deativar as cores personalizadas</string>
     <string name="btn_enable_custom_colors">Aplicar cores</string>
     <string name="btn_reset">RESET</string>
+    <string name="btn_decrease">Decrease</string>
+    <string name="btn_increase">Increase</string>
     <string name="btn_reboot_now">Reiniciar agora</string>
     <string name="btn_download">Descarregar</string>
     <string name="btn_restart_systemui">Reiniciar a IU do sistema</string>
@@ -1435,6 +1445,9 @@
     <string name="btn_pick_pdf">Pick PDF</string>
     <string name="btn_pick_document">Pick document</string>
     <string name="btn_pick_file">Pick file</string>
+    <string name="btn_replace_file">Replace</string>
+    <string name="file_unknown_name">Unknown file</string>
+    <string name="file_clear">Clear</string>
     <string name="advanced_color_settings_title">Advanced Settings</string>
     <string name="advanced_color_settings_desc">Get advanced color customizations</string>
     <string name="look_and_feel_title">Look &amp; Feel</string>

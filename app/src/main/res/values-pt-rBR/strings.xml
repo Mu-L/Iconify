@@ -350,6 +350,14 @@
     <string name="sb_start_padding">Preenchimento inicial</string>
     <string name="sb_end_padding">Preenchimento final</string>
     <string name="sb_height">Altura</string>
+    <string name="section_title_icon_sizes">Tamanhos dos ícones</string>
+    <string name="sb_signal_icon_size_title">Ampliar ícones de sinal</string>
+    <string name="sb_signal_icon_size_desc">Aumente o tamanho do ícone de sinal para ícones personalizados</string>
+    <string name="sb_wifi_icon_size_title">Ampliar ícones de Wi-Fi</string>
+    <string name="sb_wifi_icon_size_desc">Aumentar o tamanho do ícone de Wi-Fi para pacotes de ícones personalizados</string>
+    <string name="sb_network_type_size_title">Ampliar ícones de rede</string>
+    <string name="sb_network_type_size_desc">Aumente o tamanho do indicador de rede para o pacote de ícones personalizado</string>
+    <string name="hint_icon_size_increase">Os ícones parecem muito pequenos? Toque aqui para ajustar o tamanho dos ícones</string>
     <string name="section_title_color">Cor</string>
     <string name="sb_color_tint_title">Cor do ícone da barra de status</string>
     <string name="sb_color_tint_desc">Tinge ícones e textos da barra de status</string>
@@ -1118,6 +1126,8 @@
     <string name="btn_disable_custom_colors">Desativar cores personalizadas</string>
     <string name="btn_enable_custom_colors">Aplicar cores</string>
     <string name="btn_reset">Redefinir</string>
+    <string name="btn_decrease">Diminuir</string>
+    <string name="btn_increase">Aumentar</string>
     <string name="btn_reboot_now">Reiniciar agora</string>
     <string name="btn_download">Baixar</string>
     <string name="btn_restart_systemui">Reiniciar Interface do sistema</string>
@@ -1435,6 +1445,9 @@
     <string name="btn_pick_pdf">Selecionar PDF</string>
     <string name="btn_pick_document">Selecione o documento</string>
     <string name="btn_pick_file">Selecionar arquivo</string>
+    <string name="btn_replace_file">Substituir</string>
+    <string name="file_unknown_name">Arquivo desconhecido</string>
+    <string name="file_clear">Limpar</string>
     <string name="advanced_color_settings_title">Configurações avançadas</string>
     <string name="advanced_color_settings_desc">Obtenha personalização de cores avançadas</string>
     <string name="look_and_feel_title">Aparência &amp; experiência</string>
