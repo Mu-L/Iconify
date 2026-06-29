@@ -42,8 +42,8 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/Cccc-owo">
-                    <img src="https://avatars.githubusercontent.com/u/47687154?v=4" width="100;" alt="Cccc-owo"/>
+                <a href="https://github.com/cCelectc">
+                    <img src="https://avatars.githubusercontent.com/u/47687154?v=4" width="100;" alt="cCelectc"/>
                     <br />
                     <sub><b>Cccc_</b></sub>
                 </a>
