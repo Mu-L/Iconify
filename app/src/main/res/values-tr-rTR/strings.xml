@@ -350,6 +350,14 @@
     <string name="sb_start_padding">Başlangıç İç Boşluğu</string>
     <string name="sb_end_padding">Bitiş İç Boşluğu</string>
     <string name="sb_height">Yükseklik</string>
+    <string name="section_title_icon_sizes">Icon Sizes</string>
+    <string name="sb_signal_icon_size_title">Enlarge Signal Icons</string>
+    <string name="sb_signal_icon_size_desc">Increase signal icon size for custom icon packs</string>
+    <string name="sb_wifi_icon_size_title">Enlarge WiFi Icons</string>
+    <string name="sb_wifi_icon_size_desc">Increase WiFi icon size for custom icon packs</string>
+    <string name="sb_network_type_size_title">Enlarge Network Type Icons</string>
+    <string name="sb_network_type_size_desc">Increase network type indicator size for custom icon packs</string>
+    <string name="hint_icon_size_increase">Icons look too small? Tap here to adjust icon sizes</string>
     <string name="section_title_color">Renk</string>
     <string name="sb_color_tint_title">Durum Çubuğu Simge Rengi</string>
     <string name="sb_color_tint_desc">Durum çubuğu simgelerini ve metinlerini renklendirin</string>
@@ -1118,6 +1126,8 @@
     <string name="btn_disable_custom_colors">Özel Renkleri Devre Dışı Bırak</string>
     <string name="btn_enable_custom_colors">Renkleri Uygula</string>
     <string name="btn_reset">Sıfırla</string>
+    <string name="btn_decrease">Decrease</string>
+    <string name="btn_increase">Increase</string>
     <string name="btn_reboot_now">Şimdi Yeniden Başlat</string>
     <string name="btn_download">İndir</string>
     <string name="btn_restart_systemui">SystemUI\'ı Yeniden Başlat</string>
@@ -1435,6 +1445,9 @@
     <string name="btn_pick_pdf">PDF seç</string>
     <string name="btn_pick_document">Belge seç</string>
     <string name="btn_pick_file">Dosya seç</string>
+    <string name="btn_replace_file">Replace</string>
+    <string name="file_unknown_name">Unknown file</string>
+    <string name="file_clear">Clear</string>
     <string name="advanced_color_settings_title">Gelişmiş Ayarlar</string>
     <string name="advanced_color_settings_desc">Gelişmiş renk özelleştirmelerini edinin</string>
     <string name="look_and_feel_title">Görünüm &amp; His</string>

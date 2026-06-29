@@ -350,6 +350,14 @@
     <string name="sb_start_padding">Kezdeti kitöltés</string>
     <string name="sb_end_padding">Végső kitöltés</string>
     <string name="sb_height">Magasság</string>
+    <string name="section_title_icon_sizes">Icon Sizes</string>
+    <string name="sb_signal_icon_size_title">Enlarge Signal Icons</string>
+    <string name="sb_signal_icon_size_desc">Increase signal icon size for custom icon packs</string>
+    <string name="sb_wifi_icon_size_title">Enlarge WiFi Icons</string>
+    <string name="sb_wifi_icon_size_desc">Increase WiFi icon size for custom icon packs</string>
+    <string name="sb_network_type_size_title">Enlarge Network Type Icons</string>
+    <string name="sb_network_type_size_desc">Increase network type indicator size for custom icon packs</string>
+    <string name="hint_icon_size_increase">Icons look too small? Tap here to adjust icon sizes</string>
     <string name="section_title_color">Szín</string>
     <string name="sb_color_tint_title">Állapotsori óra színek</string>
     <string name="sb_color_tint_desc">Árnyalt állapotsori ikonok és szövegek</string>
@@ -1118,6 +1126,8 @@
     <string name="btn_disable_custom_colors">Az egyéni színek letiltása</string>
     <string name="btn_enable_custom_colors">A színek alkalmazása</string>
     <string name="btn_reset">Visszaállítás</string>
+    <string name="btn_decrease">Decrease</string>
+    <string name="btn_increase">Increase</string>
     <string name="btn_reboot_now">Újraindítás most</string>
     <string name="btn_download">Letöltés</string>
     <string name="btn_restart_systemui">Rendszerfelület-újraindítás</string>
@@ -1435,6 +1445,9 @@
     <string name="btn_pick_pdf">Válassz PDF-t</string>
     <string name="btn_pick_document">Válassz dokumentumot</string>
     <string name="btn_pick_file">Fájl kiválasztása</string>
+    <string name="btn_replace_file">Replace</string>
+    <string name="file_unknown_name">Unknown file</string>
+    <string name="file_clear">Clear</string>
     <string name="advanced_color_settings_title">Speciális beállítások</string>
     <string name="advanced_color_settings_desc">Get advanced color customizations</string>
     <string name="look_and_feel_title">Look &amp; Feel</string>
